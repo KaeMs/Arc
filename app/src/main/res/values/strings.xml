@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Arc</string>
+
+    <!-- Login Screen -->
+    <string name="userName">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+
+
+    <!-- Custom Font paths to be used in XML for fontFace -->
+    <string name="opensans_bold">OpenSans-Bold.ttf</string>
+    <string name="opensans_boldItalic">OpenSans-BoldItalic.ttf</string>
+    <string name="opensans_extraBold">OpenSans-ExtraBold.ttf</string>
+    <string name="opensans_extraBoldItalic">OpenSans-ExtraBoldItalic.ttf</string>
+    <string name="opensans_italic">OpenSans-Italic.ttf</string>
+    <string name="opensans_light">OpenSans-Light.ttf</string>
+    <string name="opensans_lightItalic">OpenSans-LightItalic.ttf</string>
+    <string name="opensans_regular">OpenSans-Regular.ttf</string>
+    <string name="opensans_semibold">OpenSans-Semibold.ttf</string>
+    <string name="opensans_semiboldItalic">OpenSans-SemiboldItalic.ttf</string>
+
 </resources>

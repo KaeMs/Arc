@@ -4,15 +4,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.med.arc.MainActivity">
+    android:background="@color/arcGrey"
+    tools:context="com.med.fast.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/mainactivity_logo"
+        android:layout_width="81dp"
+        android:layout_height="85dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="110dp"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/mainactivity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Hello World!"
+        app:fontFace="@string/opensans_regular"
+        app:layout_constraintBottom_toBottomOf="@+id/mainactivity_logo"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintLeft_toLeftOf="@+id/mainactivity_logo"
+        app:layout_constraintRight_toRightOf="@+id/mainactivity_logo"
+        app:layout_constraintTop_toTopOf="@+id/mainactivity_logo" />
+
+    <com.med.fast.customviews.CustomFontEditText
+        android:id="@+id/mainactivity_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="22dp"
+        android:background="@drawable/background_loginedittext"
+        android:hint="@string/userName"
+        android:padding="@dimen/txtViewSmallPadding"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainactivity_logo" />
+
+    <com.med.fast.customviews.CustomFontEditText
+        android:id="@+id/mainactivity_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_loginedittext"
+        android:hint="@string/password"
+        android:padding="@dimen/txtViewSmallPadding"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainactivity_username" />
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/mainactivity_loginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btnSmallHeight"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="38dp"
+        android:background="@drawable/button_arcgrey_radius6"
+        android:paddingLeft="@dimen/btnHorizontalMarginMedium"
+        android:paddingRight="@dimen/btnHorizontalMarginMedium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainactivity_password" />
 
 </android.support.constraint.ConstraintLayout>

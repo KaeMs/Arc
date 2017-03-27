@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="btnSmallHeight">28dp</dimen>
+    <dimen name="btnSmallMidHeight">31dp</dimen>
+    <dimen name="btnMediumHeight">34dp</dimen>
+    <dimen name="btnLargeHeight">40dp</dimen>
+
+    <dimen name="btnHorizontalMarginSmall">10dp</dimen>
+    <dimen name="btnVerticalMarginSmall">5dp</dimen>
+    <dimen name="btnHorizontalMarginMedium">20dp</dimen>
+    <dimen name="btnVerticalMarginMedium">10dp</dimen>
+    <dimen name="btnHorizontalMarginLarge">30dp</dimen>
+    <dimen name="btnVerticalMarginLarge">15dp</dimen>
+
+    <dimen name="txtViewSmallPadding">5dp</dimen>
+
+</resources>
