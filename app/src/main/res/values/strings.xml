@@ -6,6 +6,22 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
 
+    <!-- Signup -->
+    <string name="name">Name</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="emailAddress">Email Address</string>
+    <string name="dateOfBirth">Date of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="registerYourAccount">Register your account</string>
+
+    <!-- General -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>
