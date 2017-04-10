@@ -38,4 +38,6 @@ dependencies {
     // Butterknife
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    // Awesome Validation
+    compile 'com.basgeekball:awesome-validation:2.0'
 }

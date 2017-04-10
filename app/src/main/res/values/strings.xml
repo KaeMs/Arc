@@ -17,6 +17,8 @@
     <string name="female">Female</string>
     <string name="confirmPassword">Confirm Password</string>
     <string name="registerYourAccount">Register your account</string>
+    <string name="wrongPasswordFormatMssg">Format password Salah, minimal 8 huruf, maksimal 50 huruf</string>
+    <string name="wrongPasswordConfirmation">Password tidak sama</string>
 
     <!-- General -->
     <string name="ok">OK</string>

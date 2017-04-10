@@ -5,4 +5,12 @@
         <attr name="fontFace" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="CustomFontRadioButton">
+        <attr name="rbFontFace" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomFontCheckBox">
+        <attr name="cbFontFace" format="string" />
+    </declare-styleable>
+
 </resources>

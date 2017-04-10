@@ -4,33 +4,60 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontRadioButton;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
+
 /**
- * Created by Kevin on 4/10/2017.
+ * Created by Kevin on 4/10/2017. F
  */
 
 public class SignupActivity extends FastBaseActivity {
 
+    // Name
     @BindView(R.id.signup_firstNameET)
     CustomFontEditText firstNameET;
     @BindView(R.id.signup_lastNameET)
     CustomFontEditText lastNameET;
 
+    // Email
     @BindView(R.id.signup_emailAddressET)
     CustomFontEditText emailAddressET;
 
+    // Date of Birth
     @BindView(R.id.signup_dobTV)
     CustomFontEditText dobTV;
     private int year, month, day;
     private String fullDate;
+
+    // Gender
+    @BindView(R.id.signup_maleRB)
+    CustomFontRadioButton maleRB;
+    @BindView(R.id.signup_femaleRB)
+    CustomFontRadioButton femaleRB;
+
+    // Password
+    @BindView(R.id.signup_passwordET)
+    CustomFontEditText passwordET;
+    @BindView(R.id.signup_confirmPassET)
+    CustomFontEditText confirmPassET;
+
+    // Confirm
+    @BindView(R.id.signup_confirmBtn)
+    CustomFontButton confirmBtn;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +99,30 @@ public class SignupActivity extends FastBaseActivity {
                                 }
                             }
                         });
+            }
+        });
+
+        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
+        mAwesomeValidation.setContext(SignupActivity.this);
+
+        String regexName = "^[a-zA-Z]+$";
+        String regexPassword = "[^-\\s]{8,50}"; // No whitespace, min 8 max 50
+
+        mAwesomeValidation.addValidation(firstNameET, regexName, "Format nama salah");
+        mAwesomeValidation.addValidation(lastNameET, regexName, "Format nama salah");
+        mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, "Format email salah");
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, regexPassword, R.string.wrongPasswordFormatMssg);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.wrongPasswordConfirmation);
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAwesomeValidation.clear();
+                if (mAwesomeValidation.validate()) {
+                    Toast.makeText(SignupActivity.this, "Lalala", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignupActivity.this, "Lohlohloh", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
