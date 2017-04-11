@@ -1,4 +1,4 @@
-package com.med.fast;
+package com.med.fast.signup;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -9,9 +9,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.med.fast.FastBaseActivity;
+import com.med.fast.R;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
+import com.med.fast.customviews.CustomFontTextView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +28,10 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  */
 
 public class SignupActivity extends FastBaseActivity {
+
+    // Toolbar
+    @BindView(R.id.toolbartitle_title)
+    CustomFontTextView toolbarTitle;
 
     // Name
     @BindView(R.id.signup_firstNameET)
@@ -62,6 +69,9 @@ public class SignupActivity extends FastBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+
+        toolbarTitle.setText(getString(R.string.signup_title));
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR,-10);
@@ -111,8 +121,8 @@ public class SignupActivity extends FastBaseActivity {
         mAwesomeValidation.addValidation(firstNameET, regexName, "Format nama salah");
         mAwesomeValidation.addValidation(lastNameET, regexName, "Format nama salah");
         mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, "Format email salah");
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, regexPassword, R.string.wrongPasswordFormatMssg);
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.wrongPasswordConfirmation);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, regexPassword, R.string.wrong_password_format_mssg);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.wrong_password_confirmation);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override

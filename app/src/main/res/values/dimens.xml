@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="default_activity_content_padding">10dp</dimen>
+
+    <dimen name="font_xsmall">10sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_small_medium">13sp</dimen>
+    <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_medium_large">17sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_xlarge">22sp</dimen>
+    <dimen name="font_medium_not_scaled">14dp</dimen>
+    <dimen name="font_large_not_scaled">18dp</dimen>
+
+    <dimen name="row_height">64.0dip</dimen>
+    <dimen name="row_height_small">48.0dip</dimen>
+    <dimen name="row_height_edittext">96.0dip</dimen>
+    <dimen name="row_padding">16.0dip</dimen>
+    <dimen name="row_text_padding">12.0dip</dimen>
+    <dimen name="row_text_button_padding">6.0dip</dimen>
 
     <dimen name="btnSmallHeight">28dp</dimen>
     <dimen name="btnSmallMidHeight">31dp</dimen>
@@ -12,6 +30,8 @@
     <dimen name="btnVerticalMarginMedium">10dp</dimen>
     <dimen name="btnHorizontalMarginLarge">30dp</dimen>
     <dimen name="btnVerticalMarginLarge">15dp</dimen>
+
+    <dimen name="toolbarHeight">56dp</dimen>
 
     <dimen name="txtViewSmallPadding">5dp</dimen>
 

@@ -1,11 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/arcGrey</item>
-        <item name="colorPrimaryDark">@color/arcGreyDark</item>
+        <item name="colorPrimary">@color/grey</item>
+        <item name="colorPrimaryDark">@color/greyDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
+    </style>
+
+    <style name="EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:background">@drawable/input_background</item>
+        <item name="android:paddingLeft">@dimen/row_text_padding</item>
+        <item name="android:paddingRight">@dimen/row_text_padding</item>
+    </style>
+    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/font_medium</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorLink">@color/tosca</item>
     </style>
 
 </resources>

@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/toolbar_title"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_arcgrey"
                 android:maxLength="50"
-                android:hint="@string/firstName" />
+                android:hint="@string/first_name" />
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/signup_lastNameET"
@@ -37,26 +39,26 @@
                 android:layout_marginTop="5dp"
                 android:maxLength="75"
                 android:background="@drawable/border_arcgrey"
-                android:hint="@string/lastName" />
+                android:hint="@string/last_name" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/emailAddress" />
+                android:text="@string/email_address" />
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/signup_emailAddressET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_arcgrey"
-                android:hint="@string/emailAddress" />
+                android:hint="@string/email_address" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/dateOfBirth" />
+                android:text="@string/date_of_birth" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/signup_dobTV"
@@ -109,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/confirmPassword" />
+                android:text="@string/confirm_password" />
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/signup_confirmPassET"
@@ -117,13 +119,13 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_arcgrey"
                 android:inputType="textPassword"
-                android:hint="@string/confirmPassword" />
+                android:hint="@string/confirm_password" />
 
             <com.med.fast.customviews.CustomFontButton
                 android:id="@+id/signup_confirmBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/registerYourAccount"/>
+                android:text="@string/register_your_account"/>
 
         </LinearLayout>
 

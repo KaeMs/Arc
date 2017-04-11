@@ -4,14 +4,18 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="arcGreyDark">#9e9e9e</color>
-    <color name="arcGreyDarkOpa80">#cc9e9e9e</color>
-    <color name="arcGreyDarkOpa60">#999e9e9e</color>
-    <color name="arcGreyDarkOpa40">#669e9e9e</color>
-    <color name="arcGreyDarkOpa20">#339e9e9e</color>
-    <color name="arcGrey">#bdbdbd</color>
-    <color name="arcGreyOpa80">#ccbdbdbd</color>
-    <color name="arcGreyOpa60">#99bdbdbd</color>
-    <color name="arcGreyOpa40">#66bdbdbd</color>
-    <color name="arcGreyOpa20">#33bdbdbd</color>
+    <color name="greyDark">#9e9e9e</color>
+    <color name="greyDarkOpa80">#cc9e9e9e</color>
+    <color name="greyDarkOpa60">#999e9e9e</color>
+    <color name="greyDarkOpa40">#669e9e9e</color>
+    <color name="greyDarkOpa20">#339e9e9e</color>
+    <color name="grey">#bdbdbd</color>
+    <color name="greyOpa80">#ccbdbdbd</color>
+    <color name="greyOpa60">#99bdbdbd</color>
+    <color name="greyOpa40">#66bdbdbd</color>
+    <color name="greyOpa20">#33bdbdbd</color>
+    <color name="black">#ff676767</color>
+    <color name="blackDark">#ff505458</color>
+    <color name="blackDarkSubtitle">#ff767676</color>
+    <color name="tosca">#1fb5ac </color>
 </resources>

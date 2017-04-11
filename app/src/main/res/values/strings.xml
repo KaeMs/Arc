@@ -1,29 +1,39 @@
 <resources>
     <string name="app_name">Arc</string>
+    <string name="title">Title</string>
 
     <!-- Login Screen -->
-    <string name="userName">Username</string>
+    <string name="user_name">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
 
     <!-- Signup -->
+    <string name="signup_title">CREATE YOUR ACCOUNT</string>
     <string name="name">Name</string>
-    <string name="firstName">First Name</string>
-    <string name="lastName">Last Name</string>
-    <string name="emailAddress">Email Address</string>
-    <string name="dateOfBirth">Date of Birth</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="date_of_birth">Date of Birth</string>
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="confirmPassword">Confirm Password</string>
-    <string name="registerYourAccount">Register your account</string>
-    <string name="wrongPasswordFormatMssg">Format password Salah, minimal 8 huruf, maksimal 50 huruf</string>
-    <string name="wrongPasswordConfirmation">Password tidak sama</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register_your_account">Register your account</string>
+    <string name="wrong_password_format_mssg">Format password Salah, minimal 8 huruf, maksimal 50 huruf</string>
+    <string name="wrong_password_confirmation">Password tidak sama</string>
+
+    <!-- Initial Data -->
+    <string name="step_1_allergy">STEP 1 - ALLERGY</string>
+    <string name="any_allergy_question">Do you have any allergies?</string>
+    <string name="add_allergy">Add New Allergy</string>
+    <string name="step_2_disease">STEP 2 - DISEASE</string>
+    <string name="step_3_medication">STEP 3 - MEDICATION</string>
+    <string name="skip_to_summary">Skip to Summary</string>
+    <string name="next">Next</string>
 
     <!-- General -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

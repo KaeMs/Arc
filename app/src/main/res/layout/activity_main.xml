@@ -44,7 +44,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="22dp"
         android:background="@drawable/background_loginedittext"
-        android:hint="@string/userName"
+        android:hint="@string/user_name"
         android:padding="@dimen/txtViewSmallPadding"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
