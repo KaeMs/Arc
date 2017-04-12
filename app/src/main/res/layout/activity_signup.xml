@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_title"/>
+    <include layout="@layout/toolbar_title_divider"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:id="@+id/signup_firstNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_arcgrey"
+                android:background="@drawable/border_grey"
                 android:maxLength="50"
                 android:hint="@string/first_name" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:maxLength="75"
-                android:background="@drawable/border_arcgrey"
+                android:background="@drawable/border_grey"
                 android:hint="@string/last_name" />
 
             <com.med.fast.customviews.CustomFontTextView
@@ -51,7 +51,7 @@
                 android:id="@+id/signup_emailAddressET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_arcgrey"
+                android:background="@drawable/border_grey"
                 android:hint="@string/email_address" />
 
             <com.med.fast.customviews.CustomFontTextView
@@ -103,7 +103,7 @@
                 android:id="@+id/signup_passwordET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_arcgrey"
+                android:background="@drawable/border_grey"
                 android:inputType="textPassword"
                 android:hint="@string/password" />
 
@@ -117,7 +117,7 @@
                 android:id="@+id/signup_confirmPassET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_arcgrey"
+                android:background="@drawable/border_grey"
                 android:inputType="textPassword"
                 android:hint="@string/confirm_password" />
 

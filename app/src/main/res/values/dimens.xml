@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_activity_content_padding">10dp</dimen>
+    <dimen name="login_edittext_width">250dp</dimen>
 
     <dimen name="font_xsmall">10sp</dimen>
     <dimen name="font_small">12sp</dimen>

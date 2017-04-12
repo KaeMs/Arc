@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="com.med.fast.MainActivity"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,6 +19,9 @@
         </activity>
         <activity android:name=".signup.SignupActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".signup.InitialDataAllergyActivity"
+            android:theme="@style/InitialDataTheme"
+            android:exported="true"/>
     </application>
 
 </manifest>

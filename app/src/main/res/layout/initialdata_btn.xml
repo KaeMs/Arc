@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.med.fast.customviews.CustomFontTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:id="@+id/initialdata_btn_cftextview"
+    android:background="@drawable/button_border_grey_radius10"
+    android:text="@string/skip_to_summary"
+    android:orientation="vertical" />

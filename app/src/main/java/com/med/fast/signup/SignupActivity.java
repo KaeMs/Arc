@@ -21,6 +21,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
@@ -30,7 +31,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 public class SignupActivity extends FastBaseActivity {
 
     // Toolbar
-    @BindView(R.id.toolbartitle_title)
+    @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
     // Name
@@ -45,26 +46,22 @@ public class SignupActivity extends FastBaseActivity {
 
     // Date of Birth
     @BindView(R.id.signup_dobTV)
-    CustomFontEditText dobTV;
-    private int year, month, day;
-    private String fullDate;
-
+    CustomFontTextView dobTV;
     // Gender
     @BindView(R.id.signup_maleRB)
     CustomFontRadioButton maleRB;
     @BindView(R.id.signup_femaleRB)
     CustomFontRadioButton femaleRB;
-
     // Password
     @BindView(R.id.signup_passwordET)
     CustomFontEditText passwordET;
     @BindView(R.id.signup_confirmPassET)
     CustomFontEditText confirmPassET;
-
     // Confirm
     @BindView(R.id.signup_confirmBtn)
     CustomFontButton confirmBtn;
-
+    private int year, month, day;
+    private String fullDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +71,7 @@ public class SignupActivity extends FastBaseActivity {
         toolbarTitle.setText(getString(R.string.signup_title));
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR,-10);
+        calendar.add(Calendar.YEAR, -10);
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -102,7 +99,7 @@ public class SignupActivity extends FastBaseActivity {
                 datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick (DialogInterface dialog,int which){
+                            public void onClick(DialogInterface dialog, int which) {
                                 if (which == DialogInterface.BUTTON_NEGATIVE) {
                                     // Do Stuff
                                     datePickerDialog.dismiss();
@@ -112,14 +109,14 @@ public class SignupActivity extends FastBaseActivity {
             }
         });
 
-        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(SignupActivity.this);
+        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(COLORATION);
+//        mAwesomeValidation.setContext(SignupActivity.this);
 
         String regexName = "^[a-zA-Z]+$";
         String regexPassword = "[^-\\s]{8,50}"; // No whitespace, min 8 max 50
 
         mAwesomeValidation.addValidation(firstNameET, regexName, "Format nama salah");
-        mAwesomeValidation.addValidation(lastNameET, regexName, "Format nama salah");
+        mAwesomeValidation.addValidation(lastNameET, regexName, "Format nama belakang salah");
         mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, "Format email salah");
         mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, regexPassword, R.string.wrong_password_format_mssg);
         mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.wrong_password_confirmation);
@@ -141,49 +138,65 @@ public class SignupActivity extends FastBaseActivity {
     private void showDate(int year, int month, int day) {
         String monthName;
         switch (month) {
-            case 1:  monthName = "Jan";
+            case 0:
+                monthName = "Jan";
                 break;
-            case 2:  monthName = "Feb";
+            case 1:
+                monthName = "Feb";
                 break;
-            case 3:  monthName = "Mar";
+            case 2:
+                monthName = "Mar";
                 break;
-            case 4:  monthName = "Apr";
+            case 3:
+                monthName = "Apr";
                 break;
-            case 5:  monthName = "May";
+            case 4:
+                monthName = "May";
                 break;
-            case 6:  monthName = "Jun";
+            case 5:
+                monthName = "Jun";
                 break;
-            case 7:  monthName = "Jul";
+            case 6:
+                monthName = "Jul";
                 break;
-            case 8:  monthName = "Aug";
+            case 7:
+                monthName = "Aug";
                 break;
-            case 9:  monthName = "Sep";
+            case 8:
+                monthName = "Sep";
                 break;
-            case 10: monthName = "Oct";
+            case 9:
+                monthName = "Oct";
                 break;
-            case 11: monthName = "Nov";
+            case 10:
+                monthName = "Nov";
                 break;
-            case 12: monthName = "Dec";
+            case 11:
+                monthName = "Dec";
                 break;
-            default: monthName = "Invalid month";
+            default:
+                monthName = "Invalid month";
                 break;
         }
-        // StringBuilder for dd/mm/yyyy
-        dobTV.setText(new StringBuilder().append(day).append(" ")
-                .append(monthName).append(" ").append(year));
 
         String days;
-        if(day < 10){
+        if (day < 10) {
             days = "0" + String.valueOf(day);
-        }else{
+        } else {
             days = String.valueOf(day);
         }
         String months;
-        if(month < 10){
+        if (month < 10) {
             months = "0" + String.valueOf(month);
-        }else{
+        } else {
             months = String.valueOf(month);
         }
+        this.year = year;
+        this.month = month;
+        this.day = day;
         fullDate = days + "/" + months + "/" + year;
+        // StringBuilder for dd/mm/yyyy
+        dobTV.setText(new StringBuilder().append(day).append(" ")
+                .append(monthName).append(" ").append(year));
     }
 }

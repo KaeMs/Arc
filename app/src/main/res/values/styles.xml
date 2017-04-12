@@ -6,12 +6,12 @@
         <item name="colorPrimary">@color/grey</item>
         <item name="colorPrimaryDark">@color/greyDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:editTextStyle">@style/EditTextStyle</item>
+        <item name="android:editTextStyle">@style/AppTheme.EditTextStyle</item>
         <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
-        <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
     </style>
 
-    <style name="EditTextStyle" parent="@android:style/Widget.EditText">
+    <style name="AppTheme.EditTextStyle" parent="@android:style/Widget.EditText">
         <item name="android:textSize">@dimen/font_medium</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/grey</item>
@@ -19,10 +19,42 @@
         <item name="android:paddingLeft">@dimen/row_text_padding</item>
         <item name="android:paddingRight">@dimen/row_text_padding</item>
     </style>
-    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
+
+    <style name="AppTheme.TextViewStyle" parent="@android:style/Widget.TextView">
         <item name="android:textSize">@dimen/font_medium</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorLink">@color/tosca</item>
+    </style>
+
+    <!-- Initial Data Theme -->
+    <style name="InitialDataTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/InitialDataTheme.ActivityTransition</item>
+        <item name="android:editTextStyle">@style/InitialDataTheme.EditTextStyle</item>
+    </style>
+
+    <style name="InitialDataTheme.EditTextStyle" parent="AppTheme.EditTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/grey</item>
+    </style>
+
+    <style name="InitialDataTheme.ActivityTransition" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/translate_right_to_start</item>
+        <item name="android:activityOpenExitAnimation">@anim/translate_start_to_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/translate_left_to_start</item>
+        <item name="android:activityCloseExitAnimation">@anim/translate_start_to_right</item>
+    </style>
+
+    <!-- Others -->
+    <style name="OneLineEllipsizeEndTV" parent="@android:style/Widget.TextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TwoLinesEllipsizeEndTV" parent="@android:style/Widget.TextView">
+        <item name="android:maxLines">2</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
     </style>
 
 </resources>

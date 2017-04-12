@@ -1,82 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/arcGrey"
-    tools:context="com.med.fast.MainActivity">
+    android:background="@color/grey"
+    android:paddingTop="@dimen/default_activity_content_padding"
+    android:paddingBottom="@dimen/default_activity_content_padding"
+    tools:context="com.med.fast.MainActivity"
+    tools:ignore="RtlHardcoded">
 
-    <ImageView
-        android:id="@+id/mainactivity_logo"
-        android:layout_width="81dp"
-        android:layout_height="85dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="110dp"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/mainactivity_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Hello World!"
-        app:fontFace="@string/opensans_regular"
-        app:layout_constraintBottom_toBottomOf="@+id/mainactivity_logo"
-        app:layout_constraintHorizontal_bias="0.533"
-        app:layout_constraintLeft_toLeftOf="@+id/mainactivity_logo"
-        app:layout_constraintRight_toRightOf="@+id/mainactivity_logo"
-        app:layout_constraintTop_toTopOf="@+id/mainactivity_logo" />
+        <ImageView
+            android:id="@+id/loginactivity_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="55dp"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/logo"
+            android:src="@mipmap/ic_launcher"/>
 
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/mainactivity_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="22dp"
-        android:background="@drawable/background_loginedittext"
-        android:hint="@string/user_name"
-        android:padding="@dimen/txtViewSmallPadding"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainactivity_logo" />
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/loginactivity_email_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/email"
+            android:textColor="@color/white"
+            android:layout_below="@+id/loginactivity_logo"
+            android:layout_alignLeft="@+id/loginactivity_email_et" />
 
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/mainactivity_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/background_loginedittext"
-        android:hint="@string/password"
-        android:padding="@dimen/txtViewSmallPadding"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainactivity_username" />
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/loginactivity_email_et"
+            android:layout_width="@dimen/login_edittext_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/loginactivity_email_tv"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_loginedittext"
+            android:hint="@string/email"
+            android:padding="@dimen/txtViewSmallPadding" />
 
-    <com.med.fast.customviews.CustomFontButton
-        android:id="@+id/mainactivity_loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/btnSmallHeight"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="38dp"
-        android:background="@drawable/button_arcgrey_radius6"
-        android:paddingLeft="@dimen/btnHorizontalMarginMedium"
-        android:paddingRight="@dimen/btnHorizontalMarginMedium"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainactivity_password" />
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/loginactivity_password_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/password"
+            android:textColor="@color/white"
+            android:layout_below="@+id/loginactivity_email_et"
+            android:layout_alignLeft="@+id/loginactivity_password_et" />
 
-</android.support.constraint.ConstraintLayout>
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/loginactivity_password_et"
+            android:layout_width="@dimen/login_edittext_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/background_loginedittext"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="@dimen/txtViewSmallPadding"
+            android:layout_below="@+id/loginactivity_password_tv"/>
+
+        <com.med.fast.customviews.CustomFontButton
+            android:id="@+id/loginactivity_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btnSmallHeight"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/loginactivity_password_et"
+            android:text="@string/sign_in"
+            android:background="@drawable/button_arcgrey_radius6"
+            android:paddingLeft="@dimen/btnHorizontalMarginMedium"
+            android:paddingRight="@dimen/btnHorizontalMarginMedium" />
+
+        <LinearLayout
+            android:id="@+id/loginactivity_forgotpass_signup_wrapper"
+            android:layout_width="@dimen/login_edittext_width"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/loginactivity_login_btn">
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/loginactivity_forgotpassword_tv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                style="@style/OneLineEllipsizeEndTV"
+                android:text="@string/forgot_password_question"
+                android:textColor="@color/white"/>
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/loginactivity_signup_tv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                style="@style/OneLineEllipsizeEndTV"
+                android:text="@string/sign_up"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

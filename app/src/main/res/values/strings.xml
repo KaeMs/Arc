@@ -4,8 +4,12 @@
 
     <!-- Login Screen -->
     <string name="user_name">Username</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="forgot_password_question">Forgot Password?</string>
 
     <!-- Signup -->
     <string name="signup_title">CREATE YOUR ACCOUNT</string>
@@ -34,6 +38,7 @@
     <!-- General -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="logo">Logo</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>
