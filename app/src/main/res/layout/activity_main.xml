@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:paddingTop="@dimen/default_activity_content_padding"
-    android:paddingBottom="@dimen/default_activity_content_padding"
     tools:context="com.med.fast.MainActivity"
     tools:ignore="RtlHardcoded">
 
@@ -18,28 +17,28 @@
             android:id="@+id/loginactivity_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="55dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
             android:contentDescription="@string/logo"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/loginactivity_email_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/loginactivity_email_et"
+            android:layout_below="@+id/loginactivity_logo"
             android:layout_marginTop="20dp"
             android:text="@string/email"
-            android:textColor="@color/white"
-            android:layout_below="@+id/loginactivity_logo"
-            android:layout_alignLeft="@+id/loginactivity_email_et" />
+            android:textColor="@color/white" />
 
         <com.med.fast.customviews.CustomFontEditText
             android:id="@+id/loginactivity_email_et"
             android:layout_width="@dimen/login_edittext_width"
             android:layout_height="wrap_content"
             android:layout_below="@+id/loginactivity_email_tv"
-            android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
             android:background="@drawable/background_loginedittext"
             android:hint="@string/email"
             android:padding="@dimen/txtViewSmallPadding" />
@@ -48,65 +47,66 @@
             android:id="@+id/loginactivity_password_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/loginactivity_password_et"
+            android:layout_below="@+id/loginactivity_email_et"
             android:layout_marginTop="20dp"
             android:text="@string/password"
-            android:textColor="@color/white"
-            android:layout_below="@+id/loginactivity_email_et"
-            android:layout_alignLeft="@+id/loginactivity_password_et" />
+            android:textColor="@color/white" />
 
         <com.med.fast.customviews.CustomFontEditText
             android:id="@+id/loginactivity_password_et"
             android:layout_width="@dimen/login_edittext_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_below="@+id/loginactivity_password_tv"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
             android:background="@drawable/background_loginedittext"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:padding="@dimen/txtViewSmallPadding"
-            android:layout_below="@+id/loginactivity_password_tv"/>
+            android:padding="@dimen/txtViewSmallPadding" />
 
         <com.med.fast.customviews.CustomFontButton
             android:id="@+id/loginactivity_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btnSmallHeight"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/loginactivity_password_et"
-            android:text="@string/sign_in"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_arcgrey_radius6"
             android:paddingLeft="@dimen/btnHorizontalMarginMedium"
-            android:paddingRight="@dimen/btnHorizontalMarginMedium" />
+            android:paddingRight="@dimen/btnHorizontalMarginMedium"
+            android:text="@string/sign_in" />
 
         <LinearLayout
             android:id="@+id/loginactivity_forgotpass_signup_wrapper"
             android:layout_width="@dimen/login_edittext_width"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_below="@+id/loginactivity_login_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="@dimen/default_activity_content_padding"
             android:gravity="center_vertical"
-            android:layout_below="@+id/loginactivity_login_btn">
+            android:orientation="horizontal">
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/loginactivity_forgotpassword_tv"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="start"
                 style="@style/OneLineEllipsizeEndTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="start"
                 android:text="@string/forgot_password_question"
-                android:textColor="@color/white"/>
+                android:textColor="@color/textcolor_white_to_tosca" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/loginactivity_signup_tv"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="start"
                 style="@style/OneLineEllipsizeEndTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
                 android:text="@string/sign_up"
-                android:textColor="@color/white" />
+                android:textColor="@color/textcolor_white_to_tosca" />
 
         </LinearLayout>
 

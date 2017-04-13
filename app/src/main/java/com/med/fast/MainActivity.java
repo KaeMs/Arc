@@ -44,7 +44,7 @@ public class MainActivity extends FastBaseActivity {
             }
         });
 
-        NoUnderlineClickableSpan forgotPassSpan = new NoUnderlineClickableSpan() {
+        /*NoUnderlineClickableSpan forgotPassSpan = new NoUnderlineClickableSpan() {
             @Override
             public void onClick(View tv) {
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
@@ -54,9 +54,17 @@ public class MainActivity extends FastBaseActivity {
         SpannableStringBuilder forgotPassSpb = new SpannableStringBuilder(getString(R.string.forgot_password_question));
         forgotPassSpb.setSpan(forgotPassSpan, 0, forgotPassSpb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         forgotPassword.setText(forgotPassSpb);
-        forgotPassword.setMovementMethod(new LinkMovementMethod());
+        forgotPassword.setMovementMethod(new LinkMovementMethod());*/
 
-        NoUnderlineClickableSpan signupSpan = new NoUnderlineClickableSpan() {
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*NoUnderlineClickableSpan signupSpan = new NoUnderlineClickableSpan() {
             @Override
             public void onClick(View tv) {
                 Intent intent = new Intent(MainActivity.this, SignupActivity.class);
@@ -66,6 +74,13 @@ public class MainActivity extends FastBaseActivity {
         SpannableStringBuilder signupSpb = new SpannableStringBuilder(getString(R.string.sign_up));
         signupSpb.setSpan(signupSpan, 0, signupSpb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signup.setText(signupSpb);
-        signup.setMovementMethod(new LinkMovementMethod());
+        signup.setMovementMethod(new LinkMovementMethod());*/
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
