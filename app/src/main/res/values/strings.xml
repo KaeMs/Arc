@@ -11,6 +11,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
 
+    <!-- Forgot Password -->
+    <string name="find_your_email">Find Your Email</string>
+    <string name="search">Search</string>
+
     <!-- Signup -->
     <string name="signup_title">CREATE YOUR ACCOUNT</string>
     <string name="name">Name</string>
