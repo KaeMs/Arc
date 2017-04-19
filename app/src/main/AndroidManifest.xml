@@ -20,7 +20,7 @@
         <activity android:name=".signup.SignupActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".signup.InitialDataAllergyActivity"
-            android:theme="@style/InitialDataTheme"
+            android:theme="@style/AppTheme.InitialData"
             android:exported="true"/>
     </application>
 

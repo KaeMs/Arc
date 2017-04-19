@@ -18,5 +18,14 @@
     <color name="black">#ff676767</color>
     <color name="blackDark">#ff505458</color>
     <color name="blackDarkSubtitle">#ff767676</color>
-    <color name="tosca">#1fb5ac </color>
+    <color name="tosca">#1fb5ac</color>
+    <color name="toscaOpa80">#cc1fb5ac</color>
+    <color name="toscaOpa60">#991fb5ac</color>
+    <color name="toscaOpa40">#661fb5ac</color>
+    <color name="toscaOpa20">#331fb5ac</color>
+    <color name="toscaLight">#1fb5ac</color>
+    <color name="toscaLightOpa80">#cc26c6da</color>
+    <color name="toscaLightOpa60">#9926c6da</color>
+    <color name="toscaLightOpa40">#6626c6da</color>
+    <color name="toscaLightOpa20">#3326c6da</color>
 </resources>

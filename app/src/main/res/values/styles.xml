@@ -9,6 +9,8 @@
         <item name="android:editTextStyle">@style/AppTheme.EditTextStyle</item>
         <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
         <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
+        <item name="android:radioButtonStyle">@style/AppTheme.RadioButtonStyle</item>
+        <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
     </style>
 
     <style name="AppTheme.EditTextStyle" parent="@android:style/Widget.EditText">
@@ -26,18 +28,34 @@
         <item name="android:textColorLink">@color/tosca</item>
     </style>
 
-    <!-- Initial Data Theme -->
-    <style name="InitialDataTheme" parent="AppTheme">
-        <item name="android:windowAnimationStyle">@style/InitialDataTheme.ActivityTransition</item>
-        <item name="android:editTextStyle">@style/InitialDataTheme.EditTextStyle</item>
+    <style name="AppTheme.ButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="InitialDataTheme.EditTextStyle" parent="AppTheme.EditTextStyle">
+    <style name="AppTheme.RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">@color/tosca</item>
+        <item name="colorControlHighlight">@color/tosca</item>
+        <item name="android:colorPressedHighlight">@color/tosca</item>
+        <item name="colorPrimaryDark">@color/tosca</item>
+        <item name="colorPrimary">@color/tosca</item>
+        <item name="colorControlActivated">@color/tosca</item>
+        <item name="buttonTint">@color/tosca</item>
+    </style>
+
+    <!-- Initial Data Theme -->
+    <style name="AppTheme.InitialData" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/AppTheme.InitialData.ActivityTransition</item>
+        <item name="android:editTextStyle">@style/AppTheme.InitialData.EditTextStyle</item>
+    </style>
+
+    <style name="AppTheme.InitialData.EditTextStyle" parent="AppTheme.EditTextStyle">
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/grey</item>
     </style>
 
-    <style name="InitialDataTheme.ActivityTransition" parent="@android:style/Animation.Activity">
+    <style name="AppTheme.InitialData.ActivityTransition" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/translate_right_to_start</item>
         <item name="android:activityOpenExitAnimation">@anim/translate_start_to_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/translate_left_to_start</item>

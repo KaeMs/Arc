@@ -38,11 +38,26 @@
     <string name="step_3_medication">STEP 3 - MEDICATION</string>
     <string name="skip_to_summary">Skip to Summary</string>
     <string name="next">Next</string>
+    <!-- Allergy -->
+    <string name="agent">Agent</string>
+    <string name="causative_agent">Causative Agent</string>
+    <string name="causative_agent_empty">Causative Agent can not be Empty</string>
+    <string name="drug_allergy">Drug Allergy</string>
+    <string name="agent_drug_type_question">Is the agent a drug type?</string>
+    <string name="reaction">Reaction</string>
+    <string name="reaction_hint">Such as hives, itching, nasal congestion, etc.</string>
+    <string name="reaction_empty">Reaction can not be Empty</string>
+    <string name="first_time_experience">First Time Experience</string>
+    <string name="first_time_experience_opt">First Time Experience - Optional</string>
+    <string name="first_time_experience_hint">A full date or approximate date or vague answer such as : years ago, childhood, etc.</string>
+    <string name="add">Add</string>
 
     <!-- General -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="logo">Logo</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

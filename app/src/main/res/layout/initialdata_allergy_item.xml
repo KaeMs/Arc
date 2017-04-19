@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/allergy_item_agent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:text="@string/agent"/>
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/allergy_item_drugallergy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/drug_allergy"
+        android:layout_weight="0.15"/>
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/allergy_item_reaction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/reaction"
+        android:layout_weight="0.25"/>
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/allergy_item_firstexperience"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/first_time_experience"
+        android:layout_weight="0.25"/>
+
+    <android.support.percent.PercentRelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.10">
+
+        <ImageView
+            android:id="@+id/allergy_item_delete"
+            app:layout_widthPercent="75%"
+            app:layout_heightPercent="75%"
+            android:layout_centerInParent="true"
+            android:scaleType="centerInside"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+</LinearLayout>

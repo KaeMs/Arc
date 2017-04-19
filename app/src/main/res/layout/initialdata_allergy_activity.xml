@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
 
     <include layout="@layout/toolbar_title_divider" />
 
@@ -11,19 +13,67 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/default_activity_content_padding"
         android:text="@string/any_allergy_question"
-        android:textSize="@dimen/font_medium"
-        android:textColor="@color/blackDarkSubtitle"/>
+        android:textColor="@color/blackDarkSubtitle"
+        android:textSize="@dimen/font_medium" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:weightSum="1">
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/agent" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15"
+            android:text="@string/drug_allergy" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/reaction" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="@string/first_time_experience" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.10" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/initialdata_allergy_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <include layout="@layout/initialdata_btn"
-        android:layout_height="wrap_content"
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/initialdata_allergy_add_btn"
         android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="@dimen/btnMediumHeight"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/button_toscalight_tosca"
+        android:text="@string/add_allergy"/>
+
+    <include
+        layout="@layout/initialdata_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp" />
 
 </LinearLayout>
