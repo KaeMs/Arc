@@ -1,4 +1,4 @@
-package com.med.fast;
+package com.med.fast.customclasses;
 
 import android.content.Context;
 import android.graphics.Typeface;

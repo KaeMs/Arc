@@ -52,6 +52,10 @@
     <string name="first_time_experience_hint">A full date or approximate date or vague answer such as : years ago, childhood, etc.</string>
     <string name="add">Add</string>
 
+    <!-- Error -->
+    <string name="error_connection">Connection error, please try again later</string>
+    <string name="error_server">Server error, please try again later</string>
+
     <!-- General -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

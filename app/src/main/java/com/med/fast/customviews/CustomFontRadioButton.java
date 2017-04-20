@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
-import com.med.fast.FontCache;
+import com.med.fast.customclasses.FontCache;
 import com.med.fast.R;
 
 /**

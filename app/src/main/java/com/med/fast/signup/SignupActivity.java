@@ -2,22 +2,30 @@ package com.med.fast.signup;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
+import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -28,7 +36,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin on 4/10/2017. F
  */
 
-public class SignupActivity extends FastBaseActivity {
+public class SignupActivity extends FastBaseActivity implements RegisterSubmitAPIIntf {
 
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
@@ -126,7 +134,14 @@ public class SignupActivity extends FastBaseActivity {
             public void onClick(View v) {
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
-                    Toast.makeText(SignupActivity.this, "Lalala", Toast.LENGTH_SHORT).show();
+                    RegisterSubmitAPI registerSubmitAPI = new RegisterSubmitAPI();
+                    registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();
+                    registerSubmitAPI.data.query.last_name = lastNameET.getText().toString();
+                    registerSubmitAPI.data.query.email = emailAddressET.getText().toString();
+                    registerSubmitAPI.data.query.dob = fullDate;
+                    registerSubmitAPI.data.query.password = passwordET.getText().toString();
+                    registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
+
                 } else {
                     Toast.makeText(SignupActivity.this, "Lohlohloh", Toast.LENGTH_SHORT).show();
                 }
@@ -136,67 +151,46 @@ public class SignupActivity extends FastBaseActivity {
 
     //Function to show date
     private void showDate(int year, int month, int day) {
-        String monthName;
-        switch (month) {
-            case 0:
-                monthName = "Jan";
-                break;
-            case 1:
-                monthName = "Feb";
-                break;
-            case 2:
-                monthName = "Mar";
-                break;
-            case 3:
-                monthName = "Apr";
-                break;
-            case 4:
-                monthName = "May";
-                break;
-            case 5:
-                monthName = "Jun";
-                break;
-            case 6:
-                monthName = "Jul";
-                break;
-            case 7:
-                monthName = "Aug";
-                break;
-            case 8:
-                monthName = "Sep";
-                break;
-            case 9:
-                monthName = "Oct";
-                break;
-            case 10:
-                monthName = "Nov";
-                break;
-            case 11:
-                monthName = "Dec";
-                break;
-            default:
-                monthName = "Invalid month";
-                break;
+        SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
+        Date newDate = null;
+        try {
+            newDate = format.parse(String.valueOf(month) + " " + String.valueOf(day) + " " + String.valueOf(year));
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-        String days;
-        if (day < 10) {
-            days = "0" + String.valueOf(day);
-        } else {
-            days = String.valueOf(day);
-        }
-        String months;
-        if (month < 10) {
-            months = "0" + String.valueOf(month);
-        } else {
-            months = String.valueOf(month);
-        }
+        format = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+        String date = format.format(newDate);
+
         this.year = year;
         this.month = month;
         this.day = day;
-        fullDate = days + "/" + months + "/" + year;
+        fullDate = date;
         // StringBuilder for dd/mm/yyyy
-        dobTV.setText(new StringBuilder().append(day).append(" ")
-                .append(monthName).append(" ").append(year));
+        dobTV.setText(date);
+    }
+
+    @Override
+    public void onFinishRegisterSubmit(ResponseAPI responseAPI) {
+        if(responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            RegisterSubmitAPI output = gson.fromJson(responseAPI.status_response, RegisterSubmitAPI.class);
+            if (output.data.status.code.equals("200")) {
+                Intent intent = new Intent(this, InitialDataAllergyActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            setResult(RequestCodeList.forceLogout);
+            finish();
+        } else {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 }
