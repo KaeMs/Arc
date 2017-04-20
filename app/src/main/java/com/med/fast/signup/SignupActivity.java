@@ -142,6 +142,9 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                     registerSubmitAPI.data.query.password = passwordET.getText().toString();
                     registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
+                    RegisterSubmitAPIFunc registerSubmitAPIFunc = new RegisterSubmitAPIFunc(SignupActivity.this);
+                    registerSubmitAPIFunc.setDelegate(SignupActivity.this);
+                    registerSubmitAPIFunc.execute(registerSubmitAPI);
                 } else {
                     Toast.makeText(SignupActivity.this, "Lohlohloh", Toast.LENGTH_SHORT).show();
                 }
