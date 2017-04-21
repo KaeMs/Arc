@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey">
+
+    <LinearLayout
+        android:id="@+id/drawer_idcard_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btnLargeHeight"
+        android:background="@drawable/button_toscalight_tosca"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btnLargeHeight"
+            android:contentDescription="@string/visit"/>
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/drawer_visit_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btnLargeHeight"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btnLargeHeight"
+            android:contentDescription="@string/visit"/>
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

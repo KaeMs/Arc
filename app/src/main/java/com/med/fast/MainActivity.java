@@ -13,6 +13,7 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextInputEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.dashboard.DashboardActivity;
 import com.med.fast.signup.SignupActivity;
 
 import butterknife.BindView;
@@ -40,7 +41,9 @@ public class MainActivity extends FastBaseActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

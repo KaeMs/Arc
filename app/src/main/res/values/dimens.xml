@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_activity_content_padding">10dp</dimen>
+    <dimen name="default_card_content_padding">15dp</dimen>
     <dimen name="login_edittext_width">250dp</dimen>
     <dimen name="login_logo_size">100dp</dimen>
 
@@ -34,6 +35,7 @@
     <dimen name="btnVerticalMarginLarge">15dp</dimen>
 
     <dimen name="toolbarHeight">56dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="txtViewSmallPadding">5dp</dimen>
 

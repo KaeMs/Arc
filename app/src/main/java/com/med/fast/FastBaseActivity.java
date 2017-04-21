@@ -1,6 +1,7 @@
 package com.med.fast;
 
 import android.support.annotation.LayoutRes;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -10,9 +11,11 @@ import butterknife.Unbinder;
  * Created by Kevin Murvie on 3/27/2017. KM
  */
 
-public class FastBaseActivity extends AppCompatActivity {
+public abstract class FastBaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
+
+    public void replaceFragment(Fragment fragment, String tag, boolean addToBackstack) {}
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {

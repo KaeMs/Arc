@@ -22,6 +22,7 @@
         <activity android:name=".signup.InitialDataAllergyActivity"
             android:theme="@style/AppTheme.InitialData"
             android:exported="true"/>
+        <activity android:name=".dashboard.DashboardActivity" />
     </application>
 
 </manifest>

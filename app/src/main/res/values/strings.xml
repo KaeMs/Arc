@@ -52,6 +52,25 @@
     <string name="first_time_experience_hint">A full date or approximate date or vague answer such as : years ago, childhood, etc.</string>
     <string name="add">Add</string>
 
+    <!-- Dashboard Drawer -->
+    <string name="visit">Visit</string>
+
+    <!-- Summary -->
+    <string name="placeholder_name">Fast Med Dev Name</string>
+    <string name="placeholder_gender">Visiting Date</string>
+    <string name="photo">Photo</string>
+
+    <!-- Visit -->
+    <string name="visiting_date">Visiting Date</string>
+    <string name="placeholder_date">10/20/2017</string>
+    <string name="hospital_name">Hospital Name</string>
+    <string name="placeholder_hospital_name">RS Soliam Mangunkusumo</string>
+    <string name="doctor_name">Doctor Name</string>
+    <string name="placeholder_doctor_name">Sisilia Yudhakusuma</string>
+    <string name="diagnose">Diagnose</string>
+    <string name="diagnosed_diseases">Diagnosed Diseases</string>
+    <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a disease?</string>
+
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
     <string name="error_server">Server error, please try again later</string>
