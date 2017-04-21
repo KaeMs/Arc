@@ -88,6 +88,28 @@
 
             </TableRow>
 
+            <!-- Diagnose -->
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="15dp">
+
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:text="@string/diagnose"/>
+
+                <com.med.fast.customviews.CustomFontTextView
+                    android:id="@+id/visit_card_diagnose"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/placeholder_diagnose"/>
+
+            </TableRow>
+
             <!-- Diagnosed Diseases -->
             <TableRow
                 android:layout_width="0dp"
@@ -99,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="@string/doctor_name"/>
+                    android:text="@string/diagnosed_diseases"/>
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:id="@+id/visit_card_diagnosed_diseases"
@@ -112,8 +134,8 @@
 
         </TableLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/visit_card_pager"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/visit_card_images"
             android:layout_width="match_parent"
             android:layout_height="100dp" />
 

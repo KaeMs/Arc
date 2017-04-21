@@ -68,8 +68,10 @@
     <string name="doctor_name">Doctor Name</string>
     <string name="placeholder_doctor_name">Sisilia Yudhakusuma</string>
     <string name="diagnose">Diagnose</string>
+    <string name="placeholder_diagnose">Patient has trouble seeing holes</string>
     <string name="diagnosed_diseases">Diagnosed Diseases</string>
     <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a disease?</string>
+    <string name="image">Image</string>
 
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
