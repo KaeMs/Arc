@@ -40,14 +40,18 @@
     <string name="next">Next</string>
     <!-- Allergy -->
     <string name="agent">Agent</string>
+    <string name="placeholder_agent">Agent Placeholder</string>
     <string name="causative_agent">Causative Agent</string>
     <string name="causative_agent_empty">Causative Agent can not be Empty</string>
     <string name="drug_allergy">Drug Allergy</string>
+    <string name="placeholder_drug_allergy">Drug Allergy Placeholder</string>
     <string name="agent_drug_type_question">Is the agent a drug type?</string>
     <string name="reaction">Reaction</string>
+    <string name="placeholder_reaction">Reaction Placeholder</string>
     <string name="reaction_hint">Such as hives, itching, nasal congestion, etc.</string>
     <string name="reaction_empty">Reaction can not be Empty</string>
     <string name="first_time_experience">First Time Experience</string>
+    <string name="placeholder_first_time_experience">First Time Experience Placeholder</string>
     <string name="first_time_experience_opt">First Time Experience - Optional</string>
     <string name="first_time_experience_hint">A full date or approximate date or vague answer such as : years ago, childhood, etc.</string>
     <string name="add">Add</string>
@@ -72,6 +76,10 @@
     <string name="diagnosed_diseases">Diagnosed Diseases</string>
     <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a disease?</string>
     <string name="image">Image</string>
+
+    <!-- Allergy -->
+    <string name="created_date">Created Date</string>
+
 
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>

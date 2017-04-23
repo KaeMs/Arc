@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.visit.VisitFragment;
+import com.med.fast.management.visit.VisitFragment;
 
 import butterknife.BindView;
 
@@ -29,15 +29,15 @@ public class MainActivity extends FastBaseActivity {
     CustomFontTextView toolbarTitle;
     @BindView(R.id.dashboard_drawer_layout)
     DrawerLayout dashboardDrawer;
-    @BindView(R.id.dashboard_frame)
+    @BindView(R.id.fmcontainer_frame)
     FrameLayout dashboardFrame;
-    @BindView(R.id.dashboard_fab)
+    @BindView(R.id.fmcontainer_fab)
     FloatingActionButton dashboardFab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard_layout);
+        setContentView(R.layout.fmcontainer_main_layout);
 
         fragmentManager = getSupportFragmentManager();
         drawerFragment = (DrawerFragment) fragmentManager.findFragmentById(R.id.dashboard_drawerfrag);
@@ -61,7 +61,7 @@ public class MainActivity extends FastBaseActivity {
         }
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .replace(R.id.dashboard_frame, fragment, tag)
+                .replace(R.id.fmcontainer_frame, fragment, tag)
                 .addToBackStack(tag)
                 .setAllowOptimization(false);
         if (addToBackstack){
@@ -72,7 +72,7 @@ public class MainActivity extends FastBaseActivity {
     }
 
     public Fragment currentFragment(){
-        return getSupportFragmentManager().findFragmentById(R.id.dashboard_frame);
+        return getSupportFragmentManager().findFragmentById(R.id.fmcontainer_frame);
     }
 
     public void drawerToggle(){

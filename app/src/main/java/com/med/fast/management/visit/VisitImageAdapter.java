@@ -1,4 +1,4 @@
-package com.med.fast.visit;
+package com.med.fast.management.visit;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -39,7 +39,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View visitImgView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.dashboard_visit_card_image, parent, false);
+                .inflate(R.layout.management_visit_card_image, parent, false);
         return new VisitImageVH(visitImgView);
     }
 

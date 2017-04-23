@@ -1,4 +1,4 @@
-package com.med.fast.visit;
+package com.med.fast.management.visit;
 
 import java.sql.Date;
 import java.util.List;
@@ -8,14 +8,14 @@ import java.util.List;
  */
 
 public class VisitModel {
-    public String visit_id;
-    public String owner_id;
-    public Date created_date;
-    public String hospital_name;
-    public String doctor_name;
-    public String diagnose;
-    public String disease;
-    public List<VisitImageItem> image_list;
+    private String visit_id;
+    private String owner_id;
+    private Date created_date;
+    private String hospital_name;
+    private String doctor_name;
+    private String diagnose;
+    private String disease;
+    private List<VisitImageItem> image_list;
 
     public String getVisit_id() {
         return visit_id;

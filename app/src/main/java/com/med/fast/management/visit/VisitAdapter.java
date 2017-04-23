@@ -1,4 +1,4 @@
-package com.med.fast.visit;
+package com.med.fast.management.visit;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +43,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View visitView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.dashboard_visit_card, parent, false);
+                .inflate(R.layout.management_visit_card, parent, false);
         return new VisitViewHolder(visitView);
     }
 
@@ -52,12 +52,12 @@ public class VisitAdapter extends FastBaseRecyclerAdapter {
         VisitViewHolder visitViewHolder = (VisitViewHolder)holder;
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-        visitViewHolder.visitDate.setText(simpleDateFormat.format(mDataset.get(position).created_date));
+        visitViewHolder.visitDate.setText(simpleDateFormat.format(mDataset.get(position).getCreated_date()));
 
-        visitViewHolder.hospitalName.setText(mDataset.get(position).hospital_name);
-        visitViewHolder.doctorName.setText(mDataset.get(position).doctor_name);
-        visitViewHolder.diagnose.setText(mDataset.get(position).diagnose);
-        visitViewHolder.diagnosedDisease.setText(mDataset.get(position).disease);
+        visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());
+        visitViewHolder.doctorName.setText(mDataset.get(position).getDoctor_name());
+        visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());
+        visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDisease());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
