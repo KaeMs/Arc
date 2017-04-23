@@ -1,4 +1,4 @@
-package com.med.fast.dashboard.visit;
+package com.med.fast.visit;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
@@ -63,7 +62,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
         return mDataset.size();
     }
 
-    static class VisitImageVH extends FastBaseViewHolder{
+    static class VisitImageVH extends FastBaseViewHolder {
 
         @BindView(R.id.visit_card_image_imageView)
         ImageView image;

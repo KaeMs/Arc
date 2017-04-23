@@ -1,4 +1,4 @@
-package com.med.fast.dashboard.visit;
+package com.med.fast.visit;
 
 /**
  * Created by Kevin Murvie on 4/21/2017. FM

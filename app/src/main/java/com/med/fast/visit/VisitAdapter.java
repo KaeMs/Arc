@@ -1,4 +1,4 @@
-package com.med.fast.dashboard.visit;
+package com.med.fast.visit;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +72,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter {
         return mDataset.size();
     }
 
-    static class VisitViewHolder extends FastBaseViewHolder{
+    static class VisitViewHolder extends FastBaseViewHolder {
 
         @BindView(R.id.visit_card_date)
         CustomFontTextView visitDate;

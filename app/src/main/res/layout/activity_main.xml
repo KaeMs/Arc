@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:paddingTop="@dimen/default_activity_content_padding"
-    tools:context="com.med.fast.MainActivity"
+    tools:context="com.med.fast.LoginActivity"
     tools:ignore="RtlHardcoded">
 
     <RelativeLayout

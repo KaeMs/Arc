@@ -1,4 +1,4 @@
-package com.med.fast.dashboard.visit;
+package com.med.fast.visit;
 
 import java.sql.Date;
 import java.util.List;

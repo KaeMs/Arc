@@ -1,4 +1,4 @@
-package com.med.fast.dashboard;
+package com.med.fast;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,11 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.med.fast.FastBaseActivity;
-import com.med.fast.FastBaseFragment;
-import com.med.fast.R;
-import com.med.fast.Tag;
-import com.med.fast.dashboard.visit.VisitFragment;
+import com.med.fast.visit.VisitFragment;
 
 import butterknife.BindView;
 
@@ -37,7 +33,7 @@ public class DrawerFragment extends FastBaseFragment {
         visitWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((DashboardActivity)getActivity()).drawerToggle();
+                ((MainActivity)getActivity()).drawerToggle();
                 VisitFragment visitFragment = new VisitFragment();
                 ((FastBaseActivity)getActivity()).replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
             }

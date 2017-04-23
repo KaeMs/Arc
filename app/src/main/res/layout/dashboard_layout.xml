@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/dashboard_drawerfrag"
-        class="com.med.fast.dashboard.DrawerFragment"
+        class="com.med.fast.DrawerFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"

@@ -1,4 +1,4 @@
-package com.med.fast.dashboard.visit;
+package com.med.fast.visit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.R;
 import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.dashboard.DashboardActivity;
+import com.med.fast.MainActivity;
 
 import butterknife.BindView;
 
@@ -37,7 +37,7 @@ public class VisitFragment extends FastBaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((DashboardActivity)getActivity()).changeTitle("VISIT MANAGEMENT");
+        ((MainActivity)getActivity()).changeTitle("VISIT MANAGEMENT");
 
     }
 

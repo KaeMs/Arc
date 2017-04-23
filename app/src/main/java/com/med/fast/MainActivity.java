@@ -1,89 +1,89 @@
 package com.med.fast;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 
-import com.med.fast.customclasses.NoUnderlineClickableSpan;
-import com.med.fast.customviews.CustomFontButton;
-import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontTextInputEditText;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.dashboard.DashboardActivity;
-import com.med.fast.signup.SignupActivity;
+import com.med.fast.visit.VisitFragment;
 
 import butterknife.BindView;
 
+/**
+ * Created by Kevin Murvie on 4/21/2017. FM
+ */
+
 public class MainActivity extends FastBaseActivity {
 
-    @BindView(R.id.loginactivity_logo)
-    ImageView logo;
-    @BindView(R.id.loginactivity_email_et)
-    CustomFontEditText username;
-    @BindView(R.id.loginactivity_password_et)
-    CustomFontEditText password;
-    @BindView(R.id.loginactivity_login_btn)
-    CustomFontButton loginBtn;
-    @BindView(R.id.loginactivity_forgotpassword_tv)
-    CustomFontTextView forgotPassword;
-    @BindView(R.id.loginactivity_signup_tv)
-    CustomFontTextView signup;
+    private FragmentManager fragmentManager;
+    private DrawerFragment drawerFragment;
+
+    @BindView(R.id.toolbartitledivider_title)
+    CustomFontTextView toolbarTitle;
+    @BindView(R.id.dashboard_drawer_layout)
+    DrawerLayout dashboardDrawer;
+    @BindView(R.id.dashboard_frame)
+    FrameLayout dashboardFrame;
+    @BindView(R.id.dashboard_fab)
+    FloatingActionButton dashboardFab;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.dashboard_layout);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        fragmentManager = getSupportFragmentManager();
+        drawerFragment = (DrawerFragment) fragmentManager.findFragmentById(R.id.dashboard_drawerfrag);
+
+        dashboardFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                startActivity(intent);
-                finish();
+                if (currentFragment() instanceof VisitFragment){
+                    ((VisitFragment) currentFragment()).addNewVisit();
+                }
             }
         });
+    }
 
-        /*NoUnderlineClickableSpan forgotPassSpan = new NoUnderlineClickableSpan() {
-            @Override
-            public void onClick(View tv) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        };
-        SpannableStringBuilder forgotPassSpb = new SpannableStringBuilder(getString(R.string.forgot_password_question));
-        forgotPassSpb.setSpan(forgotPassSpan, 0, forgotPassSpb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        forgotPassword.setText(forgotPassSpb);
-        forgotPassword.setMovementMethod(new LinkMovementMethod());*/
+    public void replaceFragment(final Fragment fragment, final String tag, boolean addToBackstack){
+        Bundle args = new Bundle();
+//        String[] splitTag = tag.split(":");
+        /*ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
+        if (fragment.getArguments() == null) {
+            fragment.setArguments(args);
+        }
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.dashboard_frame, fragment, tag)
+                .addToBackStack(tag)
+                .setAllowOptimization(false);
+        if (addToBackstack){
+            ft.addToBackStack(tag);
+        }
+        ft.commit();
+        fragmentManager.executePendingTransactions();
+    }
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+    public Fragment currentFragment(){
+        return getSupportFragmentManager().findFragmentById(R.id.dashboard_frame);
+    }
 
-        /*NoUnderlineClickableSpan signupSpan = new NoUnderlineClickableSpan() {
-            @Override
-            public void onClick(View tv) {
-                Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        };
-        SpannableStringBuilder signupSpb = new SpannableStringBuilder(getString(R.string.sign_up));
-        signupSpb.setSpan(signupSpan, 0, signupSpb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        signup.setText(signupSpb);
-        signup.setMovementMethod(new LinkMovementMethod());*/
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-                startActivity(intent);
-            }
-        });
+    public void drawerToggle(){
+        if (dashboardDrawer.isDrawerOpen(GravityCompat.END)) {
+            dashboardDrawer.closeDrawer(GravityCompat.END);
+        } else {
+            dashboardDrawer.openDrawer(GravityCompat.END);
+        }
+    }
+
+    public void changeTitle(String title){
+        toolbarTitle.setText(title);
     }
 }
