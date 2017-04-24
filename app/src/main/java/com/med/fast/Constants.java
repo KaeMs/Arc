@@ -5,5 +5,6 @@ package com.med.fast;
  */
 
 public class Constants {
-    public static final String dateFormatSlash = "MM/dd/yyyy";
+    public static final String dateFormatSlash = "MMM/dd/yyyy";
+    public static final String dateFormatSpace = "MM dd yyyy";
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.med.fast.Constants;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
@@ -51,7 +52,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         VisitViewHolder visitViewHolder = (VisitViewHolder)holder;
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.dateFormatSlash, Locale.getDefault());
         visitViewHolder.visitDate.setText(simpleDateFormat.format(mDataset.get(position).getCreated_date()));
 
         visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());

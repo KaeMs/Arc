@@ -62,7 +62,7 @@ public class InitialDataAllergyActivity extends FastBaseActivity {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(InitialDataAllergyActivity.this);
                 dialog.setContentView(R.layout.allergy_popup);
-                dialog.setCanceledOnTouchOutside(true);
+                dialog.setCanceledOnTouchOutside(false);
 
                 final CustomFontEditText causative = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_causative_et);
                 final CustomFontRadioButton drugTypeYes = (CustomFontRadioButton) dialog.findViewById(R.id.allergy_popup_drugtype_rb_yes);

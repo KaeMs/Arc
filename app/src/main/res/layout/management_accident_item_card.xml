@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:stretchColumns="*" >
 
-            <!-- Agent -->
+            <!-- Accident Details -->
             <TableRow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
@@ -31,18 +31,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="@string/agent"/>
+                    android:text="@string/full_accident_details"/>
 
                 <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_agent"
+                    android:id="@+id/management_accident_item_accident_details"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/placeholder_agent"/>
+                    android:text="@string/full_accident_details_placeholder"/>
 
             </TableRow>
 
-            <!-- Drug Allergy -->
+            <!-- Injury Nature -->
             <TableRow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,19 +53,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="@string/drug_allergy"/>
+                    android:text="@string/injury_nature"/>
 
                 <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_drug"
+                    android:id="@+id/management_accident_item_injury_nature"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/placeholder_drug_allergy"
-                    style="@style/OneLineEllipsizeEndTV"/>
+                    android:text="@string/injury_nature_placeholder"/>
 
             </TableRow>
 
-            <!-- Reaction -->
+            <!-- Injury Location -->
             <TableRow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -76,19 +75,18 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="@string/reaction"/>
+                    android:text="@string/injury_location"/>
 
                 <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_reaction"
+                    android:id="@+id/management_accident_item_injury_location"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/placeholder_reaction"
-                    style="@style/OneLineEllipsizeEndTV"/>
+                    android:text="@string/injury_location_placeholder"/>
 
             </TableRow>
 
-            <!-- First Experience -->
+            <!-- Injury Date -->
             <TableRow
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -99,14 +97,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-                    android:text="@string/first_time_experience"/>
+                    android:text="@string/accident_date"/>
 
                 <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_first_experience"
+                    android:id="@+id/management_accident_item_injury_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/placeholder_first_time_experience"/>
+                    android:text="@string/placeholder_date"/>
 
             </TableRow>
 
@@ -124,7 +122,7 @@
                     android:text="@string/created_date"/>
 
                 <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_date"
+                    android:id="@+id/management_accident_item_injury_created_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.med.fast.Constants;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
@@ -28,12 +29,12 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class AllergyAdapter extends FastBaseRecyclerAdapter {
+public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
 
     private Context context;
     private List<AllergyManagementModel> mDataset = new ArrayList<>();
 
-    public AllergyAdapter(Context context){
+    public AllergyManagementAdapter(Context context){
         this.context = context;
     }
 
@@ -51,7 +52,13 @@ public class AllergyAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        AllergyManagementVH allergyManagementVH = (AllergyManagementVH)holder;
+        allergyManagementVH.agent.setText(mDataset.get(position).getAgent());
+        allergyManagementVH.drug.setText(mDataset.get(position).getDrug());
+        allergyManagementVH.reaction.setText(mDataset.get(position).getReaction());
+        allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.dateFormatSlash, Locale.getDefault());
+        allergyManagementVH.date.setText(simpleDateFormat.format(mDataset.get(position).getCreated_date()));
     }
 
     @Override

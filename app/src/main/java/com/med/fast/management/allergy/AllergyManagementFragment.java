@@ -19,7 +19,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/23/2017. FM
  */
 
-public class AllergyFragment extends FastBaseFragment {
+public class AllergyManagementFragment extends FastBaseFragment {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)

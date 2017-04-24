@@ -53,7 +53,7 @@
     <string name="first_time_experience">First Time Experience</string>
     <string name="placeholder_first_time_experience">First Time Experience Placeholder</string>
     <string name="first_time_experience_opt">First Time Experience - Optional</string>
-    <string name="first_time_experience_hint">A full date or approximate date or vague answer such as : years ago, childhood, etc.</string>
+    <string name="first_time_experience_hint">A full injury_date or approximate injury_date or vague answer such as : years ago, childhood, etc.</string>
     <string name="add">Add</string>
 
     <!-- Dashboard Drawer -->
@@ -80,6 +80,47 @@
     <!-- Allergy -->
     <string name="created_date">Created Date</string>
 
+    <!-- Disease -->
+    <string name="disease_name">Disease name</string>
+    <string name="disease_name_hint">Exact name of disease</string>
+    <string name="disease_name_placeholder">Awesomeness</string>
+    <string name="disease_hereditary">Hereditary</string>
+    <string name="disease_hereditary_carriers">Hereditary Carriers</string>
+    <string name="disease_hereditary_carriers_placeholder">The whole family</string>
+    <string name="disease_hereditary_question">Is it hereditary?</string>
+    <string name="disease_hereditary_inherited_from">From whom your hereditary disease is inherited?</string>
+    <string name="disease_hereditary_inherited_from_hint">Father, mother, grandfather, etc.</string>
+    <string name="disease_hereditary_inherited_from_placeholder">The whole family has it</string>
+    <string name="disease_hereditary_inherited_from_required">Hereditary disease carrier required</string>
+    <string name="currently_having_this_disease">Are you currently having this disease now?</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="last_visit">Last Visit</string>
+    <string name="historic_date">Historic date</string>
+    <string name="approximate_date">Approximate Date</string>
+
+    <!-- Accident -->
+    <string name="full_accident_details">Full Accident/Incident Details</string>
+    <string name="full_accident_details_hint">What happened</string>
+    <string name="full_accident_details_placeholder">Spilled my water bottle onto some place</string>
+    <string name="full_accident_details_required">Accident detail is required</string>
+    <string name="injury_nature">Nature of Injury - Optional</string>
+    <string name="injury_nature_hint">Such as laceration, open wound, etc.</string>
+    <string name="injury_nature_placeholder">My bed got wet till the mattress needs to be changed</string>
+    <string name="injury_location">Location of Injury - Optional</string>
+    <string name="injury_location_hint">Such as head/face, shoulder, eye, etc.</string>
+    <string name="injury_location_placeholder">My bed, duh</string>
+    <string name="accident_date">Date or When the Accident Happened - Optional</string>
+    <string name="accident_date_hint">Exact injury date</string>
+    <string-array name="accident_approximate_values">
+        <item>-</item>
+        <item>1 Year Ago</item>
+        <item>2 Years Ago</item>
+        <item>3 Years Ago</item>
+        <item>4 Years Ago</item>
+        <item>5 Years Ago</item>
+        <item>>5 Years Ago</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
@@ -91,6 +132,11 @@
     <string name="logo">Logo</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="or">Or</string>
+    <string name="and">And</string>
+    <string name="create">Create</string>
+    <string name="back">Back</string>
+    <string name="sign_dash">-</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

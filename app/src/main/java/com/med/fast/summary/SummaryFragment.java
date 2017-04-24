@@ -18,7 +18,7 @@ import butterknife.BindView;
  */
 
 public class SummaryFragment extends FastBaseFragment {
-    @BindView(R.id.summary_greeting)
+    /*@BindView(R.id.summary_greeting)
     TextView summaryGreeting;
     @BindView(R.id.summary_recycler)
     TextView summaryRecycler;
@@ -38,5 +38,5 @@ public class SummaryFragment extends FastBaseFragment {
 
 
 
-    }
+    }*/
 }
