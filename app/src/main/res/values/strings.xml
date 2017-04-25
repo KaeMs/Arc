@@ -98,6 +98,35 @@
     <string name="historic_date">Historic date</string>
     <string name="approximate_date">Approximate Date</string>
 
+    <!-- Medicine -->
+    <string name="medicine_name">Medicine Name</string>
+    <string name="medicine_name_hint">Exact name of medicine</string>
+    <string name="medicine_name_placeholder">Penicillin</string>
+    <string name="medicine_name_required">Medicine name is required</string>
+    <string name="medicine_form">Medicine Form</string>
+    <string name="medicine_form_hint">Capsules, drops, tablets, etc.</string>
+    <string name="medicine_form_placeholder">Capsule droplets.. Wut</string>
+    <string name="medicine_form_required">Medicine Form is required</string>
+    <string name="medicine_administration_method">Method of Administration - Optional</string>
+    <string name="medicine_administration_method_hint">Oral, infusion, via nebuliser, via NG tube or site of use (eg, \'to wound\', to \'left eye\', etc.)</string>
+    <string name="medicine_administration_method_placeholder">Nebuliser to left eye</string>
+    <string name="medicine_administration_dose">Dose per Administration - Optional</string>
+    <string name="medicine_administration_dose_hint">Units of measurement, number of tablets, volume of liquid, etc.</string>
+    <string name="medicine_administration_dose_placeholder">1k ml</string>
+    <string name="medicine_frequency">Medicine Frequency - Optional</string>
+    <string name="medicine_frequency_hint">Frequency of taking administration (one time a day, three times a week, etc.)</string>
+    <string name="medicine_frequency_placeholder">20 times a day, cause, why not</string>
+    <string name="medication_reason">Reason for Medication - Optional</string>
+    <string name="medication_reason_hint">Reason for medication being prescribed, where known.</string>
+    <string name="medication_reason_placeholder">For ma body</string>
+    <string name="medication_status">Medication Status - Optional</string>
+    <string name="medication_status_hint">Started, stopped, suspended or reinstated with record date for each change in status</string>
+    <string name="medication_status_placeholder">Started, but sometimes not started</string>
+    <string name="additional_instruction">Additional Instruction - Optional</string>
+    <string name="additional_instruction_hint">Requirements for adherence support or additional information about specific medicines</string>
+    <string name="additional_instruction_placeholder">Sometimes nebuliser runs out of battery</string>
+
+
     <!-- Accident -->
     <string name="full_accident_details">Full Accident/Incident Details</string>
     <string name="full_accident_details_hint">What happened</string>

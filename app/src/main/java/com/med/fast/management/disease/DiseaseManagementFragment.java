@@ -169,7 +169,6 @@ public class DiseaseManagementFragment extends FastBaseFragment {
                     }
                 });
 
-
                 createBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
