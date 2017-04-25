@@ -198,32 +198,7 @@
 
         </TableLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="end"
-            android:gravity="end">
-
-            <ImageView
-                android:id="@+id/allergy_item_card_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:background="@drawable/button_edit_selector"
-                android:layout_marginRight="10dp"
-                android:text="@string/cancel"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/allergy_item_card_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:text="@string/add"
-                android:background="@drawable/button_delete_selector"
-                android:textColor="@color/textcolor_white_to_tosca"/>
-
-        </LinearLayout>
+        <include layout="@layout/management_operation_editdelete_buttons"/>
 
     </LinearLayout>
     

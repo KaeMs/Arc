@@ -79,11 +79,11 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment {
                 dialog.setContentView(R.layout.management_accident_popup);
                 dialog.setCanceledOnTouchOutside(false);
 
-                final CustomFontEditText accidentDetails = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_accident_details);
-                final CustomFontEditText injuryNature = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_injury_nature);
-                final CustomFontEditText injuryLocation = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_injury_location);
-                final CustomFontTextView accidentDateTV = (CustomFontTextView) dialog.findViewById(R.id.surgery_popup_accident_date_tv);
-                final Spinner accidentDateSpinner = (Spinner) dialog.findViewById(R.id.surgery_popup_accident_date_spinner);
+                final CustomFontEditText accidentDetails = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_accident_details);
+                final CustomFontEditText injuryNature = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_injury_nature);
+                final CustomFontEditText injuryLocation = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_injury_location);
+                final CustomFontTextView accidentDateTV = (CustomFontTextView) dialog.findViewById(R.id.accident_popup_accident_date_tv);
+                final Spinner accidentDateSpinner = (Spinner) dialog.findViewById(R.id.accident_popup_accident_date_spinner);
                 String[] approximates = getResources().getStringArray(R.array.accident_approximate_values);
                 final ArrayAdapter<String> accidentSpinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, approximates);
                 accidentSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -135,8 +135,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment {
                     }
                 });
 
-                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.surgery_popup_back_btn);
-                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.surgery_popup_create_btn);
+                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
+                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
                 final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
                 mAwesomeValidation.setContext(getActivity());

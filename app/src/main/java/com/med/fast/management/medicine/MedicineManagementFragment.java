@@ -108,9 +108,11 @@ public class MedicineManagementFragment extends FastBaseFragment {
                             medicineManagementModel.setMedicine_additional_instruction(additionalInstruction.getText().toString());
 
                             medicineManagementAdapter.addSingle(medicineManagementModel);
+                            dialog.dismiss();
                         }
                     }
                 });
+                dialog.show();
             }
         });
     }

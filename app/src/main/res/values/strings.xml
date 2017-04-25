@@ -126,6 +126,24 @@
     <string name="additional_instruction_hint">Requirements for adherence support or additional information about specific medicines</string>
     <string name="additional_instruction_placeholder">Sometimes nebuliser runs out of battery</string>
 
+    <!-- Surgery -->
+    <string name="surgery_procedure">Surgery Procedure</string>
+    <string name="surgery_procedure_hint">Surgery procedure name</string>
+    <string name="surgery_procedure_placeholder">C-Section</string>
+    <string name="surgery_procedure_required">Surgery procedure is required</string>
+    <string name="physician_name">Physician Name</string>
+    <string name="physician_name_hint">Physician / Doctor name</string>
+    <string name="physician_name_placeholder">Monty</string>
+    <string name="physician_name_required">Physician name is required</string>
+    <string name="hospital_name_hint">Hospital name</string>
+    <string name="hospital_name_placeholder">Siloam Hospitals</string>
+    <string name="hospital_name_required">Hospital name is required</string>
+    <string name="date">Date</string>
+    <string name="surgery_date">Surgery Date</string>
+    <string name="surgery_date_required">Surgery date is required</string>
+    <string name="surgery_note">Surgery Note</string>
+    <string name="surgery_note_hint">Notes for surgery</string>
+    <string name="surgery_note_placeholder">Need sleep</string>
 
     <!-- Accident -->
     <string name="full_accident_details">Full Accident/Incident Details</string>
@@ -166,6 +184,8 @@
     <string name="create">Create</string>
     <string name="back">Back</string>
     <string name="sign_dash">-</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

@@ -74,9 +74,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter {
         CustomFontTextView injuryDate;
         @BindView(R.id.management_accident_item_injury_created_date)
         CustomFontTextView createdDate;
-        @BindView(R.id.allergy_item_card_edit)
+        @BindView(R.id.management_operations_edit_btn)
         ImageView editBtn;
-        @BindView(R.id.allergy_item_card_delete)
+        @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
 
 

@@ -159,8 +159,8 @@ public class DiseaseManagementFragment extends FastBaseFragment {
                     }
                 });
 
-                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.surgery_popup_back_btn);
-                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.surgery_popup_create_btn);
+                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
+                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
                 backBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -206,7 +206,6 @@ public class DiseaseManagementFragment extends FastBaseFragment {
                 });
 
                 dialog.show();
-
             }
         });
     }

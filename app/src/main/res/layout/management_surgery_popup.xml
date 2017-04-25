@@ -7,96 +7,94 @@
     android:orientation="vertical"
     android:padding="@dimen/default_activity_content_padding">
 
-    <!-- Accident Details -->
+    <!-- Surgery Procedure -->
     <com.med.fast.customviews.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/full_accident_details"
+        android:text="@string/surgery_procedure"
         android:textColor="@color/blackDark" />
 
     <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/accident_popup_accident_details"
+        android:id="@+id/surgery_popup_procedure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/full_accident_details_hint"
+        android:hint="@string/surgery_procedure_hint"
         android:gravity="start"
-        android:minLines="3"
         android:textSize="@dimen/font_small" />
 
-    <!-- Injury Nature -->
+    <!-- Physician Name -->
     <com.med.fast.customviews.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/injury_nature"
+        android:text="@string/physician_name"
         android:textColor="@color/blackDark" />
 
     <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/accident_popup_injury_nature"
+        android:id="@+id/surgery_popup_physician_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/injury_nature_hint"
+        android:hint="@string/physician_name_hint"
         android:gravity="start"
         android:textSize="@dimen/font_small" />
 
-    <!-- Injury Location -->
+    <!-- Hospital -->
     <com.med.fast.customviews.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/injury_location"
+        android:text="@string/hospital_name"
         android:textColor="@color/blackDark" />
 
     <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/accident_popup_injury_location"
+        android:id="@+id/surgery_popup_hospital_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/injury_location_hint"
+        android:hint="@string/hospital_name_hint"
         android:gravity="start"
         android:textSize="@dimen/font_small" />
 
-    <!-- Accident Date -->
+    <!-- Date -->
     <com.med.fast.customviews.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/accident_date"
+        android:text="@string/date"
         android:textColor="@color/blackDark" />
 
     <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/accident_popup_accident_date_tv"
+        android:id="@+id/surgery_popup_surgery_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/border_edittext_grey_selector"
         android:textColor="@color/blackDark"
         android:textSize="@dimen/font_small"
-        android:hint="@string/accident_date_hint"/>
+        android:hint="@string/surgery_date"/>
 
+    <!-- Note -->
     <com.med.fast.customviews.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/or"
+        android:layout_marginTop="15dp"
+        android:text="@string/surgery_note"
         android:textColor="@color/blackDark" />
 
     <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/approximate_date"
-        android:textColor="@color/blackDark" />
-
-    <Spinner
-        android:id="@+id/accident_popup_accident_date_spinner"
+        android:id="@+id/surgery_popup_note"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_edittext_grey_selector"
+        android:textColor="@color/blackDark"
+        android:textSize="@dimen/font_small"
+        android:hint="@string/surgery_note_hint"/>
 
     <include layout="@layout/management_operation_backcreate_buttons"/>
 

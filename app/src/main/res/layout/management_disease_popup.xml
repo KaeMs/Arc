@@ -134,31 +134,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="end"
-        android:gravity="end">
-
-        <com.med.fast.customviews.CustomFontButton
-            android:id="@+id/disease_popup_back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/btnMediumHeight"
-            android:background="@drawable/button_ltgrey_grey"
-            android:layout_marginRight="10dp"
-            android:text="@string/back"
-            android:textColor="@color/black"/>
-
-        <com.med.fast.customviews.CustomFontButton
-            android:id="@+id/disease_popup_create_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/btnMediumHeight"
-            android:text="@string/create"
-            android:background="@drawable/button_toscalight_tosca"
-            android:textColor="@color/textcolor_white_to_tosca"/>
-
-    </LinearLayout>
+    <include layout="@layout/management_operation_backcreate_buttons"/>
 
 </LinearLayout>

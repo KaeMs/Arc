@@ -78,9 +78,9 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
         CustomFontTextView firstExperience;
         @BindView(R.id.allergy_item_card_date)
         CustomFontTextView date;
-        @BindView(R.id.allergy_item_card_edit)
+        @BindView(R.id.management_operations_edit_btn)
         ImageView editBtn;
-        @BindView(R.id.allergy_item_card_delete)
+        @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
 
 

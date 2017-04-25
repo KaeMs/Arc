@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="15dp"
+    android:layout_gravity="end"
+    android:gravity="end"
+    tools:ignore="RtlHardcoded">
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/management_operations_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btnMediumHeight"
+        android:background="@drawable/button_ltgrey_grey"
+        android:layout_marginRight="10dp"
+        android:text="@string/back"
+        android:textColor="@color/black"/>
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/management_operations_create_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btnMediumHeight"
+        android:text="@string/create"
+        android:background="@drawable/button_toscalight_tosca"
+        android:textColor="@color/textcolor_white_to_tosca"/>
+
+</LinearLayout>
