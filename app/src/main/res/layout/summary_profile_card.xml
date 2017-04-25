@@ -14,19 +14,21 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+        <include layout="@layout/summary_header" />
+
         <ImageView
             android:id="@+id/summary_profile_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/photo"/>
+            android:contentDescription="@string/photo"
+            android:scaleType="centerCrop" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/summary_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="3"
             android:ellipsize="end"
+            android:maxLines="3"
             android:padding="8dp"
             android:text="@string/name"
             android:textSize="@dimen/font_large" />
@@ -34,9 +36,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
             android:background="@color/greyLight"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/summary_profile_dob"

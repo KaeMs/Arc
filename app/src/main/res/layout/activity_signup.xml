@@ -29,17 +29,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_grey"
-                android:maxLength="50"
-                android:hint="@string/first_name" />
+                android:hint="@string/first_name"
+                android:maxLength="50" />
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/signup_lastNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:maxLength="75"
                 android:background="@drawable/border_grey"
-                android:hint="@string/last_name" />
+                android:hint="@string/last_name"
+                android:maxLength="75" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
@@ -83,13 +83,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/male"/>
+                    android:text="@string/male" />
 
                 <com.med.fast.customviews.CustomFontRadioButton
                     android:id="@+id/signup_femaleRB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/female"/>
+                    android:text="@string/female" />
 
             </RadioGroup>
 
@@ -104,8 +104,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_grey"
-                android:inputType="textPassword"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                android:inputType="textPassword" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
@@ -118,14 +118,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_grey"
-                android:inputType="textPassword"
-                android:hint="@string/confirm_password" />
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword" />
 
             <com.med.fast.customviews.CustomFontButton
                 android:id="@+id/signup_confirmBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/register_your_account"/>
+                android:text="@string/register_your_account" />
 
         </LinearLayout>
 
