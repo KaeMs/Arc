@@ -10,7 +10,7 @@ import com.med.fast.R;
 import butterknife.BindView;
 
 /**
- * Created by kevin on 23-Apr-17.
+ * Created by kevindreyar on 23-Apr-17.
  */
 
 public class ProfileVH extends FastBaseViewHolder {
