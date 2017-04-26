@@ -6,7 +6,7 @@ import android.net.Uri;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class VisitImageItem {
+public class VisitImageItemUpload {
     private int image_id;
     private String image_name;
     private String image_path;

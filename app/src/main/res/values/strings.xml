@@ -67,15 +67,20 @@
     <!-- Visit -->
     <string name="visiting_date">Visiting Date</string>
     <string name="placeholder_date">10/20/2017</string>
-    <string name="hospital_name">Hospital Name</string>
     <string name="placeholder_hospital_name">RS Soliam Mangunkusumo</string>
     <string name="doctor_name">Doctor Name</string>
-    <string name="placeholder_doctor_name">Sisilia Yudhakusuma</string>
+    <string name="doctor_name_placeholder">Sisilia Yudhakusuma</string>
+    <string name="doctor_name_required">Doctor name is required</string>
+    <string name="hospital_name">Hospital Name</string>
     <string name="diagnose">Diagnose</string>
+    <string name="diagnose_required">Diagnose is required</string>
     <string name="placeholder_diagnose">Patient has trouble seeing holes</string>
     <string name="diagnosed_diseases">Diagnosed Diseases</string>
     <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a disease?</string>
     <string name="image">Image</string>
+    <string name="image_upload">Upload Image</string>
+    <string name="image_change">Change Image</string>
+    <string name="image_delete">Delete Image</string>
 
     <!-- Allergy -->
     <string name="created_date">Created Date</string>
@@ -168,6 +173,28 @@
         <item>>5 Years Ago</item>
         <item>Other</item>
     </string-array>
+
+    <!-- Lab Result -->
+    <string name="lab_test_type_question">What was the type of test?</string>
+    <string name="lab_test_type_question_hint">Test name (eg. Blood checking, etc)</string>
+    <string name="lab_test_type_question_placeholder">Blood checking</string>
+    <string name="lab_test_type_question_required">Test type is required</string>
+    <string name="lab_test_location_question">Where did you take the test?</string>
+    <string name="lab_test_location_question_hint">Place name (eg. Hospital, etc)</string>
+    <string name="lab_test_location_question_placeholder">Hospital</string>
+    <string name="lab_test_location_question_required">Place name is required</string>
+    <string name="lab_test_description_question">What is the description of the test?</string>
+    <string name="lab_test_description_question_hint">Description (eg. Routine checkup, etc)</string>
+    <string name="lab_test_description_question_placeholder">Routine checkup</string>
+    <string name="lab_test_description_question_required">Description is required</string>
+    <string name="lab_test_date_question">When was the testing done?</string>
+    <string name="lab_test_date_question_hint">Testing date</string>
+    <string name="lab_test_date_question_required">Date of lab result is required</string>
+    <string name="lab_testing_date">Testing Date</string>
+    <string name="lab_test_name">Test Name</string>
+    <string name="lab_test_name_hint">Blood check</string>
+    <string name="place">Place</string>
+    <string name="description">Description</string>
 
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>

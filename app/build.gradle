@@ -50,4 +50,6 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     // Realm Field Name Helper
     annotationProcessor 'dk.ilios:realmfieldnameshelper:1.1.1'
+    // Compressor
+    compile 'id.zelory:compressor:1.0.4'
 }
