@@ -27,6 +27,8 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MedicineVH medicineVH = (MedicineVH)holder;
+        medicineVH.summaryMedicineText.setText(mDataset.get(position).getMedicine_name());
 
     }
 
