@@ -5,4 +5,30 @@ package com.med.fast.management.medicine.api;
  */
 
 public class MedicineManagementDeleteAPI {
+    public Data data;
+
+    public class Data
+    {
+        public Query query;
+        public Status status;
+        public Results results;
+
+        public class Query
+        {
+            public String user_id;
+            public String medicine_id;
+        }
+
+        public class Status
+        {
+            public String code;
+            public String description;
+        }
+
+        public class Results
+        {
+            public String result_status;
+            public String description;
+        }
+    }
 }

@@ -1,19 +1,17 @@
 package com.med.fast.management.visit.api;
 
-import com.med.fast.management.visit.VisitCreateSubmitAPI;
-
 /**
  * Created by kevindreyar on 27-Apr-17.
  */
 
 public class VisitManagementCreateSubmitAPI {
-    public VisitCreateSubmitAPI.Data data;
+    public Data data;
 
     public class Data
     {
-        public VisitCreateSubmitAPI.Data.Query query;
-        public VisitCreateSubmitAPI.Data.Status status;
-        public VisitCreateSubmitAPI.Data.Results results;
+        public Query query;
+        public Status status;
+        public Results results;
 
         public class Query
         {
