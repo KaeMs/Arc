@@ -45,7 +45,6 @@ public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer,
                     .build();
 
             // Get token id
-            String token = "";
             if (TokenUtils.checkTokenExpiry(activity)) {
                 if (!TokenUtils.refresh(activity)) {
                     responseAPI.status_code = 505;
@@ -54,7 +53,7 @@ public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer,
                     return responseAPI;
                 }
             }
-            token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("first_name", params[0].data.query.first_name)
