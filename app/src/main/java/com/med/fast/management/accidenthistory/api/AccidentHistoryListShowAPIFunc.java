@@ -59,6 +59,8 @@ public class AccidentHistoryListShowAPIFunc extends AsyncTask<AccidentHistoryLis
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
+                    .add("keyword", params[0].data.query.keyword)
+                    .add("sort", params[0].data.query.sort)
                     .add("flag", params[0].data.query.flag)
                     .add("counter", params[0].data.query.counter)
                     .build();

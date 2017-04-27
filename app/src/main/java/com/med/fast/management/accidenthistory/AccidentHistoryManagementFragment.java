@@ -67,6 +67,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     private int lastItemCounter = 0;
     private String currentKeyword = "default";
     private String currentSort = "default";
+    private String userId = "18";
 
     @Nullable
     @Override
@@ -85,6 +86,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        refreshView();
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -98,7 +101,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
                     if (lastItemCounter > 10) {
                         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
-                        accidentHistoryListShowAPI.data.query.user_id = "18";
+                        accidentHistoryListShowAPI.data.query.user_id = userId;
                         accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
                         accidentHistoryListShowAPI.data.query.sort = currentSort;
                         accidentHistoryListShowAPI.data.query.counter = String.valueOf(counter);
@@ -112,6 +115,28 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 }
             }
         });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentKeyword = searchET.getText().toString();
+                refreshView();
+            }
+        });
+    }
+
+    public void refreshView(){
+        AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
+        accidentHistoryListShowAPI.data.query.user_id = userId;
+        accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
+        accidentHistoryListShowAPI.data.query.sort = currentSort;
+        accidentHistoryListShowAPI.data.query.counter = "0";
+        accidentHistoryListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
+
+        AccidentHistoryListShowAPIFunc accidentHistoryListShowAPIFunc = new AccidentHistoryListShowAPIFunc(getActivity());
+        accidentHistoryListShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
+        accidentHistoryListShowAPIFunc.execute(accidentHistoryListShowAPI);
+        isLoading = true;
     }
 
     @Override
@@ -134,7 +159,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
         if (this.isVisible()){
             AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
-            accidentHistoryListShowAPI.data.query.user_id = "18";
+            accidentHistoryListShowAPI.data.query.user_id = userId;
             accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
             accidentHistoryListShowAPI.data.query.sort = currentSort;
             accidentHistoryListShowAPI.data.query.counter = String.valueOf(counter);
