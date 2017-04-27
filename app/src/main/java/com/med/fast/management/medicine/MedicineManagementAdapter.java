@@ -10,7 +10,11 @@ import android.widget.ImageView;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.viewholders.InfiScrollProgressVH;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,40 +27,87 @@ import butterknife.BindView;
 
 public class MedicineManagementAdapter extends FastBaseRecyclerAdapter {
 
+    private final int PROGRESS = 0;
+    private final int MEDICINE = 1;
     private Context context;
     private List<MedicineManagementModel> mDataset = new ArrayList<>();
+    private boolean failLoad = false;
 
     public MedicineManagementAdapter(Context context){
         this.context = context;
     }
 
     public void addList(List<MedicineManagementModel> dataset){
-        this.mDataset.addAll(dataset);
-        notifyDataSetChanged();
+        for (MedicineManagementModel model :
+                dataset) {
+            this.mDataset.add(model);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
-    public void addSingle(MedicineManagementModel model){
-        this.mDataset.add(model);
+    public void addSingle(MedicineManagementModel accident){
+        this.mDataset.add(accident);
         notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void removeProgress(){
+        if (mDataset.size() > 0){
+            if (mDataset.get(mDataset.size() - 1) == null){
+                mDataset.remove(mDataset.size() - 1);
+                notifyItemRemoved(mDataset.size());
+            }
+        }
+    }
+
+    public void clearList(){
+        if (mDataset.size() > 0){
+            mDataset.clear();
+        }
+    }
+
+    public void setFailLoad(boolean failLoad) {
+        this.failLoad = failLoad;
+        notifyItemChanged(getItemCount() - 1);
+        if (!failLoad){
+            removeProgress();
+        }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View visitView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.management_medicine_item_card, parent, false);
-        return new MedicineManagementVH(visitView);
+        RecyclerView.ViewHolder viewHolder;
+        if (viewType == MEDICINE) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.management_medicine_item_card, parent, false);
+            viewHolder = new MedicineManagementVH(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.infiscroll_progress_layout, parent, false);
+            viewHolder = new InfiScrollProgressVH(view);
+        }
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MedicineManagementVH medicineManagementVH = (MedicineManagementVH)holder;
-
-        medicineManagementVH.medicineName.setText(mDataset.get(position).getMedicine_name());
-        medicineManagementVH.medicineForm.setText(mDataset.get(position).getMedicine_form());
-        medicineManagementVH.administrationMethod.setText(mDataset.get(position).getMedicine_administration_method());
-        medicineManagementVH.administrationDose.setText(mDataset.get(position).getMedicine_administration_dose());
-        medicineManagementVH.frequency.setText(mDataset.get(position).getMedicine_frequency());
-        medicineManagementVH.createdDate.setText(mDataset.get(position).getMedicine_created_date());
+        if (getItemViewType(position) == MEDICINE){
+            MedicineManagementVH medicineManagementVH = (MedicineManagementVH)holder;
+            medicineManagementVH.medicineName.setText(mDataset.get(position).getMedicine_name());
+            medicineManagementVH.medicineForm.setText(mDataset.get(position).getMedicine_form());
+            medicineManagementVH.administrationMethod.setText(mDataset.get(position).getMedicine_administration_method());
+            medicineManagementVH.administrationDose.setText(mDataset.get(position).getMedicine_administration_dose());
+            medicineManagementVH.frequency.setText(mDataset.get(position).getMedicine_frequency());
+            medicineManagementVH.createdDate.setText(mDataset.get(position).getMedicine_created_date());
+        } else {
+            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
+            infiScrollProgressVH.setFailLoad(failLoad);
+            infiScrollProgressVH.failTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new LoadMoreEvent());
+                }
+            });
+        }
     }
 
     @Override

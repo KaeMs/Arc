@@ -5,7 +5,7 @@ import com.med.fast.management.medicine.MedicineManagementModel;
 import java.util.List;
 
 /**
- * Created by website-development on 27-Apr-17.
+ * Created by kevindreyar on 27-Apr-17. FM
  */
 
 public class MedicineManagementListShowAPI {
@@ -22,6 +22,8 @@ public class MedicineManagementListShowAPI {
             public String user_id;
             public String keyword;
             public String sort;
+            public String counter;
+            public String flag;
         }
 
         public class Status

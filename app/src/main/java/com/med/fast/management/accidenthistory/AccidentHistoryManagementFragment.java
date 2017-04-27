@@ -68,8 +68,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "default";
-    private String currentSort = "default";
+    private String currentKeyword = "";
+    private String currentSort = "";
     private String userId = "18";
 
     @Nullable
@@ -102,6 +102,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 int visibleThreshold = 1;
 
+                // When threshold is reached, API call is made to get new items
+                // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
                     if (lastItemCounter > 10) {
                         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
@@ -295,12 +297,13 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     @Override
     public void onFinishAccidentHistoryShow(ResponseAPI responseAPI) {
         if (this.isVisible()){
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             if(responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 AccidentHistoryListShowAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryListShowAPI.class);
                 if (output.data.status.code.equals("200")) {
+                    // If refresh, clear adapter and reset the counter
                     accidentHistoryManagementAdapter.setFailLoad(false);
                     if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
                         accidentHistoryManagementAdapter.clearList();

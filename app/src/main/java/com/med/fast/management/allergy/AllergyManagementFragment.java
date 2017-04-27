@@ -24,7 +24,6 @@ import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
-import com.med.fast.adapters.AllergyAdapter;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -32,7 +31,6 @@ import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPIFunc;
-import com.med.fast.models.Allergy;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,6 +92,8 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 int visibleThreshold = 1;
 
+                // When threshold is reached, API call is made to get new items
+                // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
                     if (lastItemCounter > 10) {
                         AllergyManagementListShowAPI allergyManagementListShowAPI = new AllergyManagementListShowAPI();
@@ -231,13 +231,14 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     @Override
     public void onFinishAllergyManagementListShow(ResponseAPI responseAPI) {
         if (this.isVisible()){
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
             if(responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 AllergyManagementListShowAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementListShowAPI.class);
                 if (output.data.status.code.equals("200")) {
                     allergyManagementAdapter.setFailLoad(false);
+                    // If refresh, clear adapter and reset the counter
                     if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
                         allergyManagementAdapter.clearList();
                         counter = 0;

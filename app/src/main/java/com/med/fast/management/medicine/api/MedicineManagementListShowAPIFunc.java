@@ -1,4 +1,4 @@
-package com.med.fast.management.allergy.api;
+package com.med.fast.management.medicine.api;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.AllergyManagementListShowIntf;
+import com.med.fast.management.medicine.MedicineManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,20 +21,20 @@ import okhttp3.Response;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagementListShowAPI, Integer, ResponseAPI> {
-    private AllergyManagementListShowIntf delegate;
+public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagementListShowAPI, Integer, ResponseAPI> {
+    private MedicineManagementShowIntf delegate;
     private Activity activity;
 
-    public AllergyManagementListShowAPIFunc(Activity activity) {
+    public MedicineManagementListShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(AllergyManagementListShowIntf delegate) {
+    public void setDelegate(MedicineManagementShowIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(AllergyManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(MedicineManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";
@@ -92,7 +92,6 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
     @Override
     protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
         super.onPostExecute(registerSubmitAPIResult);
-        delegate.onFinishAllergyManagementListShow(registerSubmitAPIResult);
+        delegate.onFinishMedicineManagementShow(registerSubmitAPIResult);
     }
-
 }

@@ -67,6 +67,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter {
 
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
+        notifyItemChanged(getItemCount() - 1);
         if (!failLoad){
             removeProgress();
         }

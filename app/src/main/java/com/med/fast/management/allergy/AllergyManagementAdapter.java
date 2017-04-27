@@ -1,10 +1,7 @@
 package com.med.fast.management.allergy;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +13,6 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.management.visit.VisitImageAdapter;
-import com.med.fast.management.visit.VisitModel;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
@@ -75,6 +70,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
 
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
+        notifyItemChanged(getItemCount() - 1);
         if (!failLoad){
             removeProgress();
         }
