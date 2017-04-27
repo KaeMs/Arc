@@ -19,9 +19,6 @@ public abstract class FastBaseFragment extends Fragment {
     public void scrollToTop() {
     }
 
-    public void refreshView() {
-    }
-
     public void refreshView(boolean showProgress) {
     }
 
