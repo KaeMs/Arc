@@ -199,6 +199,7 @@
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
     <string name="error_server">Server error, please try again later</string>
+    <string name="error_infscroll">Failed to retrieve more data. Tap here to try again.</string>
 
     <!-- General -->
     <string name="ok">OK</string>

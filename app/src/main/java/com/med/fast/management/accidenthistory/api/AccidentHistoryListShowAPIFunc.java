@@ -1,4 +1,4 @@
-package com.med.fast.management.accidenthistory;
+package com.med.fast.management.accidenthistory.api;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -7,6 +7,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.management.accidenthistory.AccidentHistoryShowIntf;
+import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,11 +22,11 @@ import okhttp3.Response;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class AccidentHistoryShowAPIFunc extends AsyncTask<AccidentHistoryShowAPI, Integer, ResponseAPI> {
+public class AccidentHistoryListShowAPIFunc extends AsyncTask<AccidentHistoryListShowAPI, Integer, ResponseAPI> {
     private AccidentHistoryShowIntf delegate;
     private Activity activity;
 
-    public AccidentHistoryShowAPIFunc(Activity activity) {
+    public AccidentHistoryListShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
@@ -33,7 +35,7 @@ public class AccidentHistoryShowAPIFunc extends AsyncTask<AccidentHistoryShowAPI
     }
 
     @Override
-    protected ResponseAPI doInBackground(AccidentHistoryShowAPI... params) {
+    protected ResponseAPI doInBackground(AccidentHistoryListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";

@@ -86,4 +86,8 @@ public class MainActivity extends FastBaseActivity {
     public void changeTitle(String title){
         toolbarTitle.setText(title);
     }
+
+    public void forceLogout(){
+
+    }
 }

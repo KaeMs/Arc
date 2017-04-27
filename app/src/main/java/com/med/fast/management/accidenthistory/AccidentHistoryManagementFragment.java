@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,17 +18,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
+import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFunc;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,6 +65,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
+    private String currentKeyword = "default";
+    private String currentSort = "default";
 
     @Nullable
     @Override
@@ -88,19 +97,54 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
 
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
                     if (lastItemCounter > 10) {
-                        AccidentHistoryShowAPI accidentHistoryShowAPI = new AccidentHistoryShowAPI();
-                        accidentHistoryShowAPI.data.query.user_id = "18";
-                        accidentHistoryShowAPI.data.query.counter = String.valueOf(counter);
-                        accidentHistoryShowAPI.data.query.flag = Constants.FLAG_LOAD;
+                        AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
+                        accidentHistoryListShowAPI.data.query.user_id = "18";
+                        accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
+                        accidentHistoryListShowAPI.data.query.sort = currentSort;
+                        accidentHistoryListShowAPI.data.query.counter = String.valueOf(counter);
+                        accidentHistoryListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 
-                        AccidentHistoryShowAPIFunc accidentHistoryShowAPIFunc = new AccidentHistoryShowAPIFunc(getActivity());
-                        accidentHistoryShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
-                        accidentHistoryShowAPIFunc.execute(accidentHistoryShowAPI);
+                        AccidentHistoryListShowAPIFunc accidentHistoryListShowAPIFunc = new AccidentHistoryListShowAPIFunc(getActivity());
+                        accidentHistoryListShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
+                        accidentHistoryListShowAPIFunc.execute(accidentHistoryListShowAPI);
                         isLoading = true;
                     }
                 }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
+        if (this.isVisible()){
+            AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
+            accidentHistoryListShowAPI.data.query.user_id = "18";
+            accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
+            accidentHistoryListShowAPI.data.query.sort = currentSort;
+            accidentHistoryListShowAPI.data.query.counter = String.valueOf(counter);
+            accidentHistoryListShowAPI.data.query.flag = Constants.FLAG_LOAD;
+
+            AccidentHistoryListShowAPIFunc accidentHistoryListShowAPIFunc = new AccidentHistoryListShowAPIFunc(getActivity());
+            accidentHistoryListShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
+            accidentHistoryListShowAPIFunc.execute(accidentHistoryListShowAPI);
+            isLoading = true;
+        }
     }
 
     @Override
@@ -215,5 +259,35 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     @Override
     public void onFinishAccidentHistoryShow(ResponseAPI responseAPI) {
 
+        if(responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            AccidentHistoryListShowAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryListShowAPI.class);
+            if (output.data.status.code.equals("200")) {
+                accidentHistoryManagementAdapter.setFailLoad(false);
+                if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
+                    accidentHistoryManagementAdapter.clearList();
+                    counter = 0;
+                }
+                accidentHistoryManagementAdapter.addList(output.data.results.accident_list);
+                lastItemCounter = output.data.results.accident_list.size();
+                counter += output.data.results.accident_list.size();
+
+                if (lastItemCounter > 0){
+                    accidentHistoryManagementAdapter.addSingle(null);
+                }
+            } else {
+                accidentHistoryManagementAdapter.setFailLoad(true);
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            accidentHistoryManagementAdapter.setFailLoad(true);
+            Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            ((MainActivity)getActivity()).forceLogout();
+        } else {
+            accidentHistoryManagementAdapter.setFailLoad(true);
+            Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 }
