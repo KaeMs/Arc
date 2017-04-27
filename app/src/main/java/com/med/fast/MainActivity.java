@@ -31,8 +31,8 @@ public class MainActivity extends FastBaseActivity {
     DrawerLayout dashboardDrawer;
     @BindView(R.id.fmcontainer_frame)
     FrameLayout dashboardFrame;
-    @BindView(R.id.fmcontainer_fab)
-    FloatingActionButton dashboardFab;
+    /*@BindView(R.id.fmcontainer_fab)
+    FloatingActionButton dashboardFab;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,14 +42,14 @@ public class MainActivity extends FastBaseActivity {
         fragmentManager = getSupportFragmentManager();
         drawerFragment = (DrawerFragment) fragmentManager.findFragmentById(R.id.dashboard_drawerfrag);
 
-        dashboardFab.setOnClickListener(new View.OnClickListener() {
+        /*dashboardFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentFragment() instanceof VisitFragment){
                     ((VisitFragment) currentFragment()).addNewVisit();
                 }
             }
-        });
+        });*/
     }
 
     public void replaceFragment(final Fragment fragment, final String tag, boolean addToBackstack){
