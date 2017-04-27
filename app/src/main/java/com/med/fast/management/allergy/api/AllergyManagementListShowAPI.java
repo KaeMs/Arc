@@ -23,6 +23,8 @@ public class AllergyManagementListShowAPI {
             public String keyword;
             public String sort;
             public String type;
+            public String flag;
+            public String counter;
         }
 
         public class Status

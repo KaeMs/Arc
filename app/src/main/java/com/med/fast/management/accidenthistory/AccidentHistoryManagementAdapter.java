@@ -38,8 +38,11 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter {
     }
 
     public void addList(List<AccidentHistoryManagementModel> dataset){
-        this.mDataset.addAll(dataset);
-        notifyDataSetChanged();
+        for (AccidentHistoryManagementModel model :
+                dataset) {
+            this.mDataset.add(model);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
     public void addSingle(AccidentHistoryManagementModel accident){
