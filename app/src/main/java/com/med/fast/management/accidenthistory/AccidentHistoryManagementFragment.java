@@ -5,7 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +26,7 @@ import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
@@ -41,14 +45,19 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class AccidentHistoryManagementFragment extends FastBaseFragment {
+public class AccidentHistoryManagementFragment extends FastBaseFragment implements AccidentHistoryShowIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
     ImageView searchBtn;
+    @BindView(R.id.management_mainfragment_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_recycler)
     RecyclerView recyclerView;
     private AccidentHistoryManagementAdapter accidentHistoryManagementAdapter;
+    private boolean isLoading = false;
+    private int counter = 0;
+    private int lastItemCounter = 0;
 
     @Nullable
     @Override
@@ -63,6 +72,35 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment {
         setHasOptionsMenu(true);
 
         accidentHistoryManagementAdapter = new AccidentHistoryManagementAdapter(getActivity());
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                int visibleThreshold = 1;
+
+                if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
+                    if (lastItemCounter > 10) {
+                        AccidentHistoryShowAPI accidentHistoryShowAPI = new AccidentHistoryShowAPI();
+                        accidentHistoryShowAPI.data.query.user_id = "18";
+                        accidentHistoryShowAPI.data.query.counter = String.valueOf(counter);
+                        accidentHistoryShowAPI.data.query.flag = Constants.FLAG_LOAD;
+
+                        AccidentHistoryShowAPIFunc accidentHistoryShowAPIFunc = new AccidentHistoryShowAPIFunc(getActivity());
+                        accidentHistoryShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
+                        accidentHistoryShowAPIFunc.execute(accidentHistoryShowAPI);
+                        isLoading = true;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -172,5 +210,10 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment {
                 dialog.show();
             }
         });
+    }
+
+    @Override
+    public void onFinishAccidentHistoryShow(ResponseAPI responseAPI) {
+
     }
 }

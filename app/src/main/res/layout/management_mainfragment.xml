@@ -36,13 +36,20 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/management_mainfragment_recycler"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/management_mainfragment_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="15dp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/management_mainfragment_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
