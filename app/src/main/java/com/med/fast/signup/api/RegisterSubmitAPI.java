@@ -4,7 +4,7 @@ package com.med.fast.signup.api;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-class RegisterSubmitAPI
+public class RegisterSubmitAPI
 {
     public Data data;
 

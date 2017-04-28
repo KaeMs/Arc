@@ -29,6 +29,9 @@ import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementFragmentIntf;
+import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPI;
+import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPIFunc;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPIFunc;
 
@@ -43,7 +46,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/23/2017. FM
  */
 
-public class AllergyManagementFragment extends FastBaseFragment implements AllergyManagementListShowIntf {
+public class AllergyManagementFragment extends FastBaseFragment implements AllergyManagementFragmentIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -211,14 +214,30 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                     @Override
                     public void onClick(View v) {
                         if (mAwesomeValidation.validate()) {
-                            AllergyManagementModel allergy = new AllergyManagementModel();
-                            allergy.setAgent(causative.getText().toString());
-                            allergy.setDrug(drugTypeYes.isChecked() ? "yes" : "no");
-                            allergy.setReaction(reaction.getText().toString());
-                            allergy.setFirst_experience(firstExp.getText().toString());
-                            allergy.setProgress_status("1");
+                            String causativeString = causative.getText().toString();
+                            String drugTypeString = drugTypeYes.isChecked() ? "yes" : "no";
+                            String reactionString = reaction.getText().toString();
+                            String firstExpString = firstExp.getText().toString();
 
+                            AllergyManagementModel allergy = new AllergyManagementModel();
+                            allergy.setAgent(causativeString);
+                            allergy.setDrug(drugTypeString);
+                            allergy.setReaction(reactionString);
+                            allergy.setFirst_experience(firstExpString);
+                            allergy.setProgress_status("1");
                             allergyManagementAdapter.addSingle(allergy);
+
+                            AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
+                            allergyManagementCreateSubmitAPI.data.query.user_id = userId;
+                            allergyManagementCreateSubmitAPI.data.query.allergy_agent = causativeString;
+                            allergyManagementCreateSubmitAPI.data.query.allergy_is_drug = drugTypeString;
+                            allergyManagementCreateSubmitAPI.data.query.allergy_reaction = reactionString;
+                            allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = firstExpString;
+
+                            AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(getActivity());
+                            allergyManagementCreateSubmitAPIFunc.setDelegate(AllergyManagementFragment.this);
+                            allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
+
                             dialog.dismiss();
                         }
                     }
@@ -229,7 +248,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     }
 
     @Override
-    public void onFinishAllergyManagementListShow(ResponseAPI responseAPI) {
+    public void onFinishAllergyManagementShow(ResponseAPI responseAPI) {
         if (this.isVisible()){
             progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
@@ -262,6 +281,30 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 ((MainActivity)getActivity()).forceLogout();
             } else {
                 allergyManagementAdapter.setFailLoad(true);
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onFinishAllergyManagementCreateSubmit(ResponseAPI responseAPI) {
+        if (this.isVisible()){
+            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            if(responseAPI.status_code == 200) {
+                Gson gson = new Gson();
+                AllergyManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementCreateSubmitAPI.class);
+                if (output.data.status.code.equals("200")) {
+                    allergyManagementAdapter.updateItem(output.data.results.allergyManagementModel);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+                }
+            } else if(responseAPI.status_code == 504) {
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            } else if(responseAPI.status_code == 401 ||
+                    responseAPI.status_code == 505) {
+                ((MainActivity)getActivity()).forceLogout();
+            } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         }

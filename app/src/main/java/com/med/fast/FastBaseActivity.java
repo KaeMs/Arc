@@ -15,7 +15,8 @@ public abstract class FastBaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
-    public void replaceFragment(Fragment fragment, String tag, boolean addToBackstack) {}
+    public void replaceFragment(Fragment fragment, String tag, boolean addToBackstack) {
+    }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -34,4 +35,6 @@ public abstract class FastBaseActivity extends AppCompatActivity {
         super.onDestroy();
         unbinder.unbind();
     }
+
+    public void forceLogout() {}
 }

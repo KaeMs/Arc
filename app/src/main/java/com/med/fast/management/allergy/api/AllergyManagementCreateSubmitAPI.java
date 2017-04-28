@@ -1,5 +1,7 @@
 package com.med.fast.management.allergy.api;
 
+import com.med.fast.management.allergy.AllergyManagementModel;
+
 /**
  * Created by kevindreyar on 27-Apr-17.
  */
@@ -17,7 +19,7 @@ public class AllergyManagementCreateSubmitAPI {
         {
             public String user_id;
             public String allergy_agent;
-            public boolean allergy_is_drug;
+            public String allergy_is_drug;
             public String allergy_reaction;
             public String allergy_first_experience;
         }
@@ -32,6 +34,7 @@ public class AllergyManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
+            public AllergyManagementModel allergyManagementModel;
         }
     }
 }

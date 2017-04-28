@@ -10,130 +10,145 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     app:contentPadding="15dp">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <TableLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" >
+            android:orientation="vertical">
 
-            <!-- Accident Details -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/full_accident_details"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_accident_item_accident_details"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/full_accident_details_placeholder"/>
-
-            </TableRow>
-
-            <!-- Injury Nature -->
-            <TableRow
-                android:layout_width="0dp"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                android:stretchColumns="*" >
 
-                <com.med.fast.customviews.CustomFontTextView
+                <!-- Accident Details -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/full_accident_details"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_accident_item_accident_details"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/full_accident_details_placeholder"/>
+
+                </TableRow>
+
+                <!-- Injury Nature -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/injury_nature"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_accident_item_injury_nature"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/injury_nature"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_accident_item_injury_nature"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/injury_nature_placeholder"/>
+
+                </TableRow>
+
+                <!-- Injury Location -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/injury_nature_placeholder"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/injury_location"/>
 
-            <!-- Injury Location -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_accident_item_injury_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/injury_location_placeholder"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- Injury Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/injury_location"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_accident_item_injury_location"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/accident_date"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_accident_item_injury_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
+
+                </TableRow>
+
+                <!-- Created Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/injury_location_placeholder"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/created_date"/>
 
-            <!-- Injury Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_accident_item_injury_created_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/accident_date"/>
+                </TableRow>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_accident_item_injury_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
+            </TableLayout>
 
-            </TableRow>
+            <include layout="@layout/management_operation_editdelete_buttons"/>
 
-            <!-- Created Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+        </LinearLayout>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/created_date"/>
+        <ProgressBar
+            android:id="@+id/management_accident_item_card_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentRight="true"
+            android:indeterminateDrawable="@drawable/progressbar_tosca"/>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_accident_item_injury_created_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
+    </RelativeLayout>
 
-            </TableRow>
-
-        </TableLayout>
-
-        <include layout="@layout/management_operation_editdelete_buttons"/>
-
-    </LinearLayout>
     
 </android.support.v7.widget.CardView>

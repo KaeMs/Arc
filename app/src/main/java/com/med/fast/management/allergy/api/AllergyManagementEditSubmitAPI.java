@@ -18,7 +18,7 @@ public class AllergyManagementEditSubmitAPI {
             public String user_id;
             public String allergy_id;
             public String allergy_agent;
-            public boolean allergy_is_drug;
+            public String allergy_is_drug;
             public String allergy_reaction;
             public String allergy_first_experience;
         }

@@ -5,12 +5,21 @@ package com.med.fast.management.allergy;
  */
 
 public class AllergyManagementModel {
+    private String allergy_id;
     private String agent;
     private String drug;
     private String reaction;
     private String first_experience;
     private String created_date;
     private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
+
+    public String getAllergy_id() {
+        return allergy_id;
+    }
+
+    public void setAllergy_id(String allergy_id) {
+        this.allergy_id = allergy_id;
+    }
 
     public String getAgent() {
         return agent;

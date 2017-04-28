@@ -8,13 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementDeleteIntf;
+import com.med.fast.management.allergy.api.AllergyManagementDeleteAPI;
+import com.med.fast.management.allergy.api.AllergyManagementDeleteAPIFunc;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +38,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
+public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements AllergyManagementDeleteIntf {
 
     private final int PROGRESS = 0;
     private final int ALLERGY = 1;
@@ -75,6 +83,19 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
         notifyItemChanged(getItemCount() - 1);
         if (!failLoad){
             removeProgress();
+        }
+    }
+
+    public void updateItem(AllergyManagementModel item){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (mDataset.get(i).getAgent().equals(item.getAgent()) &&
+                    mDataset.get(i).getDrug().equals(item.getDrug()) &&
+                    mDataset.get(i).getReaction().equals(item.getReaction()) &&
+                    mDataset.get(i).getFirst_experience().equals(item.getFirst_experience()) &&
+                    mDataset.get(i).getProgress_status().equals("1")){
+                mDataset.set(i, item);
+                break;
+            }
         }
     }
 
@@ -124,6 +145,14 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
                 public void onClick(View v) {
                     mDataset.get(holder.getAdapterPosition()).setProgress_status("2");
                     notifyItemChanged(holder.getAdapterPosition());
+
+                    AllergyManagementDeleteAPI allergyManagementDeleteAPI = new AllergyManagementDeleteAPI();
+                    allergyManagementDeleteAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
+                    allergyManagementDeleteAPI.data.query.allergy_id = mDataset.get(holder.getAdapterPosition()).getAllergy_id();
+
+                    AllergyManagementDeleteAPIFunc allergyManagementDeleteAPIFunc = new AllergyManagementDeleteAPIFunc(context);
+                    allergyManagementDeleteAPIFunc.setDelegate(AllergyManagementAdapter.this);
+                    allergyManagementDeleteAPIFunc.execute(allergyManagementDeleteAPI);
                 }
             });
 
@@ -142,6 +171,29 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    @Override
+    public void onFinishAllergyManagementDelete(ResponseAPI responseAPI) {
+        if(responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            AllergyManagementDeleteAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementDeleteAPI.class);
+            if (output.data.status.code.equals("200")) {
+                /*for (AllergyManagementModel item :
+                        mDataset) {
+                    if ()
+                }*/
+            } else {
+                Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            ((FastBaseActivity)context).forceLogout();
+        } else {
+            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 
     static class AllergyManagementVH extends FastBaseViewHolder {

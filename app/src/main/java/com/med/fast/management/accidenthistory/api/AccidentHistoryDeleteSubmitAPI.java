@@ -17,8 +17,6 @@ public class AccidentHistoryDeleteSubmitAPI {
         {
             public String user_id;
             public String accident_id;
-            public String counter;
-            public String flag;
         }
 
         public class Status

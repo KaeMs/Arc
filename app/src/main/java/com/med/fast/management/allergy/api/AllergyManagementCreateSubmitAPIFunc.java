@@ -21,11 +21,11 @@ import okhttp3.Response;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagementListShowAPI, Integer, ResponseAPI> {
+public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManagementCreateSubmitAPI, Integer, ResponseAPI> {
     private AllergyManagementFragmentIntf delegate;
     private Activity activity;
 
-    public AllergyManagementListShowAPIFunc(Activity activity) {
+    public AllergyManagementCreateSubmitAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
@@ -34,7 +34,7 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
     }
 
     @Override
-    protected ResponseAPI doInBackground(AllergyManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(AllergyManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";
@@ -58,10 +58,10 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("keyword", params[0].data.query.keyword)
-                    .add("sort", params[0].data.query.sort)
-                    .add("flag", params[0].data.query.flag)
-                    .add("counter", params[0].data.query.counter)
+                    .add("allergy_agent", params[0].data.query.allergy_agent)
+                    .add("allergy_is_drug", params[0].data.query.allergy_is_drug)
+                    .add("allergy_reaction", params[0].data.query.allergy_reaction)
+                    .add("allergy_first_experience", params[0].data.query.allergy_first_experience)
                     .build();
 
             Request request = new Request.Builder()
@@ -92,7 +92,7 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishAllergyManagementShow(responseAPI);
+        delegate.onFinishAllergyManagementCreateSubmit(responseAPI);
     }
 
 }
