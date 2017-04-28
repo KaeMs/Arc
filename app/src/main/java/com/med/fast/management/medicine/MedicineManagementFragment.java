@@ -286,7 +286,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                         }
                     }
                 });
-                dialog.show();
+                /*dialog.show();*/
             }
         });
     }
