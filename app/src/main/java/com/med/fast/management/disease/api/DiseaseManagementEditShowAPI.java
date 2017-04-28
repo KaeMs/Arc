@@ -20,6 +20,8 @@ public class DiseaseManagementEditShowAPI {
         {
             public String disease_id;
             public String user_id;
+            public String counter;
+            public String flag;
         }
 
         public class Status

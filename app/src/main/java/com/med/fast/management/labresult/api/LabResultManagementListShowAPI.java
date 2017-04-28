@@ -22,6 +22,8 @@ public class LabResultManagementListShowAPI {
             public String user_id;
             public String keyword;
             public String sort;
+            public String flag;
+            public String counter;
         }
 
         public class Status

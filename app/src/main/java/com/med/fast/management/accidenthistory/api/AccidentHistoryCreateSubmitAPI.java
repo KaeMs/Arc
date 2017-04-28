@@ -22,6 +22,8 @@ public class AccidentHistoryCreateSubmitAPI {
             public String injury_date ;
             public String injury_date_tmp ;
             public String injury_date_custom ;
+            public String counter;
+            public String flag;
         }
 
         public class Status
