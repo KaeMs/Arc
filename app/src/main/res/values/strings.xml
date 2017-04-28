@@ -36,8 +36,11 @@
     <string name="add_allergy">Add New Allergy</string>
     <string name="step_2_disease">STEP 2 - DISEASE</string>
     <string name="step_3_medication">STEP 3 - MEDICATION</string>
+    <string name="step_4_miscellaneous">STEP 4 - MISCELLANEOUS</string>
     <string name="skip_to_summary">Skip to Summary</string>
+    <string name="previous">Previous</string>
     <string name="next">Next</string>
+    <string name="step">Step</string>
     <!-- Allergy -->
     <string name="agent">Agent</string>
     <string name="placeholder_agent">Agent Placeholder</string>
@@ -125,7 +128,7 @@
     <string name="medication_reason_hint">Reason for medication being prescribed, where known.</string>
     <string name="medication_reason_placeholder">For ma body</string>
     <string name="medication_status">Medication Status - Optional</string>
-    <string name="medication_status_hint">Started, stopped, suspended or reinstated with record date for each change in status</string>
+    <string name="medication_status_hint">Started, stopped, suspended or reinstated with record date for each change in progress_status</string>
     <string name="medication_status_placeholder">Started, but sometimes not started</string>
     <string name="additional_instruction">Additional Instruction - Optional</string>
     <string name="additional_instruction_hint">Requirements for adherence support or additional information about specific medicines</string>

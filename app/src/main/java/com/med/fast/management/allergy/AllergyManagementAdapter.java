@@ -1,11 +1,13 @@
 package com.med.fast.management.allergy;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.med.fast.Constants;
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -97,7 +99,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == ALLERGY){
             AllergyManagementVH allergyManagementVH = (AllergyManagementVH)holder;
             allergyManagementVH.agent.setText(mDataset.get(position).getAgent());
@@ -106,6 +108,25 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
             allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.dateFormatSlash, Locale.getDefault());
             allergyManagementVH.date.setText(simpleDateFormat.format(mDataset.get(position).getCreated_date()));
+
+            if (mDataset.get(position).getProgress_status().equals("1")){
+                allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+            } else if (mDataset.get(position).getProgress_status().equals("2")){
+                allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+            } else {
+                allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
+            }
+
+            allergyManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDataset.get(holder.getAdapterPosition()).setProgress_status("2");
+                    notifyItemChanged(holder.getAdapterPosition());
+                }
+            });
+
         } else {
             InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
             infiScrollProgressVH.setFailLoad(failLoad);
@@ -125,6 +146,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
 
     static class AllergyManagementVH extends FastBaseViewHolder {
 
+        @BindView(R.id.allergy_item_card_progress)
+        ProgressBar statusProgressBar;
         @BindView(R.id.allergy_item_card_agent)
         CustomFontTextView agent;
         @BindView(R.id.allergy_item_card_drug)
@@ -139,7 +162,6 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter {
         ImageView editBtn;
         @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
-
 
         public AllergyManagementVH(View view) {
             super(view);

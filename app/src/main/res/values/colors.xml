@@ -5,7 +5,10 @@
     <!-- FF4081 -->
     <color name="colorAccent">#1fb5ac</color>
 
-    <color name="white">#ffffffff </color>
+    <item name="transparent" type="color">#00ffffff</item>
+    <color name="white">#ffffffff</color>
+    <color name="whiteOpa60">#99ffffff</color>
+    <color name="whiteOpa20">#33ffffff</color>
     <color name="grey">#bdbdbd</color>
     <color name="greyOpa80">#ccbdbdbd</color>
     <color name="greyOpa60">#99bdbdbd</color>

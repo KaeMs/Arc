@@ -67,7 +67,8 @@
         android:layout_height="@dimen/btnMediumHeight"
         android:layout_marginLeft="15dp"
         android:background="@drawable/button_toscalight_tosca"
-        android:text="@string/add_allergy"/>
+        android:text="@string/add_allergy"
+        android:textColor="@color/white" />
 
     <include
         layout="@layout/initialdata_btn"

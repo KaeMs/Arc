@@ -10,177 +10,192 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     app:contentPadding="15dp">
-    
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*" >
-
-            <!-- Medicine Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/medicine_name"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_medicine_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/medicine_name_placeholder"/>
-
-            </TableRow>
-
-            <!-- Medicine Form -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/medicine_form"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_medicine_form"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/medicine_form_placeholder"/>
-
-            </TableRow>
-
-            <!-- Method of Administration -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/medicine_administration_method"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_administration_method"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/medicine_administration_method_placeholder"/>
-
-            </TableRow>
-
-            <!-- Administration Dose -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/medicine_administration_dose"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_administration_dose"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/medicine_administration_dose_placeholder"/>
-
-            </TableRow>
-
-            <!-- Medicine Frequency -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/medicine_frequency"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_frequency"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/medicine_frequency_placeholder"/>
-
-            </TableRow>
-
-            <!-- Created Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/created_date"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_medicine_item_created_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
-
-            </TableRow>
-
-        </TableLayout>
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="end"
-            android:gravity="end">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/allergy_item_card_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:background="@drawable/button_edit_selector"
-                android:layout_marginRight="10dp"
-                android:text="@string/cancel"
-                android:textColor="@color/black" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" >
 
-            <ImageView
-                android:id="@+id/allergy_item_card_delete"
+                <!-- Medicine Name -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/medicine_name"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_medicine_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/medicine_name_placeholder"/>
+
+                </TableRow>
+
+                <!-- Medicine Form -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/medicine_form"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_medicine_form"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/medicine_form_placeholder"/>
+
+                </TableRow>
+
+                <!-- Method of Administration -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/medicine_administration_method"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_administration_method"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/medicine_administration_method_placeholder"/>
+
+                </TableRow>
+
+                <!-- Administration Dose -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/medicine_administration_dose"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_administration_dose"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/medicine_administration_dose_placeholder"/>
+
+                </TableRow>
+
+                <!-- Medicine Frequency -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/medicine_frequency"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_frequency"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/medicine_frequency_placeholder"/>
+
+                </TableRow>
+
+                <!-- Created Date -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/created_date"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_medicine_item_created_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:text="@string/add"
-                android:background="@drawable/button_delete_selector"
-                android:textColor="@color/textcolor_white_to_tosca"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="end"
+                android:gravity="end">
+
+                <ImageView
+                    android:id="@+id/allergy_item_card_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:background="@drawable/button_edit_selector"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/allergy_item_card_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:text="@string/add"
+                    android:background="@drawable/button_delete_selector"
+                    android:textColor="@color/textcolor_white_to_tosca"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/management_medicine_item_card_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentRight="true"
+            android:indeterminateDrawable="@drawable/progressbar_tosca"/>
+
+    </RelativeLayout>
+
     
 </android.support.v7.widget.CardView>

@@ -1,11 +1,13 @@
 package com.med.fast.management.medicine;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -89,7 +91,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == MEDICINE){
             MedicineManagementVH medicineManagementVH = (MedicineManagementVH)holder;
             medicineManagementVH.medicineName.setText(mDataset.get(position).getMedicine_name());
@@ -98,6 +100,25 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter {
             medicineManagementVH.administrationDose.setText(mDataset.get(position).getMedicine_administration_dose());
             medicineManagementVH.frequency.setText(mDataset.get(position).getMedicine_frequency());
             medicineManagementVH.createdDate.setText(mDataset.get(position).getMedicine_created_date());
+
+            if (mDataset.get(position).getProgress_status().equals("1")){
+                medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+            } else if (mDataset.get(position).getProgress_status().equals("2")){
+                medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+            } else {
+                medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
+            }
+
+            medicineManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDataset.get(holder.getAdapterPosition()).setProgress_status("2");
+                    notifyItemChanged(holder.getAdapterPosition());
+                }
+            });
+            
         } else {
             InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
             infiScrollProgressVH.setFailLoad(failLoad);
@@ -117,6 +138,8 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter {
 
     static class MedicineManagementVH extends FastBaseViewHolder {
 
+        @BindView(R.id.management_medicine_item_card_progress)
+        ProgressBar statusProgressBar;
         @BindView(R.id.management_medicine_item_medicine_name)
         CustomFontTextView medicineName;
         @BindView(R.id.management_medicine_item_medicine_form)

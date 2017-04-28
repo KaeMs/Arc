@@ -216,6 +216,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                             allergy.setDrug(drugTypeYes.isChecked() ? "yes" : "no");
                             allergy.setReaction(reaction.getText().toString());
                             allergy.setFirst_experience(firstExp.getText().toString());
+                            allergy.setProgress_status("1");
 
                             allergyManagementAdapter.addSingle(allergy);
                             dialog.dismiss();
@@ -225,7 +226,6 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 dialog.show();
             }
         });
-
     }
 
     @Override

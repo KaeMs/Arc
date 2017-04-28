@@ -9,7 +9,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * Created by Kevin Murvie on 4/6/2017.
+ * Created by Kevin Murvie on 4/6/2017. FM
  */
 
 public abstract class FastBaseFragment extends Fragment {
@@ -21,6 +21,8 @@ public abstract class FastBaseFragment extends Fragment {
 
     public void refreshView(boolean showProgress) {
     }
+
+    public void addItem() {}
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

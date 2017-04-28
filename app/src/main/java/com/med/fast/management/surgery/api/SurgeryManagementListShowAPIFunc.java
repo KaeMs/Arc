@@ -1,4 +1,4 @@
-package com.med.fast.management.medicine.api;
+package com.med.fast.management.surgery.api;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.medicine.MedicineManagementShowIntf;
+import com.med.fast.management.surgery.SurgeryManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,20 +22,20 @@ import okhttp3.Response;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagementListShowAPI, Integer, ResponseAPI> {
-    private MedicineManagementShowIntf delegate;
+public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagementListShowAPI, Integer, ResponseAPI> {
+    private SurgeryManagementShowIntf delegate;
     private Context context;
 
-    public MedicineManagementListShowAPIFunc(Activity context) {
+    public SurgeryManagementListShowAPIFunc(Activity context) {
         this.context = context;
     }
 
-    public void setDelegate(MedicineManagementShowIntf delegate) {
+    public void setDelegate(SurgeryManagementShowIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(MedicineManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(SurgeryManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";
@@ -93,6 +93,6 @@ public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagem
     @Override
     protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
         super.onPostExecute(registerSubmitAPIResult);
-        delegate.onFinishMedicineManagementShow(registerSubmitAPIResult);
+        delegate.onFinishSurgeryManagementShow(registerSubmitAPIResult);
     }
 }

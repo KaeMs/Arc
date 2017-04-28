@@ -5,7 +5,7 @@ import com.med.fast.management.surgery.SurgeryManagementModel;
 import java.util.List;
 
 /**
- * Created by kevindreyar on 27-Apr-17.
+ * Created by kevindreyar on 27-Apr-17. FM
  */
 
 public class SurgeryManagementListShowAPI {
@@ -22,6 +22,8 @@ public class SurgeryManagementListShowAPI {
             public String user_id;
             public String keyword;
             public String sort;
+            public String counter;
+            public String flag;
         }
 
         public class Status

@@ -10,6 +10,7 @@ public class AllergyManagementModel {
     private String reaction;
     private String first_experience;
     private String created_date;
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
 
     public String getAgent() {
         return agent;
@@ -49,5 +50,13 @@ public class AllergyManagementModel {
 
     public void setCreated_date(String created_date) {
         this.created_date = created_date;
+    }
+
+    public String getProgress_status() {
+        return progress_status;
+    }
+
+    public void setProgress_status(String progress_status) {
+        this.progress_status = progress_status;
     }
 }

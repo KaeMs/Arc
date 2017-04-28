@@ -10,132 +10,146 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     app:contentPadding="15dp">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <TableLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" >
+            android:orientation="vertical">
 
-            <!-- Agent -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/agent"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_agent"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_agent"/>
-
-            </TableRow>
-
-            <!-- Drug Allergy -->
-            <TableRow
-                android:layout_width="0dp"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                android:stretchColumns="*" >
 
-                <com.med.fast.customviews.CustomFontTextView
+                <!-- Agent -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/agent"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/allergy_item_card_agent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_agent"/>
+
+                </TableRow>
+
+                <!-- Drug Allergy -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/drug_allergy"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_drug"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/drug_allergy"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/allergy_item_card_drug"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_drug_allergy"
+                        style="@style/OneLineEllipsizeEndTV"/>
+
+                </TableRow>
+
+                <!-- Reaction -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_drug_allergy"
-                    style="@style/OneLineEllipsizeEndTV"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/reaction"/>
 
-            <!-- Reaction -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/allergy_item_card_reaction"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_reaction"
+                        style="@style/OneLineEllipsizeEndTV"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- First Experience -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/reaction"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_reaction"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/first_time_experience"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/allergy_item_card_first_experience"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_first_time_experience"/>
+
+                </TableRow>
+
+                <!-- Created Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_reaction"
-                    style="@style/OneLineEllipsizeEndTV"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/created_date"/>
 
-            <!-- First Experience -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/allergy_item_card_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/first_time_experience"/>
+                </TableRow>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_first_experience"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_first_time_experience"/>
+            </TableLayout>
 
-            </TableRow>
+            <include layout="@layout/management_operation_editdelete_buttons"/>
 
-            <!-- Created Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+        </LinearLayout>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/created_date"/>
+        <ProgressBar
+            android:id="@+id/allergy_item_card_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentRight="true"
+            android:indeterminateDrawable="@drawable/progressbar_tosca"/>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/allergy_item_card_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
+    </RelativeLayout>
 
-            </TableRow>
-
-        </TableLayout>
-
-        <include layout="@layout/management_operation_editdelete_buttons"/>
-
-    </LinearLayout>
-    
 </android.support.v7.widget.CardView>

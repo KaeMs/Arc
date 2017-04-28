@@ -10,7 +10,11 @@ import android.widget.ImageView;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.viewholders.InfiScrollProgressVH;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,38 +27,91 @@ import butterknife.BindView;
 
 public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter {
 
+    private final int PROGRESS = 0;
+    private final int SURGERY = 1;
     private Context context;
     private List<SurgeryManagementModel> mDataset = new ArrayList<>();
+    private boolean failLoad = false;
 
     public SurgeryManagementAdapter(Context context){
         this.context = context;
     }
 
+
     public void addList(List<SurgeryManagementModel> dataset){
-        this.mDataset.addAll(dataset);
-        notifyDataSetChanged();
+        for (SurgeryManagementModel model :
+                dataset) {
+            this.mDataset.add(model);
+            notifyItemInserted(getItemCount() - 1);
+        }
     }
 
-    public void addSingle(SurgeryManagementModel model){
-        this.mDataset.add(model);
+    public void addSingle(SurgeryManagementModel accident){
+        this.mDataset.add(accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void removeProgress(){
+        if (mDataset.size() > 0){
+            if (mDataset.get(mDataset.size() - 1) == null){
+                mDataset.remove(mDataset.size() - 1);
+                notifyItemRemoved(mDataset.size());
+            }
+        }
+    }
+
+    public void clearList(){
+        if (mDataset.size() > 0){
+            mDataset.clear();
+        }
+    }
+
+    public void setFailLoad(boolean failLoad) {
+        this.failLoad = failLoad;
+        notifyItemChanged(getItemCount() - 1);
+        if (!failLoad){
+            removeProgress();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mDataset.get(position) != null ? SURGERY : PROGRESS;
+    }
+    
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View visitView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.management_surgery_item_card, parent, false);
-        return new SurgeryManagementVH(visitView);
+        RecyclerView.ViewHolder viewHolder;
+        if (viewType == SURGERY) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.management_allergy_item_card, parent, false);
+            viewHolder = new SurgeryManagementVH(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.infiscroll_progress_layout, parent, false);
+            viewHolder = new InfiScrollProgressVH(view);
+        }
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SurgeryManagementVH surgeryManagementVH = (SurgeryManagementVH)holder;
-
-        surgeryManagementVH.surgeryDate.setText(mDataset.get(position).getSurgery_date());
-        surgeryManagementVH.surgeryProcedure.setText(mDataset.get(position).getSurgery_procedure());
-        surgeryManagementVH.physicianName.setText(mDataset.get(position).getSurgery_physician_name());
-        surgeryManagementVH.hospitalName.setText(mDataset.get(position).getSurgery_hospital_name());
+        if (getItemViewType(position) == SURGERY) {
+            SurgeryManagementVH surgeryManagementVH = (SurgeryManagementVH)holder;
+            surgeryManagementVH.surgeryDate.setText(mDataset.get(position).getSurgery_date());
+            surgeryManagementVH.surgeryProcedure.setText(mDataset.get(position).getSurgery_procedure());
+            surgeryManagementVH.physicianName.setText(mDataset.get(position).getSurgery_physician_name());
+            surgeryManagementVH.hospitalName.setText(mDataset.get(position).getSurgery_hospital_name());
+        } else {
+            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
+            infiScrollProgressVH.setFailLoad(failLoad);
+            infiScrollProgressVH.failTxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EventBus.getDefault().post(new LoadMoreEvent());
+                }
+            });
+        }
     }
 
     @Override

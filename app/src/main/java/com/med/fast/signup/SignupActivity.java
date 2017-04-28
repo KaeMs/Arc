@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Patterns;
 import android.view.View;
@@ -20,6 +19,8 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.signup.api.RegisterSubmitAPI;
+import com.med.fast.signup.api.RegisterSubmitAPIFunc;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,6 @@ import java.util.Locale;
 import butterknife.BindView;
 
 import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin on 4/10/2017. F

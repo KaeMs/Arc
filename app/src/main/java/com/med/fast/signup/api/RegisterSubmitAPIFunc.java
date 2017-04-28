@@ -1,4 +1,4 @@
-package com.med.fast.signup;
+package com.med.fast.signup.api;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -7,6 +7,7 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.signup.RegisterSubmitAPIIntf;
 
 import java.util.concurrent.TimeUnit;
 

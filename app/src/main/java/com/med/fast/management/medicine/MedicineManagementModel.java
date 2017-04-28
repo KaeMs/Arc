@@ -14,6 +14,7 @@ public class MedicineManagementModel {
     private String medicine_medication_status;
     private String medicine_additional_instruction;
     private String medicine_created_date;
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
 
     public String getMedicine_name() {
         return medicine_name;
@@ -85,5 +86,13 @@ public class MedicineManagementModel {
 
     public void setMedicine_created_date(String medicine_created_date) {
         this.medicine_created_date = medicine_created_date;
+    }
+
+    public String getProgress_status() {
+        return progress_status;
+    }
+
+    public void setProgress_status(String progress_status) {
+        this.progress_status = progress_status;
     }
 }

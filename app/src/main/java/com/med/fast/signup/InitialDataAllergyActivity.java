@@ -7,17 +7,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.MainActivity;
 import com.med.fast.R;
-import com.med.fast.adapters.AllergyAdapter;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.models.Allergy;
+import com.med.fast.management.allergy.AllergyManagementAdapter;
+import com.med.fast.management.allergy.AllergyManagementModel;
 
 import butterknife.BindView;
 
@@ -33,29 +35,35 @@ public class InitialDataAllergyActivity extends FastBaseActivity {
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
+    // Step Indicator
+    @BindView(R.id.initialdata_step_imgview)
+    ImageView step;
+
     // RecyclerView
-    @BindView(R.id.initialdata_allergy_recyclerview)
+    @BindView(R.id.initialdata_recycler)
     RecyclerView recyclerView;
 
     // Btns
-    @BindView(R.id.initialdata_btn_cftextview)
-    CustomFontTextView skipBtn;
-    @BindView(R.id.initialdata_allergy_add_btn)
+    @BindView(R.id.initialdata_add_btn)
     CustomFontButton addBtn;
+    @BindView(R.id.initialdata_skip_btn)
+    CustomFontTextView skipBtn;
+    @BindView(R.id.initialdata_next_btn)
+    CustomFontTextView nextBtn;
 
-    private AllergyAdapter allergyAdapter;
+    private AllergyManagementAdapter allergyManagementAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.initialdata_allergy_activity);
+        setContentView(R.layout.activity_initialdata_mainlayout);
 
         toolbarTitle.setText(getString(R.string.step_1_allergy));
 
-        allergyAdapter = new AllergyAdapter(this);
+        allergyManagementAdapter = new AllergyManagementAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(allergyAdapter);
+        recyclerView.setAdapter(allergyManagementAdapter);
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,13 +94,14 @@ public class InitialDataAllergyActivity extends FastBaseActivity {
                     @Override
                     public void onClick(View v) {
                         if (mAwesomeValidation.validate()) {
-                            Allergy allergy = new Allergy();
-                            allergy.allergy_causative = causative.getText().toString();
-                            allergy.allergy_drug = drugTypeYes.isChecked() ? "yes" : "no";
-                            allergy.allergy_reaction = reaction.getText().toString();
-                            allergy.allergy_first_experience = firstExp.getText().toString();
+                            AllergyManagementModel allergy = new AllergyManagementModel();
+                            allergy.setAgent(causative.getText().toString());
+                            allergy.setDrug(drugTypeYes.isChecked() ? "yes" : "no");
+                            allergy.setReaction(reaction.getText().toString());
+                            allergy.setFirst_experience(firstExp.getText().toString());
+                            allergy.setProgress_status("1");
 
-                            allergyAdapter.addSingle(allergy);
+                            allergyManagementAdapter.addSingle(allergy);
                             dialog.dismiss();
                         }
                     }
@@ -104,7 +113,15 @@ public class InitialDataAllergyActivity extends FastBaseActivity {
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InitialDataAllergyActivity.this, InitialDataAllergyActivity.class);
+                Intent intent = new Intent(InitialDataAllergyActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InitialDataAllergyActivity.this, InitialDataDiseaseActivity.class);
                 startActivity(intent);
             }
         });
