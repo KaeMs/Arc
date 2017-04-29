@@ -215,6 +215,12 @@
     <string name="description">Description</string>
     <string name="lab_test_delete_confirmation">Are you sure you want to delete this lab result?</string>
 
+    <!-- Misc -->
+    <string name="voluptuary_habit">Voluptuary Habit</string>
+    <string name="misc_voluptuary_question">Do you have any voluptuary habit?</string>
+    <string name="misc_voluptuary_hint">Habits such as smoking, drinking alcohol, drugs, etc.</string>
+    <string name="misc_voluptuary_placeholder">Smoking alcohol, drinking smoke</string>
+
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
     <string name="error_server">Server error, please try again later</string>
@@ -231,6 +237,7 @@
     <string name="and">And</string>
     <string name="create">Create</string>
     <string name="back">Back</string>
+    <string name="save">Save</string>
     <string name="sign_dash">-</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>

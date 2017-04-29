@@ -7,7 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.med.fast.management.accidenthistory.AccidentHistoryManagementFragment;
+import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryFragmentIntf;
+import com.med.fast.management.allergy.AllergyManagementFragment;
+import com.med.fast.management.disease.DiseaseManagementFragment;
+import com.med.fast.management.labresult.LabResultManagementFragment;
+import com.med.fast.management.medicine.MedicineManagementFragment;
+import com.med.fast.management.surgery.SurgeryManagementFragment;
 import com.med.fast.management.visit.VisitFragment;
+import com.med.fast.summary.SummaryFragment;
 
 import butterknife.BindView;
 
@@ -48,12 +56,93 @@ public class DrawerFragment extends FastBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        summaryWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                SummaryFragment summaryFragment = new SummaryFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, false);
+            }
+        });
+
+        idcardWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                SummaryFragment summaryFragment = new SummaryFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.IDCARD_FRAG, false);
+            }
+        });
+
         visitWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MainActivity)getActivity()).drawerToggle();
                 VisitFragment visitFragment = new VisitFragment();
                 ((FastBaseActivity)getActivity()).replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
+            }
+        });
+
+        surgeryWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                SurgeryManagementFragment surgeryManagementFragment = new SurgeryManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(surgeryManagementFragment, Tag.SURGERY_FRAG, false);
+            }
+        });
+
+        allergyWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                AllergyManagementFragment allergyManagementFragment = new AllergyManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, false);
+            }
+        });
+
+        diseaseWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                DiseaseManagementFragment diseaseManagementFragment = new DiseaseManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, false);
+            }
+        });
+
+        medicineWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                MedicineManagementFragment medicineManagementFragment = new MedicineManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, false);
+            }
+        });
+
+        accidentWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                AccidentHistoryManagementFragment accidentHistoryManagementFragment = new AccidentHistoryManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.ACCIDENT_FRAG, false);
+            }
+        });
+
+        labresultWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                LabResultManagementFragment accidentHistoryManagementFragment = new LabResultManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.LABRESULT_FRAG, false);
+            }
+        });
+
+        miscWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).drawerToggle();
+                LabResultManagementFragment accidentHistoryManagementFragment = new LabResultManagementFragment();
+                ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.MISC_FRAG, false);
             }
         });
     }

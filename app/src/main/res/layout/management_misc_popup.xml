@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="RtlHardcoded"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/default_activity_content_padding">
+
+    <!-- Injury Nature -->
+    <com.med.fast.customviews.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/misc_voluptuary_question"
+        android:textColor="@color/blackDark" />
+
+    <com.med.fast.customviews.CustomFontEditText
+        android:id="@+id/misc_popup_voluptuary_habit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_edittext_grey_selector"
+        android:hint="@string/misc_voluptuary_hint"
+        android:gravity="start"
+        android:textSize="@dimen/font_small" />
+
+    <include layout="@layout/management_operation_gravitystart_buttons"/>
+
+</LinearLayout>
