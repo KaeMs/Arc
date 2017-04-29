@@ -179,6 +179,65 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     }
 
     @Override
+    public void addItem() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.allergy_popup);
+        dialog.setCanceledOnTouchOutside(false);
+
+        final CustomFontEditText causative = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_causative_et);
+        final CustomFontRadioButton drugTypeYes = (CustomFontRadioButton) dialog.findViewById(R.id.allergy_popup_drugtype_rb_yes);
+        final CustomFontEditText reaction = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_reaction_et);
+        final CustomFontEditText firstExp = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_firsttime_et);
+        CustomFontButton cancelBtn = (CustomFontButton) dialog.findViewById(R.id.allergy_popup_cancel_btn);
+        CustomFontButton addBtn = (CustomFontButton) dialog.findViewById(R.id.allergy_popup_add_btn);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
+        mAwesomeValidation.setContext(getActivity());
+        mAwesomeValidation.addValidation(causative, RegexTemplate.NOT_EMPTY, getString(R.string.causative_agent_empty));
+        mAwesomeValidation.addValidation(reaction, RegexTemplate.NOT_EMPTY, getString(R.string.reaction_empty));
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAwesomeValidation.validate()) {
+                    String causativeString = causative.getText().toString();
+                    String drugTypeString = drugTypeYes.isChecked() ? "yes" : "no";
+                    String reactionString = reaction.getText().toString();
+                    String firstExpString = firstExp.getText().toString();
+
+                    AllergyManagementModel allergy = new AllergyManagementModel();
+                    allergy.setAgent(causativeString);
+                    allergy.setDrug(drugTypeString);
+                    allergy.setReaction(reactionString);
+                    allergy.setFirst_experience(firstExpString);
+                    allergy.setProgress_status("1");
+                    allergyManagementAdapter.addSingle(allergy);
+
+                    AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
+                    allergyManagementCreateSubmitAPI.data.query.user_id = userId;
+                    allergyManagementCreateSubmitAPI.data.query.allergy_agent = causativeString;
+                    allergyManagementCreateSubmitAPI.data.query.allergy_is_drug = drugTypeString;
+                    allergyManagementCreateSubmitAPI.data.query.allergy_reaction = reactionString;
+                    allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = firstExpString;
+
+                    AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(getActivity());
+                    allergyManagementCreateSubmitAPIFunc.setDelegate(AllergyManagementFragment.this);
+                    allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
+
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();

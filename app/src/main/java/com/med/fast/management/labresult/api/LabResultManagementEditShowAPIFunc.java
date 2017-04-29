@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditShowIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +22,7 @@ import okhttp3.Response;
  */
 
 public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManagementEditShowAPI, Integer, ResponseAPI> {
-    private LabResultManagementEditShowIntf delegate;
+    private LabResultManagementEditIntf delegate;
     private Activity activity;
 
     @Override
@@ -31,7 +31,7 @@ public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManag
         delegate.onFinishLabResultManagementEditShow(responseAPI);
     }
 
-    public void setDelegate(LabResultManagementEditShowIntf delegate) {
+    public void setDelegate(LabResultManagementEditIntf delegate) {
         this.delegate = delegate;
     }
 

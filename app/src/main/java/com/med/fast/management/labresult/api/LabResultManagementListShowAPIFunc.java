@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementListShowIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,18 +18,18 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class LabResultManagementListShowAPIFunc extends AsyncTask<LabResultManagementListShowAPI, Integer, ResponseAPI> {
-    private LabResultManagementListShowIntf delegate;
+    private LabResultManagementFragmentIntf delegate;
     private Activity activity;
 
     public LabResultManagementListShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(LabResultManagementListShowIntf delegate) {
+    public void setDelegate(LabResultManagementFragmentIntf delegate) {
         this.delegate = delegate;
     }
 

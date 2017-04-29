@@ -10,196 +10,207 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     app:contentPadding="15dp">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <TableLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" >
+            android:orientation="vertical">
 
-            <!-- Disease Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/disease_name"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/disease_name_placeholder"/>
-
-            </TableRow>
-
-            <!-- Hereditary -->
-            <TableRow
-                android:layout_width="0dp"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                android:stretchColumns="*" >
 
-                <com.med.fast.customviews.CustomFontTextView
+                <!-- Disease Name -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/disease_name"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/disease_name_placeholder"/>
+
+                </TableRow>
+
+                <!-- Hereditary -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/disease_hereditary"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_hereditary"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/disease_hereditary"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_hereditary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/no"/>
+
+                </TableRow>
+
+                <!-- Carrier -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/no"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/disease_hereditary_carriers"/>
 
-            <!-- Carrier -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_hereditary_carriers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/disease_hereditary_carriers_placeholder"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- Ongoing -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/disease_hereditary_carriers"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_hereditary_carriers"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/ongoing"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_ongoing"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/no"/>
+
+                </TableRow>
+
+                <!-- Last Visit -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/disease_hereditary_carriers_placeholder"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/last_visit"/>
 
-            <!-- Ongoing -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_injury_date_last_visit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- History Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/ongoing"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_ongoing"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/historic_date"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_injury_date_historic"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
+
+                </TableRow>
+
+                <!-- Approximate Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/no"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/approximate_date"/>
 
-            <!-- Last Visit -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_injury_date_approximate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- Created Date -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/last_visit"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_injury_date_last_visit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/created_date"/>
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_disease_item_injury_created_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
 
-            <!-- History Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                </TableRow>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/historic_date"/>
+            </TableLayout>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_injury_date_historic"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
+            <include layout="@layout/management_operation_editdelete_buttons"/>
 
-            </TableRow>
+        </LinearLayout>
 
-            <!-- Approximate Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+        <include layout="@layout/management_status_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/approximate_date"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_injury_date_approximate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
-
-            </TableRow>
-
-            <!-- Created Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/created_date"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_disease_item_injury_created_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
-
-            </TableRow>
-
-        </TableLayout>
-
-        <include layout="@layout/management_operation_editdelete_buttons"/>
-
-    </LinearLayout>
+    </RelativeLayout>
     
 </android.support.v7.widget.CardView>

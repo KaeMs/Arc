@@ -7,8 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPIFunc;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,14 +18,14 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class LabResultManagementCreateAPIFunc extends AsyncTask<LabResultManagementCreateSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementCreateIntf delegate;
+    private LabResultManagementFragmentIntf delegate;
     private Activity activity;
 
-    public void setDelegate(LabResultManagementCreateIntf delegate) {
+    public void setDelegate(LabResultManagementFragmentIntf delegate) {
         this.delegate = delegate;
     }
     @Override

@@ -1,7 +1,7 @@
 package com.med.fast.management.accidenthistory.api;
 
 /**
- * Created by kevindreyar on 27-Apr-17.
+ * Created by kevindreyar on 27-Apr-17. FM
  */
 
 public class AccidentHistoryEditSubmitAPI {
@@ -23,8 +23,6 @@ public class AccidentHistoryEditSubmitAPI {
             public String injury_date;
             public String injury_date_tmp;
             public String injury_date_custom;
-            public String counter;
-            public String flag;
         }
 
         public class Status

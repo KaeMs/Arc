@@ -7,8 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.accidenthistory.AccidentHistoryShowIntf;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
+import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryFragmentIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,14 +22,14 @@ import okhttp3.Response;
  */
 
 public class AccidentHistoryListShowAPIFunc extends AsyncTask<AccidentHistoryListShowAPI, Integer, ResponseAPI> {
-    private AccidentHistoryShowIntf delegate;
+    private AccidentHistoryFragmentIntf delegate;
     private Activity activity;
 
     public AccidentHistoryListShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(AccidentHistoryShowIntf delegate) {
+    public void setDelegate(AccidentHistoryFragmentIntf delegate) {
         this.delegate = delegate;
     }
 

@@ -28,14 +28,9 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.management.accidenthistory.AccidentHistoryManagementFragment;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFunc;
-import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
-import com.med.fast.management.disease.api.DiseaseManagementListShowAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPI;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPIFunc;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementListShowIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,7 +49,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class LabResultManagementFragment extends FastBaseFragment implements LabResultManagementListShowIntf {
+public class LabResultManagementFragment extends FastBaseFragment implements LabResultManagementFragmentIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -291,6 +286,11 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
 
     @Override
     public void onFinishLabResultManagementListShow(ResponseAPI responseAPI) {
+
+    }
+
+    @Override
+    public void onFinishLabResultManagementCreate(ResponseAPI responseAPI) {
 
     }
 }

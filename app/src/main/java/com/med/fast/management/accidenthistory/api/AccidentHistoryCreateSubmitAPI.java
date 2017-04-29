@@ -1,5 +1,7 @@
 package com.med.fast.management.accidenthistory.api;
 
+import com.med.fast.management.accidenthistory.AccidentHistoryManagementModel;
+
 /**
  * Created by kevindreyar on 27-Apr-17.
  */
@@ -22,8 +24,6 @@ public class AccidentHistoryCreateSubmitAPI {
             public String injury_date ;
             public String injury_date_tmp ;
             public String injury_date_custom ;
-            public String counter;
-            public String flag;
         }
 
         public class Status
@@ -36,6 +36,7 @@ public class AccidentHistoryCreateSubmitAPI {
         {
             public String result_status ;
             public String description ;
+            public AccidentHistoryManagementModel accidentHistoryManagementModel;
         }
     }
 }

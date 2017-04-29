@@ -36,6 +36,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter {
     private boolean failLoad = false;
 
     public MedicineManagementAdapter(Context context){
+        super(true);
         this.context = context;
     }
 

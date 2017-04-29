@@ -11,4 +11,5 @@ public class APIConstants {
     public static final int readTimeout = 30;
     public static final String MODE_EDIT = "read";
     public static final String MODE_DELETE = "delete";
+    public static final String DEFAULT = "default";
 }

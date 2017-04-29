@@ -142,13 +142,10 @@
 
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/allergy_item_card_progress"
+        <include layout="@layout/management_status_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_alignParentRight="true"
-            android:indeterminateDrawable="@drawable/progressbar_tosca"/>
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 

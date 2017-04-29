@@ -1,11 +1,13 @@
 package com.med.fast.management.disease;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.med.fast.Constants;
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -30,20 +32,19 @@ import butterknife.BindView;
 
 public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
 
-    private Context context;
-    private List<DiseaseManagementModel> mDataset = new ArrayList<>();
     private final int PROGRESS = 0;
     private final int DISEASE = 1;
+    private Context context;
+    private List<DiseaseManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
+    private String deletionId = "";
 
     public DiseaseManagementAdapter(Context context){
+        super(true);
         this.context = context;
     }
 
     public void addList(List<DiseaseManagementModel> dataset){
-        //this.mDataset.addAll(dataset);
-        //notifyDataSetChanged();
-
         for (DiseaseManagementModel model :
                 dataset) {
             this.mDataset.add(model);
@@ -71,11 +72,6 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return mDataset.get(position) != null ? DISEASE : PROGRESS;
-    }
-
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
         notifyItemChanged(getItemCount() - 1);
@@ -84,12 +80,25 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
         }
     }
 
+    public void updateItem(DiseaseManagementModel item){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (mDataset.get(i).getDisease_name().equals(item.getDisease_name()) &&
+                    mDataset.get(i).getDisease_hereditary_carriers().equals(item.getDisease_hereditary_carriers()) &&
+                    mDataset.get(i).getProgress_status().equals("1")){
+                item.setProgress_status("0");
+                mDataset.set(i, item);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mDataset.get(position) != null ? DISEASE : PROGRESS;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View visitView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.management_disease_item_card, parent, false);
-//        return new DiseaseManagementVH(visitView);
-
         RecyclerView.ViewHolder viewHolder;
         if (viewType == DISEASE) {
             View view = LayoutInflater.from(parent.getContext())
@@ -104,7 +113,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == DISEASE){
             DiseaseManagementVH diseaseManagementVH = (DiseaseManagementVH)holder;
             diseaseManagementVH.name.setText(mDataset.get(position).getDisease_name());
@@ -115,6 +124,25 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
             diseaseManagementVH.historicDate.setText(mDataset.get(position).getDate_historic());
             diseaseManagementVH.approximateDate.setText(mDataset.get(position).getDate_approximate());
             diseaseManagementVH.createdDate.setText(mDataset.get(position).getDate_created());
+
+            if (mDataset.get(position).getProgress_status().equals("1")){
+                diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+            } else if (mDataset.get(position).getProgress_status().equals("2")){
+                diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+            } else {
+                diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
+            }
+
+            diseaseManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deletionId = mDataset.get(holder.getAdapterPosition()).getDisease_name();
+                    createDeleteDialog(context, context.getString(R.string.disease_delete_confirmation));
+                }
+            });
+
         } else {
             InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
             infiScrollProgressVH.setFailLoad(failLoad);
@@ -134,6 +162,8 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter {
 
     static class DiseaseManagementVH extends FastBaseViewHolder {
 
+        @BindView(R.id.management_status_progress_progressbar)
+        ProgressBar statusProgressBar;
         @BindView(R.id.management_disease_item_name)
         CustomFontTextView name;
         @BindView(R.id.management_disease_item_hereditary)

@@ -22,6 +22,10 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     private final int ALLERGY = 5;
     private final int HABITS = 6;
 
+    public SummaryAdapter() {
+        super(false);
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (position == 0) return PROFILE;
@@ -89,6 +93,6 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 7;
     }
 }

@@ -11,7 +11,7 @@ public class AccidentHistoryManagementModel {
     private String injury_location;
     private String injury_date;
     private String created_date;
-    private String progress_status;
+    private String progress_status = "0";
 
     public String getCreated_date() {
         return created_date;

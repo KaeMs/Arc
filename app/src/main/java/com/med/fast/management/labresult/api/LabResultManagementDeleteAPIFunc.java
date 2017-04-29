@@ -8,7 +8,6 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditShowIntf;
 
 import java.util.concurrent.TimeUnit;
 

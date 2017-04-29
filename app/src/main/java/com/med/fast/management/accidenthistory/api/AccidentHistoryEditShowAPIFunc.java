@@ -1,13 +1,16 @@
-package com.med.fast.management.labresult.api;
+package com.med.fast.management.accidenthistory.api;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
+import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryEditIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,22 +21,35 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultManagementEditSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementEditIntf delegate;
-    private Activity activity;
+public class AccidentHistoryEditShowAPIFunc extends AsyncTask<AccidentHistoryEditShowAPI, Integer, ResponseAPI> {
+    private AccidentHistoryEditIntf delegate;
+    private Context context;
+    private ProgressDialog progressDialog;
 
-    public LabResultManagementEditSubmitAPIFunc(Activity activity) {
-        this.activity = activity;
+    public AccidentHistoryEditShowAPIFunc(Context context) {
+        this.context = context;
     }
 
-    public void setDelegate(LabResultManagementEditIntf delegate) {
+    public void setDelegate(AccidentHistoryEditIntf delegate) {
         this.delegate = delegate;
     }
+
     @Override
-    protected ResponseAPI doInBackground(LabResultManagementEditSubmitAPI... params) {
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Getting information from server...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    @Override
+    protected ResponseAPI doInBackground(AccidentHistoryEditShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";
@@ -45,25 +61,19 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("test_name", params[0].data.query.test_name)
-                    .add("lab_result_id", params[0].data.query.lab_result_id)
-                    .add("desc_result", params[0].data.query.desc_result)
-                    .add("img_path", params[0].data.query.img_path)
-                    .add("date", params[0].data.query.date)
-                    .add("place", params[0].data.query.place)
-                    .add("list_img_uploadeds", params[0].data.query.list_img_uploadeds)
+                    .add("accident_id", params[0].data.query.accident_id)
                     .build();
 
             Request request = new Request.Builder()
@@ -81,19 +91,19 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
             } else {
                 responseAPI.status_response = response.message();
             }
-
             response.body().close();
         } catch (Exception ex) {
             responseAPI.status_code = 504;
             responseAPI.status_response = "Koneksi Bermasalah";
         }
-
         return responseAPI;
     }
 
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishLabResultManagementEditSubmit(responseAPI);
+        delegate.onFinishAccidentHistoryEditShow(responseAPI);
+        progressDialog.dismiss();
     }
+
 }

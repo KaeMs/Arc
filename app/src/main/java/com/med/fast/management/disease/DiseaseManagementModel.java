@@ -13,6 +13,7 @@ public class DiseaseManagementModel {
     private String date_historic;
     private String date_approximate;
     private String date_created;
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
 
     public String getDisease_name() {
         return disease_name;
@@ -76,5 +77,13 @@ public class DiseaseManagementModel {
 
     public void setDate_created(String date_created) {
         this.date_created = date_created;
+    }
+
+    public String getProgress_status() {
+        return progress_status;
+    }
+
+    public void setProgress_status(String progress_status) {
+        this.progress_status = progress_status;
     }
 }

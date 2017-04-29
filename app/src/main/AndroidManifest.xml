@@ -23,6 +23,9 @@
             android:theme="@style/AppTheme.InitialData"
             android:exported="true"/>
         <context android:name=".MainActivity" />
+
+        <activity android:name=".management.accidenthistory.AccidentEditActivity" />
+        <activity android:name=".management.allergy.AllergyEditActivity" />
     </application>
 
 </manifest>

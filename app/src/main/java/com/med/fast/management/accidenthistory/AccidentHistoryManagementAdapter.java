@@ -17,14 +17,17 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryDeleteIntf;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPIFunc;
+import com.med.fast.management.allergy.AllergyManagementModel;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +45,12 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     private Context context;
     private List<AccidentHistoryManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
+    private String deletionId = "";
 
     public AccidentHistoryManagementAdapter(Context context){
+        super(true);
         this.context = context;
+//        EventBus.getDefault().register(this);
     }
 
     public void addList(List<AccidentHistoryManagementModel> dataset){
@@ -80,6 +86,20 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         notifyItemChanged(getItemCount() - 1);
         if (!failLoad){
             removeProgress();
+        }
+    }
+
+    public void updateItem(AccidentHistoryManagementModel item){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (mDataset.get(i).getAccident_id().equals(item.getAccident_id()) &&
+                    mDataset.get(i).getDetail().equals(item.getDetail()) &&
+                    mDataset.get(i).getInjury_date().equals(item.getInjury_date()) &&
+                    mDataset.get(i).getInjury_location().equals(item.getInjury_location()) &&
+                    mDataset.get(i).getProgress_status().equals("1")){
+                item.setProgress_status("0");
+                mDataset.set(i, item);
+                break;
+            }
         }
     }
 
@@ -126,16 +146,8 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             accidentManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mDataset.get(holder.getAdapterPosition()).setProgress_status("2");
-                    notifyItemChanged(holder.getAdapterPosition());
-
-                    AccidentHistoryDeleteSubmitAPI accidentHistoryDeleteSubmitAPI = new AccidentHistoryDeleteSubmitAPI();
-                    accidentHistoryDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                    accidentHistoryDeleteSubmitAPI.data.query.accident_id = mDataset.get(holder.getAdapterPosition()).getAccident_id();
-
-                    AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context);
-                    accidentHistoryDeleteSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
-                    accidentHistoryDeleteSubmitAPIFunc.execute(accidentHistoryDeleteSubmitAPI);
+                    deletionId = mDataset.get(holder.getAdapterPosition()).getAccident_id();
+                    createDeleteDialog(context, context.getString(R.string.accident_delete_confirmation));
                 }
             });
             
@@ -151,6 +163,25 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         }
     }
 
+    @Subscribe
+    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent){
+        for (int i = 0; i < getItemCount(); i++){
+            if (deletionId.equals(mDataset.get(i).getAccident_id())){
+                mDataset.get(i).setProgress_status("2");
+                notifyItemChanged(i);
+
+                AccidentHistoryDeleteSubmitAPI accidentHistoryDeleteSubmitAPI = new AccidentHistoryDeleteSubmitAPI();
+                accidentHistoryDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
+                accidentHistoryDeleteSubmitAPI.data.query.accident_id = mDataset.get(i).getAccident_id();
+
+                AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context);
+                accidentHistoryDeleteSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
+                accidentHistoryDeleteSubmitAPIFunc.execute(accidentHistoryDeleteSubmitAPI);
+                break;
+            }
+        }
+    }
+
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -162,10 +193,12 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             Gson gson = new Gson();
             AccidentHistoryDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
-                /*for (AllergyManagementModel item :
-                        mDataset) {
-                    if ()
-                }*/
+                for (int i = 0; i < getItemCount(); i++) {
+                    if (output.data.query.accident_id.equals(mDataset.get(i).getAccident_id())) {
+                        mDataset.remove(i);
+                        notifyItemRemoved(i);
+                    }
+                }
             } else {
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
@@ -178,6 +211,12 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
+
+/*    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        EventBus.getDefault().unregister(this);
+    }*/
 
     static class AccidentManagementVH extends FastBaseViewHolder {
 
