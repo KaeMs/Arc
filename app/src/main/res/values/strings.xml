@@ -84,11 +84,11 @@
     <string name="image_upload">Upload Image</string>
     <string name="image_change">Change Image</string>
     <string name="image_delete">Delete Image</string>
-    <string name="visit_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="visit_delete_confirmation">Are you sure you want to delete this visit?</string>
 
     <!-- Allergy -->
     <string name="created_date">Created Date</string>
-    <string name="allergy_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="allergy_delete_confirmation">Are you sure you want to delete this allergy record?</string>
 
     <!-- Disease -->
     <string name="disease_name">Disease name</string>
@@ -107,7 +107,7 @@
     <string name="last_visit">Last Visit</string>
     <string name="historic_date">Historic date</string>
     <string name="approximate_date">Approximate Date</string>
-    <string name="disease_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="disease_delete_confirmation">Are you sure you want to delete this disease record?</string>
 
     <!-- Medicine -->
     <string name="medicine_name">Medicine Name</string>
@@ -136,7 +136,7 @@
     <string name="additional_instruction">Additional Instruction - Optional</string>
     <string name="additional_instruction_hint">Requirements for adherence support or additional information about specific medicines</string>
     <string name="additional_instruction_placeholder">Sometimes nebuliser runs out of battery</string>
-    <string name="medicine_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="medicine_delete_confirmation">Are you sure you want to delete this medicine record?</string>
 
     <!-- Surgery -->
     <string name="surgery_procedure">Surgery Procedure</string>
@@ -156,7 +156,7 @@
     <string name="surgery_note">Surgery Note</string>
     <string name="surgery_note_hint">Notes for surgery</string>
     <string name="surgery_note_placeholder">Need sleep</string>
-    <string name="surgery_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="surgery_delete_confirmation">Are you sure you want to delete this surgery record?</string>
 
     <!-- Accident -->
     <string name="full_accident_details">Full Accident/Incident Details</string>
@@ -181,7 +181,7 @@
         <item>>5 Years Ago</item>
         <item>Other</item>
     </string-array>
-    <string name="accident_delete_confirmation">Are you sure you want to delete this lab result?</string>
+    <string name="accident_delete_confirmation">Are you sure you want to delete this accident record?</string>
 
     <!-- Lab Result -->
     <string name="lab_test_type_question">What was the type of test?</string>
