@@ -33,6 +33,10 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
         this.enableEventbus = enableEventbus;
     }
 
+    public FastBaseRecyclerAdapter (){
+        this.enableEventbus = false;
+    }
+
     public void createDeleteDialog(Context context, String title){
         new AlertDialog.Builder(context)
                 .setTitle(title)
