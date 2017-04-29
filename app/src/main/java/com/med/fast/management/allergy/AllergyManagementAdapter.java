@@ -1,6 +1,7 @@
 package com.med.fast.management.allergy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +13,19 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.accidenthistory.AccidentEditActivity;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementDeleteIntf;
 import com.med.fast.management.allergy.api.AllergyManagementDeleteAPI;
 import com.med.fast.management.allergy.api.AllergyManagementDeleteAPIFunc;
@@ -48,10 +53,17 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     private List<AllergyManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
     private String deletionId = "";
+    private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
 
     public AllergyManagementAdapter(Context context){
         super(true);
         this.context = context;
+    }
+
+    public AllergyManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+        super(true);
+        this.context = context;
+        this.startActivityForResultInAdapterIntf = intf;
     }
 
     public void addList(List<AllergyManagementModel> dataset){
@@ -144,6 +156,15 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             } else {
                 allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
+
+            allergyManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AccidentEditActivity.class);
+                    intent.putExtra(ConstantsManagement.ALLERGY_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getAllergy_id());
+                    startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ACCIDENT_EDIT);
+                }
+            });
 
             allergyManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

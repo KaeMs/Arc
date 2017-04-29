@@ -1,8 +1,10 @@
 package com.med.fast.management.accidenthistory;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -25,9 +27,12 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -55,7 +60,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class AccidentHistoryManagementFragment extends FastBaseFragment implements AccidentHistoryFragmentIntf {
+public class AccidentHistoryManagementFragment extends FastBaseFragment implements AccidentHistoryFragmentIntf, StartActivityForResultInAdapterIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -84,9 +89,9 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).changeTitle("ACCIDENT MANAGEMENT");
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
-        accidentHistoryManagementAdapter = new AccidentHistoryManagementAdapter(getActivity());
+        accidentHistoryManagementAdapter = new AccidentHistoryManagementAdapter(getActivity(), this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -188,6 +193,19 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.ACCIDENT_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                AccidentHistoryManagementModel accidentHistoryManagementModel =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.ACCIDENT_MODEL_EXTRA), AccidentHistoryManagementModel.class);
+                accidentHistoryManagementAdapter.updateItem(accidentHistoryManagementModel);
+            }
+        }
+    }
+
+    @Override
     public void addItem() {
         final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.management_accident_popup);
@@ -285,7 +303,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         });
     }
 
-    @Override
+/*    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
@@ -393,7 +411,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 dialog.show();
             }
         });
-    }
+    }*/
 
     @Override
     public void onFinishAccidentHistoryShow(ResponseAPI responseAPI) {
@@ -456,5 +474,10 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onStartActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 }

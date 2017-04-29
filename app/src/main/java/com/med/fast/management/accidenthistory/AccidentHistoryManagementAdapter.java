@@ -1,6 +1,7 @@
 package com.med.fast.management.accidenthistory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -23,6 +27,7 @@ import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryDeleteIntf;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPIFunc;
+import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.allergy.AllergyManagementModel;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
@@ -46,11 +51,17 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     private List<AccidentHistoryManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
     private String deletionId = "";
+    private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
 
     public AccidentHistoryManagementAdapter(Context context){
         super(true);
         this.context = context;
-//        EventBus.getDefault().register(this);
+    }
+
+    public AccidentHistoryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+        super(true);
+        this.context = context;
+        this.startActivityForResultInAdapterIntf = intf;
     }
 
     public void addList(List<AccidentHistoryManagementModel> dataset){
@@ -142,6 +153,15 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             } else {
                 accidentManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
+
+            accidentManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AllergyEditActivity.class);
+                    intent.putExtra(ConstantsManagement.ACCIDENT_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getAccident_id());
+                    startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ACCIDENT_EDIT);
+                }
+            });
 
             accidentManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

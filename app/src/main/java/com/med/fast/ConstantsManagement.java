@@ -6,10 +6,10 @@ package com.med.fast;
 
 public class ConstantsManagement {
     // Accident
-    public static final String EXTRA_ACCIDENT_ID = "accident_id";
-    public static final String EXTRA_ACCIDENT_MODEL = "accident_model";
+    public static final String ACCIDENT_ID_EXTRA = "accident_id";
+    public static final String ACCIDENT_MODEL_EXTRA = "accident_model";
 
     // Allergy
-    public static final String EXTRA_ALLERGY_ID = "allergy_id";
-    public static final String EXTRA_ALLERGY_MODEL = "allergy_model";
+    public static final String ALLERGY_ID_EXTRA = "allergy_id";
+    public static final String ALLERGY_MODEL_EXTRA = "allergy_model";
 }

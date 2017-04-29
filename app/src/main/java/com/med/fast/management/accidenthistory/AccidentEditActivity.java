@@ -71,7 +71,7 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
         createBtn.setText(getString(R.string.confirm));
 
         try {
-            accidentId = getIntent().getStringExtra(ConstantsManagement.EXTRA_ACCIDENT_ID);
+            accidentId = getIntent().getStringExtra(ConstantsManagement.ACCIDENT_ID_EXTRA);
         } catch (NullPointerException npe){
             finish();
         }
@@ -227,7 +227,7 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 String accidentHistoryModelString = gson.toJson(accidentHistoryManagementModel);
-                intent.putExtra(ConstantsManagement.EXTRA_ACCIDENT_MODEL, accidentHistoryModelString);
+                intent.putExtra(ConstantsManagement.ACCIDENT_MODEL_EXTRA, accidentHistoryModelString);
                 setResult(RESULT_OK, intent);
                 finish();
             }

@@ -13,14 +13,10 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
-import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryEditShowAPI;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryEditShowAPIFunc;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryEditSubmitAPI;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementEditIntf;
 import com.med.fast.management.allergy.api.AllergyManagementEditShowAPI;
 import com.med.fast.management.allergy.api.AllergyManagementEditShowAPIFunc;
@@ -60,7 +56,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
         createBtn.setText(getString(R.string.confirm));
 
         try {
-            allergyId = getIntent().getStringExtra(ConstantsManagement.EXTRA_ALLERGY_ID);
+            allergyId = getIntent().getStringExtra(ConstantsManagement.ALLERGY_ID_EXTRA);
         } catch (NullPointerException npe){
             finish();
         }
@@ -152,7 +148,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 String allergyModelString = gson.toJson(allergy);
-                intent.putExtra(ConstantsManagement.EXTRA_ALLERGY_MODEL, allergyModelString);
+                intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
                 setResult(RESULT_OK, intent);
                 finish();
             }

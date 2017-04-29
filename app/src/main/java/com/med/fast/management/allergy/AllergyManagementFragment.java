@@ -1,6 +1,8 @@
 package com.med.fast.management.allergy;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -21,9 +23,12 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -46,7 +51,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/23/2017. FM
  */
 
-public class AllergyManagementFragment extends FastBaseFragment implements AllergyManagementFragmentIntf {
+public class AllergyManagementFragment extends FastBaseFragment implements AllergyManagementFragmentIntf, StartActivityForResultInAdapterIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -75,9 +80,9 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).changeTitle("ALLERGY MANAGEMENT");
-        setHasOptionsMenu(true);
+//        setHasOptionsMenu(true);
 
-        allergyManagementAdapter = new AllergyManagementAdapter(getActivity());
+        allergyManagementAdapter = new AllergyManagementAdapter(getActivity(), this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -175,6 +180,19 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
             allergyManagementListShowAPIFunc.setDelegate(AllergyManagementFragment.this);
             allergyManagementListShowAPIFunc.execute(allergyManagementListShowAPI);
             isLoading = true;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.ALLERGY_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                AllergyManagementModel allergyManagementModel =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA), AllergyManagementModel.class);
+                allergyManagementAdapter.updateItem(allergyManagementModel);
+            }
         }
     }
 
@@ -367,5 +385,10 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onStartActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 }
