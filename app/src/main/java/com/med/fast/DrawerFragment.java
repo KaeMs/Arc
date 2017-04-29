@@ -17,8 +17,26 @@ import butterknife.BindView;
 
 public class DrawerFragment extends FastBaseFragment {
 
+    @BindView(R.id.drawer_summary_wrapper)
+    LinearLayout summaryWrapper;
+    @BindView(R.id.drawer_idcard_wrapper)
+    LinearLayout idcardWrapper;
     @BindView(R.id.drawer_visit_wrapper)
     LinearLayout visitWrapper;
+    @BindView(R.id.drawer_surgery_wrapper)
+    LinearLayout surgeryWrapper;
+    @BindView(R.id.drawer_allergy_wrapper)
+    LinearLayout allergyWrapper;
+    @BindView(R.id.drawer_disease_wrapper)
+    LinearLayout diseaseWrapper;
+    @BindView(R.id.drawer_medicine_wrapper)
+    LinearLayout medicineWrapper;
+    @BindView(R.id.drawer_accident_wrapper)
+    LinearLayout accidentWrapper;
+    @BindView(R.id.drawer_labresult_wrapper)
+    LinearLayout labresultWrapper;
+    @BindView(R.id.drawer_misc_wrapper)
+    LinearLayout miscWrapper;
 
     @Nullable
     @Override

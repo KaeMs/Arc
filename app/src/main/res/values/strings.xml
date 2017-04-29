@@ -60,7 +60,16 @@
     <string name="add">Add</string>
 
     <!-- Dashboard Drawer -->
-    <string name="visit">Visit</string>
+    <string name="summary">Summary</string>
+    <string name="my_id_card">My ID Card</string>
+    <string name="visit_management">Visit Management</string>
+    <string name="surgery_management">Surgery Management</string>
+    <string name="allergy_management">Allergy Management</string>
+    <string name="disease_management">Disease Management</string>
+    <string name="medicine_management">Medicine Management</string>
+    <string name="accident_history_management">Accident History Management</string>
+    <string name="lab_result_management">Lab Result Management</string>
+    <string name="misc_management">Misc. Management</string>
 
     <!-- Summary -->
     <string name="placeholder_name">Fast Med Dev Name</string>

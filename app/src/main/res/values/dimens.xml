@@ -22,6 +22,8 @@
     <dimen name="row_text_padding">12.0dip</dimen>
     <dimen name="row_text_button_padding">6.0dip</dimen>
 
+    <dimen name="drawer_horizontal_padding">30dp</dimen>
+
     <dimen name="btnSmallHeight">28dp</dimen>
     <dimen name="btnSmallMidHeight">31dp</dimen>
     <dimen name="btnMediumHeight">34dp</dimen>
