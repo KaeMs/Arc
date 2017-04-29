@@ -38,6 +38,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
     private List<VisitImageItem> mDataset = new ArrayList<>();
 
     public VisitImageAdapter(Context context){
+        super(false);
         this.context = context;
     }
 

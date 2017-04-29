@@ -33,6 +33,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter {
     private List<VisitModel> mDataset = new ArrayList<>();
 
     public VisitAdapter(Context context){
+        super(false);
         this.context = context;
     }
 

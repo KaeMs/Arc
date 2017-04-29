@@ -18,6 +18,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
     private List<MedicineModel> mDataset = new ArrayList<>();
 
     public SummaryMedicineAdapter(Context context){
+        super(false);
         this.context = context;
     }
     @Override

@@ -34,9 +34,9 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter {
     private boolean failLoad = false;
 
     public SurgeryManagementAdapter(Context context){
+        super(false);
         this.context = context;
     }
-
 
     public void addList(List<SurgeryManagementModel> dataset){
         for (SurgeryManagementModel model :
