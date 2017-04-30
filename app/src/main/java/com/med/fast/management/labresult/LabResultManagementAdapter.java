@@ -96,6 +96,25 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             }
         }
     }
+
+    // Update by tag
+    public void updateItem(String tag, boolean success){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (tag != null){
+                if (mDataset.get(i).getTag().equals(tag)){
+                    mDataset.get(i).setProgress_status(success ? "0" : "3");
+                    notifyItemChanged(i);
+                    break;
+                }
+            } else {
+                if (mDataset.get(i).getProgress_status().equals("1")){
+                    mDataset.get(i).setProgress_status("3");
+                    notifyItemChanged(i);
+                    break;
+                }
+            }
+        }
+    }
     
     @Override
     public int getItemViewType(int position) {
@@ -130,6 +149,9 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals("2")){
+                labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
+                labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+            } else if (mDataset.get(position).getProgress_status().equals("3")){
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else {

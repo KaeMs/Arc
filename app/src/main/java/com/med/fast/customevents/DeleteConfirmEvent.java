@@ -5,4 +5,8 @@ package com.med.fast.customevents;
  */
 
 public class DeleteConfirmEvent {
+    public String deletionId;
+    public DeleteConfirmEvent(String deletionId){
+        this.deletionId = deletionId;
+    }
 }

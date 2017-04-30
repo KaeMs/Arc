@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.allergyinterface.AllergyManagementFragmentIntf;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +22,14 @@ import okhttp3.Response;
  */
 
 public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagementListShowAPI, Integer, ResponseAPI> {
-    private AllergyManagementFragmentIntf delegate;
+    private AllergyManagementShowIntf delegate;
     private Activity activity;
 
     public AllergyManagementListShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(AllergyManagementFragmentIntf delegate) {
+    public void setDelegate(AllergyManagementShowIntf delegate) {
         this.delegate = delegate;
     }
 

@@ -37,14 +37,14 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
         this.enableEventbus = false;
     }
 
-    public void createDeleteDialog(Context context, String title){
+    public void createDeleteDialog(Context context, String title, final String deletionId){
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setCancelable(true)
                 .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EventBus.getDefault().post(new DeleteConfirmEvent());
+                        EventBus.getDefault().post(new DeleteConfirmEvent(deletionId));
                     }
                 })
                 .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {

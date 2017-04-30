@@ -11,7 +11,8 @@ public class AllergyManagementModel {
     private String reaction;
     private String first_experience;
     private String created_date;
-    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
+    private String tag;
 
     public String getAllergy_id() {
         return allergy_id;
@@ -67,5 +68,13 @@ public class AllergyManagementModel {
 
     public void setProgress_status(String progress_status) {
         this.progress_status = progress_status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

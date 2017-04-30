@@ -24,8 +24,8 @@
             android:exported="true"/>
         <context android:name=".MainActivity" />
 
-        <activity android:name=".management.accidenthistory.AccidentEditActivity" />
-        <activity android:name=".management.allergy.AllergyEditActivity" />
+        <context android:name=".management.accidenthistory.AccidentEditActivity" />
+        <context android:name=".management.allergy.AllergyEditActivity" />
     </application>
 
 </manifest>

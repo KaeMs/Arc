@@ -6,7 +6,6 @@ import com.med.fast.api.ResponseAPI;
  * Created by Kevin Murvie on 4/29/2017. FM
  */
 
-public interface VisitFragmentIntf {
+public interface VisitShowIntf {
     void onFinishVisitShow(ResponseAPI responseAPI);
-    void onFinishVisitCreate(ResponseAPI responseAPI);
 }

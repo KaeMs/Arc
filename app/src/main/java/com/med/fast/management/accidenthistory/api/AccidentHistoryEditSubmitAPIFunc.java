@@ -7,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryDeleteIntf;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryEditIntf;
 
 import java.util.concurrent.TimeUnit;

@@ -7,8 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryDeleteIntf;
-import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryFragmentIntf;
+import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,14 +22,14 @@ import okhttp3.Response;
  */
 
 public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistoryCreateSubmitAPI, Integer, ResponseAPI> {
-    private AccidentHistoryFragmentIntf delegate;
+    private AccidentHistoryCreateDeleteIntf delegate;
     private Context context;
 
     public AccidentHistoryCreateSubmitAPIFunc(Context context) {
         this.context = context;
     }
 
-    public void setDelegate(AccidentHistoryFragmentIntf delegate) {
+    public void setDelegate(AccidentHistoryCreateDeleteIntf delegate) {
         this.delegate = delegate;
     }
 
@@ -65,6 +64,7 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
                     .add("injury_date", params[0].data.query.injury_date)
                     .add("injury_date_tmp", params[0].data.query.injury_date_tmp)
                     .add("injury_date_custom", params[0].data.query.injury_date_custom)
+                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

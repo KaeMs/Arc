@@ -21,6 +21,7 @@ public class VisitManagementCreateSubmitAPI {
             public String diagnose;
             public String disease_id_list;
             public String is_image_uploaded;
+            public String tag;
         }
 
         public class Status

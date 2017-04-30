@@ -7,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.allergyinterface.AllergyManagementDeleteIntf;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementEditIntf;
 
 import java.util.concurrent.TimeUnit;

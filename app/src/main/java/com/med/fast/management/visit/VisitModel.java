@@ -10,12 +10,14 @@ import java.util.List;
 public class VisitModel {
     private String visit_id;
     private String owner_id;
-    private Date created_date;
+    private String created_date;
     private String hospital_name;
     private String doctor_name;
     private String diagnose;
     private String disease;
     private List<VisitImageItem> image_list;
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
+    private String tag;
 
     public String getVisit_id() {
         return visit_id;
@@ -33,11 +35,11 @@ public class VisitModel {
         this.owner_id = owner_id;
     }
 
-    public Date getCreated_date() {
+    public String getCreated_date() {
         return created_date;
     }
 
-    public void setCreated_date(Date created_date) {
+    public void setCreated_date(String created_date) {
         this.created_date = created_date;
     }
 
@@ -79,5 +81,21 @@ public class VisitModel {
 
     public void setImage_list(List<VisitImageItem> image_list) {
         this.image_list = image_list;
+    }
+
+    public String getProgress_status() {
+        return progress_status;
+    }
+
+    public void setProgress_status(String progress_status) {
+        this.progress_status = progress_status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

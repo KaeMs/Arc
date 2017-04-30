@@ -21,7 +21,7 @@ import okhttp3.Response;
  * Created by kevindreyar on 28-Apr-17. FM
  */
 
-public class LabResultManagementCreateAPIFunc extends AsyncTask<LabResultManagementCreateSubmitAPI, Integer, ResponseAPI> {
+public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultManagementCreateSubmitAPI, Integer, ResponseAPI> {
     private LabResultManagementFragmentIntf delegate;
     private Activity activity;
 
@@ -34,7 +34,7 @@ public class LabResultManagementCreateAPIFunc extends AsyncTask<LabResultManagem
         delegate.onFinishLabResultManagementCreate(responseAPI);
     }
 
-    public LabResultManagementCreateAPIFunc(Activity activity) {
+    public LabResultManagementCreateSubmitAPIFunc(Activity activity) {
         this.activity = activity;
     }
 

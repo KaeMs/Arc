@@ -24,6 +24,7 @@ import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -66,7 +67,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     private int lastItemCounter = 0;
     private String currentKeyword = "";
     private String currentSort = "";
-    private String userId = "18";
+    private String userId;
 
     @Nullable
     @Override
@@ -80,6 +81,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         ((MainActivity)getActivity()).changeTitle("DISEASE MANAGEMENT");
         setHasOptionsMenu(true);
 
+        userId = SharedPreferenceUtilities.getUserId(getActivity());
         labResultManagementAdapter = new LabResultManagementAdapter(getActivity());
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -180,6 +182,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
             isLoading = true;
         }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

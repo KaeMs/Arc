@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.allergyinterface.AllergyManagementDeleteIntf;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +22,14 @@ import okhttp3.Response;
  */
 
 public class AllergyManagementDeleteAPIFunc extends AsyncTask<AllergyManagementDeleteAPI, Integer, ResponseAPI> {
-    private AllergyManagementDeleteIntf delegate;
+    private AllergyManagementCreateDeleteIntf delegate;
     private Context context;
 
     public AllergyManagementDeleteAPIFunc(Context context) {
         this.context = context;
     }
 
-    public void setDelegate(AllergyManagementDeleteIntf delegate) {
+    public void setDelegate(AllergyManagementCreateDeleteIntf delegate) {
         this.delegate = delegate;
     }
 

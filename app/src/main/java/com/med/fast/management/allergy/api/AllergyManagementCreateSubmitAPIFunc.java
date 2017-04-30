@@ -1,13 +1,14 @@
 package com.med.fast.management.allergy.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.allergyinterface.AllergyManagementFragmentIntf;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +23,14 @@ import okhttp3.Response;
  */
 
 public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManagementCreateSubmitAPI, Integer, ResponseAPI> {
-    private AllergyManagementFragmentIntf delegate;
-    private Activity activity;
+    private AllergyManagementCreateDeleteIntf delegate;
+    private Context context;
 
-    public AllergyManagementCreateSubmitAPIFunc(Activity activity) {
-        this.activity = activity;
+    public AllergyManagementCreateSubmitAPIFunc(Context context) {
+        this.context = context;
     }
 
-    public void setDelegate(AllergyManagementFragmentIntf delegate) {
+    public void setDelegate(AllergyManagementCreateDeleteIntf delegate) {
         this.delegate = delegate;
     }
 
@@ -46,15 +47,15 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
@@ -62,6 +63,7 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
                     .add("allergy_is_drug", params[0].data.query.allergy_is_drug)
                     .add("allergy_reaction", params[0].data.query.allergy_reaction)
                     .add("allergy_first_experience", params[0].data.query.allergy_first_experience)
+                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

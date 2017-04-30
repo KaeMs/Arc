@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.med.fast.management.accidenthistory.AccidentHistoryManagementFragment;
-import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryFragmentIntf;
 import com.med.fast.management.allergy.AllergyManagementFragment;
 import com.med.fast.management.disease.DiseaseManagementFragment;
 import com.med.fast.management.labresult.LabResultManagementFragment;

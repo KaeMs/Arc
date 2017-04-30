@@ -1,7 +1,7 @@
 package com.med.fast.management.visit.api;
 
 /**
- * Created by kevindreyar on 27-Apr-17.
+ * Created by kevindreyar on 27-Apr-17. FM
  */
 
 public class VisitManagementDeleteSubmitAPI {
@@ -16,11 +16,7 @@ public class VisitManagementDeleteSubmitAPI {
         public class Query
         {
             public String user_id;
-            public String doctor;
-            public String hospital;
-            public String diagnose;
-            public String disease_id_list;
-            public String is_image_uploaded;
+            public String visit_id;
         }
 
         public class Status

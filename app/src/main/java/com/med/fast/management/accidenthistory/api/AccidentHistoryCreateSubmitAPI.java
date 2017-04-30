@@ -24,6 +24,7 @@ public class AccidentHistoryCreateSubmitAPI {
             public String injury_date ;
             public String injury_date_tmp ;
             public String injury_date_custom ;
+            public String tag;
         }
 
         public class Status
@@ -36,7 +37,6 @@ public class AccidentHistoryCreateSubmitAPI {
         {
             public String result_status ;
             public String description ;
-            public AccidentHistoryManagementModel accidentHistoryManagementModel;
         }
     }
 }
