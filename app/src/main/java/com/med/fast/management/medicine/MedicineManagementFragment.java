@@ -1,6 +1,7 @@
 package com.med.fast.management.medicine;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -24,6 +25,7 @@ import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -42,7 +44,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class MedicineManagementFragment extends FastBaseFragment implements MedicineManagementShowIntf {
+public class MedicineManagementFragment extends FastBaseFragment implements MedicineManagementShowIntf, StartActivityForResultInAdapterIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -73,7 +75,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         ((MainActivity)getActivity()).changeTitle("MEDICINE MANAGEMENT");
         setHasOptionsMenu(true);
 
-        medicineManagementAdapter = new MedicineManagementAdapter(getActivity());
+        medicineManagementAdapter = new MedicineManagementAdapter(getActivity(), this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -177,55 +179,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
 
     @Override
     public void addItem() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.management_medicine_popup);
-        dialog.setCanceledOnTouchOutside(false);
-
-        final CustomFontEditText medicineName = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_medicine_name);
-        final CustomFontEditText medicineForm = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_medicine_form);
-        final CustomFontEditText administrationMethod = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_administration_method);
-        final CustomFontEditText administrationDose = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_administration_dose);
-        final CustomFontEditText frequency = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_frequency);
-        final CustomFontEditText reason = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_reason);
-        final CustomFontEditText medicationStatus = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_status);
-        final CustomFontEditText additionalInstruction = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_additional_instruction);
-
-        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.medicine_popup_back_btn);
-        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.medicine_popup_create_btn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(getActivity());
-        mAwesomeValidation.addValidation(medicineName, RegexTemplate.NOT_EMPTY, getString(R.string.medicine_name_required));
-        mAwesomeValidation.addValidation(medicineForm, RegexTemplate.NOT_EMPTY, getString(R.string.medicine_form_required));
-
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAwesomeValidation.clear();
-                if (mAwesomeValidation.validate()){
-                    MedicineManagementModel medicineManagementModel = new MedicineManagementModel();
-                    medicineManagementModel.setMedicine_name(medicineName.getText().toString());
-                    medicineManagementModel.setMedicine_form(medicineForm.getText().toString());
-                    medicineManagementModel.setMedicine_administration_method(administrationMethod.getText().toString());
-                    medicineManagementModel.setMedicine_administration_dose(administrationDose.getText().toString());
-                    medicineManagementModel.setMedicine_frequency(frequency.getText().toString());
-                    medicineManagementModel.setMedicine_medication_reason(reason.getText().toString());
-                    medicineManagementModel.setMedicine_medication_status(medicationStatus.getText().toString());
-                    medicineManagementModel.setMedicine_additional_instruction(additionalInstruction.getText().toString());
-
-                    medicineManagementAdapter.addSingle(medicineManagementModel);
-                    dialog.dismiss();
-                }
-            }
-        });
-        dialog.show();
+        medicineManagementAdapter.submitItem();
     }
 
     @Override
@@ -328,5 +282,10 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onStartActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 }

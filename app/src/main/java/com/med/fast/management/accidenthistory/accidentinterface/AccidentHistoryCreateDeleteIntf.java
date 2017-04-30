@@ -7,6 +7,6 @@ import com.med.fast.api.ResponseAPI;
  */
 
 public interface AccidentHistoryCreateDeleteIntf {
-    void onFinishAccidentHistoryCreateSubmit(ResponseAPI responseAPI);
-    void onFinishAccidentHistoryDelete(ResponseAPI responseAPI);
+    void onFinishAccidentHistoryCreateSubmit(ResponseAPI responseAPI, String tag);
+    void onFinishAccidentHistoryDelete(ResponseAPI responseAPI, String tag);
 }

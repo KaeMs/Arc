@@ -58,6 +58,9 @@
     <string name="first_time_experience_opt">First Time Experience - Optional</string>
     <string name="first_time_experience_hint">A full injury_date or approximate injury_date or vague answer such as : years ago, childhood, etc.</string>
     <string name="add">Add</string>
+    <string name="add_disease">Add New Disease</string>
+    <!-- Medication -->
+    <string name="add_medication">Add New Medication</string>
 
     <!-- Dashboard Drawer -->
     <string name="summary">Summary</string>

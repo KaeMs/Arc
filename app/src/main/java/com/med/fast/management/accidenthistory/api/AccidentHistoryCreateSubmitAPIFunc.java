@@ -24,9 +24,11 @@ import okhttp3.Response;
 public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistoryCreateSubmitAPI, Integer, ResponseAPI> {
     private AccidentHistoryCreateDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public AccidentHistoryCreateSubmitAPIFunc(Context context) {
+    public AccidentHistoryCreateSubmitAPIFunc(Context context, String tag) {
         this.context = context;
+        this.tag = tag;
     }
 
     public void setDelegate(AccidentHistoryCreateDeleteIntf delegate) {
@@ -37,7 +39,7 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
     protected ResponseAPI doInBackground(AccidentHistoryCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/accident/accidentcreatesubmit";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -93,7 +95,7 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishAccidentHistoryCreateSubmit(responseAPI);
+        delegate.onFinishAccidentHistoryCreateSubmit(responseAPI, tag);
     }
 
 }

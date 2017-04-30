@@ -12,4 +12,8 @@ public class APIConstants {
     public static final String MODE_EDIT = "read";
     public static final String MODE_DELETE = "delete";
     public static final String DEFAULT = "default";
+    public static final String PROGRESS_NORMAL = "0";
+    public static final String PROGRESS_ADD = "1";
+    public static final String PROGRESS_DELETE = "2";
+    public static final String PROGRESS_ADD_FAIL = "3";
 }

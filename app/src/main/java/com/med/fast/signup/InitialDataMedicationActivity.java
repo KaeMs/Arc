@@ -64,6 +64,7 @@ public class InitialDataMedicationActivity extends FastBaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(medicineManagementAdapter);
 
+        addBtn.setText(getString(R.string.add_medication));
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

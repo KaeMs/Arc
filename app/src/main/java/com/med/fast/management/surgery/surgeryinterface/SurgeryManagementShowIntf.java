@@ -1,4 +1,4 @@
-package com.med.fast.management.surgery;
+package com.med.fast.management.surgery.surgeryinterface;
 
 import com.med.fast.api.ResponseAPI;
 

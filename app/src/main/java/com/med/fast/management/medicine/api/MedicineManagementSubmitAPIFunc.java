@@ -1,4 +1,4 @@
-package com.med.fast.management.surgery.api;
+package com.med.fast.management.medicine.api;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementShowIntf;
+import com.med.fast.management.medicine.MedicineManagementShowIntf;
+import com.med.fast.management.medicine.medicineinterface.MedicineCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,26 +20,28 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Kevin Murvie on 4/20/2017. FM
+ * Created by Kevin Murvie on 4/30/2017. FM
  */
 
-public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagementListShowAPI, Integer, ResponseAPI> {
-    private SurgeryManagementShowIntf delegate;
+public class MedicineManagementSubmitAPIFunc extends AsyncTask<MedicineManagementSubmitAPI, Integer, ResponseAPI> {
+    private MedicineCreateDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public SurgeryManagementListShowAPIFunc(Activity context) {
+    public MedicineManagementSubmitAPIFunc(Context context, String tag) {
         this.context = context;
+        this.tag = tag;
     }
 
-    public void setDelegate(SurgeryManagementShowIntf delegate) {
+    public void setDelegate(MedicineCreateDeleteIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(SurgeryManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(MedicineManagementSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/medicine/medicinecreatesubmit";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -59,10 +62,14 @@ public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagemen
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("keyword", params[0].data.query.keyword)
-                    .add("sort", params[0].data.query.sort)
-                    .add("flag", params[0].data.query.flag)
-                    .add("counter", params[0].data.query.counter)
+                    .add("name", params[0].data.query.name)
+                    .add("route", params[0].data.query.route)
+                    .add("form", params[0].data.query.form)
+                    .add("dose", params[0].data.query.dose)
+                    .add("frequency", params[0].data.query.frequency)
+                    .add("reason", params[0].data.query.reason)
+                    .add("status", params[0].data.query.status)
+                    .add("additional_instruction", params[0].data.query.additional_instruction)
                     .build();
 
             Request request = new Request.Builder()
@@ -93,6 +100,6 @@ public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagemen
     @Override
     protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
         super.onPostExecute(registerSubmitAPIResult);
-        delegate.onFinishSurgeryManagementShow(registerSubmitAPIResult);
+        delegate.onFinishMedicineCreate(registerSubmitAPIResult, tag);
     }
 }

@@ -22,9 +22,7 @@ public class DiseaseManagementCreateSubmitAPI {
             public String history_date_text;
             public String date;
             public String hereditary_carrier;
-            public String counter;
-            public String flag;
-
+            public String tag;
         }
 
         public class Status

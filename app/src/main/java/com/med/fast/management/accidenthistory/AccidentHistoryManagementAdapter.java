@@ -30,6 +30,7 @@ import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -234,7 +235,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = "default";
                     accidentHistoryCreateSubmitAPI.data.query.tag = detail + String.valueOf(getItemCount());
 
-                    AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context);
+                    AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context, detail + String.valueOf(getItemCount()));
                     accidentHistoryCreateSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
                     accidentHistoryCreateSubmitAPIFunc.execute(accidentHistoryCreateSubmitAPI);
                     dialog.dismiss();
@@ -252,10 +253,10 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         accidentHistoryCreateSubmitAPI.data.query.injury_date = mDataset.get(position).getInjury_date();
         accidentHistoryCreateSubmitAPI.data.query.injury_date_tmp = mDataset.get(position).getInjury_date_tmp();
         accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = "default";
-        accidentHistoryCreateSubmitAPI.data.query.tag = mDataset.get(position).getDetail() + String.valueOf(getItemCount());
+        accidentHistoryCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
         mDataset.get(position).setProgress_status("1");
 
-        AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context);
+        AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
         accidentHistoryCreateSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
         accidentHistoryCreateSubmitAPIFunc.execute(accidentHistoryCreateSubmitAPI);
     }
@@ -277,19 +278,15 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     // Update by tag
     public void updateItem(String tag, boolean success){
         for (int i = getItemCount() - 1; i > 0; i++){
-            if (tag != null){
-                if (mDataset.get(i).getTag().equals(tag)){
-                    if (success)mDataset.get(i).setProgress_status("0");
-                    else mDataset.get(i).setProgress_status("3");
-                    notifyItemChanged(i);
-                    break;
+            if (mDataset.get(i).getTag().equals(tag)){
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+                    if (success)mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    else mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+                    mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                 }
-            } else {
-                if (mDataset.get(i).getProgress_status().equals("1")){
-                    mDataset.get(i).setProgress_status("3");
-                    notifyItemChanged(i);
-                    break;
-                }
+                notifyItemChanged(i);
+                break;
             }
         }
     }
@@ -324,17 +321,17 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             accidentManagementVH.injuryDate.setText(mDataset.get(position).getInjury_date());
             accidentManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
-            if (mDataset.get(position).getProgress_status().equals("1")){
+            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 accidentManagementVH.statusProgressBar.setOnClickListener(null);
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
-            } else if (mDataset.get(position).getProgress_status().equals("2")){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
                 accidentManagementVH.statusProgressBar.setOnClickListener(null);
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
-            } else if (mDataset.get(position).getProgress_status().equals("3")){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
                 accidentManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -390,7 +387,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                 accidentHistoryDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
                 accidentHistoryDeleteSubmitAPI.data.query.accident_id = mDataset.get(i).getAccident_id();
 
-                AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context);
+                AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context, mDataset.get(i).getAccident_id());
                 accidentHistoryDeleteSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
                 accidentHistoryDeleteSubmitAPIFunc.execute(accidentHistoryDeleteSubmitAPI);
                 break;
@@ -404,30 +401,30 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     }
 
     @Override
-    public void onFinishAccidentHistoryCreateSubmit(ResponseAPI responseAPI) {
+    public void onFinishAccidentHistoryCreateSubmit(ResponseAPI responseAPI, String tag) {
         if(responseAPI.status_code == 200) {
             Gson gson = new Gson();
             AccidentHistoryCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
-                updateItem(output.data.query.tag, true);
+                updateItem(tag, true);
             } else {
-                updateItem(output.data.query.tag, false);
+                updateItem(tag, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if(responseAPI.status_code == 504) {
-            updateItem(null, false);
+            updateItem(tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity)context).forceLogout();
         } else {
-            updateItem(null, false);
+            updateItem(tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onFinishAccidentHistoryDelete(ResponseAPI responseAPI) {
+    public void onFinishAccidentHistoryDelete(ResponseAPI responseAPI, String tag) {
         if(responseAPI.status_code == 200) {
             Gson gson = new Gson();
             AccidentHistoryDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryDeleteSubmitAPI.class);
@@ -439,14 +436,17 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     }
                 }
             } else {
+                updateItem(tag, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if(responseAPI.status_code == 504) {
+            updateItem(tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity)context).forceLogout();
         } else {
+            updateItem(tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

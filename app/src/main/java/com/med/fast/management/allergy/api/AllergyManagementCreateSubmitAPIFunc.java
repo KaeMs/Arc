@@ -25,9 +25,11 @@ import okhttp3.Response;
 public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManagementCreateSubmitAPI, Integer, ResponseAPI> {
     private AllergyManagementCreateDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public AllergyManagementCreateSubmitAPIFunc(Context context) {
+    public AllergyManagementCreateSubmitAPIFunc(Context context, String tag) {
         this.context = context;
+        this.tag = tag;
     }
 
     public void setDelegate(AllergyManagementCreateDeleteIntf delegate) {
@@ -38,7 +40,7 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
     protected ResponseAPI doInBackground(AllergyManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/allergy/allergycreatesubmit";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -94,7 +96,7 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishAllergyManagementCreateSubmit(responseAPI);
+        delegate.onFinishAllergyManagementCreateSubmit(responseAPI, tag);
     }
 
 }

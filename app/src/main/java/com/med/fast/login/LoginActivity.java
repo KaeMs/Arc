@@ -1,10 +1,13 @@
-package com.med.fast;
+package com.med.fast.login;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.med.fast.FastBaseActivity;
+import com.med.fast.MainActivity;
+import com.med.fast.R;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;

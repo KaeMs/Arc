@@ -7,6 +7,6 @@ import com.med.fast.api.ResponseAPI;
  */
 
 public interface AllergyManagementCreateDeleteIntf {
-    void onFinishAllergyManagementCreateSubmit(ResponseAPI responseAPI);
-    void onFinishAllergyManagementDelete(ResponseAPI responseAPI);
+    void onFinishAllergyManagementCreateSubmit(ResponseAPI responseAPI, String tag);
+    void onFinishAllergyManagementDelete(ResponseAPI responseAPI, String tag);
 }

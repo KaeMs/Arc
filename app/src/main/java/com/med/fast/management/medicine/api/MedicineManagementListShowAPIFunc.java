@@ -38,7 +38,7 @@ public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagem
     protected ResponseAPI doInBackground(MedicineManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/medicine/medicinelistshow";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

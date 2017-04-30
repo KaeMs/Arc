@@ -37,7 +37,7 @@ public class MiscManagementShowAPIFunc extends AsyncTask<MiscManagementShowAPI, 
     protected ResponseAPI doInBackground(MiscManagementShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/misc/miscshow";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

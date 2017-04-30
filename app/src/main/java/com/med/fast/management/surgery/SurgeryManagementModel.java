@@ -5,11 +5,22 @@ package com.med.fast.management.surgery;
  */
 
 public class SurgeryManagementModel {
+    private String surgery_id;
     private String surgery_procedure;
     private String surgery_physician_name;
     private String surgery_hospital_name;
     private String surgery_date;
     private String surgery_note;
+    private String progress_status;
+    private String tag;
+
+    public String getSurgery_id() {
+        return surgery_id;
+    }
+
+    public void setSurgery_id(String surgery_id) {
+        this.surgery_id = surgery_id;
+    }
 
     public String getSurgery_procedure() {
         return surgery_procedure;
@@ -49,5 +60,21 @@ public class SurgeryManagementModel {
 
     public void setSurgery_note(String surgery_note) {
         this.surgery_note = surgery_note;
+    }
+
+    public String getProgress_status() {
+        return progress_status;
+    }
+
+    public void setProgress_status(String progress_status) {
+        this.progress_status = progress_status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

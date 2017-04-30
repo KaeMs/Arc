@@ -8,6 +8,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementCreateDeleteIntf;
 import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -19,23 +20,25 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Kevin Murvie on 4/20/2017. FM
+ * Created by Kevin Murvie on 4/30/2017. FM
  */
 
-public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagementListShowAPI, Integer, ResponseAPI> {
-    private SurgeryManagementShowIntf delegate;
+public class SurgeryManagementCreateSubmitAPIFunc extends AsyncTask<SurgeryManagementCreateSubmitAPI, Integer, ResponseAPI> {
+    private SurgeryManagementCreateDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public SurgeryManagementListShowAPIFunc(Activity context) {
+    public SurgeryManagementCreateSubmitAPIFunc(Context context, String tag) {
         this.context = context;
+        this.tag = tag;
     }
 
-    public void setDelegate(SurgeryManagementShowIntf delegate) {
+    public void setDelegate(SurgeryManagementCreateDeleteIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(SurgeryManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(SurgeryManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + "register/registersubmit";
@@ -59,10 +62,11 @@ public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagemen
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("keyword", params[0].data.query.keyword)
-                    .add("sort", params[0].data.query.sort)
-                    .add("flag", params[0].data.query.flag)
-                    .add("counter", params[0].data.query.counter)
+                    .add("procedure", params[0].data.query.procedure)
+                    .add("physician", params[0].data.query.physician)
+                    .add("date", params[0].data.query.date)
+                    .add("hospital", params[0].data.query.hospital)
+                    .add("notes", params[0].data.query.notes)
                     .build();
 
             Request request = new Request.Builder()
@@ -93,6 +97,6 @@ public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagemen
     @Override
     protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
         super.onPostExecute(registerSubmitAPIResult);
-        delegate.onFinishSurgeryManagementShow(registerSubmitAPIResult);
+        delegate.onFinishSurgeryManagementCreate(registerSubmitAPIResult, tag);
     }
 }

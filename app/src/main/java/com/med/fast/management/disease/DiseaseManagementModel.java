@@ -5,6 +5,7 @@ package com.med.fast.management.disease;
  */
 
 public class DiseaseManagementModel {
+    private String disease_id;
     private String disease_name;
     private String disease_hereditary;
     private String disease_hereditary_carriers;
@@ -13,7 +14,16 @@ public class DiseaseManagementModel {
     private String date_historic;
     private String date_approximate;
     private String date_created;
-    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
+    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Add Failed
+    private String tag;
+
+    public String getDisease_id() {
+        return disease_id;
+    }
+
+    public void setDisease_id(String disease_id) {
+        this.disease_id = disease_id;
+    }
 
     public String getDisease_name() {
         return disease_name;
@@ -85,5 +95,13 @@ public class DiseaseManagementModel {
 
     public void setProgress_status(String progress_status) {
         this.progress_status = progress_status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

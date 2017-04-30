@@ -229,7 +229,6 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
             VisitViewHolder visitViewHolder = (VisitViewHolder)holder;
 
             visitViewHolder.visitDate.setText(mDataset.get(position).getCreated_date());
-
             visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());
             visitViewHolder.doctorName.setText(mDataset.get(position).getDoctor_name());
             visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());

@@ -78,6 +78,7 @@ public class InitialDataDiseaseActivity extends FastBaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);
 
+        addBtn.setText(getString(R.string.add_allergy));
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -5,6 +5,7 @@ package com.med.fast.management.medicine;
  */
 
 public class MedicineManagementModel {
+    private String medicine_id;
     private String medicine_name;
     private String medicine_form;
     private String medicine_administration_method;
@@ -15,6 +16,15 @@ public class MedicineManagementModel {
     private String medicine_additional_instruction;
     private String medicine_created_date;
     private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
+    private String tag;
+
+    public String getMedicine_id() {
+        return medicine_id;
+    }
+
+    public void setMedicine_id(String medicine_id) {
+        this.medicine_id = medicine_id;
+    }
 
     public String getMedicine_name() {
         return medicine_name;
@@ -94,5 +104,13 @@ public class MedicineManagementModel {
 
     public void setProgress_status(String progress_status) {
         this.progress_status = progress_status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

@@ -37,7 +37,7 @@ public class DiseaseManagementListShowAPIFunc extends AsyncTask<DiseaseManagemen
     protected ResponseAPI doInBackground(DiseaseManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + "/disease/diseaselistshow";
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

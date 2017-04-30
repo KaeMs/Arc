@@ -10,108 +10,119 @@
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
     app:contentPadding="15dp">
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-        <TableLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="*" >
+            android:orientation="vertical">
 
-            <!-- Surgery Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/date"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_surgery_item_surgery_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
-
-            </TableRow>
-
-            <!-- Surgery Procedure -->
-            <TableRow
-                android:layout_width="0dp"
+            <TableLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                android:stretchColumns="*" >
 
-                <com.med.fast.customviews.CustomFontTextView
+                <!-- Surgery Date -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/date"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_surgery_item_surgery_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date"/>
+
+                </TableRow>
+
+                <!-- Surgery Procedure -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/surgery_procedure"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_surgery_item_surgery_procedure"
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/surgery_procedure"/>
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_surgery_item_surgery_procedure"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/surgery_procedure_placeholder"/>
+
+                </TableRow>
+
+                <!-- Physician Name -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/surgery_procedure_placeholder"/>
+                    android:paddingTop="15dp">
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/physician_name"/>
 
-            <!-- Physician Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_surgery_item_physician_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/physician_name_placeholder"/>
 
-                <com.med.fast.customviews.CustomFontTextView
+                </TableRow>
+
+                <!-- Hospital Name -->
+                <TableRow
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/physician_name"/>
+                    android:paddingTop="15dp">
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_surgery_item_physician_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/physician_name_placeholder"/>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:text="@string/hospital_name"/>
 
-            </TableRow>
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/management_surgery_item_hospital_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hospital_name_placeholder"/>
 
-            <!-- Hospital Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
+                </TableRow>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/hospital_name"/>
+            </TableLayout>
 
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/management_surgery_item_hospital_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/hospital_name_placeholder"/>
+            <include layout="@layout/management_operation_editdelete_buttons"/>
 
-            </TableRow>
+        </LinearLayout>
 
-        </TableLayout>
+        <include layout="@layout/management_status_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
 
-        <include layout="@layout/management_operation_editdelete_buttons"/>
-
-    </LinearLayout>
+    </RelativeLayout>
     
 </android.support.v7.widget.CardView>
