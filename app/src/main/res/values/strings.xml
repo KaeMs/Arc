@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Arc</string>
     <string name="title">Title</string>
+    <!--Setting-->
+    <string name="setting_profile_picture">Profile Picture</string>
+    <string name="setting_name">Name</string>
+    <string name="setting_dob">Date of Birth</string>
+    <string name="setting_gender">Gender</string>
+    <string name="setting_forgot_password">Forgot Password?</string>
 
     <!-- Login Screen -->
     <string name="user_name">Username</string>
@@ -244,6 +250,8 @@
     <string name="sign_dash">-</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="submit">Submit</string>
+    <string name="upload">Upload</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>
