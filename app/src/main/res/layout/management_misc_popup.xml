@@ -52,7 +52,8 @@
                     android:id="@+id/misc_popup_female_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <!-- In pregnancy -->
                     <com.med.fast.customviews.CustomFontTextView
