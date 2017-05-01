@@ -20,6 +20,7 @@ import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
+import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
@@ -80,7 +81,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
 //        setHasOptionsMenu(true);
 
         userId = SharedPreferenceUtilities.getUserId(getActivity());
-        allergyManagementAdapter = new AllergyManagementAdapter(getActivity(), this);
+        allergyManagementAdapter = new AllergyManagementAdapter(getActivity(), this, false);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -299,7 +300,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             } else if(responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity)getActivity()).forceLogout();
+                ((FastBaseActivity)getActivity()).forceLogout();
             } else {
                 allergyManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

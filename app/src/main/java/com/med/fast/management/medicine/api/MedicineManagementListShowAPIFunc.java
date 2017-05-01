@@ -26,11 +26,8 @@ public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagem
     private MedicineManagementShowIntf delegate;
     private Context context;
 
-    public MedicineManagementListShowAPIFunc(Activity context) {
+    public MedicineManagementListShowAPIFunc(Context context, MedicineManagementShowIntf delegate) {
         this.context = context;
-    }
-
-    public void setDelegate(MedicineManagementShowIntf delegate) {
         this.delegate = delegate;
     }
 
@@ -38,7 +35,7 @@ public class MedicineManagementListShowAPIFunc extends AsyncTask<MedicineManagem
     protected ResponseAPI doInBackground(MedicineManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/medicine/medicinelistshow";
+            String url = APIConstants.API_URL + APIConstants.MEDICINE_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
+import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -179,6 +180,9 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
             Gson gson = new Gson();
             RegisterSubmitAPI output = gson.fromJson(responseAPI.status_response, RegisterSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
+                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.saved_user_id);
+//                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_NAME, output.data.results.saved_user_id);
+//                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.saved_user_id);
                 Intent intent = new Intent(this, InitialDataAllergyActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,20 +14,31 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
+import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
 import com.med.fast.management.disease.DiseaseManagementAdapter;
 import com.med.fast.management.disease.DiseaseManagementModel;
+import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,7 +54,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/11/2017. Fast
  */
 
-public class InitialDataDiseaseActivity extends FastBaseActivity {
+public class InitialDataDiseaseActivity extends FastBaseActivity implements DiseaseManagementShowIntf {
 
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
@@ -53,8 +65,16 @@ public class InitialDataDiseaseActivity extends FastBaseActivity {
     ImageView step;
 
     // RecyclerView
+    @BindView(R.id.initialdata_swiperefresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.initialdata_recycler)
     RecyclerView recyclerView;
+    private boolean isLoading = false;
+    private int counter = 0;
+    private int lastItemCounter = 0;
+    private String currentKeyword = "default";
+    private String currentSort = "default";
+    private String userId;
 
     // Btns
     @BindView(R.id.initialdata_add_btn)
@@ -72,143 +92,48 @@ public class InitialDataDiseaseActivity extends FastBaseActivity {
         setContentView(R.layout.activity_initialdata_mainlayout);
 
         toolbarTitle.setText(getString(R.string.step_2_disease));
+        userId = SharedPreferenceUtilities.getUserId(this);
 
-        diseaseManagementAdapter = new DiseaseManagementAdapter(this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        diseaseManagementAdapter = new DiseaseManagementAdapter(this, true);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);
 
+        refreshView(true);
+        /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                int visibleThreshold = 1;
+
+                // When threshold is reached, API call is made to get new items
+                // for infinite scroll
+                if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
+                    if (lastItemCounter > 10) {
+                        DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
+                        diseaseManagementListShowAPI.data.query.user_id = userId;
+                        diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
+                        diseaseManagementListShowAPI.data.query.sort = currentSort;
+                        diseaseManagementListShowAPI.data.query.counter = String.valueOf(counter);
+                        diseaseManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
+
+                        DiseaseInitListShowAPIFunc diseaseInitListShowAPIFunc = new DiseaseInitListShowAPIFunc(InitialDataDiseaseActivity.this, InitialDataDiseaseActivity.this);
+                        diseaseInitListShowAPIFunc.execute(diseaseManagementListShowAPI);
+                        isLoading = true;
+                    }
+                }
+            }
+        });*/
+        
         addBtn.setText(getString(R.string.add_allergy));
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(InitialDataDiseaseActivity.this);
-                dialog.setContentView(R.layout.management_disease_popup);
-                dialog.setCanceledOnTouchOutside(false);
-
-                final CustomFontEditText diseaseName = (CustomFontEditText) dialog.findViewById(R.id.disease_popup_name);
-                final CustomFontRadioButton hereditaryY = (CustomFontRadioButton) dialog.findViewById(R.id.disease_popup_hereditary_y_rb);
-                final CustomFontEditText inheritedFrom = (CustomFontEditText) dialog.findViewById(R.id.disease_popup_inherited_from);
-
-                final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-                mAwesomeValidation.setContext(InitialDataDiseaseActivity.this);
-                mAwesomeValidation.addValidation(diseaseName, RegexTemplate.NOT_EMPTY, getString(R.string.full_accident_details_required));
-
-                // Setting Hereditary RB so when it is at "no", inheritance won't be added
-                hereditaryY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        inheritedFrom.setEnabled(isChecked);
-                        if (isChecked){
-                            mAwesomeValidation.addValidation(inheritedFrom, RegexTemplate.NOT_EMPTY, getString(R.string.disease_hereditary_inherited_from_required));
-                        } else {
-                            mAwesomeValidation.clear();
-                        }
-                    }
-                });
-
-                final CustomFontRadioButton ongoingY = (CustomFontRadioButton) dialog.findViewById(R.id.disease_popup_currently_having_y_rb);
-                final CustomFontTextView historicDate = (CustomFontTextView) dialog.findViewById(R.id.disease_popup_historic_date_tv);
-                final Spinner approximateDateSpinner = (Spinner) dialog.findViewById(R.id.disease_popup_date_spinner);
-
-                String[] approximates = getResources().getStringArray(R.array.accident_approximate_values);
-                final ArrayAdapter<String> approximateSpinnerAdapter = new ArrayAdapter<>(InitialDataDiseaseActivity.this, android.R.layout.simple_spinner_item, approximates);
-                approximateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                approximateDateSpinner.setAdapter(approximateSpinnerAdapter);
-
-                final Calendar calendar = Calendar.getInstance();
-                final int year = calendar.get(Calendar.YEAR);
-                final int month = calendar.get(Calendar.MONTH);
-                final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                historicDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final DatePickerDialog datePickerDialog = new DatePickerDialog(InitialDataDiseaseActivity.this, null, year, month, day);
-                        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
-                        datePickerDialog.getDatePicker().updateDate(year, month, day);
-                        datePickerDialog.show();
-                        datePickerDialog.setCanceledOnTouchOutside(true);
-
-                        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // Formatting date from MM to MMM
-                                        SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
-                                        Date newDate = null;
-                                        try {
-                                            newDate = format.parse(String.valueOf(month) + " " + String.valueOf(day) + " " + String.valueOf(year));
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        format = new SimpleDateFormat(Constants.dateFormatSpace, Locale.getDefault());
-                                        String date = format.format(newDate);
-                                        historicDate.setText(date);
-                                    }
-                                });
-
-                        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == DialogInterface.BUTTON_NEGATIVE) {
-                                            // Do Stuff
-                                            datePickerDialog.dismiss();
-                                        }
-                                    }
-                                });
-                    }
-                });
-
-                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
-                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
-
-                backBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                createBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAwesomeValidation.clear();
-                        if (mAwesomeValidation.validate()){
-                            DiseaseManagementModel diseaseManagementModel = new DiseaseManagementModel();
-                            diseaseManagementModel.setDisease_name(diseaseName.getText().toString());
-                            if (hereditaryY.isChecked()){
-                                diseaseManagementModel.setDisease_hereditary("yes");
-                                diseaseManagementModel.setDisease_hereditary_carriers(inheritedFrom.getText().toString());
-                            } else {
-                                diseaseManagementModel.setDisease_hereditary("no");
-                                diseaseManagementModel.setDisease_hereditary_carriers(getString(R.string.sign_dash));
-                            }
-
-                            if (ongoingY.isChecked()){
-                                diseaseManagementModel.setDisease_ongoing("yes");
-                            } else {
-                                diseaseManagementModel.setDisease_ongoing("no");
-                            }
-
-                            diseaseManagementModel.setDate_last_visit("-");
-                            if (!historicDate.getText().toString().equals("")){
-                                diseaseManagementModel.setDate_historic(historicDate.getText().toString());
-                            } else if (approximateDateSpinner.getSelectedItemPosition() > 0){
-                                diseaseManagementModel.setDate_approximate(approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()));
-                            }
-                            diseaseManagementModel.setDate_created(Utils.getCurrentDate());
-
-                            diseaseManagementAdapter.addSingle(diseaseManagementModel);
-
-                            dialog.dismiss();
-                        }
-                    }
-                });
-
-                dialog.show();
+                diseaseManagementAdapter.submitItem();
             }
         });
 
@@ -227,5 +152,89 @@ public class InitialDataDiseaseActivity extends FastBaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void refreshView(boolean setRefreshing){
+        DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
+        diseaseManagementListShowAPI.data.query.user_id = userId;
+        diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
+        diseaseManagementListShowAPI.data.query.sort = currentSort;
+        diseaseManagementListShowAPI.data.query.counter = "0";
+        diseaseManagementListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
+
+        DiseaseInitListShowAPIFunc diseaseInitListShowAPIFunc = new DiseaseInitListShowAPIFunc(this, this);
+        diseaseInitListShowAPIFunc.execute(diseaseManagementListShowAPI);
+        if (setRefreshing){
+            swipeRefreshLayout.setRefreshing(true);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+        isLoading = true;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Subscribe
+    public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
+        DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
+        diseaseManagementListShowAPI.data.query.user_id = userId;
+        diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
+        diseaseManagementListShowAPI.data.query.sort = currentSort;
+        diseaseManagementListShowAPI.data.query.counter = String.valueOf(counter);
+        diseaseManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
+
+        DiseaseInitListShowAPIFunc diseaseInitListShowAPIFunc = new DiseaseInitListShowAPIFunc(InitialDataDiseaseActivity.this, InitialDataDiseaseActivity.this);
+        diseaseInitListShowAPIFunc.execute(diseaseManagementListShowAPI);
+        isLoading = true;
+    }
+
+    @Override
+    public void onFinishDiseaseManagementShow(ResponseAPI responseAPI) {
+        swipeRefreshLayout.setRefreshing(false);
+        if(responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            DiseaseManagementListShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementListShowAPI.class);
+            if (output.data.status.code.equals("200")) {
+                diseaseManagementAdapter.setFailLoad(false);
+                // If refresh, clear adapter and reset the counter
+                if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
+                    diseaseManagementAdapter.clearList();
+                    counter = 0;
+                }
+                diseaseManagementAdapter.addList(output.data.results.disease_list);
+                lastItemCounter = output.data.results.disease_list.size();
+                counter += output.data.results.disease_list.size();
+
+                if (lastItemCounter > 0){
+                    diseaseManagementAdapter.addSingle(null);
+                }
+            } else {
+                diseaseManagementAdapter.setFailLoad(true);
+                Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            diseaseManagementAdapter.setFailLoad(true);
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            forceLogout();
+        } else {
+            diseaseManagementAdapter.setFailLoad(true);
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }        
     }
 }

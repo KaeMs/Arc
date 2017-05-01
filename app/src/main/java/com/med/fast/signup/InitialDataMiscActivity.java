@@ -1,216 +1,151 @@
 package com.med.fast.signup;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
-import com.med.fast.Constants;
+import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
-import com.med.fast.Utils;
+import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.disease.DiseaseManagementAdapter;
-import com.med.fast.management.disease.DiseaseManagementModel;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import com.med.fast.management.misc.api.MiscCreateAPI;
+import com.med.fast.management.misc.api.MiscCreateAPIFunc;
+import com.med.fast.management.misc.api.MiscShowAPI;
+import com.med.fast.management.misc.api.MiscShowAPIFunc;
+import com.med.fast.management.misc.miscinterface.MiscShowCreateIntf;
 
 import butterknife.BindView;
-
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin Murvie on 4/11/2017. Fast
  */
 
-public class InitialDataMiscActivity extends FastBaseActivity {
+public class InitialDataMiscActivity extends FastBaseActivity implements MiscShowCreateIntf {
 
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
     // Step Indicator
-    @BindView(R.id.initialdata_step_imgview)
+    @BindView(R.id.initialdata_misc_step_imgview)
     ImageView step;
 
-    // RecyclerView
-    @BindView(R.id.initialdata_recycler)
-    RecyclerView recyclerView;
+    // Content
+    @BindView(R.id.misc_popup_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.misc_popup_voluptuary_habit)
+    CustomFontEditText voluptuaryHabit;
+    @BindView(R.id.misc_popup_progress)
+    ProgressBar progressBar;
+    @BindView(R.id.misc_popup_female_wrapper)
+    LinearLayout femaleWrapper;
+    @BindView(R.id.misc_popup_pregnantY)
+    CustomFontRadioButton pregnantY;
+    @BindView(R.id.misc_popup_pregnancy_weeks_wrapper)
+    LinearLayout pregnancyWeeksWrapper;
+    @BindView(R.id.misc_popup_pregnancy_weeks)
+    CustomFontEditText pregnancyWeeks;
+    @BindView(R.id.misc_popup_miscarriageY)
+    CustomFontRadioButton miscarriageY;
+    @BindView(R.id.misc_popup_miscarriage_date_wrapper)
+    LinearLayout miscarriageDateWrapper;
+    @BindView(R.id.misc_popup_miscarriage_date)
+    CustomFontEditText miscarriageDate;
+    @BindView(R.id.misc_popup_cycle_alterations)
+    CustomFontEditText cycleAlterations;
+    @BindView(R.id.management_operations_gravitystart_left_btn)
+    CustomFontButton saveBtn;
+    @BindView(R.id.management_operations_gravitystart_right_btn)
+    CustomFontButton backBtn;
+    private String userId;
+    private boolean isLoading;
 
     // Btns
-    @BindView(R.id.initialdata_add_btn)
-    CustomFontButton addBtn;
-    @BindView(R.id.initialdata_skip_btn)
+    @BindView(R.id.initialdata_misc_skip_btn)
     CustomFontTextView skipBtn;
-    @BindView(R.id.initialdata_next_btn)
+    @BindView(R.id.initialdata_misc_next_btn)
     CustomFontTextView nextBtn;
-
-    private DiseaseManagementAdapter diseaseManagementAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_initialdata_mainlayout);
+        setContentView(R.layout.management_misc_popup);
 
         toolbarTitle.setText(getString(R.string.step_4_miscellaneous));
+        userId = SharedPreferenceUtilities.getUserId(this);
 
-        diseaseManagementAdapter = new DiseaseManagementAdapter(this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(diseaseManagementAdapter);
+        String gender = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_GENDER);
+        if (gender != null){
+            if (gender.equals("male")) {
+                femaleWrapper.setVisibility(View.GONE);
+            } else {
+                femaleWrapper.setVisibility(View.VISIBLE);
+            }
+        } else {
+            femaleWrapper.setVisibility(View.GONE);            
+        }
 
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(InitialDataMiscActivity.this);
-                dialog.setContentView(R.layout.management_disease_popup);
-                dialog.setCanceledOnTouchOutside(false);
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+        refreshView(false);
 
-                final CustomFontEditText diseaseName = (CustomFontEditText) dialog.findViewById(R.id.disease_popup_name);
-                final CustomFontRadioButton hereditaryY = (CustomFontRadioButton) dialog.findViewById(R.id.disease_popup_hereditary_y_rb);
-                final CustomFontEditText inheritedFrom = (CustomFontEditText) dialog.findViewById(R.id.disease_popup_inherited_from);
-
-                final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-                mAwesomeValidation.setContext(InitialDataMiscActivity.this);
-                mAwesomeValidation.addValidation(diseaseName, RegexTemplate.NOT_EMPTY, getString(R.string.full_accident_details_required));
-
-                // Setting Hereditary RB so when it is at "no", inheritance won't be added
-                hereditaryY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        inheritedFrom.setEnabled(isChecked);
-                        if (isChecked){
-                            mAwesomeValidation.addValidation(inheritedFrom, RegexTemplate.NOT_EMPTY, getString(R.string.disease_hereditary_inherited_from_required));
-                        } else {
-                            mAwesomeValidation.clear();
-                        }
-                    }
-                });
-
-                final CustomFontRadioButton ongoingY = (CustomFontRadioButton) dialog.findViewById(R.id.disease_popup_currently_having_y_rb);
-                final CustomFontTextView historicDate = (CustomFontTextView) dialog.findViewById(R.id.disease_popup_historic_date_tv);
-                final Spinner approximateDateSpinner = (Spinner) dialog.findViewById(R.id.disease_popup_date_spinner);
-
-                String[] approximates = getResources().getStringArray(R.array.accident_approximate_values);
-                final ArrayAdapter<String> approximateSpinnerAdapter = new ArrayAdapter<>(InitialDataMiscActivity.this, android.R.layout.simple_spinner_item, approximates);
-                approximateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                approximateDateSpinner.setAdapter(approximateSpinnerAdapter);
-
-                final Calendar calendar = Calendar.getInstance();
-                final int year = calendar.get(Calendar.YEAR);
-                final int month = calendar.get(Calendar.MONTH);
-                final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                historicDate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final DatePickerDialog datePickerDialog = new DatePickerDialog(InitialDataMiscActivity.this, null, year, month, day);
-                        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
-                        datePickerDialog.getDatePicker().updateDate(year, month, day);
-                        datePickerDialog.show();
-                        datePickerDialog.setCanceledOnTouchOutside(true);
-
-                        datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // Formatting date from MM to MMM
-                                        SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
-                                        Date newDate = null;
-                                        try {
-                                            newDate = format.parse(String.valueOf(month) + " " + String.valueOf(day) + " " + String.valueOf(year));
-                                        } catch (ParseException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        format = new SimpleDateFormat(Constants.dateFormatSpace, Locale.getDefault());
-                                        String date = format.format(newDate);
-                                        historicDate.setText(date);
-                                    }
-                                });
-
-                        datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == DialogInterface.BUTTON_NEGATIVE) {
-                                            // Do Stuff
-                                            datePickerDialog.dismiss();
-                                        }
-                                    }
-                                });
-                    }
-                });
-
-                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
-                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
-
-                backBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                createBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAwesomeValidation.clear();
-                        if (mAwesomeValidation.validate()){
-                            DiseaseManagementModel diseaseManagementModel = new DiseaseManagementModel();
-                            diseaseManagementModel.setDisease_name(diseaseName.getText().toString());
-                            if (hereditaryY.isChecked()){
-                                diseaseManagementModel.setDisease_hereditary("yes");
-                                diseaseManagementModel.setDisease_hereditary_carriers(inheritedFrom.getText().toString());
-                            } else {
-                                diseaseManagementModel.setDisease_hereditary("no");
-                                diseaseManagementModel.setDisease_hereditary_carriers(getString(R.string.sign_dash));
-                            }
-
-                            if (ongoingY.isChecked()){
-                                diseaseManagementModel.setDisease_ongoing("yes");
-                            } else {
-                                diseaseManagementModel.setDisease_ongoing("no");
-                            }
-
-                            diseaseManagementModel.setDate_last_visit("-");
-                            if (!historicDate.getText().toString().equals("")){
-                                diseaseManagementModel.setDate_historic(historicDate.getText().toString());
-                            } else if (approximateDateSpinner.getSelectedItemPosition() > 0){
-                                diseaseManagementModel.setDate_approximate(approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()));
-                            }
-                            diseaseManagementModel.setDate_created(Utils.getCurrentDate());
-
-                            diseaseManagementAdapter.addSingle(diseaseManagementModel);
-
-                            dialog.dismiss();
-                        }
-                    }
-                });
-
-                dialog.show();
+        pregnantY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) pregnancyWeeksWrapper.setVisibility(View.VISIBLE);
+                else pregnancyWeeksWrapper.setVisibility(View.GONE);
             }
         });
 
+        miscarriageY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) miscarriageDateWrapper.setVisibility(View.VISIBLE);
+                else miscarriageDateWrapper.setVisibility(View.GONE);
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isLoading){
+                    MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
+                    miscCreateAPI.data.query.user_id = userId;
+                    miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
+                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked()? "yes" : "no";
+                    miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked()? pregnancyWeeks.getText().toString() : "default";
+                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked()? "yes" : "no";
+                    miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked()? miscarriageDate.getText().toString() : "default";
+                    miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
+
+                    MiscCreateAPIFunc miscCreateAPIFunc = new MiscCreateAPIFunc(InitialDataMiscActivity.this, InitialDataMiscActivity.this);
+                    miscCreateAPIFunc.execute(miscCreateAPI);
+                    isLoading = true;
+                }
+            }
+        });
+        backBtn.setVisibility(View.GONE);
+        skipBtn.setVisibility(View.GONE);
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,6 +154,7 @@ public class InitialDataMiscActivity extends FastBaseActivity {
             }
         });
 
+        nextBtn.setText(getString(R.string.finish));
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,5 +162,74 @@ public class InitialDataMiscActivity extends FastBaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    void refreshView(boolean setIsRefreshing){
+        MiscShowAPI miscShowAPI = new MiscShowAPI();
+        miscShowAPI.data.query.user_id = userId;
+
+        MiscShowAPIFunc miscShowAPIFunc = new MiscShowAPIFunc(this, this);
+        miscShowAPIFunc.execute(miscShowAPI);
+        if (setIsRefreshing){
+            swipeRefreshLayout.setRefreshing(true);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        isLoading = true;
+    }
+
+    @Override
+    public void onFinishMiscShow(ResponseAPI responseAPI) {
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        if (responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
+            if (output.data.status.code.equals("200")) {
+                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.is_female ? "female" : "male");
+                voluptuaryHabit.setText(output.data.results.voluptuary_habits);
+                pregnantY.setChecked(output.data.results.pregnancy.equals("true"));
+                pregnancyWeeks.setText(output.data.results.pregnancy_weeks);
+                miscarriageY.setChecked(output.data.results.had_miscarriage.equals("true"));
+                miscarriageDate.setText(output.data.results.last_time_miscarriage);
+                cycleAlterations.setText(output.data.results.cycle_alteration);
+            } else {
+                Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            forceLogout();
+        } else {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onFinishMiscCreateSubmit(ResponseAPI responseAPI) {
+        isLoading = false;
+        swipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        if (responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
+            if (output.data.status.code.equals("200")) {
+
+            } else {
+                Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            forceLogout();
+        } else {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
     }
 }

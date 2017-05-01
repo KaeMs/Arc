@@ -1,30 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RtlHardcoded"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/default_activity_content_padding">
+    android:id="@+id/misc_popup_swipe_refresh"
+    tools:ignore="RtlHardcoded">
 
-    <!-- Injury Nature -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/misc_voluptuary_question"
-        android:textColor="@color/blackDark" />
-
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/misc_popup_voluptuary_habit"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/misc_voluptuary_hint"
-        android:gravity="start"
-        android:textSize="@dimen/font_small" />
+        android:layout_height="wrap_content">
 
-    <include layout="@layout/management_operation_gravitystart_buttons"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</LinearLayout>
+            <ProgressBar
+                android:id="@+id/misc_popup_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progressbar_tosca"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/default_activity_content_padding">
+
+                <!-- Voluptuary Habit -->
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/misc_voluptuary_question"
+                    android:textColor="@color/blackDark" />
+
+                <com.med.fast.customviews.CustomFontEditText
+                    android:id="@+id/misc_popup_voluptuary_habit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/border_edittext_grey_selector"
+                    android:gravity="start"
+                    android:hint="@string/misc_voluptuary_hint"
+                    android:textSize="@dimen/font_small" />
+
+                <!-- Female Wrapper-->
+                <LinearLayout
+                    android:id="@+id/misc_popup_female_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- In pregnancy -->
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/misc_pregnancy_question" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <com.med.fast.customviews.CustomFontRadioButton
+                            android:id="@+id/misc_popup_pregnantY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.med.fast.customviews.CustomFontRadioButton
+                            android:id="@+id/misc_popup_pregnantN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+
+                    <!-- Pregnancy week -->
+                    <LinearLayout
+                        android:id="@+id/misc_popup_pregnancy_weeks_wrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.med.fast.customviews.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="@string/misc_pregnancy_weeks_question"
+                            android:textColor="@color/blackDark" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <com.med.fast.customviews.CustomFontEditText
+                                android:id="@+id/misc_popup_pregnancy_weeks"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/border_edittext_grey_selector"
+                                android:gravity="start"
+                                android:minWidth="@dimen/btnLargeHeight"
+                                android:textSize="@dimen/font_small" />
+
+                            <com.med.fast.customviews.CustomFontTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/weeks"
+                                android:textColor="@color/blackDark" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Miscarriage -->
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/misc_miscarriage_question" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <com.med.fast.customviews.CustomFontRadioButton
+                            android:id="@+id/misc_popup_miscarriageY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yes" />
+
+                        <com.med.fast.customviews.CustomFontRadioButton
+                            android:id="@+id/misc_popup_miscarriageN"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="@string/no" />
+
+                    </RadioGroup>
+
+                    <!-- Miscarriage date -->
+                    <LinearLayout
+                        android:id="@+id/misc_popup_miscarriage_date_wrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.med.fast.customviews.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="@string/misc_miscarriage_time_question"
+                            android:textColor="@color/blackDark" />
+
+                        <com.med.fast.customviews.CustomFontEditText
+                            android:id="@+id/misc_popup_miscarriage_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/border_edittext_grey_selector"
+                            android:gravity="start"
+                            android:textSize="@dimen/font_small" />
+
+                    </LinearLayout>
+
+                    <!-- Cycle Alteration -->
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/cycle_alteration_question"
+                        android:textColor="@color/blackDark" />
+
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/misc_popup_cycle_alterations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/border_edittext_grey_selector"
+                        android:gravity="start"
+                        android:hint="@string/cycle_alteration_question_placeholder"
+                        android:textSize="@dimen/font_small" />
+
+                </LinearLayout>
+
+                <include layout="@layout/management_operation_gravitystart_buttons" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>

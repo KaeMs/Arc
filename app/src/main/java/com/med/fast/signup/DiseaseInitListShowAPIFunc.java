@@ -1,6 +1,5 @@
-package com.med.fast.management.allergy.api;
+package com.med.fast.signup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -9,6 +8,9 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
+import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
+import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,23 +24,20 @@ import okhttp3.Response;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagementListShowAPI, Integer, ResponseAPI> {
-    private AllergyManagementShowIntf delegate;
+public class DiseaseInitListShowAPIFunc extends AsyncTask<DiseaseManagementListShowAPI, Integer, ResponseAPI> {
+    private DiseaseManagementShowIntf delegate;
     private Context context;
 
-    public AllergyManagementListShowAPIFunc(Context context) {
+    public DiseaseInitListShowAPIFunc(Context context, DiseaseManagementShowIntf delegate) {
         this.context = context;
-    }
-
-    public void setDelegate(AllergyManagementShowIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(AllergyManagementListShowAPI... params) {
+    protected ResponseAPI doInBackground(DiseaseManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/allergy/allergylistshow";
+            String url = APIConstants.API_URL + APIConstants.DISEASE_INIT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -59,11 +58,6 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("keyword", params[0].data.query.keyword)
-                    .add("sort", params[0].data.query.sort)
-                    .add("type", params[0].data.query.type)
-                    .add("flag", params[0].data.query.flag)
-                    .add("counter", params[0].data.query.counter)
                     .build();
 
             Request request = new Request.Builder()
@@ -94,7 +88,6 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishAllergyManagementShow(responseAPI);
+        delegate.onFinishDiseaseManagementShow(responseAPI);
     }
-
 }

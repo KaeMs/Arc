@@ -229,6 +229,14 @@
     <string name="misc_voluptuary_question">Do you have any voluptuary habit?</string>
     <string name="misc_voluptuary_hint">Habits such as smoking, drinking alcohol, drugs, etc.</string>
     <string name="misc_voluptuary_placeholder">Smoking alcohol, drinking smoke</string>
+    <string name="misc_pregnancy_question">Are you in pregnancy?</string>
+    <string name="misc_pregnancy_weeks_question">How many weeks are you in pregnancy?</string>
+    <string name="weeks">Weeks</string>
+    <string name="misc_miscarriage_question">Have you ever had any miscarriage?</string>
+    <string name="misc_miscarriage_time_question">When was the last time you had miscarriage?</string>
+    <string name="misc_miscarriage_time_question_placeholder">Exact or relative date such as early 2016, years ago, etc.</string>
+    <string name="cycle_alteration_question">Do you have any cycle alteration?</string>
+    <string name="cycle_alteration_question_placeholder">Cycle alterations</string>
 
     <!-- Error -->
     <string name="error_connection">Connection error, please try again later</string>
@@ -251,6 +259,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="submit">Submit</string>
+    <string name="finish">Finish</string>
     <string name="upload">Upload</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->

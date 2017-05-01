@@ -8,15 +8,15 @@
     <shape
         android:shape="ring"
         android:thickness="2dp"
-        android:useLevel="false" >
+        android:useLevel="false">
         <size
-            android:height="48dp"
-            android:width="48dp" />
+            android:width="48dp"
+            android:height="48dp" />
 
         <gradient
-            android:centerColor="@color/tosca"
+            android:centerColor="@color/pink"
             android:centerY="0.5"
-            android:endColor="@color/toscaOpa60"
+            android:endColor="@color/pinkOpa60"
             android:startColor="@color/transparent"
             android:type="sweep"
             android:useLevel="false" />

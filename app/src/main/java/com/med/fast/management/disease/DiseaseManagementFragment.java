@@ -3,6 +3,7 @@ package com.med.fast.management.disease;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -30,6 +31,7 @@ import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -59,7 +61,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class DiseaseManagementFragment extends FastBaseFragment implements DiseaseManagementShowIntf {
+public class DiseaseManagementFragment extends FastBaseFragment implements DiseaseManagementShowIntf, StartActivityForResultInAdapterIntf {
     @BindView(R.id.management_mainfragment_search_edittxt)
     CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
@@ -90,7 +92,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).changeTitle("DISEASE MANAGEMENT");
 
-        diseaseManagementAdapter = new DiseaseManagementAdapter(getActivity());
+        diseaseManagementAdapter = new DiseaseManagementAdapter(getActivity(), this, false);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -227,4 +229,8 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
     }
 
 
+    @Override
+    public void onStartActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
+    }
 }

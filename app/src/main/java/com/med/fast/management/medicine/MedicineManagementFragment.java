@@ -104,8 +104,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                         medicineManagementListShowAPI.data.query.counter = String.valueOf(counter);
                         medicineManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 
-                        MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity());
-                        medicineManagementListShowAPIFunc.setDelegate(MedicineManagementFragment.this);
+                        MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity(), MedicineManagementFragment.this);
                         medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
                         isLoading = true;
                     }
@@ -131,8 +130,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         medicineManagementListShowAPI.data.query.counter = "0";
         medicineManagementListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
 
-        MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity());
-        medicineManagementListShowAPIFunc.setDelegate(MedicineManagementFragment.this);
+        MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity(), MedicineManagementFragment.this);
         medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
         
         if (showProgress){
@@ -170,8 +168,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
             medicineManagementListShowAPI.data.query.counter = String.valueOf(counter);
             medicineManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 
-            MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity());
-            medicineManagementListShowAPIFunc.setDelegate(MedicineManagementFragment.this);
+            MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity(), MedicineManagementFragment.this);
             medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
             isLoading = true;
         }

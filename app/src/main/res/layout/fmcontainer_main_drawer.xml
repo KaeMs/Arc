@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/default_activity_content_padding"
     tools:ignore="RtlHardcoded">
 
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         android:padding="@dimen/default_activity_content_padding"
-        android:src="@drawable/logo_white_medium"/>
+        android:src="@drawable/logo_white_medium" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,17 +29,17 @@
                 android:id="@+id/drawer_summary_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_summary_black"
-                    android:contentDescription="@string/summary"/>
+                    android:contentDescription="@string/summary"
+                    android:src="@drawable/ic_summary_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -53,17 +54,17 @@
                 android:id="@+id/drawer_idcard_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_idcard_black"
-                    android:contentDescription="@string/my_id_card"/>
+                    android:contentDescription="@string/my_id_card"
+                    android:src="@drawable/ic_idcard_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -78,17 +79,17 @@
                 android:id="@+id/drawer_visit_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_hospital_black"
-                    android:contentDescription="@string/visit_management"/>
+                    android:contentDescription="@string/visit_management"
+                    android:src="@drawable/ic_hospital_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -103,17 +104,17 @@
                 android:id="@+id/drawer_surgery_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_hospital_black"
-                    android:contentDescription="@string/surgery_management"/>
+                    android:contentDescription="@string/surgery_management"
+                    android:src="@drawable/ic_hospital_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -128,17 +129,17 @@
                 android:id="@+id/drawer_allergy_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_allergy_black"
-                    android:contentDescription="@string/allergy_management"/>
+                    android:contentDescription="@string/allergy_management"
+                    android:src="@drawable/ic_allergy_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -153,17 +154,17 @@
                 android:id="@+id/drawer_disease_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_disease_black"
-                    android:contentDescription="@string/disease_management"/>
+                    android:contentDescription="@string/disease_management"
+                    android:src="@drawable/ic_disease_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -178,17 +179,17 @@
                 android:id="@+id/drawer_medicine_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_medicine_black"
-                    android:contentDescription="@string/medicine_management"/>
+                    android:contentDescription="@string/medicine_management"
+                    android:src="@drawable/ic_medicine_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -203,17 +204,17 @@
                 android:id="@+id/drawer_accident_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_accident_black"
-                    android:contentDescription="@string/accident_history_management"/>
+                    android:contentDescription="@string/accident_history_management"
+                    android:src="@drawable/ic_accident_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -228,17 +229,17 @@
                 android:id="@+id/drawer_labresult_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_labresult_black"
-                    android:contentDescription="@string/lab_result_management"/>
+                    android:contentDescription="@string/lab_result_management"
+                    android:src="@drawable/ic_labresult_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"
@@ -253,17 +254,18 @@
                 android:id="@+id/drawer_misc_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:paddingLeft="@dimen/drawer_horizontal_padding"
-                android:paddingRight="@dimen/drawer_horizontal_padding"
                 android:background="@drawable/button_transparent_tosca"
-                android:gravity="center">
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
-                    android:src="@drawable/ic_misc_black"
-                    android:contentDescription="@string/misc_management"/>
+                    android:contentDescription="@string/misc_management"
+                    android:src="@drawable/ic_misc_selector" />
 
                 <com.med.fast.customviews.CustomFontTextView
                     android:layout_width="0dp"

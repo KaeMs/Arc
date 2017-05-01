@@ -26,23 +26,24 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
     private AllergyManagementCreateDeleteIntf delegate;
     private Context context;
     private String tag;
+    private boolean initial = false;
 
-    public AllergyManagementCreateSubmitAPIFunc(Context context, String tag) {
+    public AllergyManagementCreateSubmitAPIFunc(Context context, AllergyManagementCreateDeleteIntf delegate, String tag, boolean initial) {
         this.context = context;
-        this.tag = tag;
-    }
-
-    public void setDelegate(AllergyManagementCreateDeleteIntf delegate) {
         this.delegate = delegate;
+        this.tag = tag;
+        this.initial = initial;
     }
 
     @Override
     protected ResponseAPI doInBackground(AllergyManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/allergy/allergycreatesubmit";
+            String url;
+            if (initial)url = APIConstants.API_URL + APIConstants.ALLERGY_INIT_SUBMIT;
+            else url = APIConstants.API_URL + APIConstants.ALLERGY_CREATE_SUBMIT;
 
-            OkHttpClient client = new OkHttpClient.Builder()
+                    OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
                     .writeTimeout(APIConstants.writeTimeout, TimeUnit.SECONDS)
                     .readTimeout(APIConstants.readTimeout, TimeUnit.SECONDS)

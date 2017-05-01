@@ -4,7 +4,7 @@ package com.med.fast.management.misc.api;
  * Created by Kevin Murvie on 4/29/2017. FM
  */
 
-public class MiscManagementShowAPI {
+public class MiscCreateAPI {
     public Data data;
 
     public class Data
@@ -16,6 +16,12 @@ public class MiscManagementShowAPI {
         public class Query
         {
             public String user_id;
+            public String voluptuary_habits;
+            public String pregnancy;
+            public String pregnancy_weeks;
+            public String had_miscarriage;
+            public String last_time_miscarriage;
+            public String cycle_alteration;
         }
 
         public class Status
@@ -28,7 +34,6 @@ public class MiscManagementShowAPI {
         {
             public String result_status;
             public String description;
-            public String voluptuary_habit;
         }
     }
 }

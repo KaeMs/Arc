@@ -10,12 +10,13 @@ import android.content.SharedPreferences;
 
 @SuppressLint("ApplySharedPref")
 public class SharedPreferenceUtilities {
-    
-    private static String SESSION_SP = "SESSION_SP";
-    private static String USER_ID = "USER_ID";
-    public static String user_name = "user_name";
-    public static String user_email = "user_email";
-    public static String user_password = "user_password";
+
+    public static final String SESSION_SP = "SESSION_SP";
+    public static final String USER_ID = "USER_ID";
+    public static final String USER_NAME = "USER_NAME";
+    public static final String USER_EMAIL = "USER_EMAIL";
+    public static final String USER_PASSWORD = "USER_PASSWORD";
+    public static final String USER_GENDER = "USER_GENDER";
     
     private SharedPreferenceUtilities() {
         super();

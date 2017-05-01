@@ -5,8 +5,6 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.med.fast.SharedPreferenceUtilities;
-import com.med.fast.api.APIConstants;
-import com.med.fast.api.ResponseAPI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,8 +73,8 @@ public class TokenUtils {
                     .build();
 
             // Get data from sharepref
-            String username = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.user_name);
-            String password = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.user_password);
+            String username = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_NAME);
+            String password = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_PASSWORD);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("username", username)

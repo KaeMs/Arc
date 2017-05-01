@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2e4973</color>
+    <color name="colorPrimaryDark">#001d4b</color>
     <!-- FF4081 -->
     <color name="colorAccent">#1fb5ac</color>
 
@@ -37,6 +37,16 @@
     <color name="toscaLightOpa60">#9926c6da</color>
     <color name="toscaLightOpa40">#6626c6da</color>
     <color name="toscaLightOpa20">#3326c6da</color>
+    <color name="blue">#2e4973</color>
+    <color name="blueOpa80">#cc2e4973</color>
+    <color name="blueOpa60">#992e4973</color>
+    <color name="blueOpa40">#662e4973</color>
+    <color name="blueOpa20">#332e4973</color>
+    <color name="blueDark">#001d4b</color>
+    <color name="blueDarkOpa80">#cc001d4b</color>
+    <color name="blueDarkOpa60">#99001d4b</color>
+    <color name="blueDarkOpa40">#66001d4b</color>
+    <color name="blueDarkOpa20">#33001d4b</color>
 
     <color name="greenLight">#66bd78</color>
     <color name="greenLightOpa80">#cc66bd78</color>
@@ -59,5 +69,10 @@
     <color name="redOpa60">#99c12e2a</color>
     <color name="redOpa40">#66c12e2a</color>
     <color name="redOpa20">#33c12e2a</color>
+    <color name="pink">#e8158d</color>
+    <color name="pinkOpa80">#cce8158d</color>
+    <color name="pinkOpa60">#99e8158d</color>
+    <color name="pinkOpa40">#66e8158d</color>
+    <color name="pinkOpa20">#33e8158d</color>
 
 </resources>

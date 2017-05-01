@@ -66,18 +66,21 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     private boolean failLoad = false;
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
+    private boolean initial = false;
 
-    public AllergyManagementAdapter(Context context) {
+    public AllergyManagementAdapter(Context context, boolean initial) {
         super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.initial = initial;
     }
 
-    public AllergyManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf) {
+    public AllergyManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial) {
         super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
         this.startActivityForResultInAdapterIntf = intf;
+        this.initial = initial;
     }
 
     public void addList(List<AllergyManagementModel> dataset) {
@@ -195,8 +198,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = firstExpString;
                     allergyManagementCreateSubmitAPI.data.query.tag = causativeString + String.valueOf(getItemCount());
 
-                    AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, allergy.getTag());
-                    allergyManagementCreateSubmitAPIFunc.setDelegate(AllergyManagementAdapter.this);
+                    AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
+                            allergy.getTag(), initial);
                     allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
 
                     dialog.dismiss();
@@ -215,8 +218,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = mDataset.get(position).getFirst_experience();
         allergyManagementCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
 
-        AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
-        allergyManagementCreateSubmitAPIFunc.setDelegate(AllergyManagementAdapter.this);
+        AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
+                mDataset.get(position).getTag(), initial);
         allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
     }
     

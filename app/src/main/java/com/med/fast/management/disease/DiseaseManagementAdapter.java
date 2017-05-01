@@ -68,21 +68,23 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     private Context context;
     private List<DiseaseManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
-    private String deletionId = "";
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
+    private boolean initial = false;
 
-    public DiseaseManagementAdapter(Context context){
+    public DiseaseManagementAdapter(Context context, boolean initial){
         super(true);
         userId = SharedPreferenceUtilities.getUserId(context);
         this.context = context;
+        this.initial = initial;
     }
 
-    public DiseaseManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+    public DiseaseManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial){
         super(true);
         userId = SharedPreferenceUtilities.getUserId(context);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
+        this.initial = initial;
     }
 
     public void addList(List<DiseaseManagementModel> dataset){
@@ -245,7 +247,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     diseaseManagementCreateSubmitAPI.data.query.hereditary_carrier = diseaseHereditaryCarriersString;
                     diseaseManagementCreateSubmitAPI.data.query.tag = diseaseNameString + String.valueOf(getItemCount());
 
-                    DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, diseaseManagementModel.getTag());
+                    DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, diseaseManagementModel.getTag(), initial);
                     diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
                     diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
 
@@ -266,7 +268,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         diseaseManagementCreateSubmitAPI.data.query.date = mDataset.get(position).getDate_approximate();
         diseaseManagementCreateSubmitAPI.data.query.hereditary_carrier = mDataset.get(position).getDisease_hereditary_carriers();
 
-        DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
+        DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag(), initial);
         diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
         diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
     }

@@ -1,4 +1,4 @@
-package com.med.fast.management.misc.api;
+package com.med.fast.signup;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,7 +7,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.misc.miscinterface.MiscFragmentIntf;
+import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
+import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,26 +19,23 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Kevin Murvie on 4/29/2017. FM
+ * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class MiscManagementShowAPIFunc extends AsyncTask<MiscManagementShowAPI, Integer, ResponseAPI> {
-    private MiscFragmentIntf delegate;
+public class AllergyInitListShowAPIFunc extends AsyncTask<AllergyManagementListShowAPI, Integer, ResponseAPI> {
+    private AllergyManagementShowIntf delegate;
     private Context context;
 
-    public MiscManagementShowAPIFunc(Context context) {
+    public AllergyInitListShowAPIFunc(Context context, AllergyManagementShowIntf delegate) {
         this.context = context;
-    }
-
-    public void setDelegate(MiscFragmentIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(MiscManagementShowAPI... params) {
+    protected ResponseAPI doInBackground(AllergyManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/misc/miscshow";
+            String url = APIConstants.API_URL + APIConstants.ALLERGY_INIT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -58,6 +56,9 @@ public class MiscManagementShowAPIFunc extends AsyncTask<MiscManagementShowAPI, 
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
+                    .add("keyword", params[0].data.query.keyword)
+                    .add("sort", params[0].data.query.sort)
+                    .add("type", params[0].data.query.type)
                     .build();
 
             Request request = new Request.Builder()
@@ -86,8 +87,9 @@ public class MiscManagementShowAPIFunc extends AsyncTask<MiscManagementShowAPI, 
     }
 
     @Override
-    protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
-        super.onPostExecute(registerSubmitAPIResult);
-        delegate.onFinishMiscShow(registerSubmitAPIResult);
+    protected void onPostExecute(ResponseAPI responseAPI) {
+        super.onPostExecute(responseAPI);
+        delegate.onFinishAllergyManagementShow(responseAPI);
     }
+
 }
