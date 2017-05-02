@@ -3,8 +3,10 @@ package com.med.fast.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -13,7 +15,6 @@ import com.med.fast.Constants;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
-import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -23,6 +24,7 @@ import com.med.fast.signup.SignupActivity;
 
 import butterknife.BindView;
 
+import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 public class LoginActivity extends FastBaseActivity implements LoginIntf {
@@ -45,25 +47,21 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.causative_agent_empty));
-        mAwesomeValidation.addValidation(password, Constants.REGEX_PASSWORD, getString(R.string.wrong_password_format_mssg));
-
-        mAwesomeValidation.setContext(this);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAwesomeValidation.validate()){
-                    LoginAPI loginAPI = new LoginAPI();
-                    loginAPI.data.query.email = email.getText().toString();
-                    loginAPI.data.query.password = password.getText().toString();
+                normalLogin();
+            }
+        });
 
-                    LoginAPIFunc loginAPIFunc = new LoginAPIFunc(LoginActivity.this, LoginActivity.this);
-                    loginAPIFunc.execute(loginAPI);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL) {
+                    normalLogin();
+                    return true;
                 }
+                return false;
             }
         });
 
@@ -105,6 +103,21 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
                 startActivity(intent);
             }
         });
+    }
+
+    void normalLogin(){
+        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(COLORATION);
+        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
+        mAwesomeValidation.addValidation(password, Constants.REGEX_PASSWORD, getString(R.string.password_wrong_format));
+
+        if (mAwesomeValidation.validate()){
+            LoginAPI loginAPI = new LoginAPI();
+            loginAPI.data.query.email = email.getText().toString();
+            loginAPI.data.query.password = password.getText().toString();
+
+            LoginAPIFunc loginAPIFunc = new LoginAPIFunc(LoginActivity.this, LoginActivity.this);
+            loginAPIFunc.execute(loginAPI);
+        }
     }
 
     @Override

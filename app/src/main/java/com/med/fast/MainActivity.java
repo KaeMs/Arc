@@ -1,5 +1,6 @@
 package com.med.fast;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.VisitFragment;
+import com.med.fast.summary.SummaryFragment;
 
 import butterknife.BindView;
 
@@ -50,11 +52,18 @@ public class MainActivity extends FastBaseActivity {
                 }
             }
         });
+
+        SummaryFragment summaryFragment = new SummaryFragment();
+        replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        backstackPopper();
     }
 
     public void replaceFragment(final Fragment fragment, final String tag, boolean addToBackstack){
         Bundle args = new Bundle();
-//        String[] splitTag = tag.split(":");
         /*ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
         if (fragment.getArguments() == null) {
             fragment.setArguments(args);
@@ -85,5 +94,15 @@ public class MainActivity extends FastBaseActivity {
 
     public void changeTitle(String title){
         toolbarTitle.setText(title);
+    }
+
+    public void backstackPopper() {
+        if (fragmentManager.getBackStackEntryCount() - 2 >= 0) {
+            fragmentManager.popBackStackImmediate();
+        } else {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+        }
     }
 }

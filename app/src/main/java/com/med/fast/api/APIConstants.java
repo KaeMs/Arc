@@ -5,7 +5,7 @@ package com.med.fast.api;
  */
 
 public class APIConstants {
-    public static final String API_URL = "api.fastmedrecord.com/";
+    public static final String API_URL = "http://api.fastmedrecord.com";
 
     // Login
     public static final String LOGIN = "/login/loginsubmit";
@@ -40,6 +40,7 @@ public class APIConstants {
     public static final int connectTimeout = 15;
     public static final int writeTimeout = 15;
     public static final int readTimeout = 30;
+    public static final String CONNECTION_ERROR = "Connection error";
     public static final String MODE_EDIT = "read";
     public static final String MODE_DELETE = "delete";
     public static final String DEFAULT = "default";

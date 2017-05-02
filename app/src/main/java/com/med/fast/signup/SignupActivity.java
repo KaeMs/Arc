@@ -122,11 +122,11 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(COLORATION);
 //        mAwesomeValidation.setContext(SignupActivity.this);
 
-        mAwesomeValidation.addValidation(firstNameET, Constants.REGEX_NAME, "Format nama salah");
-        mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, "Format nama belakang salah");
-        mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, "Format email salah");
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, Constants.REGEX_PASSWORD, R.string.wrong_password_format_mssg);
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.wrong_password_confirmation);
+        mAwesomeValidation.addValidation(firstNameET, Constants.REGEX_NAME, getString(R.string.first_name_wrong_format));
+        mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, getString(R.string.last_name_wrong_format));
+        mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, Constants.REGEX_PASSWORD, R.string.password_wrong_format);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.password_wrong_confirmation);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override

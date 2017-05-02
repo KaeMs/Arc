@@ -1,8 +1,11 @@
 package com.med.fast.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -23,10 +26,22 @@ import okhttp3.Response;
 public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
     private LoginIntf delegate;
     private Context context;
+    private ProgressDialog progressDialog;
 
     public LoginAPIFunc(Context context, LoginIntf delegate) {
         this.context = context;
         this.delegate = delegate;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Signing you in");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -75,7 +90,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
             response.body().close();
         } catch (Exception ex) {
             responseAPI.status_code = 504;
-            responseAPI.status_response = "Koneksi Bermasalah";
+            responseAPI.status_response = APIConstants.CONNECTION_ERROR;
         }
         return responseAPI;
     }
@@ -83,6 +98,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
+        progressDialog.dismiss();
         delegate.onFinishLogin(responseAPI);
     }
 

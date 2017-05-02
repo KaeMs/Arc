@@ -1,17 +1,17 @@
 package com.med.fast.management.accidenthistory.api;
 
 /**
- * Created by kevindreyar on 27-Apr-17.
+ * Created by kevindreyar on 27-Apr-17. FM
  */
 
 public class AccidentHistoryDeleteSubmitAPI {
-    public Data data;
+    public Data data = new Data();
 
     public class Data
     {
-        public Query query;
-        public Status status;
-        public Results results;
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
         public class Query
         {

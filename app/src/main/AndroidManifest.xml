@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.med.fast">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,23 +23,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <context android:name="com.med.fast.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize">
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </context>
-        <context android:name=".signup.SignupActivity"
+        </activity>
+        <activity
+            android:name="com.med.fast.login.LoginActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".signup.SignupActivity"
             android:theme="@style/AppTheme" />
-        <context android:name=".signup.InitialDataAllergyActivity"
-            android:theme="@style/AppTheme.InitialData"
-            android:exported="true"/>
-        <context android:name=".MainActivity" />
+        <activity
+            android:name=".signup.InitialDataAllergyActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.InitialData" />
+        <activity android:name=".MainActivity" />
 
-        <context android:name=".management.accidenthistory.AccidentEditActivity" />
-        <context android:name=".management.allergy.AllergyEditActivity" />
+        <activity android:name=".management.accidenthistory.AccidentEditActivity" />
+        <activity android:name=".management.allergy.AllergyEditActivity" />
+
+        <activity android:name=".signup.InitialDataDiseaseActivity" />
+        <activity android:name=".signup.InitialDataMedicationActivity" />
+        <activity android:name=".signup.InitialDataMiscActivity" />
     </application>
 
 </manifest>

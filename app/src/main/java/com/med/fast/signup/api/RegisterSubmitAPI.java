@@ -4,18 +4,15 @@ package com.med.fast.signup.api;
  * Created by Kevin Murvie on 4/20/2017. FM
  */
 
-public class RegisterSubmitAPI
-{
-    public Data data;
+public class RegisterSubmitAPI {
+    public Data data = new Data();
 
-    public class Data
-    {
-        public Query query;
-        public Status status;
-        public Results results;
+    public class Data {
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
-        public class Query
-        {
+        public class Query {
             public String first_name;
             public String last_name;
             public String email;
@@ -24,14 +21,12 @@ public class RegisterSubmitAPI
             public String gender; // 0 = male, 1 = female
         }
 
-        public class Status
-        {
+        public class Status {
             public String code;
             public String description;
         }
 
-        public class Results
-        {
+        public class Results {
             public String result_status;
             public String description;
             public String saved_user_id;

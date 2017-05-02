@@ -157,10 +157,10 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         final CustomFontRadioButton drugTypeYes = (CustomFontRadioButton) dialog.findViewById(R.id.allergy_popup_drugtype_rb_yes);
         final CustomFontEditText reaction = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_reaction_et);
         final CustomFontEditText firstExp = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_firsttime_et);
-        CustomFontButton cancelBtn = (CustomFontButton) dialog.findViewById(R.id.allergy_popup_cancel_btn);
-        CustomFontButton addBtn = (CustomFontButton) dialog.findViewById(R.id.allergy_popup_add_btn);
+        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
+        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -171,7 +171,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         mAwesomeValidation.setContext(context);
         mAwesomeValidation.addValidation(causative, RegexTemplate.NOT_EMPTY, context.getString(R.string.causative_agent_empty));
         mAwesomeValidation.addValidation(reaction, RegexTemplate.NOT_EMPTY, context.getString(R.string.reaction_empty));
-        addBtn.setOnClickListener(new View.OnClickListener() {
+        createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mAwesomeValidation.validate()) {

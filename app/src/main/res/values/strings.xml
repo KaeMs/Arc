@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Arc</string>
     <string name="title">Title</string>
+    <!-- Splash Screen -->
+    <string name="splash_image">Splash Image</string>
+
+
     <!--Setting-->
     <string name="setting_profile_picture">Profile Picture</string>
     <string name="setting_name">Name</string>
@@ -25,16 +29,19 @@
     <string name="signup_title">CREATE YOUR ACCOUNT</string>
     <string name="name">Name</string>
     <string name="first_name">First Name</string>
+    <string name="first_name_wrong_format">Wrong first name format</string>
     <string name="last_name">Last Name</string>
+    <string name="last_name_wrong_format">Wrong email format</string>
     <string name="email_address">Email Address</string>
+    <string name="email_address_wrong_format">Wrong email format</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register_your_account">Register your account</string>
-    <string name="wrong_password_format_mssg">Format password Salah, minimal 6 huruf, maksimal 50 huruf</string>
-    <string name="wrong_password_confirmation">Password tidak sama</string>
+    <string name="password_wrong_format">Wrong password format, min 6 letters, max 50 letters</string>
+    <string name="password_wrong_confirmation">Password does not match</string>
 
     <!-- Initial Data -->
     <string name="step_1_allergy">STEP 1 - ALLERGY</string>

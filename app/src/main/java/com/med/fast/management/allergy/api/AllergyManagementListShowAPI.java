@@ -5,17 +5,17 @@ import com.med.fast.management.allergy.AllergyManagementModel;
 import java.util.List;
 
 /**
- * Created by website-development on 27-Apr-17.
+ * Created by website-development on 27-Apr-17. FM
  */
 
 public class AllergyManagementListShowAPI {
-    public Data data;
+    public Data data = new Data();
 
     public class Data
     {
-        public Query query;
-        public Status status;
-        public Results results;
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
         public class Query
         {

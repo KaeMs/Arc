@@ -25,6 +25,10 @@
     <color name="greyLightOpa40">#66e8e8e8</color>
     <color name="greyLightOpa20">#33e8e8e8</color>
     <color name="black">#ff676767</color>
+    <color name="blackOpa80">#cc676767</color>
+    <color name="blackOpa60">#99676767</color>
+    <color name="blackOpa40">#66676767</color>
+    <color name="blackOpa20">#33676767</color>
     <color name="blackDark">#ff505458</color>
     <color name="blackDarkSubtitle">#ff767676</color>
     <color name="tosca">#1fb5ac</color>

@@ -2,6 +2,7 @@ package com.med.fast.summary;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,10 @@ import butterknife.BindView;
  */
 
 public class SummaryFragment extends FastBaseFragment {
-    /*@BindView(R.id.summary_greeting)
+    @BindView(R.id.summary_greeting)
     TextView summaryGreeting;
     @BindView(R.id.summary_recycler)
-    TextView summaryRecycler;
+    RecyclerView summaryRecycler;
     @BindView(R.id.summary_fragment_progress)
     ProgressBar summaryProgress;
 
@@ -38,5 +39,5 @@ public class SummaryFragment extends FastBaseFragment {
 
 
 
-    }*/
+    }
 }
