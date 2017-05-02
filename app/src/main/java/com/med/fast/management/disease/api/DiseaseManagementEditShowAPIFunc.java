@@ -7,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementEditShowIntf;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementEditIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,14 +22,14 @@ import okhttp3.Response;
  */
 
 public class DiseaseManagementEditShowAPIFunc extends AsyncTask<DiseaseManagementEditShowAPI, Integer, ResponseAPI> {
-    private DiseaseManagementEditShowIntf delegate;
+    private DiseaseManagementEditIntf delegate;
     private Activity activity;
 
     public DiseaseManagementEditShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(DiseaseManagementEditShowIntf delegate) {
+    public void setDelegate(DiseaseManagementEditIntf delegate) {
         this.delegate = delegate;
     }
 
