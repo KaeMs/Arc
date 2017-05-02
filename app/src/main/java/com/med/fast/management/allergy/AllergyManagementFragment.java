@@ -211,7 +211,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
             @Override
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.allergy_popup);
+                dialog.setContentView(R.layout.management_allergy_popup);
                 dialog.setCanceledOnTouchOutside(false);
 
                 final CustomFontEditText causative = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_causative_et);

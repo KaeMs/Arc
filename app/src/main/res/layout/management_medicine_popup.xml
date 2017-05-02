@@ -5,183 +5,190 @@
     android:layout_height="wrap_content"
     tools:ignore="RtlHardcoded">
 
-    <LinearLayout
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_activity_content_padding"
-        android:orientation="vertical">
-
-        <!-- Medicine Name -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medicine_name"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/medicine_popup_medicine_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:gravity="start"
-            android:hint="@string/medicine_name_hint"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Medicine Form -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medicine_form"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/medicine_popup_medicine_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:gravity="start"
-            android:hint="@string/medicine_form_hint"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Method of Administration -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medicine_administration_method"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/medicine_popup_administration_method"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:gravity="start"
-            android:hint="@string/medicine_administration_method_hint"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Dose -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medicine_administration_dose"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/medicine_popup_administration_dose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:hint="@string/medicine_administration_dose_hint"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Frequency -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medicine_frequency"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/medicine_popup_frequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:hint="@string/medicine_frequency_hint"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Reason -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medication_reason"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/medicine_popup_reason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:hint="@string/medication_reason_hint"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Status -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/medication_status"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/medicine_popup_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:hint="@string/medication_status_hint"
-            android:minLines="3"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
-
-        <!-- Additional Instruction -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/additional_instruction"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/medicine_popup_additional_instruction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
-            android:hint="@string/additional_instruction_hint"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
+        tools:ignore="RtlHardcoded">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="15dp"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="@dimen/default_activity_content_padding">
 
-            <com.med.fast.customviews.CustomFontButton
-                android:id="@+id/medicine_popup_back_btn"
+            <!-- Medicine Name -->
+            <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_ltgrey_grey"
-                android:text="@string/back"
-                android:textColor="@color/black" />
+                android:layout_height="wrap_content"
+                android:text="@string/medicine_name"
+                android:textColor="@color/blackDark" />
 
-            <com.med.fast.customviews.CustomFontButton
-                android:id="@+id/medicine_popup_create_btn"
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/medicine_popup_medicine_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:gravity="start"
+                android:hint="@string/medicine_name_hint"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Medicine Form -->
+            <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:background="@drawable/button_toscalight_tosca"
-                android:text="@string/create"
-                android:textColor="@color/textcolor_white_to_tosca" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medicine_form"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/medicine_popup_medicine_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:gravity="start"
+                android:hint="@string/medicine_form_hint"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Method of Administration -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medicine_administration_method"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/medicine_popup_administration_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:gravity="start"
+                android:hint="@string/medicine_administration_method_hint"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Dose -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medicine_administration_dose"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/medicine_popup_administration_dose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:hint="@string/medicine_administration_dose_hint"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Frequency -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medicine_frequency"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/medicine_popup_frequency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:hint="@string/medicine_frequency_hint"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Reason -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medication_reason"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/medicine_popup_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:hint="@string/medication_reason_hint"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Status -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/medication_status"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/medicine_popup_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:hint="@string/medication_status_hint"
+                android:minLines="3"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
+
+            <!-- Additional Instruction -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/additional_instruction"
+                android:textColor="@color/blackDark" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/medicine_popup_additional_instruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_selector"
+                android:hint="@string/additional_instruction_hint"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <com.med.fast.customviews.CustomFontButton
+                    android:id="@+id/medicine_popup_back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_ltgrey_grey"
+                    android:text="@string/back"
+                    android:textColor="@color/black" />
+
+                <com.med.fast.customviews.CustomFontButton
+                    android:id="@+id/medicine_popup_create_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:background="@drawable/button_toscalight_tosca"
+                    android:text="@string/create"
+                    android:textColor="@color/textcolor_white_to_tosca" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

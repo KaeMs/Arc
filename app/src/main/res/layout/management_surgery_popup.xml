@@ -1,101 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RtlHardcoded"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/default_activity_content_padding">
+    tools:ignore="RtlHardcoded">
 
-    <!-- Surgery Procedure -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/surgery_procedure"
-        android:textColor="@color/blackDark" />
-
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/surgery_popup_procedure"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/surgery_procedure_hint"
-        android:gravity="start"
-        android:textSize="@dimen/font_small" />
+        android:orientation="vertical"
+        android:padding="@dimen/default_activity_content_padding">
 
-    <!-- Physician Name -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/physician_name"
-        android:textColor="@color/blackDark" />
+        <!-- Surgery Procedure -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/surgery_procedure"
+            android:textColor="@color/blackDark" />
 
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/surgery_popup_physician_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/physician_name_hint"
-        android:gravity="start"
-        android:textSize="@dimen/font_small" />
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/surgery_popup_procedure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:gravity="start"
+            android:hint="@string/surgery_procedure_hint"
+            android:textSize="@dimen/font_small" />
 
-    <!-- Hospital -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/hospital_name"
-        android:textColor="@color/blackDark" />
+        <!-- Physician Name -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/physician_name"
+            android:textColor="@color/blackDark" />
 
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/surgery_popup_hospital_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/hospital_name_hint"
-        android:gravity="start"
-        android:textSize="@dimen/font_small" />
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/surgery_popup_physician_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:gravity="start"
+            android:hint="@string/physician_name_hint"
+            android:textSize="@dimen/font_small" />
 
-    <!-- Date -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/date"
-        android:textColor="@color/blackDark" />
+        <!-- Hospital -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/hospital_name"
+            android:textColor="@color/blackDark" />
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/surgery_popup_surgery_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:textColor="@color/blackDark"
-        android:textSize="@dimen/font_small"
-        android:hint="@string/surgery_date"/>
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/surgery_popup_hospital_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:gravity="start"
+            android:hint="@string/hospital_name_hint"
+            android:textSize="@dimen/font_small" />
 
-    <!-- Note -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/surgery_note"
-        android:textColor="@color/blackDark" />
+        <!-- Date -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/date"
+            android:textColor="@color/blackDark" />
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/surgery_popup_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:textColor="@color/blackDark"
-        android:textSize="@dimen/font_small"
-        android:hint="@string/surgery_note_hint"/>
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/surgery_popup_surgery_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:hint="@string/surgery_date"
+            android:textColor="@color/blackDark"
+            android:textSize="@dimen/font_small" />
 
-    <include layout="@layout/management_operation_backcreate_buttons"/>
+        <!-- Note -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/surgery_note"
+            android:textColor="@color/blackDark" />
 
-</LinearLayout>
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/surgery_popup_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:hint="@string/surgery_note_hint"
+            android:textColor="@color/blackDark"
+            android:textSize="@dimen/font_small" />
+
+        <include layout="@layout/management_operation_backcreate_buttons" />
+
+    </LinearLayout>
+
+</RelativeLayout>

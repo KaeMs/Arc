@@ -1,139 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="RtlHardcoded"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/default_activity_content_padding">
+    tools:ignore="RtlHardcoded">
 
-    <!-- Disease Name -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/disease_name"
-        android:textColor="@color/blackDark" />
-
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/disease_popup_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/disease_name_hint"
-        android:textSize="@dimen/font_small" />
+        android:orientation="vertical"
+        android:padding="@dimen/default_activity_content_padding">
 
-    <!-- Hereditary y/n -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/disease_hereditary_question"
-        android:textColor="@color/blackDark" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.med.fast.customviews.CustomFontRadioButton
-            android:id="@+id/disease_popup_hereditary_y_rb"
+        <!-- Disease Name -->
+        <com.med.fast.customviews.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yes"/>
+            android:text="@string/disease_name"
+            android:textColor="@color/blackDark" />
 
-        <com.med.fast.customviews.CustomFontRadioButton
-            android:id="@+id/disease_popup_hereditary_n_rb"
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/disease_popup_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:hint="@string/disease_name_hint"
+            android:textSize="@dimen/font_small" />
+
+        <!-- Hereditary y/n -->
+        <com.med.fast.customviews.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/no"/>
-        
-    </RadioGroup>
+            android:layout_marginTop="15dp"
+            android:text="@string/disease_hereditary_question"
+            android:textColor="@color/blackDark" />
 
-    <!-- Inherited from -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/disease_hereditary_inherited_from"
-        android:textColor="@color/blackDark" />
-
-    <com.med.fast.customviews.CustomFontEditText
-        android:id="@+id/disease_popup_inherited_from"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:hint="@string/disease_hereditary_inherited_from_hint"
-        android:gravity="start"
-        android:textSize="@dimen/font_small" />
-
-    <!-- Currently having this disease y/n -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/ongoing"
-        android:textColor="@color/blackDark" />
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.med.fast.customviews.CustomFontRadioButton
-            android:id="@+id/disease_popup_currently_having_y_rb"
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yes"/>
+            android:orientation="horizontal">
 
-        <com.med.fast.customviews.CustomFontRadioButton
-            android:id="@+id/disease_popup_currently_having_n_rb"
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/disease_popup_hereditary_y_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes" />
+
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/disease_popup_hereditary_n_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no" />
+
+        </RadioGroup>
+
+        <!-- Inherited from -->
+        <com.med.fast.customviews.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/no"/>
+            android:layout_marginTop="15dp"
+            android:text="@string/disease_hereditary_inherited_from"
+            android:textColor="@color/blackDark" />
 
-    </RadioGroup>
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/disease_popup_inherited_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:gravity="start"
+            android:hint="@string/disease_hereditary_inherited_from_hint"
+            android:textSize="@dimen/font_small" />
 
-    <!-- Date -->
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/historic_date"
-        android:textColor="@color/blackDark" />
+        <!-- Currently having this disease y/n -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/ongoing"
+            android:textColor="@color/blackDark" />
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/disease_popup_historic_date_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_edittext_grey_selector"
-        android:textColor="@color/blackDark"
-        android:textSize="@dimen/font_small"
-        android:hint="@string/historic_date"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/or"
-        android:textColor="@color/blackDark" />
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/disease_popup_currently_having_y_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yes" />
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/approximate_date"
-        android:textColor="@color/blackDark" />
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/disease_popup_currently_having_n_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/no" />
 
-    <Spinner
-        android:id="@+id/disease_popup_date_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        </RadioGroup>
 
-    <include layout="@layout/management_operation_backcreate_buttons"/>
+        <!-- Date -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/historic_date"
+            android:textColor="@color/blackDark" />
 
-</LinearLayout>
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/disease_popup_historic_date_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_selector"
+            android:hint="@string/historic_date"
+            android:textColor="@color/blackDark"
+            android:textSize="@dimen/font_small" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/or"
+            android:textColor="@color/blackDark" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/approximate_date"
+            android:textColor="@color/blackDark" />
+
+        <Spinner
+            android:id="@+id/disease_popup_date_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include layout="@layout/management_operation_backcreate_buttons" />
+
+    </LinearLayout>
+
+</RelativeLayout>

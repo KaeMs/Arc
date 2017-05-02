@@ -150,7 +150,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
     public void submitItem(){
         final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.allergy_popup);
+        dialog.setContentView(R.layout.management_allergy_popup);
         dialog.setCanceledOnTouchOutside(false);
 
         final CustomFontEditText causative = (CustomFontEditText) dialog.findViewById(R.id.allergy_popup_causative_et);
