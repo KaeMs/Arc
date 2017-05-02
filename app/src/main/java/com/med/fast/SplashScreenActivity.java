@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
+import com.med.fast.login.LoginActivity;
+
 import butterknife.BindView;
 
 /**
@@ -76,11 +78,16 @@ public class SplashScreenActivity extends FastBaseActivity {
 
         userId = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_ID);
 
-        Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         if (userId != null){
+            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else {
+            Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 

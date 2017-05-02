@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/splash_image"
         android:scaleType="centerInside"
-        android:src="@drawable/logo_white_large"/>
+        android:src="@drawable/logo_portrait_white"/>
 
     <View
         android:id="@+id/splash_screen_dimmer"

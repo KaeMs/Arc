@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/logo_white_medium" />
+            android:src="@drawable/logo_landscape_white" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/loginactivity_email_tv"
@@ -75,7 +75,7 @@
             android:layout_below="@+id/loginactivity_password_et"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_arcgrey_radius6"
+            android:background="@drawable/button_pink_pinkdark_radius6"
             android:paddingLeft="@dimen/btnHorizontalMarginMedium"
             android:paddingRight="@dimen/btnHorizontalMarginMedium"
             android:text="@string/sign_in" />

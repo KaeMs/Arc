@@ -9,7 +9,10 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -58,16 +61,20 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     private String deletionId = "";
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
-
-    public VisitAdapter(Context context){
-        super(true);
-        this.context = context;
-    }
+    private ArrayAdapter<String> leftRecyclerAdapter;
+    private List<String> leftDataset;
+    private ArrayAdapter<String> rightRecyclerAdapter;
+    private List<String> rightDataset;
 
     public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf){
         super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
+        this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.leftRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
+        leftDataset = new ArrayList<>();
+        this.rightRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
+        rightDataset = new ArrayList<>();
     }
 
     public void addList(List<VisitModel> dataset) {
@@ -147,8 +154,30 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         final CustomFontEditText hospitalName = (CustomFontEditText) dialog.findViewById(R.id.visit_popup_hospital_name);
         final CustomFontEditText diagnose = (CustomFontEditText) dialog.findViewById(R.id.visit_popup_diagnose);
         RecyclerView imageRecycler = (RecyclerView) dialog.findViewById(R.id.visit_popup_imagerecycler);
-        RecyclerView diseaseHistoryRecycler = (RecyclerView) dialog.findViewById(R.id.visit_popup_disease_history_recycler);
-        RecyclerView diseaseInputRecycler = (RecyclerView) dialog.findViewById(R.id.visit_popup_disease_input_recycler);
+        ListView diseaseHistoryListView = (ListView) dialog.findViewById(R.id.visit_popup_disease_history_recycler);
+        ListView diseaseInputListView = (ListView) dialog.findViewById(R.id.visit_popup_disease_input_recycler);
+
+        diseaseHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String tempHistoryStr = leftDataset.get(position);
+                rightDataset.add(tempHistoryStr);
+                rightRecyclerAdapter.notifyDataSetChanged();
+                leftDataset.remove(position);
+                leftRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+
+        diseaseInputListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String tempDiseaseStr = rightDataset.get(position);
+                leftDataset.add(tempDiseaseStr);
+                leftRecyclerAdapter.notifyDataSetChanged();
+                rightDataset.remove(position);
+                rightRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
 
         CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
         CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);

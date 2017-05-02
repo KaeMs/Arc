@@ -78,5 +78,10 @@
     <color name="pinkOpa60">#99e8158d</color>
     <color name="pinkOpa40">#66e8158d</color>
     <color name="pinkOpa20">#33e8158d</color>
+    <color name="pinkDark">#d1117e</color>
+    <color name="pinkDarkOpa80">#ccd1117e</color>
+    <color name="pinkDarkOpa60">#99d1117e</color>
+    <color name="pinkDarkOpa40">#66d1117e</color>
+    <color name="pinkDarkOpa20">#33d1117e</color>
 
 </resources>

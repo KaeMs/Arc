@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
 
-                <android.support.v7.widget.RecyclerView
+                <ListView
                     android:id="@+id/visit_popup_disease_history_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/border_grey" />
 
-                <android.support.v7.widget.RecyclerView
+                <ListView
                     android:id="@+id/visit_popup_disease_input_recycler"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

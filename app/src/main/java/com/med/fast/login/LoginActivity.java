@@ -25,7 +25,6 @@ import com.med.fast.signup.SignupActivity;
 import butterknife.BindView;
 
 import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 public class LoginActivity extends FastBaseActivity implements LoginIntf {
 
@@ -45,7 +44,7 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
