@@ -7,6 +7,9 @@ package com.med.fast.api;
 public class APIConstants {
     public static final String API_URL = "api.fastmedrecord.com/";
 
+    // Login
+    public static final String LOGIN = "/login/loginsubmit";
+
     // Allergy
     public static final String ALLERGY_INIT_SHOW = "/allergyinit/initallergylistshow";
     public static final String ALLERGY_INIT_SUBMIT = "/allergyinit/initallergycreatesubmit";

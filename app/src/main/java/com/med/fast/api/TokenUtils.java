@@ -73,7 +73,7 @@ public class TokenUtils {
                     .build();
 
             // Get data from sharepref
-            String username = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_NAME);
+            String username = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_FIRST_NAME);
             String password = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_PASSWORD);
 
             RequestBody formBody = new FormBody.Builder()

@@ -11,4 +11,7 @@ public class Constants {
     public static final String FLAG_LOAD = "load";
     public static final String FLAG_REFRESH = "refresh";
 
+    public static final String REGEX_NAME = "^[a-zA-Z]+$";
+    public static final String REGEX_PASSWORD = "[^-\\s]{6,50}"; // No whitespace, min 8 max 50
+
 }

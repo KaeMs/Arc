@@ -13,10 +13,13 @@ public class SharedPreferenceUtilities {
 
     public static final String SESSION_SP = "SESSION_SP";
     public static final String USER_ID = "USER_ID";
-    public static final String USER_NAME = "USER_NAME";
-    public static final String USER_EMAIL = "USER_EMAIL";
-    public static final String USER_PASSWORD = "USER_PASSWORD";
+    public static final String USER_FIRST_NAME = "USER_FIRST_NAME";
+    public static final String USER_LAST_NAME = "USER_LAST_NAME";
     public static final String USER_GENDER = "USER_GENDER";
+    public static final String USER_DOB = "USER_DOB";
+    public static final String USER_EMAIL = "USER_EMAIL";
+    public static final String USER_EMAIL_IS_VERIFIED = "USER_EMAIL_IS_VERIFIED";
+    public static final String USER_PASSWORD = "USER_PASSWORD";
     
     private SharedPreferenceUtilities() {
         super();

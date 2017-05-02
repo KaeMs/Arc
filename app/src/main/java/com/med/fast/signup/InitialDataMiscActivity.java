@@ -92,13 +92,13 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
 
         String gender = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_GENDER);
         if (gender != null){
-            if (gender.equals("male")) {
+            if (gender.equals("0")) {
                 femaleWrapper.setVisibility(View.GONE);
             } else {
                 femaleWrapper.setVisibility(View.VISIBLE);
             }
         } else {
-            femaleWrapper.setVisibility(View.GONE);            
+            femaleWrapper.setVisibility(View.GONE);
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -190,7 +190,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             Gson gson = new Gson();
             MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.is_female ? "female" : "male");
+                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.is_female ? "1" : "0");
                 voluptuaryHabit.setText(output.data.results.voluptuary_habits);
                 pregnantY.setChecked(output.data.results.pregnancy.equals("true"));
                 pregnancyWeeks.setText(output.data.results.pregnancy_weeks);

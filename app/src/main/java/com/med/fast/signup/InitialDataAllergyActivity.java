@@ -1,6 +1,5 @@
 package com.med.fast.signup;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,8 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.FastBaseActivity;
@@ -22,22 +19,15 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
-import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.allergy.AllergyManagementAdapter;
-import com.med.fast.management.allergy.AllergyManagementFragment;
-import com.med.fast.management.allergy.AllergyManagementModel;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
-import com.med.fast.management.allergy.api.AllergyManagementListShowAPIFunc;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin Murvie on 4/11/2017. Fast

@@ -33,7 +33,7 @@
     <string name="female">Female</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register_your_account">Register your account</string>
-    <string name="wrong_password_format_mssg">Format password Salah, minimal 8 huruf, maksimal 50 huruf</string>
+    <string name="wrong_password_format_mssg">Format password Salah, minimal 6 huruf, maksimal 50 huruf</string>
     <string name="wrong_password_confirmation">Password tidak sama</string>
 
     <!-- Initial Data -->
