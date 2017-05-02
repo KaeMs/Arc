@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     CustomFontButton createBtn;
     @BindView(R.id.disease_popup_date_spinner)
     Spinner dateSpinner;
+    ArrayAdapter<String> approximateSpinnerAdapter;
     @BindView(R.id.disease_popup_historic_date_tv)
     CustomFontEditText historicDate;
 
@@ -73,6 +75,10 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
         }
 
         refreshView();
+
+        String[] approximates = getResources().getStringArray(R.array.accident_approximate_values);
+        approximateSpinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, approximates);
+        dateSpinner.setAdapter(approximateSpinnerAdapter);
 
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(this);
@@ -140,9 +146,14 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             DiseaseManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 diseaseName.setText(output.data.results.disease_item.getDisease_name());
-                //hereditaryYes.setSelected(output.data.results.disease_item.getDisease_hereditary());
+                hereditaryYes.setSelected(output.data.results.disease_item.getDisease_hereditary().equals("true"));
                 historicDate.setText(output.data.results.disease_item.getDate_historic());
-                //dateSpinner.setSelected(output.data.results.allergy_first_experience);
+                int spinnerPos = approximateSpinnerAdapter.getPosition(output.data.results.disease_item.getDate_approximate());
+                if (spinnerPos >= 0){
+                    dateSpinner.setSelection(approximateSpinnerAdapter.getPosition(output.data.results.disease_item.getDate_approximate()));
+                } else {
+                    dateSpinner.setSelection(0);
+                }
                 inheritedFrom.setText(output.data.results.disease_item.getDisease_hereditary_carriers());
             }
         } else if(responseAPI.status_code == 504) {
