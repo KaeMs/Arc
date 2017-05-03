@@ -15,21 +15,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/toolbar_title_divider" />
+            <include layout="@layout/toolbar_main_top" />
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/fmcontainer_frame"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fmcontainer_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/greyLight"/>
+
+            <include layout="@layout/bottom_shadow"
+                android:id="@+id/fmcontainer_toolbar_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+        </RelativeLayout>
         
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fmcontainer_fab"
-            android:layout_width="@dimen/btnLargeHeight"
-            android:layout_height="@dimen/btnLargeHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="@dimen/fab_margin"
             android:scaleType="centerInside"

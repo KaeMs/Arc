@@ -1,5 +1,6 @@
 package com.med.fast.management.disease;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -27,9 +28,11 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
@@ -181,6 +184,19 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
             diseaseManagementListShowAPIFunc.setDelegate(DiseaseManagementFragment.this);
             diseaseManagementListShowAPIFunc.execute(diseaseManagementListShowAPI);
             isLoading = true;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.DISEASE_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                DiseaseManagementModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), DiseaseManagementModel.class);
+                diseaseManagementAdapter.updateItem(model);
+            }
         }
     }
 

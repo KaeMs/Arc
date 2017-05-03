@@ -31,10 +31,16 @@
         </activity>
         <activity
             android:name="com.med.fast.login.LoginActivity"
-            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".signup.SignupActivity"
             android:theme="@style/AppTheme" />
@@ -42,7 +48,6 @@
             android:name=".signup.InitialDataAllergyActivity"
             android:exported="true"
             android:theme="@style/AppTheme.InitialData" />
-        <activity android:name=".MainActivity" />
 
         <activity android:name=".management.accidenthistory.AccidentEditActivity" />
         <activity android:name=".management.allergy.AllergyEditActivity" />

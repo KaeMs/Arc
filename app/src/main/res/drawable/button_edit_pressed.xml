@@ -7,7 +7,6 @@
     </item>
     <item>
         <bitmap
-            android:src="@android:drawable/sym_def_app_icon"
-            android:tileMode="repeat" />
+            android:src="@drawable/ic_mode_edit_white_24dp" />
     </item>
 </layer-list>

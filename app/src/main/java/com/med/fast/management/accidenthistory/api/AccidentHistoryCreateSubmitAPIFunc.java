@@ -26,13 +26,10 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
     private Context context;
     private String tag;
 
-    public AccidentHistoryCreateSubmitAPIFunc(Context context, String tag) {
+    public AccidentHistoryCreateSubmitAPIFunc(Context context, AccidentHistoryCreateDeleteIntf delegate, String tag) {
         this.context = context;
-        this.tag = tag;
-    }
-
-    public void setDelegate(AccidentHistoryCreateDeleteIntf delegate) {
         this.delegate = delegate;
+        this.tag = tag;
     }
 
     @Override

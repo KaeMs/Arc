@@ -1,6 +1,5 @@
 package com.med.fast.management.visit.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -8,8 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
 import com.med.fast.management.visit.visitinterface.VisitCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;

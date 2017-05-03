@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.med.fast.FastBaseFragment;
+import com.med.fast.MainActivity;
 import com.med.fast.R;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ public class SummaryFragment extends FastBaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        ((MainActivity) getActivity()).changeTitle("SUMMARY");
 
 
     }

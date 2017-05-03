@@ -1,13 +1,14 @@
 package com.med.fast.management.labresult.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,28 +23,27 @@ import okhttp3.Response;
  */
 
 public class LabResultManagementDeleteAPIFunc extends AsyncTask<LabResultManagementDeleteSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementDeleteIntf delegate;
-    private Activity activity;
+    private LabResultManagementCreateDeleteIntf delegate;
+    private Context context;
+    private String tag;
 
-    public LabResultManagementDeleteAPIFunc(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void setDelegate(LabResultManagementDeleteIntf delegate) {
-        this.delegate = delegate;
+    public LabResultManagementDeleteAPIFunc(Context context, LabResultManagementCreateDeleteIntf intf, String tag) {
+        this.context = context;
+        this.delegate = intf;
+        this.tag = tag;
     }
 
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishLabResultManagementDelete(responseAPI);
+        delegate.onFinishLabResultManagementDelete(responseAPI, tag);
     }
 
     @Override
     protected ResponseAPI doInBackground(LabResultManagementDeleteSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -52,15 +52,15 @@ public class LabResultManagementDeleteAPIFunc extends AsyncTask<LabResultManagem
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

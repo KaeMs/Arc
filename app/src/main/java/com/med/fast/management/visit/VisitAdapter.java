@@ -2,6 +2,8 @@ package com.med.fast.management.visit;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -13,18 +15,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -34,6 +40,7 @@ import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPI;
 import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPI;
+import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPIFunc;
 import com.med.fast.management.visit.visitinterface.VisitCreateDeleteIntf;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
@@ -110,37 +117,6 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         notifyItemChanged(getItemCount() - 1);
         if (!failLoad) {
             removeProgress();
-        }
-    }
-
-    // Update by model
-    public void updateItem(VisitModel item) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
-            if (mDataset.get(i).getVisit_id().equals(item.getVisit_id()) &&
-                    mDataset.get(i).getProgress_status().equals("1")) {
-                item.setProgress_status("0");
-                mDataset.set(i, item);
-                break;
-            }
-        }
-    }
-
-    // Update by tag
-    public void updateItem(String tag, boolean success){
-        for (int i = getItemCount() - 1; i > 0; i++){
-            if (tag != null){
-                if (mDataset.get(i).getTag().equals(tag)){
-                    mDataset.get(i).setProgress_status(success ? "0" : "3");
-                    notifyItemChanged(i);
-                    break;
-                }
-            } else {
-                if (mDataset.get(i).getProgress_status().equals("1")){
-                    mDataset.get(i).setProgress_status("3");
-                    notifyItemChanged(i);
-                    break;
-                }
-            }
         }
     }
 
@@ -237,6 +213,52 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         });
     }
 
+    private void resumbitItem(int position){
+        VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
+        visitManagementCreateSubmitAPI.data.query.user_id = userId;
+        visitManagementCreateSubmitAPI.data.query.doctor = mDataset.get(position).getDoctor_name();
+        visitManagementCreateSubmitAPI.data.query.hospital = mDataset.get(position).getHospital_name();
+        visitManagementCreateSubmitAPI.data.query.diagnose = mDataset.get(position).getDiagnose();
+//        visitManagementCreateSubmitAPI.data.query.disease_id_list = mDataset.get(position).getDoctor_name();
+//        visitManagementCreateSubmitAPI.data.query.is_image_uploaded = userId;
+
+        VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc = new VisitManagementCreateSubmitAPIFunc(context);
+        visitManagementCreateSubmitAPIFunc.setDelegate(VisitAdapter.this);
+        visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
+    }
+
+    // Update by model
+    public void updateItem(VisitModel item){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (mDataset.get(i).getVisit_id().equals(item.getVisit_id())){
+                item.setProgress_status(APIConstants.PROGRESS_NORMAL);
+                mDataset.set(i, item);
+                break;
+            }
+        }
+    }
+
+    // Update by tag
+    public void updateItem(String tag, boolean success){
+        for (int i = getItemCount() - 1; i > 0; i++){
+            if (mDataset.get(i).getTag().equals(tag)){
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+                    if (success)mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    else mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+                    mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                }
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mDataset.get(position) != null ? VISIT : PROGRESS;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
@@ -253,7 +275,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VISIT) {
             VisitViewHolder visitViewHolder = (VisitViewHolder)holder;
 
@@ -269,6 +291,50 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
             visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
             visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
             snapHelper.attachToRecyclerView(visitViewHolder.imageRecycler);
+
+            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+                visitViewHolder.statusProgressBar.setOnClickListener(null);
+                visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
+                visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+                visitViewHolder.statusProgressBar.setOnClickListener(null);
+                visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
+                visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
+                visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
+                visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
+                visitViewHolder.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        resumbitItem(holder.getAdapterPosition());
+                    }
+                });
+            } else {
+                visitViewHolder.statusProgressBar.setOnClickListener(null);
+                visitViewHolder.statusProgressBar.setVisibility(View.GONE);
+            }
+
+            visitViewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
+//                        Intent intent = new Intent(context, AccidentEditActivity.class);
+//                        intent.putExtra(ConstantsManagement.VISIT_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getVisit_id());
+//                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.VISIT_EDIT);
+                    }
+                }
+            });
+
+            visitViewHolder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
+                        createDeleteDialog(context, context.getString(R.string.visit_delete_confirmation),
+                                "visit" + mDataset.get(holder.getAdapterPosition()).getVisit_id());
+                    }
+                }
+            });
+            
         } else {
             InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH) holder;
             infiScrollProgressVH.setFailLoad(failLoad);
@@ -286,16 +352,15 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
             if (deletionId.equals(mDataset.get(i).getVisit_id())) {
-                mDataset.get(i).setProgress_status("2");
+                mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 VisitManagementDeleteSubmitAPI visitManagementDeleteSubmitAPI = new VisitManagementDeleteSubmitAPI();
                 visitManagementDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
                 visitManagementDeleteSubmitAPI.data.query.visit_id = mDataset.get(i).getVisit_id();
 
-                /*AllergyManagementDeleteAPIFunc allergyManagementDeleteAPIFunc = new AllergyManagementDeleteAPIFunc(context);
-                allergyManagementDeleteAPIFunc.setDelegate(AllergyManagementAdapter.this);
-                allergyManagementDeleteAPIFunc.execute(visitManagementDeleteSubmitAPI);*/
+                VisitManagementDeleteSubmitAPIFunc visitManagementDeleteSubmitAPIFunc = new VisitManagementDeleteSubmitAPIFunc(context, VisitAdapter.this);
+                visitManagementDeleteSubmitAPIFunc.execute(visitManagementDeleteSubmitAPI);
                 break;
             }
         }
@@ -336,10 +401,10 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    /*if (output.data.query.disease_id_list.equals(mDataset.get(i).getAllergy_id())) {
+                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getVisit_id())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
-                    }*/
+                    }
                 }
             } else {
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
@@ -356,6 +421,8 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
 
     static class VisitViewHolder extends FastBaseViewHolder {
 
+        @BindView(R.id.management_visit_item_card_progress)
+        ProgressBar statusProgressBar;
         @BindView(R.id.visit_card_date)
         CustomFontTextView visitDate;
         @BindView(R.id.visit_card_hospital_name)

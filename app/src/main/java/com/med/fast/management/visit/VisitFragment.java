@@ -1,5 +1,6 @@
 package com.med.fast.management.visit;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
@@ -192,6 +195,24 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     @Override
     public void onStartActivityForResult(Intent intent, int requestCode) {
         startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.DISEASE_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                VisitModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), VisitModel.class);
+                visitAdapter.updateItem(model);
+            }
+        }
+    }
+
+    @Override
+    public void addItem() {
+        visitAdapter.submitItem();
     }
 
     @Override

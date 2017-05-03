@@ -10,6 +10,12 @@ public class APIConstants {
     // Login
     public static final String LOGIN = "/login/loginsubmit";
 
+    // Lab Result
+    public static final String VISIT_SHOW = "/medicine/medicinelistshow";
+    public static final String VISIT_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
+    public static final String VISIT_EDIT_SHOW = "/medicine/medicineeditshow";
+    public static final String VISIT_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
+    public static final String VISIT_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
     // Allergy
     public static final String ALLERGY_INIT_SHOW = "/allergyinit/initallergylistshow";
     public static final String ALLERGY_INIT_SUBMIT = "/allergyinit/initallergycreatesubmit";
@@ -32,6 +38,12 @@ public class APIConstants {
     public static final String MEDICINE_EDIT_SHOW = "/medicine/medicineeditshow";
     public static final String MEDICINE_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
     public static final String MEDICINE_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
+    // Lab Result
+    public static final String LABRESULT_SHOW = "/medicine/medicinelistshow";
+    public static final String LABRESULT_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
+    public static final String LABRESULT_EDIT_SHOW = "/medicine/medicineeditshow";
+    public static final String LABRESULT_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
+    public static final String LABRESULT_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
 
     // Misc
     public static final String MISC_SHOW = "/misc/miscshow";

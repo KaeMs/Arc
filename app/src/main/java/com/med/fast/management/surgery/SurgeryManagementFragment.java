@@ -1,6 +1,8 @@
 package com.med.fast.management.surgery;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -21,9 +23,11 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -173,6 +177,19 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
             surgeryManagementListShowAPIFunc.setDelegate(SurgeryManagementFragment.this);
             surgeryManagementListShowAPIFunc.execute(surgeryManagementListShowAPI);
             isLoading = true;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.DISEASE_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                SurgeryManagementModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.SURGERY_MODEL_EXTRA), SurgeryManagementModel.class);
+                surgeryManagementAdapter.updateItem(model);
+            }
         }
     }
 

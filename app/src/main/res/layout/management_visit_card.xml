@@ -4,168 +4,183 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:ignore="RtlHardcoded"
-    app:cardBackgroundColor="@color/cardview_light_background"
-    app:cardElevation="5dp"
-    app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
-    app:contentPadding="15dp">
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="5dp"
+    app:contentPadding="15dp"
+    tools:ignore="RtlHardcoded">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*" >
-
-            <!-- Date -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/visiting_date"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/visit_card_date"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_date"/>
-
-            </TableRow>
-
-            <!-- Hospital Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/hospital_name"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/visit_card_hospital_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_hospital_name"
-                    style="@style/OneLineEllipsizeEndTV"/>
-
-            </TableRow>
-
-            <!-- Doctor Name -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/doctor_name"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/visit_card_doctor_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/doctor_name_placeholder"
-                    style="@style/OneLineEllipsizeEndTV"/>
-
-            </TableRow>
-
-            <!-- Diagnose -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/diagnose"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/visit_card_diagnose"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_diagnose"/>
-
-            </TableRow>
-
-            <!-- Diagnosed Diseases -->
-            <TableRow
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp">
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:text="@string/diagnosed_diseases"/>
-
-                <com.med.fast.customviews.CustomFontTextView
-                    android:id="@+id/visit_card_diagnosed_diseases"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/placeholder_diagnosed_diseases"/>
-
-            </TableRow>
-
-        </TableLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/visit_card_images"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="end"
-            android:gravity="end">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/visit_card_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:background="@drawable/button_edit_selector"
-                android:layout_marginRight="10dp"
-                android:text="@string/cancel"
-                android:textColor="@color/black" />
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
 
-            <ImageView
-                android:id="@+id/visit_card_delete"
+                <!-- Date -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/visiting_date"
+                        android:textStyle="bold" />
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/visit_card_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_date" />
+
+                </TableRow>
+
+                <!-- Hospital Name -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hospital_name"
+                        android:textStyle="bold" />
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/visit_card_hospital_name"
+                        style="@style/OneLineEllipsizeEndTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_hospital_name" />
+
+                </TableRow>
+
+                <!-- Doctor Name -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/doctor_name"
+                        android:textStyle="bold" />
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/visit_card_doctor_name"
+                        style="@style/OneLineEllipsizeEndTV"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/doctor_name_placeholder" />
+
+                </TableRow>
+
+                <!-- Diagnose -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/diagnose"
+                        android:textStyle="bold" />
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/visit_card_diagnose"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_diagnose" />
+
+                </TableRow>
+
+                <!-- Diagnosed Diseases -->
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="15dp">
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/diagnosed_diseases"
+                        android:textStyle="bold" />
+
+                    <com.med.fast.customviews.CustomFontTextView
+                        android:id="@+id/visit_card_diagnosed_diseases"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/placeholder_diagnosed_diseases" />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/visit_card_images"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnMediumHeight"
-                android:text="@string/add"
-                android:background="@drawable/button_delete_selector"
-                android:textColor="@color/textcolor_white_to_tosca"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/visit_card_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_edit_selector"
+                    android:text="@string/cancel"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/visit_card_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btnMediumHeight"
+                    android:background="@drawable/button_delete_selector"
+                    android:text="@string/add"
+                    android:textColor="@color/textcolor_white_to_tosca" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/management_visit_item_card_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentRight="true"
+            android:indeterminateDrawable="@drawable/progressbar_pink"/>
+
+    </RelativeLayout>
+
 
 </android.support.v7.widget.CardView>

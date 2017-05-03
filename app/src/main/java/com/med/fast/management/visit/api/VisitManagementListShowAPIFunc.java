@@ -7,8 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.api.LabResultManagementListShowAPI;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
 import com.med.fast.management.visit.visitinterface.VisitShowIntf;
 
 import java.util.concurrent.TimeUnit;

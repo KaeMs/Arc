@@ -5,6 +5,7 @@
     android:contentInsetStart="0dp"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp"
+    android:id="@+id/toolbartitledivider_toolbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbarHeight"
     android:background="@color/grey">

@@ -24,7 +24,6 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
-import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -71,7 +70,6 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     private Context context;
     private List<AccidentHistoryManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
-    private String deletionId = "";
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
 
@@ -212,7 +210,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     if (accidentDateSpinner.getSelectedItemPosition() > 0){
                         accidentDateTmp = accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition());
                     } else {
-                        accidentDateTmp = "default";
+                        accidentDateTmp = APIConstants.DEFAULT;
                     }
                     AccidentHistoryManagementModel accidentHistoryManagementModel = new AccidentHistoryManagementModel();
                     accidentHistoryManagementModel.setDetail(detail);
@@ -221,7 +219,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryManagementModel.setInjury_date(accidentDate);
                     accidentHistoryManagementModel.setInjury_date_tmp(accidentDateTmp);
                     accidentHistoryManagementModel.setCreated_date(Utils.getCurrentDate());
-                    accidentHistoryManagementModel.setProgress_status("1");
+                    accidentHistoryManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
 
                     addSingle(accidentHistoryManagementModel);
 
@@ -235,8 +233,8 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = "default";
                     accidentHistoryCreateSubmitAPI.data.query.tag = detail + String.valueOf(getItemCount());
 
-                    AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context, detail + String.valueOf(getItemCount()));
-                    accidentHistoryCreateSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
+                    AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc =
+                            new AccidentHistoryCreateSubmitAPIFunc(context, AccidentHistoryManagementAdapter.this, detail + String.valueOf(getItemCount()));
                     accidentHistoryCreateSubmitAPIFunc.execute(accidentHistoryCreateSubmitAPI);
                     dialog.dismiss();
                 }
@@ -256,8 +254,8 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         accidentHistoryCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
         mDataset.get(position).setProgress_status("1");
 
-        AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new AccidentHistoryCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
-        accidentHistoryCreateSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
+        AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new
+                AccidentHistoryCreateSubmitAPIFunc(context, AccidentHistoryManagementAdapter.this, mDataset.get(position).getTag());
         accidentHistoryCreateSubmitAPIFunc.execute(accidentHistoryCreateSubmitAPI);
     }
 
@@ -346,8 +344,8 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             accidentManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals("0")){
-                        Intent intent = new Intent(context, AllergyEditActivity.class);
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
+                        Intent intent = new Intent(context, AccidentEditActivity.class);
                         intent.putExtra(ConstantsManagement.ACCIDENT_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getAccident_id());
                         startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ACCIDENT_EDIT);
                     }
@@ -357,8 +355,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             accidentManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals("0")){
-                        deletionId = mDataset.get(holder.getAdapterPosition()).getAccident_id();
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
                         createDeleteDialog(context, context.getString(R.string.accident_delete_confirmation), "accident" + mDataset.get(holder.getAdapterPosition()).getAccident_id());
                     }
                 }
@@ -380,7 +377,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent){
         for (int i = 0; i < getItemCount(); i++){
             if (deleteConfirmEvent.deletionId.equals("accident" + mDataset.get(i).getAccident_id())){
-                mDataset.get(i).setProgress_status("2");
+                mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 AccidentHistoryDeleteSubmitAPI accidentHistoryDeleteSubmitAPI = new AccidentHistoryDeleteSubmitAPI();
@@ -450,12 +447,6 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
-
-/*    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        EventBus.getDefault().unregister(this);
-    }*/
 
     static class AccidentManagementVH extends FastBaseViewHolder {
 

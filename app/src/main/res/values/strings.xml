@@ -76,6 +76,8 @@
     <string name="add_medication">Add New Medication</string>
 
     <!-- Dashboard Drawer -->
+    <string name="drawer">Drawer</string>
+    <string name="drawer_toggle">Drawer Toggle</string>
     <string name="summary">Summary</string>
     <string name="my_id_card">My ID Card</string>
     <string name="visit_management">Visit Management</string>
@@ -86,6 +88,7 @@
     <string name="accident_history_management">Accident History Management</string>
     <string name="lab_result_management">Lab Result Management</string>
     <string name="misc_management">Misc. Management</string>
+    <string name="logout">Logout</string>
 
     <!-- Summary -->
     <string name="placeholder_name">Fast Med Dev Name</string>

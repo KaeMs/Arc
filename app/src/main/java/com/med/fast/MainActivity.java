@@ -1,6 +1,7 @@
 package com.med.fast;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -27,8 +31,12 @@ public class MainActivity extends FastBaseActivity {
     private FragmentManager fragmentManager;
     private DrawerFragment drawerFragment;
 
-    @BindView(R.id.toolbartitledivider_title)
+    @BindView(R.id.toolbar_main_top_toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.toolbar_main_top_title)
     CustomFontTextView toolbarTitle;
+    @BindView(R.id.fmcontainer_toolbar_shadow)
+    View toolbarShadow;
     @BindView(R.id.dashboard_drawer_layout)
     DrawerLayout dashboardDrawer;
     @BindView(R.id.fmcontainer_frame)
@@ -40,6 +48,13 @@ public class MainActivity extends FastBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fmcontainer_main_layout);
+
+        setSupportActionBar(toolbar);
+
+        // For version 21++, shadow is disabled
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            toolbarShadow.setVisibility(View.GONE);
+        }
 
         fragmentManager = getSupportFragmentManager();
         drawerFragment = (DrawerFragment) fragmentManager.findFragmentById(R.id.dashboard_drawerfrag);
@@ -55,6 +70,24 @@ public class MainActivity extends FastBaseActivity {
 
         SummaryFragment summaryFragment = new SummaryFragment();
         replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        getMenuInflater().inflate(R.menu.menu_toolbar_top, menu);
+
+        MenuItem drawerMenu = menu.findItem(R.id.menu_toolbar_top_drawer);
+
+        drawerMenu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                drawerToggle();
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

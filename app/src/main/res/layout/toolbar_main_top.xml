@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:contentInsetLeft="0dp"
+    android:contentInsetStart="0dp"
+    app:contentInsetLeft="0dp"
+    app:contentInsetStart="0dp"
+    android:id="@+id/toolbar_main_top_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbarHeight"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/toolbar_main_top_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/title"
+            android:textColor="@color/blackDark"
+            android:textSize="@dimen/font_large" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.Toolbar>

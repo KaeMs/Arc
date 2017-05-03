@@ -11,9 +11,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
         android:padding="@dimen/default_activity_content_padding"
-        android:src="@drawable/logo_white_medium" />
+        android:src="@drawable/logo_landscape_color" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -260,7 +259,6 @@
                 android:paddingRight="@dimen/drawer_horizontal_padding">
 
                 <ImageView
-                    android:id="@+id/imageView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"
@@ -272,6 +270,32 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:text="@string/misc_management" />
+
+            </LinearLayout>
+
+            <!-- Logout -->
+            <LinearLayout
+                android:id="@+id/drawer_logout_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_transparent_tosca"
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:contentDescription="@string/logout"
+                    android:src="@drawable/ic_logout_selector" />
+
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/logout" />
 
             </LinearLayout>
 

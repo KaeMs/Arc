@@ -1,13 +1,14 @@
 package com.med.fast.management.labresult.api;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementFragmentIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateDeleteIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,27 +23,21 @@ import okhttp3.Response;
  */
 
 public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultManagementCreateSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementFragmentIntf delegate;
-    private Activity activity;
+    private LabResultManagementCreateDeleteIntf delegate;
+    private Context context;
+    private String tag;
 
-    public void setDelegate(LabResultManagementFragmentIntf delegate) {
+    public LabResultManagementCreateSubmitAPIFunc(Context context, LabResultManagementCreateDeleteIntf delegate, String tag) {
+        this.context = context;
         this.delegate = delegate;
-    }
-    @Override
-    protected void onPostExecute(ResponseAPI responseAPI) {
-        super.onPostExecute(responseAPI);
-        delegate.onFinishLabResultManagementCreate(responseAPI);
-    }
-
-    public LabResultManagementCreateSubmitAPIFunc(Activity activity) {
-        this.activity = activity;
+        this.tag = tag;
     }
 
     @Override
     protected ResponseAPI doInBackground(LabResultManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -51,25 +46,22 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("lab_result_id", params[0].data.query.lab_result_id)
                     .add("user_id", params[0].data.query.user_id)
                     .add("test_name", params[0].data.query.test_name)
                     .add("desc_result", params[0].data.query.desc_result)
-                    .add("img_path", params[0].data.query.img_path)
                     .add("date", params[0].data.query.date)
                     .add("place", params[0].data.query.place)
-                    .add("list_img_uploadeds", params[0].data.query.list_img_uploadeds)
                     .build();
 
             Request request = new Request.Builder()
@@ -95,5 +87,11 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
         }
 
         return responseAPI;
+    }
+
+    @Override
+    protected void onPostExecute(ResponseAPI responseAPI) {
+        super.onPostExecute(responseAPI);
+        delegate.onFinishLabResultManagementCreate(responseAPI, tag);
     }
 }

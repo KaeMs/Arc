@@ -3,7 +3,7 @@
     <color name="colorPrimary">#2e4973</color>
     <color name="colorPrimaryDark">#001d4b</color>
     <!-- FF4081 -->
-    <color name="colorAccent">#1fb5ac</color>
+    <color name="colorAccent">#e8158d</color>
 
     <item name="transparent" type="color">#00ffffff</item>
     <color name="white">#ffffffff</color>

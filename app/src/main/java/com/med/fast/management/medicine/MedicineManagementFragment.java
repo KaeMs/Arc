@@ -1,5 +1,6 @@
 package com.med.fast.management.medicine;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,9 +23,11 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.ResponseAPI;
@@ -172,6 +175,19 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
             MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity(), MedicineManagementFragment.this);
             medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
             isLoading = true;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.DISEASE_EDIT){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                MedicineManagementModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.MEDICINE_MODEL_EXTRA), MedicineManagementModel.class);
+                medicineManagementAdapter.updateItem(model);
+            }
         }
     }
 
