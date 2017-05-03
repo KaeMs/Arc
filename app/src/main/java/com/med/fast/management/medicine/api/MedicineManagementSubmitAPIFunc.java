@@ -27,10 +27,12 @@ public class MedicineManagementSubmitAPIFunc extends AsyncTask<MedicineManagemen
     private MedicineCreateDeleteIntf delegate;
     private Context context;
     private String tag;
+    private boolean initial = false;
 
-    public MedicineManagementSubmitAPIFunc(Context context, String tag) {
+    public MedicineManagementSubmitAPIFunc(Context context, String tag, boolean initial) {
         this.context = context;
         this.tag = tag;
+        this.initial = initial;
     }
 
     public void setDelegate(MedicineCreateDeleteIntf delegate) {
@@ -41,7 +43,9 @@ public class MedicineManagementSubmitAPIFunc extends AsyncTask<MedicineManagemen
     protected ResponseAPI doInBackground(MedicineManagementSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/medicine/medicinecreatesubmit";
+            String url;
+            if (initial)url = APIConstants.API_URL + APIConstants.MEDICINE_INIT_SUBMIT;
+            else url = APIConstants.API_URL + APIConstants.MEDICINE_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

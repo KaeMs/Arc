@@ -125,17 +125,21 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
             Gson gson = new Gson();
             LoginAPI output = gson.fromJson(responseAPI.status_response, LoginAPI.class);
             if (output.data.status.code.equals("200")) {
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
-                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                if (output.data.results.is_verified_email){
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                } else {
+
+                }
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }

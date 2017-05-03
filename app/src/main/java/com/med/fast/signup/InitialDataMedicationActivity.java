@@ -81,7 +81,7 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         toolbarTitle.setText(getString(R.string.step_3_medication));
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        medicineManagementAdapter = new MedicineManagementAdapter(this);
+        medicineManagementAdapter = new MedicineManagementAdapter(this, true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(medicineManagementAdapter);

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_title_divider"/>
+    <include layout="@layout/toolbar_title_divider" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,18 +28,24 @@
                 android:id="@+id/signup_firstNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_grey"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/first_name"
-                android:maxLength="50" />
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/signup_lastNameET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/border_grey"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/last_name"
-                android:maxLength="75" />
+                android:inputType="textCapWords"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:singleLine="true" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
@@ -51,8 +57,11 @@
                 android:id="@+id/signup_emailAddressET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_grey"
-                android:hint="@string/email_address" />
+                android:inputType="textEmailAddress"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:hint="@string/email_address"
+                android:maxLines="1"
+                android:singleLine="true" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"
@@ -103,7 +112,7 @@
                 android:id="@+id/signup_passwordET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_grey"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
@@ -117,14 +126,16 @@
                 android:id="@+id/signup_confirmPassET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_grey"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword" />
 
             <com.med.fast.customviews.CustomFontButton
                 android:id="@+id/signup_confirmBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_pink_pinkdark"
                 android:text="@string/register_your_account" />
 
         </LinearLayout>

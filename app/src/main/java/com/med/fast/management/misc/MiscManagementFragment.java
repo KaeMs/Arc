@@ -80,6 +80,7 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ((MainActivity)getActivity()).changeTitle("MISC MANAGEMENT");
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         String gender = SharedPreferenceUtilities.getUserInformation(getActivity(), SharedPreferenceUtilities.USER_GENDER);
@@ -166,6 +167,11 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
             MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 SharedPreferenceUtilities.setUserInformation(getActivity(), SharedPreferenceUtilities.USER_GENDER, output.data.results.is_female ? "1" : "0");
+                if (output.data.results.is_female) {
+                    femaleWrapper.setVisibility(View.VISIBLE);
+                } else {
+                    femaleWrapper.setVisibility(View.GONE);
+                }
                 voluptuaryHabit.setText(output.data.results.voluptuary_habits);
                 pregnantY.setChecked(output.data.results.pregnancy.equals("true"));
                 pregnancyWeeks.setText(output.data.results.pregnancy_weeks);

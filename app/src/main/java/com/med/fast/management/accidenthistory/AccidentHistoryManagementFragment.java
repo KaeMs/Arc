@@ -23,9 +23,11 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryShowIntf;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFunc;
@@ -50,12 +52,15 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     RecyclerView recyclerView;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
+    @BindView(R.id.management_mainfragment_nocontent_tv)
+    CustomFontTextView noContentTV;
+
     private AccidentHistoryManagementAdapter accidentHistoryManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "";
-    private String currentSort = "";
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
     @Nullable
@@ -76,8 +81,9 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        refreshView(false);
+        noContentTV.setText(getString(R.string.no_accident_record));
         progressBar.setVisibility(View.VISIBLE);
+        refreshView(false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -321,6 +327,12 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
 
                     if (lastItemCounter > 0){
                         accidentHistoryManagementAdapter.addSingle(null);
+                    }
+                    if (lastItemCounter == 0 &&
+                            accidentHistoryManagementAdapter.getItemCount() == 0){
+                        noContentTV.setVisibility(View.VISIBLE);
+                    } else {
+                        noContentTV.setVisibility(View.GONE);
                     }
                 } else {
                     accidentHistoryManagementAdapter.setFailLoad(true);

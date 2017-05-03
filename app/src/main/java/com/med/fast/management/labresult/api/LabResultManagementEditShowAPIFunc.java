@@ -1,6 +1,7 @@
 package com.med.fast.management.labresult.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
@@ -18,32 +19,26 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManagementEditShowAPI, Integer, ResponseAPI> {
     private LabResultManagementEditIntf delegate;
-    private Activity activity;
-
-    @Override
-    protected void onPostExecute(ResponseAPI responseAPI) {
-        super.onPostExecute(responseAPI);
-        delegate.onFinishLabResultManagementEditShow(responseAPI);
-    }
+    private Context context;
 
     public void setDelegate(LabResultManagementEditIntf delegate) {
         this.delegate = delegate;
     }
 
-    public LabResultManagementEditShowAPIFunc(Activity activity) {
-        this.activity = activity;
+    public LabResultManagementEditShowAPIFunc(Context context) {
+        this.context = context;
     }
     @Override
     protected ResponseAPI doInBackground(LabResultManagementEditShowAPI... params) {
 
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_EDIT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -52,15 +47,15 @@ public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManag
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
@@ -90,5 +85,11 @@ public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManag
         }
 
         return responseAPI;
+    }
+
+    @Override
+    protected void onPostExecute(ResponseAPI responseAPI) {
+        super.onPostExecute(responseAPI);
+        delegate.onFinishLabResultManagementEditShow(responseAPI);
     }
 }

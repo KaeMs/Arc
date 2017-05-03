@@ -28,6 +28,8 @@ import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
+import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -59,13 +61,15 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     RecyclerView recyclerView;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
+    @BindView(R.id.management_mainfragment_nocontent_tv)
+    CustomFontTextView noContentTV;
     private SurgeryManagementAdapter surgeryManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "";
-    private String currentSort = "";
-    private String userId = "18";
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
+    private String userId;
 
     @Nullable
     @Override
@@ -77,15 +81,16 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity)getActivity()).changeTitle("SURGERY MANAGEMENT");
-        setHasOptionsMenu(true);
 
         surgeryManagementAdapter = new SurgeryManagementAdapter(getActivity());
+        userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        refreshView(false);
+        noContentTV.setText(getString(R.string.no_surgery_record));
         progressBar.setVisibility(View.VISIBLE);
+        refreshView(false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -219,6 +224,12 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
 
                     if (lastItemCounter > 0){
                         surgeryManagementAdapter.addSingle(null);
+                    }
+                    if (lastItemCounter == 0 &&
+                            surgeryManagementAdapter.getItemCount() == 0){
+                        noContentTV.setVisibility(View.VISIBLE);
+                    } else {
+                        noContentTV.setVisibility(View.GONE);
                     }
                 } else {
                     surgeryManagementAdapter.setFailLoad(true);

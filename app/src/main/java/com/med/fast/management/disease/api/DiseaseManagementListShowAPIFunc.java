@@ -19,7 +19,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class DiseaseManagementListShowAPIFunc extends AsyncTask<DiseaseManagementListShowAPI, Integer, ResponseAPI> {
@@ -37,7 +37,7 @@ public class DiseaseManagementListShowAPIFunc extends AsyncTask<DiseaseManagemen
     protected ResponseAPI doInBackground(DiseaseManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/disease/diseaselistshow";
+            String url = APIConstants.API_URL + APIConstants.DISEASE_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

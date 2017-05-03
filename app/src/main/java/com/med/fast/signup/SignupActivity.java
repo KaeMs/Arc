@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -71,7 +72,6 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
     @BindView(R.id.signup_confirmBtn)
     CustomFontButton confirmBtn;
     private int year, month, day;
-    private String fullDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +85,6 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-        fullDate = day + "/" + month + "/" + year;
 
         dobTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,9 +99,21 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                showDate(datePickerDialog.getDatePicker().getYear(),
-                                        datePickerDialog.getDatePicker().getMonth(),
-                                        datePickerDialog.getDatePicker().getDayOfMonth());
+                                year = datePickerDialog.getDatePicker().getYear();
+                                month = datePickerDialog.getDatePicker().getMonth();
+                                day = datePickerDialog.getDatePicker().getDayOfMonth();
+                                // Formatting date from MM to MMM
+                                SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
+                                Date newDate = null;
+                                try {
+                                    newDate = format.parse(String.valueOf(month + 1) + " " + String.valueOf(day) + " " + String.valueOf(year));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
+                                String date = format.format(newDate);
+                                dobTV.setText(date);
                             }
                         });
 
@@ -122,6 +133,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(COLORATION);
 //        mAwesomeValidation.setContext(SignupActivity.this);
 
+        firstNameET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        lastNameET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         mAwesomeValidation.addValidation(firstNameET, Constants.REGEX_NAME, getString(R.string.first_name_wrong_format));
         mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, getString(R.string.last_name_wrong_format));
         mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
@@ -137,39 +150,16 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                     registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();
                     registerSubmitAPI.data.query.last_name = lastNameET.getText().toString();
                     registerSubmitAPI.data.query.email = emailAddressET.getText().toString();
-                    registerSubmitAPI.data.query.dob = fullDate;
+                    registerSubmitAPI.data.query.dob = dobTV.getText().toString();
                     registerSubmitAPI.data.query.password = passwordET.getText().toString();
                     registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
                     RegisterSubmitAPIFunc registerSubmitAPIFunc = new RegisterSubmitAPIFunc(SignupActivity.this);
                     registerSubmitAPIFunc.setDelegate(SignupActivity.this);
                     registerSubmitAPIFunc.execute(registerSubmitAPI);
-                } else {
-                    Toast.makeText(SignupActivity.this, "Lohlohloh", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-    }
-
-    //Function to show date
-    private void showDate(int year, int month, int day) {
-        SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
-        Date newDate = null;
-        try {
-            newDate = format.parse(String.valueOf(month) + " " + String.valueOf(day) + " " + String.valueOf(year));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        format = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-        String date = format.format(newDate);
-
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        fullDate = date;
-        // StringBuilder for dd/mm/yyyy
-        dobTV.setText(date);
     }
 
     @Override

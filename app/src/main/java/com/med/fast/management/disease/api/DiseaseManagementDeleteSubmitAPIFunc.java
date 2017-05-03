@@ -40,7 +40,7 @@ public class DiseaseManagementDeleteSubmitAPIFunc extends AsyncTask<DiseaseManag
     protected ResponseAPI doInBackground(DiseaseManagementDeleteSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/disease/diseasedeletesubmit";
+            String url = APIConstants.API_URL + APIConstants.DISEASE_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

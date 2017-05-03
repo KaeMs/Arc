@@ -36,7 +36,7 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
     protected ResponseAPI doInBackground(AccidentHistoryCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/accident/accidentcreatesubmit";
+            String url = APIConstants.API_URL + APIConstants.ACCIDENT_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

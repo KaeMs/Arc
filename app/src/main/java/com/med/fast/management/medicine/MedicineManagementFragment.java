@@ -30,10 +30,12 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.medicine.api.MedicineManagementListShowAPI;
 import com.med.fast.management.medicine.api.MedicineManagementListShowAPIFunc;
 
@@ -59,12 +61,14 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
     RecyclerView recyclerView;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
+    @BindView(R.id.management_mainfragment_nocontent_tv)
+    CustomFontTextView noContentTV;
     private MedicineManagementAdapter medicineManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "";
-    private String currentSort = "";
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
     @Nullable
@@ -79,13 +83,14 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         ((MainActivity)getActivity()).changeTitle("MEDICINE MANAGEMENT");
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
-        medicineManagementAdapter = new MedicineManagementAdapter(getActivity(), this);
+        medicineManagementAdapter = new MedicineManagementAdapter(getActivity(), this, false);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        refreshView(false);
+        noContentTV.setText(getString(R.string.no_medication_record));
         progressBar.setVisibility(View.VISIBLE);
+        refreshView(false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -217,6 +222,12 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
 
                     if (lastItemCounter > 0){
                         medicineManagementAdapter.addSingle(null);
+                    }
+                    if (lastItemCounter == 0 &&
+                            medicineManagementAdapter.getItemCount() == 0){
+                        noContentTV.setVisibility(View.VISIBLE);
+                    } else {
+                        noContentTV.setVisibility(View.GONE);
                     }
                 } else {
                     medicineManagementAdapter.setFailLoad(true);

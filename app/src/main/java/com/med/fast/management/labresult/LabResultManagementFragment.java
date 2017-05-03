@@ -1,27 +1,19 @@
 package com.med.fast.management.labresult;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
@@ -31,10 +23,11 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPI;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPIFunc;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementShowIntf;
@@ -42,15 +35,7 @@ import com.med.fast.management.labresult.labresultinterface.LabResultManagementS
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import butterknife.BindView;
-
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
@@ -68,11 +53,13 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
+    @BindView(R.id.management_mainfragment_nocontent_tv)
+    CustomFontTextView noContentTV;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "";
-    private String currentSort = "";
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
     @Nullable
@@ -93,8 +80,9 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        refreshView(false);
+        noContentTV.setText(getString(R.string.no_labresult_record));
         progressBar.setVisibility(View.VISIBLE);
+        refreshView(false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -214,6 +202,46 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
 
     @Override
     public void onFinishLabResultManagementListShow(ResponseAPI responseAPI) {
+        if (this.isVisible()){
+            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            if(responseAPI.status_code == 200) {
+                Gson gson = new Gson();
+                LabResultManagementListShowAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementListShowAPI.class);
+                if (output.data.status.code.equals("200")) {
+                    // If refresh, clear adapter and reset the counter
+                    labResultManagementAdapter.setFailLoad(false);
+                    if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
+                        labResultManagementAdapter.clearList();
+                        counter = 0;
+                    }
+                    labResultManagementAdapter.addList(output.data.results.lab_result_list);
+                    lastItemCounter = output.data.results.lab_result_list.size();
+                    counter += output.data.results.lab_result_list.size();
 
+                    if (lastItemCounter > 0){
+                        labResultManagementAdapter.addSingle(null);
+                    }
+                    if (lastItemCounter == 0 &&
+                            labResultManagementAdapter.getItemCount() == 0){
+                        noContentTV.setVisibility(View.VISIBLE);
+                    } else {
+                        noContentTV.setVisibility(View.GONE);
+                    }
+                } else {
+                    labResultManagementAdapter.setFailLoad(true);
+                    Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+                }
+            } else if(responseAPI.status_code == 504) {
+                labResultManagementAdapter.setFailLoad(true);
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            } else if(responseAPI.status_code == 401 ||
+                    responseAPI.status_code == 505) {
+                ((MainActivity)getActivity()).forceLogout();
+            } else {
+                labResultManagementAdapter.setFailLoad(true);
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

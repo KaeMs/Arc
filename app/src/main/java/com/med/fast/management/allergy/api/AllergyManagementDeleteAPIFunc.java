@@ -39,7 +39,7 @@ public class AllergyManagementDeleteAPIFunc extends AsyncTask<AllergyManagementD
     protected ResponseAPI doInBackground(AllergyManagementDeleteAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/allergy/allergydeletesubmit";
+            String url = APIConstants.API_URL + APIConstants.ALLERGY_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

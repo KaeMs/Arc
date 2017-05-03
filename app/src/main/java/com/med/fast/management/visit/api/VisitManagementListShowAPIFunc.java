@@ -37,7 +37,7 @@ public class VisitManagementListShowAPIFunc extends AsyncTask<VisitManagementLis
     protected ResponseAPI doInBackground(VisitManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.VISIT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

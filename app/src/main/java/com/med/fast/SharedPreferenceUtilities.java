@@ -20,6 +20,8 @@ public class SharedPreferenceUtilities {
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_EMAIL_IS_VERIFIED = "USER_EMAIL_IS_VERIFIED";
     public static final String USER_PASSWORD = "USER_PASSWORD";
+    public static final String USER_TOKEN = "USER_TOKEN";
+    public static final String USER_TOKEN_EXP_DATE = "USER_TOKEN_EXP_DATE";
     
     private SharedPreferenceUtilities() {
         super();

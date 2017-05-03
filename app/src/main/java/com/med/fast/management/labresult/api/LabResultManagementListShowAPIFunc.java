@@ -1,6 +1,7 @@
 package com.med.fast.management.labresult.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
@@ -23,10 +24,10 @@ import okhttp3.Response;
 
 public class LabResultManagementListShowAPIFunc extends AsyncTask<LabResultManagementListShowAPI, Integer, ResponseAPI> {
     private LabResultManagementShowIntf delegate;
-    private Activity activity;
+    private Context context;
 
-    public LabResultManagementListShowAPIFunc(Activity activity) {
-        this.activity = activity;
+    public LabResultManagementListShowAPIFunc(Context context) {
+        this.context = context;
     }
 
     public void setDelegate(LabResultManagementShowIntf delegate) {
@@ -44,7 +45,7 @@ public class LabResultManagementListShowAPIFunc extends AsyncTask<LabResultManag
     protected ResponseAPI doInBackground(LabResultManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -53,15 +54,15 @@ public class LabResultManagementListShowAPIFunc extends AsyncTask<LabResultManag
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

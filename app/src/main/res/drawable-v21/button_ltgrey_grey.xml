@@ -4,7 +4,8 @@
     android:color="@color/greyOpa60">
 
     <item>
-        <selector>
+        <selector
+            android:exitFadeDuration="@integer/default_fade_duration">
             <item android:state_pressed="true" >
                 <shape>
                     <solid

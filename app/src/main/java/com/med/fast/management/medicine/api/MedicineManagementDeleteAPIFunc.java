@@ -41,7 +41,7 @@ public class MedicineManagementDeleteAPIFunc extends AsyncTask<MedicineManagemen
     protected ResponseAPI doInBackground(MedicineManagementDeleteAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/medicine/medicinedeletesubmit";
+            String url = APIConstants.API_URL + APIConstants.MEDICINE_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

@@ -37,7 +37,7 @@ public class AccidentHistoryListShowAPIFunc extends AsyncTask<AccidentHistoryLis
     protected ResponseAPI doInBackground(AccidentHistoryListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/accident/accidentlistshow";
+            String url = APIConstants.API_URL + APIConstants.ACCIDENT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

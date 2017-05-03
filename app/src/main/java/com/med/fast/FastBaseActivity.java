@@ -36,5 +36,7 @@ public abstract class FastBaseActivity extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    public void forceLogout() {}
+    public void forceLogout() {
+
+    }
 }

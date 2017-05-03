@@ -1,6 +1,6 @@
 package com.med.fast.management.labresult.api;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
@@ -18,15 +18,15 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultManagementEditSubmitAPI, Integer, ResponseAPI> {
     private LabResultManagementEditIntf delegate;
-    private Activity activity;
+    private Context context;
 
-    public LabResultManagementEditSubmitAPIFunc(Activity activity) {
-        this.activity = activity;
+    public LabResultManagementEditSubmitAPIFunc(Context context) {
+        this.context = context;
     }
 
     public void setDelegate(LabResultManagementEditIntf delegate) {
@@ -36,7 +36,7 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
     protected ResponseAPI doInBackground(LabResultManagementEditSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_EDIT_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -45,15 +45,15 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

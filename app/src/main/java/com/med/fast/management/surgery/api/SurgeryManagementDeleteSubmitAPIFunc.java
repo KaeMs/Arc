@@ -39,7 +39,7 @@ public class SurgeryManagementDeleteSubmitAPIFunc extends AsyncTask<SurgeryManag
     protected ResponseAPI doInBackground(SurgeryManagementDeleteSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.SURGERY_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

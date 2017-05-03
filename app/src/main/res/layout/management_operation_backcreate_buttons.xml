@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/btnMediumHeight"
         android:text="@string/create"
-        android:background="@drawable/button_toscalight_tosca"
-        android:textColor="@color/textcolor_white_to_tosca"/>
+        android:background="@drawable/button_pink_pinkdark"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

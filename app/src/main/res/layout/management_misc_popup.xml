@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/border_edittext_grey_selector"
+                    android:background="@drawable/border_edittext_grey_pink_selector"
                     android:gravity="start"
                     android:hint="@string/misc_voluptuary_hint"
                     android:textSize="@dimen/font_small" />
@@ -109,7 +109,7 @@
                                 android:id="@+id/misc_popup_pregnancy_weeks"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/border_edittext_grey_selector"
+                                android:background="@drawable/border_edittext_grey_pink_selector"
                                 android:gravity="start"
                                 android:minWidth="@dimen/btnLargeHeight"
                                 android:textSize="@dimen/font_small" />
@@ -173,7 +173,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/border_edittext_grey_selector"
+                            android:background="@drawable/border_edittext_grey_pink_selector"
                             android:gravity="start"
                             android:textSize="@dimen/font_small" />
 
@@ -192,7 +192,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/border_edittext_grey_selector"
+                        android:background="@drawable/border_edittext_grey_pink_selector"
                         android:gravity="start"
                         android:hint="@string/cycle_alteration_question_placeholder"
                         android:textSize="@dimen/font_small" />

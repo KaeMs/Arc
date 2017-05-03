@@ -29,11 +29,13 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.MainActivity;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
 import com.med.fast.management.labresult.LabResultManagementFragment;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPI;
@@ -65,12 +67,14 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     RecyclerView recyclerView;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
+    @BindView(R.id.management_mainfragment_nocontent_tv)
+    CustomFontTextView noContentTV;
     private VisitAdapter visitAdapter;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
-    private String currentKeyword = "default";
-    private String currentSort = "default";
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
     @Nullable
@@ -96,8 +100,9 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
             }
         });
 
-        refreshView(false);
+        noContentTV.setText(getString(R.string.no_visit_record));
         progressBar.setVisibility(View.VISIBLE);
+        refreshView(false);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -236,6 +241,12 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
 
                     if (lastItemCounter > 0){
                         visitAdapter.addSingle(null);
+                    }
+                    if (lastItemCounter == 0 &&
+                            visitAdapter.getItemCount() == 0){
+                        noContentTV.setVisibility(View.VISIBLE);
+                    } else {
+                        noContentTV.setVisibility(View.GONE);
                     }
                 } else {
                     visitAdapter.setFailLoad(true);

@@ -43,18 +43,52 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".signup.SignupActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".signup.InitialDataAllergyActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.InitialData" />
+            android:theme="@style/AppTheme.InitialData"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".management.accidenthistory.AccidentEditActivity" />
-        <activity android:name=".management.allergy.AllergyEditActivity" />
-
-        <activity android:name=".signup.InitialDataDiseaseActivity" />
-        <activity android:name=".signup.InitialDataMedicationActivity" />
-        <activity android:name=".signup.InitialDataMiscActivity" />
+        <activity android:name=".management.accidenthistory.AccidentEditActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".management.allergy.AllergyEditActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".signup.InitialDataDiseaseActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".signup.InitialDataMedicationActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity android:name=".signup.InitialDataMiscActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".signup.SignupEmailConfActivity"
+        android:configChanges="orientation"
+        android:exported="true"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme">
+        <intent-filter>
+            <data
+                android:host="www.fastmedrecord.com"
+                android:pathPrefix="/Account/ConfirmEmail"
+                android:scheme="http" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+    </activity>
     </application>
 
 </manifest>

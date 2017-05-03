@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 28-Apr-17.
+ * Created by kevindreyar on 28-Apr-17. FM
  */
 
 public class LabResultManagementDeleteImgAPIFunc extends AsyncTask<LabResultManagementDeleteImgSubmitAPI, Integer, ResponseAPI> {
@@ -41,7 +41,7 @@ public class LabResultManagementDeleteImgAPIFunc extends AsyncTask<LabResultMana
     protected ResponseAPI doInBackground(LabResultManagementDeleteImgSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.LABRESULT_DELETE_IMAGE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

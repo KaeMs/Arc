@@ -38,7 +38,7 @@ public class SurgeryManagementListShowAPIFunc extends AsyncTask<SurgeryManagemen
     protected ResponseAPI doInBackground(SurgeryManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.SURGERY_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

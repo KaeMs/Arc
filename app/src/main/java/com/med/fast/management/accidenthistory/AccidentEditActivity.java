@@ -58,6 +58,7 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
+    int year, month, day;
 
     private String accidentId = "";
     private AccidentHistoryManagementModel accidentHistoryManagementModel;
@@ -84,9 +85,9 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
         accidentDateSpinner.setAdapter(accidentSpinnerAdapter);
 
         Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
 
         accidentDateTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,16 +102,19 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                year = datePickerDialog.getDatePicker().getYear();
+                                month = datePickerDialog.getDatePicker().getMonth();
+                                day = datePickerDialog.getDatePicker().getDayOfMonth();
                                 // Formatting date from MM to MMM
                                 SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
                                 Date newDate = null;
                                 try {
-                                    newDate = format.parse(String.valueOf(month) + " " + String.valueOf(day) + " " + String.valueOf(year));
+                                    newDate = format.parse(String.valueOf(month + 1) + " " + String.valueOf(day) + " " + String.valueOf(year));
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
 
-                                format = new SimpleDateFormat(Constants.dateFormatSpace, Locale.getDefault());
+                                format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
                                 String date = format.format(newDate);
                                 accidentDateTV.setText(date);
                             }

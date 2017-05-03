@@ -38,7 +38,7 @@ public class AllergyManagementListShowAPIFunc extends AsyncTask<AllergyManagemen
     protected ResponseAPI doInBackground(AllergyManagementListShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/allergy/allergylistshow";
+            String url = APIConstants.API_URL + APIConstants.ALLERGY_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

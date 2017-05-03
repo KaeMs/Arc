@@ -27,7 +27,7 @@ public class LoginAPI {
             public String description;
             public String user_id;
             public boolean is_verified_email;
-            public String initial_date_step;
+            public String initial_data_step;
             public String first_name;
             public String last_name;
             public String email;

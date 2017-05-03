@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/border_edittext_grey_selector"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:gravity="start"
                 android:hint="@string/doctor_name"
                 android:textSize="@dimen/font_small" />
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/border_edittext_grey_selector"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:gravity="start"
                 android:hint="@string/hospital_name_hint"
                 android:textSize="@dimen/font_small" />
@@ -60,12 +60,12 @@
                 android:text="@string/diagnose"
                 android:textColor="@color/blackDark" />
 
-            <com.med.fast.customviews.CustomFontTextView
+            <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/visit_popup_diagnose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/border_edittext_grey_selector"
+                android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/diagnose"
                 android:minLines="3"
                 android:textColor="@color/blackDark"
@@ -107,7 +107,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/border_grey" />
+                    android:background="@drawable/border_grey"
+                    android:minHeight="200dp" />
 
                 <ListView
                     android:id="@+id/visit_popup_disease_input_recycler"
@@ -118,7 +119,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/border_grey" />
+                    android:background="@drawable/border_grey"
+                    android:minHeight="200dp" />
 
             </LinearLayout>
 

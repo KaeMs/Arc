@@ -57,18 +57,21 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     private boolean failLoad = false;
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
+    private boolean initial = false;
 
-    public MedicineManagementAdapter(Context context){
+    public MedicineManagementAdapter(Context context, boolean initial){
         super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.initial = initial;
     }
 
-    public MedicineManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+    public MedicineManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial){
         super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
         this.startActivityForResultInAdapterIntf = intf;
+        this.initial = initial;
     }
 
     public void addList(List<MedicineManagementModel> dataset){
@@ -199,7 +202,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementSubmitAPI.data.query.status = statusString;
                     medicineManagementSubmitAPI.data.query.additional_instruction = additional_instructionString;
 
-                    MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, medicineManagementModel.getTag());
+                    MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, medicineManagementModel.getTag(), initial);
                     medicineManagementSubmitAPIFunc.setDelegate(MedicineManagementAdapter.this);
                     medicineManagementSubmitAPIFunc.execute(medicineManagementSubmitAPI);
 
@@ -222,7 +225,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
         medicineManagementSubmitAPI.data.query.status = mDataset.get(position).getMedicine_medication_status();
         medicineManagementSubmitAPI.data.query.additional_instruction = mDataset.get(position).getMedicine_additional_instruction();
 
-        MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, mDataset.get(position).getTag());
+        MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, mDataset.get(position).getTag(), initial);
         medicineManagementSubmitAPIFunc.setDelegate(MedicineManagementAdapter.this);
         medicineManagementSubmitAPIFunc.execute(medicineManagementSubmitAPI);
     }

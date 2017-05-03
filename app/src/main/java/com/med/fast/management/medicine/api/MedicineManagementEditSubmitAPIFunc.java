@@ -44,7 +44,7 @@ public class MedicineManagementEditSubmitAPIFunc extends AsyncTask<MedicineManag
     protected ResponseAPI doInBackground(MedicineManagementEditSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/medicine/medicineditsubmit";
+            String url = APIConstants.API_URL + APIConstants.MEDICINE_EDIT_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

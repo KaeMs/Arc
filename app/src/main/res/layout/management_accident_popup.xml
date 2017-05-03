@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/full_accident_details_hint"
             android:minLines="3"
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/injury_nature_hint"
             android:textSize="@dimen/font_small" />
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/injury_location_hint"
             android:textSize="@dimen/font_small" />
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:hint="@string/accident_date_hint"
             android:textColor="@color/blackDark"
             android:textSize="@dimen/font_small" />

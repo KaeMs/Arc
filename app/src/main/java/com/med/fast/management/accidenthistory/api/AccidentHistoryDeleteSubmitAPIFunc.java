@@ -39,7 +39,7 @@ public class AccidentHistoryDeleteSubmitAPIFunc extends AsyncTask<AccidentHistor
     protected ResponseAPI doInBackground(AccidentHistoryDeleteSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/accident/accidentdeletesubmit";
+            String url = APIConstants.API_URL + APIConstants.ACCIDENT_DELETE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

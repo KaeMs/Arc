@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/surgery_procedure_hint"
             android:textSize="@dimen/font_small" />
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/physician_name_hint"
             android:textSize="@dimen/font_small" />
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:gravity="start"
             android:hint="@string/hospital_name_hint"
             android:textSize="@dimen/font_small" />
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:hint="@string/surgery_date"
             android:textColor="@color/blackDark"
             android:textSize="@dimen/font_small" />
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_selector"
+            android:background="@drawable/border_edittext_grey_pink_selector"
             android:hint="@string/surgery_note_hint"
             android:textColor="@color/blackDark"
             android:textSize="@dimen/font_small" />

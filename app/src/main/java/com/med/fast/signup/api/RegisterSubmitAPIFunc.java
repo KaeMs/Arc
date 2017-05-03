@@ -1,8 +1,12 @@
 package com.med.fast.signup.api;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.api.APIConstants;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.TokenUtils;
@@ -23,10 +27,11 @@ import okhttp3.Response;
 
 public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer, ResponseAPI> {
     private RegisterSubmitAPIIntf delegate;
-    private Activity activity;
+    private Context context;
+    private ProgressDialog progressDialog;
 
-    public RegisterSubmitAPIFunc(Activity activity) {
-        this.activity = activity;
+    public RegisterSubmitAPIFunc(Context context) {
+        this.context = context;
     }
 
     public void setDelegate(RegisterSubmitAPIIntf delegate) {
@@ -34,27 +39,27 @@ public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer,
     }
 
     @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Registering your ID..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    @Override
     protected ResponseAPI doInBackground(RegisterSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.REGISTER;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
                     .writeTimeout(APIConstants.writeTimeout, TimeUnit.SECONDS)
                     .readTimeout(APIConstants.readTimeout, TimeUnit.SECONDS)
                     .build();
-
-            // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
-                    responseAPI.status_code = 505;
-                    responseAPI.status_response = "Error";
-
-                    return responseAPI;
-                }
-            }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("first_name", params[0].data.query.first_name)
@@ -67,8 +72,6 @@ public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer,
 
             Request request = new Request.Builder()
                     .url(url)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer " + token)
                     .post(formBody)
                     .build();
 
@@ -94,6 +97,6 @@ public class RegisterSubmitAPIFunc extends AsyncTask<RegisterSubmitAPI, Integer,
     protected void onPostExecute(ResponseAPI registerSubmitAPIResult) {
         super.onPostExecute(registerSubmitAPIResult);
         delegate.onFinishRegisterSubmit(registerSubmitAPIResult);
+        progressDialog.dismiss();
     }
-
 }
