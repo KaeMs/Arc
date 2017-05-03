@@ -20,6 +20,10 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.signup.InitialDataAllergyActivity;
+import com.med.fast.signup.InitialDataDiseaseActivity;
+import com.med.fast.signup.InitialDataMedicationActivity;
+import com.med.fast.signup.InitialDataMiscActivity;
 import com.med.fast.signup.SignupActivity;
 
 import butterknife.BindView;
@@ -126,17 +130,35 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
             LoginAPI output = gson.fromJson(responseAPI.status_response, LoginAPI.class);
             if (output.data.status.code.equals("200")) {
                 if (output.data.results.is_verified_email){
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
-                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+                    if (output.data.results.initial_data_step.equals("1")){
+                        Intent intent = new Intent(this, InitialDataAllergyActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (output.data.results.initial_data_step.equals("2")){
+                        Intent intent = new Intent(this, InitialDataDiseaseActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (output.data.results.initial_data_step.equals("3")){
+                        Intent intent = new Intent(this, InitialDataMedicationActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (output.data.results.initial_data_step.equals("4")){
+                        Intent intent = new Intent(this, InitialDataMiscActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
+                        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
                 } else {
 
                 }
