@@ -199,68 +199,6 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_add, menu);
-        final MenuItem searchItem = menu.findItem(R.id.menu_layout_add_btn);
-        ImageView addBtn = (ImageView) MenuItemCompat.getActionView(searchItem);
-        addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Dialog dialog = new Dialog(getActivity());
-                dialog.setContentView(R.layout.management_surgery_popup);
-                dialog.setCanceledOnTouchOutside(false);
-
-                final CustomFontEditText surgeryProcedure = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_procedure);
-                final CustomFontEditText physicianName = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_physician_name);
-                final CustomFontEditText hospitalName = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_hospital_name);
-                final CustomFontTextView surgeryDate = (CustomFontTextView) dialog.findViewById(R.id.surgery_popup_surgery_date);
-                final CustomFontEditText surgeryNote = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_note);
-
-                CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
-                CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
-
-                backBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-                mAwesomeValidation.setContext(getActivity());
-                mAwesomeValidation.addValidation(surgeryProcedure, RegexTemplate.NOT_EMPTY, getString(R.string.surgery_procedure_required));
-                mAwesomeValidation.addValidation(hospitalName, RegexTemplate.NOT_EMPTY, getString(R.string.hospital_name_required));
-                mAwesomeValidation.addValidation(physicianName, RegexTemplate.NOT_EMPTY, getString(R.string.physician_name_required));
-
-                createBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAwesomeValidation.clear();
-                        if (!surgeryDate.getText().toString().equals("")){
-                            if (mAwesomeValidation.validate()){
-                                SurgeryManagementModel surgeryManagementModel = new SurgeryManagementModel();
-                                surgeryManagementModel.setSurgery_procedure(surgeryProcedure.getText().toString());
-                                surgeryManagementModel.setSurgery_physician_name(physicianName.getText().toString());
-                                surgeryManagementModel.setSurgery_hospital_name(hospitalName.getText().toString());
-                                surgeryManagementModel.setSurgery_date(surgeryDate.getText().toString());
-                                surgeryManagementModel.setSurgery_note(surgeryNote.getText().toString());
-
-                                surgeryManagementAdapter.addSingle(surgeryManagementModel);
-                                dialog.dismiss();
-                            }
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.surgery_date_required), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                dialog.show();
-            }
-        });
-    }
-
-    @Override
     public void onFinishSurgeryManagementShow(ResponseAPI responseAPI) {
         if (this.isVisible()){
             progressBar.setVisibility(View.GONE);

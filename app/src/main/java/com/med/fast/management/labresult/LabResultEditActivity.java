@@ -43,6 +43,8 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
     CustomFontEditText testLocation;
     @BindView(R.id.labresult_popup_test_description)
     CustomFontEditText description;
+    @BindView(R.id.labresult_popup_image_recycler)
+    CustomFontEditText imgRecycler;
     @BindView(R.id.labresult_popup_test_finished_date)
     CustomFontEditText finishedDate;
     CustomFontButton backBtn;

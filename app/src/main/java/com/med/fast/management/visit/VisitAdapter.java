@@ -2,7 +2,6 @@ package com.med.fast.management.visit;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -21,12 +20,10 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
-import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
-import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
@@ -213,7 +210,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         });
     }
 
-    private void resumbitItem(int position){
+    private void resubmitItem(int position){
         VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
         visitManagementCreateSubmitAPI.data.query.user_id = userId;
         visitManagementCreateSubmitAPI.data.query.doctor = mDataset.get(position).getDoctor_name();
@@ -306,7 +303,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                 visitViewHolder.statusProgressBar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        resumbitItem(holder.getAdapterPosition());
+                        resubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
