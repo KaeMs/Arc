@@ -33,6 +33,7 @@ public class SurgeryManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
+            public String new_surgery_id;
         }
     }
 }

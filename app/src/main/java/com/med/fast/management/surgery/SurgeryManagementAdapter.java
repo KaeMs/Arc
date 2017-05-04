@@ -107,15 +107,25 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     // Update by tag
-    public void updateItem(String tag, boolean success) {
+    public void updateItem(String tag, String newId, boolean success) {
         for (int i = getItemCount() - 1; i > 0; i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                    if (success)mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    else mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                    mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                    if (success) {
+                        mDataset.get(i).setSurgery_id(newId);
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                    }
+                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+                    if (success) {
+                        mDataset.remove(i);
+                        notifyItemRemoved(i);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    }
                 }
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -286,19 +296,19 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             Gson gson = new Gson();
             SurgeryManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, SurgeryManagementCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
-                updateItem(tag, true);
+                updateItem(tag, output.data.results.new_surgery_id, true);
             } else {
-                updateItem(tag, false);
+                updateItem(tag, APIConstants.NO_ID, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
@@ -316,17 +326,17 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                     }
                 }
             } else {
-                updateItem(tag, false);
+                updateItem(tag, output.data.query.surgery_id, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

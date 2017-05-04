@@ -24,13 +24,12 @@ import okhttp3.Response;
 public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagementCreateSubmitAPI, Integer, ResponseAPI> {
     private VisitCreateDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public void setDelegate(VisitCreateDeleteIntf delegate) {
-        this.delegate = delegate;
-    }
-
-    public VisitManagementCreateSubmitAPIFunc(Context context) {
+    public VisitManagementCreateSubmitAPIFunc(Context context, VisitCreateDeleteIntf delegate, String tag) {
         this.context = context;
+        this.delegate = delegate;
+        this.tag = tag;
     }
 
     @Override
@@ -94,6 +93,6 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishVisitCreate(responseAPI);
+        delegate.onFinishVisitCreate(responseAPI, tag);
     }
 }

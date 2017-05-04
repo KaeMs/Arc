@@ -7,6 +7,6 @@ import com.med.fast.api.ResponseAPI;
  */
 
 public interface VisitCreateDeleteIntf {
-    void onFinishVisitCreate(ResponseAPI responseAPI);
-    void onFinishVisitDelete(ResponseAPI responseAPI);
+    void onFinishVisitCreate(ResponseAPI responseAPI, String tag);
+    void onFinishVisitDelete(ResponseAPI responseAPI, String tag);
 }

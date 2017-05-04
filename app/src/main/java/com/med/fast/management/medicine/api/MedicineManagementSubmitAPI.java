@@ -36,6 +36,7 @@ public class MedicineManagementSubmitAPI {
         {
             public String result_status;
             public String description;
+            public String new_medicine_id;
         }
     }
 }

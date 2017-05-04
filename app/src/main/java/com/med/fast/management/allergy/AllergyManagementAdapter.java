@@ -134,21 +134,31 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     // Update by tag
-    public void updateItem(String tag, boolean success) {
+    public void updateItem(String tag, String newId, boolean success) {
         for (int i = getItemCount() - 1; i > 0; i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                    if (success)mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    else mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                    mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                    if (success) {
+                        mDataset.get(i).setAllergy_id(newId);
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                    }
+                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+                    if (success) {
+                        mDataset.remove(i);
+                        notifyItemRemoved(i);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    }
                 }
+                notifyItemChanged(i);
                 break;
             }
         }
     }
 
-    public void submitItem(){
+    public void submitItem() {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_allergy_popup);
         dialog.setCanceledOnTouchOutside(false);
@@ -208,8 +218,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         });
         dialog.show();
     }
-    
-    private void reSubmitItem(int position){
+
+    private void reSubmitItem(int position) {
         AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
         allergyManagementCreateSubmitAPI.data.query.user_id = userId;
         allergyManagementCreateSubmitAPI.data.query.allergy_agent = mDataset.get(position).getAgent();
@@ -222,7 +232,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                 mDataset.get(position).getTag(), initial);
         allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
     }
-    
+
     @Override
     public int getItemViewType(int position) {
         return mDataset.get(position) != null ? ALLERGY : PROGRESS;
@@ -338,19 +348,19 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             Gson gson = new Gson();
             AllergyManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
-                updateItem(tag, true);
+                updateItem(tag, output.data.results.new_allergy_id, true);
             } else {
-                updateItem(tag, false);
+                updateItem(tag, APIConstants.NO_ID, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
@@ -368,17 +378,17 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     }
                 }
             } else {
-                updateItem(tag, false);
+                updateItem(tag, output.data.query.allergy_id, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

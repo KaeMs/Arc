@@ -38,6 +38,7 @@ public class LabResultManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
+            public String new_lab_result_id;
         }
     }
 }

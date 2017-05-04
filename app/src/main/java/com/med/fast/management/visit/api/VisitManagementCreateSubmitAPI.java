@@ -34,6 +34,7 @@ public class VisitManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
+            public String new_visit_id;
         }
     }
 }

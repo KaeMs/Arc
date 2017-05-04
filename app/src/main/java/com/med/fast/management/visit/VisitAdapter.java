@@ -202,8 +202,8 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                     visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
                     visitManagementCreateSubmitAPI.data.query.is_image_uploaded = userId;
 
-                    VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc = new VisitManagementCreateSubmitAPIFunc(context);
-                    visitManagementCreateSubmitAPIFunc.setDelegate(VisitAdapter.this);
+                    VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
+                            new VisitManagementCreateSubmitAPIFunc(context, VisitAdapter.this, visitModel.getTag());
                     visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
                 }
             }
@@ -219,8 +219,8 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
 //        visitManagementCreateSubmitAPI.data.query.disease_id_list = mDataset.get(position).getDoctor_name();
 //        visitManagementCreateSubmitAPI.data.query.is_image_uploaded = userId;
 
-        VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc = new VisitManagementCreateSubmitAPIFunc(context);
-        visitManagementCreateSubmitAPIFunc.setDelegate(VisitAdapter.this);
+        VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
+                new VisitManagementCreateSubmitAPIFunc(context, VisitAdapter.this, mDataset.get(position).getTag());
         visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
     }
 
@@ -236,14 +236,23 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     }
 
     // Update by tag
-    public void updateItem(String tag, boolean success){
-        for (int i = getItemCount() - 1; i > 0; i++){
-            if (mDataset.get(i).getTag().equals(tag)){
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                    if (success)mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    else mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                    mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+    public void updateItem(String tag, String newId, boolean success) {
+        for (int i = getItemCount() - 1; i > 0; i++) {
+            if (mDataset.get(i).getTag().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                    if (success) {
+                        mDataset.get(i).setVisit_id(newId);
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                    }
+                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+                    if (success) {
+                        mDataset.remove(i);
+                        notifyItemRemoved(i);
+                    } else {
+                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                    }
                 }
                 notifyItemChanged(i);
                 break;
@@ -369,30 +378,30 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     }
 
     @Override
-    public void onFinishVisitCreate(ResponseAPI responseAPI) {
+    public void onFinishVisitCreate(ResponseAPI responseAPI, String tag) {
         if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             VisitManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
-                updateItem(output.data.query.tag, true);
+                updateItem(tag, output.data.results.new_visit_id, true);
             } else {
-                updateItem(output.data.query.tag, false);
+                updateItem(tag, APIConstants.NO_ID, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(null, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(null, false);
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onFinishVisitDelete(ResponseAPI responseAPI) {
+    public void onFinishVisitDelete(ResponseAPI responseAPI, String tag) {
         if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
@@ -404,14 +413,17 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                     }
                 }
             } else {
+                updateItem(tag, output.data.query.visit_id, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
+            updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

@@ -35,6 +35,7 @@ public class DiseaseManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
+            public String new_disease_id;
         }
     }
 }

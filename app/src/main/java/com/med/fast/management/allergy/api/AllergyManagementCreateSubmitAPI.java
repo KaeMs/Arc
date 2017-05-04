@@ -35,7 +35,7 @@ public class AllergyManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
-            public AllergyManagementModel allergyManagementModel;
+            public String new_allergy_id;
         }
     }
 }
