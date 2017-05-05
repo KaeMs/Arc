@@ -7,7 +7,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.visit.visitinterface.VisitCreateDeleteIntf;
+import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
+import com.med.fast.management.visit.visitinterface.VisitDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,12 +23,14 @@ import okhttp3.Response;
  */
 
 public class VisitManagementDeleteSubmitAPIFunc extends AsyncTask<VisitManagementDeleteSubmitAPI, Integer, ResponseAPI> {
-    private VisitCreateDeleteIntf delegate;
+    private VisitDeleteIntf delegate;
     private Context context;
+    private String tag;
 
-    public VisitManagementDeleteSubmitAPIFunc(Context context, VisitCreateDeleteIntf intf) {
+    public VisitManagementDeleteSubmitAPIFunc(Context context, VisitDeleteIntf intf, String tag) {
         this.context = context;
         this.delegate = intf;
+        this.tag = tag;
     }
 
     @Override
@@ -86,6 +89,6 @@ public class VisitManagementDeleteSubmitAPIFunc extends AsyncTask<VisitManagemen
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishVisitDelete(responseAPI);
+        delegate.onFinishVisitDelete(responseAPI, tag);
     }
 }

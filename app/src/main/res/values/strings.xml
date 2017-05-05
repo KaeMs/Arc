@@ -106,7 +106,7 @@
     <string name="diagnose_required">Diagnose is required</string>
     <string name="placeholder_diagnose">Patient has trouble seeing holes</string>
     <string name="diagnosed_diseases">Diagnosed Diseases</string>
-    <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a disease?</string>
+    <string name="placeholder_diagnosed_diseases">Trypophobia, what? Is that even a diseases?</string>
     <string name="image">Image</string>
     <string name="image_upload">Upload Image</string>
     <string name="image_change">Change Image</string>
@@ -119,22 +119,22 @@
 
     <!-- Disease -->
     <string name="disease_name">Disease name</string>
-    <string name="disease_name_hint">Exact name of disease</string>
+    <string name="disease_name_hint">Exact name of diseases</string>
     <string name="disease_name_placeholder">Awesomeness</string>
     <string name="disease_hereditary">Hereditary</string>
     <string name="disease_hereditary_carriers">Hereditary Carriers</string>
     <string name="disease_hereditary_carriers_placeholder">The whole family</string>
     <string name="disease_hereditary_question">Is it hereditary?</string>
-    <string name="disease_hereditary_inherited_from">From whom your hereditary disease is inherited?</string>
+    <string name="disease_hereditary_inherited_from">From whom your hereditary diseases is inherited?</string>
     <string name="disease_hereditary_inherited_from_hint">Father, mother, grandfather, etc.</string>
     <string name="disease_hereditary_inherited_from_placeholder">The whole family has it</string>
-    <string name="disease_hereditary_inherited_from_required">Hereditary disease carrier required</string>
-    <string name="currently_having_this_disease">Are you currently having this disease now?</string>
+    <string name="disease_hereditary_inherited_from_required">Hereditary diseases carrier required</string>
+    <string name="currently_having_this_disease">Are you currently having this diseases now?</string>
     <string name="ongoing">Ongoing</string>
     <string name="last_visit">Last Visit</string>
     <string name="historic_date">Historic date</string>
     <string name="approximate_date">Approximate Date</string>
-    <string name="disease_delete_confirmation">Are you sure you want to delete this disease record?</string>
+    <string name="disease_delete_confirmation">Are you sure you want to delete this diseases record?</string>
 
     <!-- Medicine -->
     <string name="medicine_name">Medicine Name</string>
@@ -253,7 +253,7 @@
     <string name="no_visit_record">No visitting record found</string>
     <string name="no_surgery_record">No surgery record found</string>
     <string name="no_allergy_record">No allergy record found</string>
-    <string name="no_disease_record">No disease record found</string>
+    <string name="no_disease_record">No diseases record found</string>
     <string name="no_medication_record">No medication record found</string>
     <string name="no_accident_record">No accident record found</string>
     <string name="no_labresult_record">No lab result record found</string>
@@ -261,6 +261,14 @@
     <string name="error_connection">Connection error, please try again later</string>
     <string name="error_server">Server error, please try again later</string>
     <string name="error_infscroll">Failed to retrieve more data. Tap here to try again.</string>
+
+    <!-- Media -->
+    <string name="select_image">Select image</string>
+    <string name="select_image_source">Select image source</string>
+    <string-array name="select_image_source_arr">
+    <item>Camera</item>
+    <item>Gallery</item>
+    </string-array>
 
     <!-- General -->
     <string name="ok">OK</string>

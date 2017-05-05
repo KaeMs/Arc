@@ -6,7 +6,6 @@ import com.med.fast.api.ResponseAPI;
  * Created by Kevin on 4/29/2017. FM
  */
 
-public interface VisitCreateDeleteIntf {
+public interface VisitCreateIntf {
     void onFinishVisitCreate(ResponseAPI responseAPI, String tag);
-    void onFinishVisitDelete(ResponseAPI responseAPI, String tag);
 }

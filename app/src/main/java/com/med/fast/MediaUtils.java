@@ -13,6 +13,14 @@ import id.zelory.compressor.Compressor;
  */
 
 public class MediaUtils {
+
+    public static int image_placeholder_black = R.drawable.ic_image_black_48dp;
+    public static int image_placeholder_white = R.drawable.ic_image_white_48dp;
+    public static int image_error_black = R.drawable.ic_broken_image_black_48dp;
+    public static int image_error_white = R.drawable.ic_broken_image_white_48dp;
+    public static final String FMR_DIR_SLASH = "/FastMedRec/";
+    public static final String FMR_DIR = "FastMedRec";
+
     // Compress image
     public static Uri compressImage(Context context, Uri inputUri) {
         try {

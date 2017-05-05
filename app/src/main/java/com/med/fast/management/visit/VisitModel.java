@@ -1,6 +1,5 @@
 package com.med.fast.management.visit;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ public class VisitModel {
     private String hospital_name;
     private String doctor_name;
     private String diagnose;
-    private String disease;
+    private List<VisitDiseaseModel> diseases;
     private List<VisitImageItem> image_list;
     private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
@@ -67,12 +66,12 @@ public class VisitModel {
         this.diagnose = diagnose;
     }
 
-    public String getDisease() {
-        return disease;
+    public List<VisitDiseaseModel> getDiseases() {
+        return diseases;
     }
 
-    public void setDisease(String disease) {
-        this.disease = disease;
+    public void setDiseases(List<VisitDiseaseModel> diseases) {
+        this.diseases = diseases;
     }
 
     public List<VisitImageItem> getImage_list() {

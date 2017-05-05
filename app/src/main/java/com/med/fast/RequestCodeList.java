@@ -6,6 +6,9 @@ package com.med.fast;
 
 public class RequestCodeList {
 
+    public static final int CAMERA = 1001;
+    public static final int GALLERY = 1002;
+    public static final int VISIT_CREATE = 2100;
     public static final int VISIT_EDIT = 2101;
     public static final int SURGERY_EDIT = 2201;
     public static final int ALLERGY_EDIT = 2301;

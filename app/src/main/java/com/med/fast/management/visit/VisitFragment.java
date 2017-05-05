@@ -205,7 +205,12 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_EDIT){
+        if (requestCode == RequestCodeList.VISIT_CREATE){
+            if (resultCode == Activity.RESULT_OK){
+                String visitId = data.getStringExtra(ConstantsManagement.VISIT_ID_EXTRA);
+                visitAdapter.updateItem(visitId, visitId, true);
+            }
+        } else if (requestCode == RequestCodeList.VISIT_EDIT){
             if (resultCode == Activity.RESULT_OK){
                 Gson gson = new Gson();
                 VisitModel model =

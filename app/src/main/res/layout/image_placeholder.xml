@@ -9,6 +9,7 @@
         android:id="@+id/image_placeholder_imageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/image"/>
+        android:contentDescription="@string/image"
+        android:src="@drawable/ic_image_white_48dp"/>
 
 </LinearLayout>

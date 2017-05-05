@@ -1,7 +1,7 @@
 package com.med.fast.management.visit;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -10,35 +10,27 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
-import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontButton;
-import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPI;
-import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPI;
 import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPIFunc;
-import com.med.fast.management.visit.visitinterface.VisitCreateDeleteIntf;
+import com.med.fast.management.visit.visitinterface.VisitDeleteIntf;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,13 +41,11 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
-
 /**
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreateDeleteIntf {
+public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDeleteIntf {
 
     private final int PROGRESS = 0;
     private final int VISIT = 1;
@@ -65,6 +55,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     private String deletionId = "";
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
+    private VisitImageAdapter visitImageAdapter;
     private ArrayAdapter<String> leftRecyclerAdapter;
     private List<String> leftDataset;
     private ArrayAdapter<String> rightRecyclerAdapter;
@@ -75,6 +66,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.userId = SharedPreferenceUtilities.getUserId(context);
+        visitImageAdapter = new VisitImageAdapter(context);
         this.leftRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
         leftDataset = new ArrayList<>();
         this.rightRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
@@ -118,7 +110,9 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     }
 
     public void submitItem(){
-        final Dialog dialog = new Dialog(context);
+        Intent intent = new Intent(context, VisitAddActivity.class);
+        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.VISIT_CREATE);
+        /*final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_visit_popup);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -127,6 +121,9 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         final CustomFontEditText hospitalName = (CustomFontEditText) dialog.findViewById(R.id.visit_popup_hospital_name);
         final CustomFontEditText diagnose = (CustomFontEditText) dialog.findViewById(R.id.visit_popup_diagnose);
         RecyclerView imageRecycler = (RecyclerView) dialog.findViewById(R.id.visit_popup_imagerecycler);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        imageRecycler.setAdapter(visitImageAdapter);
+        imageRecycler.setLayoutManager(linearLayoutManager);
         ListView diseaseHistoryListView = (ListView) dialog.findViewById(R.id.visit_popup_disease_history_recycler);
         ListView diseaseInputListView = (ListView) dialog.findViewById(R.id.visit_popup_disease_input_recycler);
 
@@ -168,7 +165,6 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
         mAwesomeValidation.addValidation(hospitalName, RegexTemplate.NOT_EMPTY, context.getString(R.string.hospital_name_required));
         mAwesomeValidation.addValidation(diagnose, RegexTemplate.NOT_EMPTY, context.getString(R.string.diagnose_required));
 
-
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +183,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                     visitModel.setHospital_name(hospitalNameString);
                     visitModel.setDoctor_name(doctorNameString);
                     visitModel.setDiagnose(diagnoseString);
-                    visitModel.setDisease("disease");
+                    visitModel.setDiseases("disease");
 
                     visitModel.setProgress_status("1");
                     visitModel.setTag(doctorNameString + getItemCount());
@@ -207,11 +203,11 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                     visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
                 }
             }
-        });
+        });*/
     }
 
     private void resubmitItem(int position){
-        VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
+        /*VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
         visitManagementCreateSubmitAPI.data.query.user_id = userId;
         visitManagementCreateSubmitAPI.data.query.doctor = mDataset.get(position).getDoctor_name();
         visitManagementCreateSubmitAPI.data.query.hospital = mDataset.get(position).getHospital_name();
@@ -221,7 +217,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
 
         VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
                 new VisitManagementCreateSubmitAPIFunc(context, VisitAdapter.this, mDataset.get(position).getTag());
-        visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
+        visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);*/
     }
 
     // Update by model
@@ -289,7 +285,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
             visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());
             visitViewHolder.doctorName.setText(mDataset.get(position).getDoctor_name());
             visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());
-            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDisease());
+            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseases());
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
@@ -365,7 +361,8 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                 visitManagementDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
                 visitManagementDeleteSubmitAPI.data.query.visit_id = mDataset.get(i).getVisit_id();
 
-                VisitManagementDeleteSubmitAPIFunc visitManagementDeleteSubmitAPIFunc = new VisitManagementDeleteSubmitAPIFunc(context, VisitAdapter.this);
+                VisitManagementDeleteSubmitAPIFunc visitManagementDeleteSubmitAPIFunc =
+                        new VisitManagementDeleteSubmitAPIFunc(context, VisitAdapter.this, mDataset.get(i).getVisit_id());
                 visitManagementDeleteSubmitAPIFunc.execute(visitManagementDeleteSubmitAPI);
                 break;
             }
@@ -378,36 +375,13 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
     }
 
     @Override
-    public void onFinishVisitCreate(ResponseAPI responseAPI, String tag) {
-        if (responseAPI.status_code == 200) {
-            Gson gson = new Gson();
-            VisitManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementCreateSubmitAPI.class);
-            if (output.data.status.code.equals("200")) {
-                updateItem(tag, output.data.results.new_visit_id, true);
-            } else {
-                updateItem(tag, APIConstants.NO_ID, false);
-                Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            }
-        } else if (responseAPI.status_code == 504) {
-            updateItem(tag, APIConstants.NO_ID, false);
-            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if (responseAPI.status_code == 401 ||
-                responseAPI.status_code == 505) {
-            ((FastBaseActivity) context).forceLogout();
-        } else {
-            updateItem(tag, APIConstants.NO_ID, false);
-            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public void onFinishVisitDelete(ResponseAPI responseAPI, String tag) {
         if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getVisit_id())) {
+                    if (output.data.query.visit_id.equals(mDataset.get(i).getVisit_id())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }
@@ -417,13 +391,13 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitCreate
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
