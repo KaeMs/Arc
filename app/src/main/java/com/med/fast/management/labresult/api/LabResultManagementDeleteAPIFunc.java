@@ -1,6 +1,5 @@
 package com.med.fast.management.labresult.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -8,7 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateDeleteIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,11 +22,11 @@ import okhttp3.Response;
  */
 
 public class LabResultManagementDeleteAPIFunc extends AsyncTask<LabResultManagementDeleteSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementCreateDeleteIntf delegate;
+    private LabResultManagementDeleteIntf delegate;
     private Context context;
     private String tag;
 
-    public LabResultManagementDeleteAPIFunc(Context context, LabResultManagementCreateDeleteIntf intf, String tag) {
+    public LabResultManagementDeleteAPIFunc(Context context, LabResultManagementDeleteIntf intf, String tag) {
         this.context = context;
         this.delegate = intf;
         this.tag = tag;

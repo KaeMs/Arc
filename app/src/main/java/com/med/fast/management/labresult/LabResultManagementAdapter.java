@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.APIConstants;
@@ -34,7 +36,8 @@ import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteSubmitAPI;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateDeleteIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,7 +59,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implements LabResultManagementCreateDeleteIntf {
+public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implements LabResultManagementDeleteIntf, LabResultManagementCreateIntf {
 
     private final int PROGRESS = 0;
     private final int LABRESULT = 1;
@@ -113,6 +116,9 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     }
 
     public void submitItem(){
+        Intent intent = new Intent(context, LabResultAddActivity.class);
+        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.LABRESULT_CREATE);
+
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_labresult_popup);
         dialog.setCanceledOnTouchOutside(false);

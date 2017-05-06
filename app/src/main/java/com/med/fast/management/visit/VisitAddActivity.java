@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -84,7 +85,11 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         setContentView(R.layout.management_visit_popup);
 
         userId = SharedPreferenceUtilities.getUserId(this);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         visitImageAdapter = new VisitImageAdapter(this);
+        visitImageAdapter.setWidth(displayMetrics.widthPixels);
         visitImageAdapter.addSingle(null);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
@@ -255,6 +260,13 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (output.data.status.code.equals("200")) {
                 diseasesLVAdapter.addAll(output.data.results.disease_list);
             }
+        } else if (responseAPI.status_code == 504) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if (responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            forceLogout();
+        } else {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
 

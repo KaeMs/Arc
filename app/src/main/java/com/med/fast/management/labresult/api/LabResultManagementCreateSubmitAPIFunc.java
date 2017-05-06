@@ -7,8 +7,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateDeleteIntf;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementShowIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
+import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,11 +23,11 @@ import okhttp3.Response;
  */
 
 public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultManagementCreateSubmitAPI, Integer, ResponseAPI> {
-    private LabResultManagementCreateDeleteIntf delegate;
+    private LabResultManagementCreateIntf delegate;
     private Context context;
     private String tag;
 
-    public LabResultManagementCreateSubmitAPIFunc(Context context, LabResultManagementCreateDeleteIntf delegate, String tag) {
+    public LabResultManagementCreateSubmitAPIFunc(Context context, LabResultManagementCreateIntf delegate, String tag) {
         this.context = context;
         this.delegate = delegate;
         this.tag = tag;

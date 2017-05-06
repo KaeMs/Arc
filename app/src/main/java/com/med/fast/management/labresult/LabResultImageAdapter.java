@@ -15,9 +15,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
+import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.management.visit.VisitImageItem;
+import com.med.fast.management.visit.VisitAddActivity;
+import com.med.fast.management.visit.LabResultImageItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * Created by Kevin Murvie on 4/21/2017. FM
+ * Created by Kevin Murvie on 5/6/2017. FM
  */
 
 public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
@@ -38,32 +40,65 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<LabResultImageItem> mDataset = new ArrayList<>();
 
-    public LabResultImageAdapter(Context context){
+    public LabResultImageAdapter(Context context) {
         super(false);
         this.context = context;
     }
 
-    public void setWidth(int width){
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public void addList(List<LabResultImageItem> dataset){
+    public void addList(List<LabResultImageItem> dataset) {
         this.mDataset.addAll(dataset);
         notifyDataSetChanged();
     }
 
-    public void updateImage(LabResultImageItem visitImageItem){
-        mDataset.set(savedPos, visitImageItem);
+    public void updateImage(LabResultImageItem labResultImageItem) {
+        mDataset.set(savedPos, labResultImageItem);
     }
 
-    public void addSingle(LabResultImageItem visitImageItem){
-        this.mDataset.add(visitImageItem);
+    public void addSingle(LabResultImageItem labResultImageItem) {
+        this.mDataset.add(labResultImageItem);
         notifyItemInserted(mDataset.size() - 1);
+    }
+
+    public void updatemDataset(LabResultImageItem labResultImageItem) {
+        if (mDataset.get(savedPos) == null ||
+                !labResultImageItem.getImage_uri().equals(mDataset.get(savedPos).getImage_uri())) {
+            this.mDataset.set(savedPos, new LabResultImageItem());
+            this.mDataset.get(savedPos).setImage_uri(MediaUtils.compressImage(context, labResultImageItem.getImage_uri()));
+        }
+        notifyItemChanged(savedPos);
+//        ((PostProductActivity)context).smoothScrollToEnd();
+
+        int filledCounter = 0;
+        for (LabResultImageItem item :
+                mDataset) {
+            if (item != null) {
+                filledCounter++;
+            }
+        }
+        if (filledCounter == mDataset.size()) {
+            this.mDataset.add(null);
+            notifyItemInserted(mDataset.size() - 1);
+        }
+    }
+
+    public List<LabResultImageItem> getmDataset(){
+        List<LabResultImageItem> returnMDataset = new ArrayList<>();
+        for (LabResultImageItem item:
+             mDataset) {
+            if (item != null){
+                returnMDataset.add(item);
+            }
+        }
+        return returnMDataset;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mDataset.get(position) == null){
+        if (mDataset.get(position) == null) {
             return PLACEHOLDER;
         }
         return IMAGE;
@@ -72,7 +107,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        if (viewType == PLACEHOLDER){
+        if (viewType == PLACEHOLDER) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.management_visit_card_image, parent, false);
             vh = new ImagePlaceholderVH(view);
@@ -87,44 +122,34 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
-        if (getItemViewType(position) == IMAGE){
-            VisitImageVH visitImageVH = (VisitImageVH)holder;
+        if (getItemViewType(position) == IMAGE) {
+            VisitImageVH visitImageVH = (VisitImageVH) holder;
             visitImageVH.imageWrapper.getLayoutParams().width = width * 30 / 100;
             visitImageVH.imageWrapper.getLayoutParams().height = width * 30 / 100;
 
-            if (mDataset.get(position).getImage_uri() != null){
-                Glide.with(context)
-                        .load(/*Constants.WEB_ADDRESS + */mDataset.get(position).getImage_uri())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .skipMemoryCache(true)
-                /*.placeholder(ConstantDrawables.imagePlacholder)
-                .error(ConstantDrawables.imageError)*/
-                        .into(visitImageVH.image);
-            } else {
-                Glide.with(context)
-                        .load(/*Constants.WEB_ADDRESS + */mDataset.get(position).getImage_path())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .skipMemoryCache(true)
-                /*.placeholder(ConstantDrawables.imagePlacholder)
-                .error(ConstantDrawables.imageError)*/
-                        .into(visitImageVH.image);
-            }
+            Glide.with(context)
+                    .load(mDataset.get(position).getImage_uri())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .skipMemoryCache(true)
+                    .placeholder(MediaUtils.image_placeholder_black)
+                    .error(MediaUtils.image_error_black)
+                    .into(visitImageVH.image);
 
         } else {
-            ImagePlaceholderVH imagePlaceholderVH = (ImagePlaceholderVH)holder;
+            ImagePlaceholderVH imagePlaceholderVH = (ImagePlaceholderVH) holder;
             imagePlaceholderVH.placeholderWrapper.getLayoutParams().width = width * 30 / 100;
             imagePlaceholderVH.placeholderWrapper.getLayoutParams().height = width * 30 / 100;
-
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDataset.get(holder.getAdapterPosition()) != null){
+                if (mDataset.get(holder.getAdapterPosition()) != null) {
                     final Dialog dialog = new Dialog(context);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.management_visit_card_image_editpopup);
                     dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
 
                     CustomFontTextView changeImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_imageDescText);
                     CustomFontTextView deleteImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_deleteImageText);
@@ -132,7 +157,9 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
                     changeImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            savedPos = holder.getAdapterPosition();
 
+                            dialog.dismiss();
                         }
                     });
 
@@ -141,11 +168,12 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
                         public void onClick(View v) {
                             mDataset.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
+                            dialog.dismiss();
                         }
                     });
 
                 } else {
-
+                    ((VisitAddActivity)context).addNewImage();
                 }
             }
         });

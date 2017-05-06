@@ -10,11 +10,14 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.management.visit.VisitImageItemUpload;
 import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -51,7 +54,7 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
     protected ResponseAPI doInBackground(VisitManagementCreateSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "register/registersubmit";
+            String url = APIConstants.API_URL + APIConstants.VISIT_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -70,15 +73,23 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
             }
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("user_id", params[0].data.query.user_id)
-                    .add("doctor", params[0].data.query.doctor)
-                    .add("hospital", params[0].data.query.hospital)
-                    .add("diagnose", params[0].data.query.diagnose)
-                    .add("disease_id_list", params[0].data.query.disease_id_list)
-                    .add("is_image_uploaded", params[0].data.query.is_image_uploaded)
-                    .add("tag", params[0].data.query.tag)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("user_id", params[0].data.query.user_id)
+                    .addFormDataPart("doctor", params[0].data.query.doctor)
+                    .addFormDataPart("hospital", params[0].data.query.hospital)
+                    .addFormDataPart("diagnose", params[0].data.query.diagnose)
+                    .addFormDataPart("disease_id_list", params[0].data.query.disease_id_list)
+                    .addFormDataPart("is_image_uploaded", params[0].data.query.is_image_uploaded)
+                    .addFormDataPart("tag", params[0].data.query.tag);
+
+            // Upload multiple files
+            for(int i = 0; i < params[0].data.query.image_list.size(); ++i){
+                String fileType = "image/" + "jpg";
+                String fileName = "product_img_" + i + "_" + params[0].data.query.user_id;
+                builder.addFormDataPart("product_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.image_list.get(i)));
+            }
+
+            RequestBody formBody = builder.build();
 
             Request request = new Request.Builder()
                     .url(url)
