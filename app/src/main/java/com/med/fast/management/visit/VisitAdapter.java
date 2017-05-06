@@ -285,7 +285,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());
             visitViewHolder.doctorName.setText(mDataset.get(position).getDoctor_name());
             visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());
-            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseases());
+            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseasesInString());
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);

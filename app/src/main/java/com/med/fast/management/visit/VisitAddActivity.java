@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,6 +29,8 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.management.visit.api.VisitManagementCreateShowAPI;
+import com.med.fast.management.visit.api.VisitManagementCreateShowAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPI;
 import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPIFunc;
 import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
@@ -45,15 +49,17 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  */
 
 public class VisitAddActivity extends FastBaseActivity implements VisitCreateIntf {
-    
+
     private String userId;
-    
+
     @BindView(R.id.visit_popup_doctor_name)
     CustomFontEditText doctorName;
     @BindView(R.id.visit_popup_hospital_name)
     CustomFontEditText hospitalName;
     @BindView(R.id.visit_popup_diagnose)
     CustomFontEditText diagnose;
+    @BindView(R.id.visit_popup_swipe_refresh)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.visit_popup_imagerecycler)
     RecyclerView imageRecycler;
     @BindView(R.id.visit_popup_disease_history_recycler)
@@ -71,7 +77,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     private ArrayAdapter<VisitDiseaseModel> selectedLVAdapter;
     private List<String> rightDataset;
     private VisitModel visitModel;
-    
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,10 +86,29 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         userId = SharedPreferenceUtilities.getUserId(this);
         visitImageAdapter = new VisitImageAdapter(this);
         visitImageAdapter.addSingle(null);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        imageRecycler.setLayoutManager(linearLayoutManager);
+        imageRecycler.setAdapter(visitImageAdapter);
         this.diseasesLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
         leftDataset = new ArrayList<>();
         this.selectedLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
         rightDataset = new ArrayList<>();
+
+        imageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView();
+            }
+        });
+        refreshView();
 
         diseaseHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -141,7 +166,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitModel.setDoctor_name(doctorNameString);
                     visitModel.setDiagnose(diagnoseString);
                     List<VisitDiseaseModel> diseases = new ArrayList<>();
-                    for(int i=0 ; i< selectedLVAdapter.getCount() ; i++){
+                    for (int i = 0; i < selectedLVAdapter.getCount(); i++) {
                         diseases.add(selectedLVAdapter.getItem(i));
                     }
                     visitModel.setDiseases(diseases);
@@ -173,9 +198,18 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         });
     }
 
+    void refreshView() {
+        VisitManagementCreateShowAPI visitManagementCreateShowAPI = new VisitManagementCreateShowAPI();
+        visitManagementCreateShowAPI.data.query.user_id = userId;
+
+        VisitManagementCreateShowAPIFunc visitManagementCreateShowAPIFunc = new VisitManagementCreateShowAPIFunc(this, this);
+        visitManagementCreateShowAPIFunc.execute(visitManagementCreateShowAPI);
+    }
+
     private Uri mDestinationUri;
     private String currentMediaPath;
-    public void addNewImage(){
+
+    public void addNewImage() {
         try {
             CreatedImageModel createdImageModel = createImageFile();
             File output = createdImageModel.image;
@@ -190,8 +224,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RequestCodeList.CAMERA) {
-            if (resultCode == RESULT_OK){
+        if (requestCode == RequestCodeList.CAMERA) {
+            if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setImage_id(visitImageAdapter.getItemCount());
@@ -200,8 +234,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 visitImageItem.setImage_is_deleted(false);
                 visitImageAdapter.updateImage(visitImageItem);
             }
-        } else if(requestCode == RequestCodeList.GALLERY) {
-            if (resultCode == RESULT_OK){
+        } else if (requestCode == RequestCodeList.GALLERY) {
+            if (resultCode == RESULT_OK) {
                 currentMediaPath = UtilsRealPath.getRealPathFromURI(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setImage_id(visitImageAdapter.getItemCount());
@@ -209,6 +243,17 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 visitImageItem.setImage_uri(mDestinationUri);
                 visitImageItem.setImage_is_deleted(false);
                 visitImageAdapter.updateImage(visitImageItem);
+            }
+        }
+    }
+
+    @Override
+    public void onFinishVisitCreateShow(ResponseAPI responseAPI) {
+        if (responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            VisitManagementCreateShowAPI output = gson.fromJson(responseAPI.status_response, VisitManagementCreateShowAPI.class);
+            if (output.data.status.code.equals("200")) {
+                diseasesLVAdapter.addAll(output.data.results.disease_list);
             }
         }
     }
@@ -222,6 +267,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 Intent intent = new Intent();
                 intent.putExtra(ConstantsManagement.VISIT_ID_EXTRA, output.data.results.new_visit_id);
                 visitModel.setVisit_id(output.data.results.new_visit_id);
+                visitModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA, gson.toJson(visitModel));
                 setResult(RESULT_OK, intent);
                 finish();

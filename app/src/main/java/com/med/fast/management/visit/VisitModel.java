@@ -70,6 +70,17 @@ public class VisitModel {
         return diseases;
     }
 
+    public String getDiseasesInString() {
+        StringBuilder sb = new StringBuilder();
+        for (VisitDiseaseModel model :
+                diseases) {
+            sb.append(model.name);
+            sb.append(", ");
+        }
+
+        return sb.substring(0, sb.length() - 2);
+    }
+
     public void setDiseases(List<VisitDiseaseModel> diseases) {
         this.diseases = diseases;
     }

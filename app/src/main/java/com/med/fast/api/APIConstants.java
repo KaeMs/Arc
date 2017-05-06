@@ -24,6 +24,7 @@ public class APIConstants {
     public static final String IDCARD_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
     // Visit
     public static final String VISIT_SHOW = "/medicine/medicinelistshow";
+    public static final String VISIT_CREATE_SHOW = "/medicine/medicinecreatesubmit";
     public static final String VISIT_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
     public static final String VISIT_EDIT_SHOW = "/medicine/medicineeditshow";
     public static final String VISIT_EDIT_SUBMIT = "/medicine/medicineeditsubmit";

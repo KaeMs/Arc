@@ -7,5 +7,6 @@ import com.med.fast.api.ResponseAPI;
  */
 
 public interface VisitCreateIntf {
+    void onFinishVisitCreateShow(ResponseAPI responseAPI);
     void onFinishVisitCreate(ResponseAPI responseAPI, String tag);
 }
