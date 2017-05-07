@@ -7,12 +7,16 @@ import android.view.ViewGroup;
 
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.R;
+import com.med.fast.api.ResponseAPI;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by kevin on 23-Apr-17.
+ * Created by kevindreyar on 23-Apr-17. FM
  */
 
-public class SummaryAdapter extends FastBaseRecyclerAdapter {
+public class SummaryAdapter extends FastBaseRecyclerAdapter implements SummaryShowIntf {
 
     private final int PROFILE = 0;
     private final int VISIT = 1;
@@ -21,7 +25,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     private final int DISEASE = 4;
     private final int ALLERGY = 5;
     private final int HABITS = 6;
-
+    private List<SummaryShowAPI> mDataset = new ArrayList<>();
     public SummaryAdapter() {
         super(false);
     }
@@ -94,5 +98,22 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     @Override
     public int getItemCount() {
         return 7;
+    }
+
+    public void addList(List<SummaryShowAPI> dataset) {
+        for (SummaryShowAPI model :
+                dataset) {
+            this.mDataset.add(model);
+            notifyItemInserted(getItemCount() - 1);
+        }
+    }
+
+    public void setModel(SummaryShowAPI data){
+
+    }
+
+    @Override
+    public void onFinishSummaryShow(ResponseAPI responseAPI) {
+
     }
 }

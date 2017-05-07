@@ -16,6 +16,8 @@ public class APIConstants {
     // Login
     public static final String LOGIN = "/login/loginsubmit";
 
+    // Summary
+    public static final String SUMMARY_SHOW = "/home/dashboardshow";
     // ID Card
     public static final String IDCARD_SHOW = "/medicine/medicinelistshow";
     public static final String IDCARD_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
