@@ -99,6 +99,20 @@
     <string name="medicine_dose_colon">Dose :</string>
     <string name="medicine_frequency_colon">Frequency :</string>
 
+    <string name="allergy_agent">Allergy Agent :</string>
+    <string name="allergy_reaction">Reaction :</string>
+
+    <string name="visit_date">Date :</string>
+    <string name="visit_place">Hospital :</string>
+    <string name="visit_doctor">Doctor :</string>
+    <string name="visit_image">Image :</string>
+
+    <string name="anamnesy_colon">Disease :</string>
+    <string name="anamnesy_heriditiary_carrier">Heriditiary Carrier :</string>
+
+    <string name="disease_colon">Disease :</string>
+    <string name="disease_last_visit">Last Visit :</string>
+    <string name="disease_date">Date :</string>
     <!-- Visit -->
     <string name="visiting_date">Visiting Date</string>
     <string name="placeholder_date">10/20/2017</string>

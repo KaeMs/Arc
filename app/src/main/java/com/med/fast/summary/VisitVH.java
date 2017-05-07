@@ -14,7 +14,7 @@ import butterknife.BindView;
 
 public class VisitVH extends FastBaseViewHolder {
     @BindView(R.id.summary_visit_text)
-    TextView summaryMedicineText;
+    TextView summaryVisitText;
 
     public VisitVH(View itemView) {
         super(itemView);

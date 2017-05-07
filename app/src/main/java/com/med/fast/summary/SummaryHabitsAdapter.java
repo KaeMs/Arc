@@ -2,6 +2,11 @@ package com.med.fast.summary;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -22,19 +27,36 @@ public class SummaryHabitsAdapter extends FastBaseRecyclerAdapter{
         super(false);
         this.context = context;
     }
+
+    public void addList(List<MiscModel> dataset){
+        this.mDataset.addAll(dataset);
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        RecyclerView.ViewHolder viewHolder;
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.summary_medicine_card_text, parent, false);
+        return new HabitsVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         HabitsVH habitsVH = (HabitsVH)holder;
-        habitsVH.summaryHabitsText.setText(mDataset.get(position).getVoluptuary_habit());
+        SpannableStringBuilder sb = new SpannableStringBuilder();
+
+        // Append Habits
+//        String habitString = context.getString(R.string.medicine_colon);
+//        sb.append(habitString);
+//        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - habitString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        sb.append(" ");
+        sb.append(mDataset.get(position).getVoluptuary_habit());
+
+        habitsVH.summaryHabitsText.setText(sb);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDataset.size();
     }
 }
