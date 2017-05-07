@@ -10,36 +10,32 @@ import java.util.List;
 public class SummaryShowAPI {
     public Data data = new Data();
 
-    public class Data
-    {
+    public class Data {
         public Query query = new Query();
         public Status status = new Status();
         public Results results = new Results();
 
-        public class Query
-        {
-            public String user_id ;
+        public class Query {
+            public String user_id;
         }
 
-        public class Status
-        {
-            public String code ;
-            public String description ;
+        public class Status {
+            public String code;
+            public String description;
         }
 
-        public class Results
-        {
-            public String result_status ;
-            public String description ;
-            public String name ;
-            public Date date_of_birth ;
-            public String gender ;
-            public String profil_image_path ;
-            public List<AllergyModel> allergies ;
-            public List<DiseaseModel> disease ;
-            public List<DiseaseModel> family_anamnesy ;
-            public List<MedicineModel> medicine ;
-            public List<VisitModel> visit ;
+        public class Results {
+            public String result_status;
+            public String description;
+            public String name;
+            public String date_of_birth;
+            public String gender;
+            public String profil_image_path;
+            public List<AllergyModel> allergies;
+            public List<DiseaseModel> disease;
+            public List<DiseaseModel> family_anamnesy;
+            public List<MedicineModel> medicine;
+            public List<VisitModel> visit;
         }
     }
 }

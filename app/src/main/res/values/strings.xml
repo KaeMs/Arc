@@ -93,6 +93,11 @@
     <string name="placeholder_name">Fast Med Dev Name</string>
     <string name="placeholder_gender">Visiting Date</string>
     <string name="photo">Photo</string>
+    <string name="medicine_colon">Medicine :</string>
+    <string name="medicine_form_colon">Form :</string>
+    <string name="medicine_route_colon">Route :</string>
+    <string name="medicine_dose_colon">Dose :</string>
+    <string name="medicine_frequency_colon">Frequency :</string>
 
     <!-- Visit -->
     <string name="visiting_date">Visiting Date</string>

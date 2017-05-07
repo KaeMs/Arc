@@ -1,6 +1,7 @@
 package com.med.fast.summary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
@@ -22,13 +23,10 @@ import okhttp3.Response;
 
 public class SummaryShowAPIFunc extends AsyncTask<SummaryShowAPI, Integer, ResponseAPI> {
     private SummaryShowIntf delegate;
-    private Activity activity;
+    private Context context;
 
-    public SummaryShowAPIFunc(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void setDelegate(SummaryShowIntf delegate) {
+    public SummaryShowAPIFunc(Context context, SummaryShowIntf delegate) {
+        this.context = context;
         this.delegate = delegate;
     }
 
@@ -45,15 +43,15 @@ public class SummaryShowAPIFunc extends AsyncTask<SummaryShowAPI, Integer, Respo
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

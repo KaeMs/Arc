@@ -7,11 +7,18 @@
     app:cardBackgroundColor="@color/cardview_light_background"
     app:cardElevation="5dp"
     app:contentPadding="@dimen/default_card_content_padding">
-    <include layout="@layout/summary_header"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/medicine_card_recycler"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"/>
+        android:orientation="vertical">
 
+        <include layout="@layout/summary_header"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/medicine_card_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 </android.support.v7.widget.CardView>

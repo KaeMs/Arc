@@ -1,22 +1,27 @@
 package com.med.fast.summary;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.med.fast.FastBaseRecyclerAdapter;
+import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
 import com.med.fast.api.ResponseAPI;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+
 /**
  * Created by kevindreyar on 23-Apr-17. FM
  */
 
-public class SummaryAdapter extends FastBaseRecyclerAdapter implements SummaryShowIntf {
+public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     private final int PROFILE = 0;
     private final int VISIT = 1;
@@ -25,9 +30,16 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter implements SummarySh
     private final int DISEASE = 4;
     private final int ALLERGY = 5;
     private final int HABITS = 6;
-    private List<SummaryShowAPI> mDataset = new ArrayList<>();
-    public SummaryAdapter() {
-        super(false);
+    private SummaryWrapperModel summaryWrapperModel;
+    private Context context;
+
+    public SummaryAdapter(Context context) {
+        this.context = context;
+        this.summaryWrapperModel = new SummaryWrapperModel();
+    }
+
+    public void setModel(SummaryWrapperModel data){
+        this.summaryWrapperModel = data;
     }
 
     @Override
@@ -83,6 +95,12 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter implements SummarySh
         } else if (getItemViewType(position) == VISIT) {
 
         } else if (getItemViewType(position) == MEDICINE) {
+            SummaryMedicineAdapter summaryMedicineAdapter = new SummaryMedicineAdapter(context);
+            summaryMedicineAdapter.addList(summaryWrapperModel.medicine);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
+            ((SummaryMedicineVH)holder).medicineRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryMedicineVH)holder).medicineRecycler.setAdapter(summaryMedicineAdapter);
 
         } else if (getItemViewType(position) == ANAMNESY) {
 
@@ -100,20 +118,14 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter implements SummarySh
         return 7;
     }
 
-    public void addList(List<SummaryShowAPI> dataset) {
-        for (SummaryShowAPI model :
-                dataset) {
-            this.mDataset.add(model);
-            notifyItemInserted(getItemCount() - 1);
+    class SummaryMedicineVH extends FastBaseViewHolder{
+
+        @BindView(R.id.medicine_card_recycler)
+        RecyclerView medicineRecycler;
+
+        public SummaryMedicineVH(View v) {
+            super(v);
+
         }
-    }
-
-    public void setModel(SummaryShowAPI data){
-
-    }
-
-    @Override
-    public void onFinishSummaryShow(ResponseAPI responseAPI) {
-
     }
 }
