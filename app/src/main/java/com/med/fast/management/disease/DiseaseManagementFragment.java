@@ -79,6 +79,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(diseaseManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_disease_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -204,7 +205,8 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
                     lastItemCounter = output.data.results.disease_list.size();
                     counter += output.data.results.disease_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.DISEASE_INF_SCROLL){
                         diseaseManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

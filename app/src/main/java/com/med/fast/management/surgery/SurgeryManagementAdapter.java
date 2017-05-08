@@ -72,6 +72,11 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void addSingle(SurgeryManagementModel accident, int position){
+        this.mDataset.add(position, accident);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
     public void removeProgress(){
         if (mDataset.size() > 0){
             if (mDataset.get(mDataset.size() - 1) == null){
@@ -97,7 +102,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by model
     public void updateItem(SurgeryManagementModel item) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getSurgery_id().equals(item.getSurgery_id())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
@@ -108,7 +113,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -177,7 +182,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         surgeryManagementModel.setSurgery_note(surgeryNoteString);
                         surgeryManagementModel.setTag(surgeryProcedureString + String.valueOf(getItemCount()));
 
-                        addSingle(surgeryManagementModel);
+                        addSingle(surgeryManagementModel, 0);
 
                         SurgeryManagementCreateSubmitAPI surgeryManagementCreateSubmitAPI = new SurgeryManagementCreateSubmitAPI();
                         surgeryManagementCreateSubmitAPI.data.query.user_id = userId;
@@ -252,9 +257,9 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                 surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
-                surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                surgeryManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                surgeryManagementVH.statusProgressBar.setVisibility(View.GONE);
+                surgeryManagementVH.progressFailImg.setVisibility(View.VISIBLE);
+                surgeryManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         reSubmitItem(holder.getAdapterPosition());
@@ -342,8 +347,10 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     static class SurgeryManagementVH extends FastBaseViewHolder {
-        @BindView(R.id.management_medicine_item_card_progress)
+        @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.management_surgery_item_surgery_date)
         CustomFontTextView surgeryDate;
         @BindView(R.id.management_surgery_item_surgery_procedure)

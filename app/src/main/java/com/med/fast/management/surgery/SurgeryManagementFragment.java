@@ -87,6 +87,7 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(surgeryManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_surgery_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -222,7 +223,8 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
                     lastItemCounter = output.data.results.surgery_list.size();
                     counter += output.data.results.surgery_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.SURGERY_INF_SCROLL){
                         surgeryManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

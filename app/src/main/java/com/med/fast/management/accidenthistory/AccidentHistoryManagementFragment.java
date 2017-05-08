@@ -80,6 +80,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(accidentHistoryManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_accident_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -325,7 +326,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                     lastItemCounter = output.data.results.accident_list.size();
                     counter += output.data.results.accident_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.ACCIDENT_INF_SCROLL){
                         accidentHistoryManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

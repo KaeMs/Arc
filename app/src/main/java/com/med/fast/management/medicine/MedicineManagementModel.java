@@ -15,7 +15,7 @@ public class MedicineManagementModel {
     private String medicine_medication_status;
     private String medicine_additional_instruction;
     private String medicine_created_date;
-    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress
+    private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress
     private String tag;
 
     public String getMedicine_id() {

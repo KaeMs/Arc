@@ -96,7 +96,12 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     }
 
     public void addSingle(AccidentHistoryManagementModel accident) {
-        this.mDataset.add(0, accident);
+        this.mDataset.add(accident);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void addSingle(AccidentHistoryManagementModel accident, int position) {
+        this.mDataset.add(position, accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -225,7 +230,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryManagementModel.setCreated_date(Utils.getCurrentDate());
                     accidentHistoryManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
 
-                    addSingle(accidentHistoryManagementModel);
+                    addSingle(accidentHistoryManagementModel, 0);
 
                     AccidentHistoryCreateSubmitAPI accidentHistoryCreateSubmitAPI = new AccidentHistoryCreateSubmitAPI();
                     accidentHistoryCreateSubmitAPI.data.query.user_id = userId;
@@ -265,7 +270,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
 
     // Update by model
     public void updateItem(AccidentHistoryManagementModel item) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getAccident_id().equals(item.getAccident_id()) &&
                     mDataset.get(i).getDetail().equals(item.getDetail()) &&
                     mDataset.get(i).getInjury_date().equals(item.getInjury_date()) &&
@@ -279,7 +284,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -333,24 +338,21 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             accidentManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                accidentManagementVH.statusProgressBar.setOnClickListener(null);
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
-                accidentManagementVH.statusProgressBar.setOnClickListener(null);
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
-                accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                accidentManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                accidentManagementVH.statusProgressBar.setVisibility(View.GONE);
+                accidentManagementVH.progressFailImg.setVisibility(View.VISIBLE);
+                accidentManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
-                accidentManagementVH.statusProgressBar.setOnClickListener(null);
                 accidentManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -463,8 +465,10 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
 
     static class AccidentManagementVH extends FastBaseViewHolder {
 
-        @BindView(R.id.management_accident_item_card_progress)
+        @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.management_accident_item_accident_details)
         CustomFontTextView details;
         @BindView(R.id.management_accident_item_injury_nature)

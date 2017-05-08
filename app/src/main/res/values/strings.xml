@@ -308,6 +308,7 @@
     <string name="submit">Submit</string>
     <string name="finish">Finish</string>
     <string name="upload">Upload</string>
+    <string name="retry">Retry</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

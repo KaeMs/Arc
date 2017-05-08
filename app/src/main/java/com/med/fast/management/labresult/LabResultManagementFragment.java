@@ -79,6 +79,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(labResultManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_labresult_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -219,7 +220,8 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
                     lastItemCounter = output.data.results.lab_result_list.size();
                     counter += output.data.results.lab_result_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.LAB_INF_SCROLL){
                         labResultManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

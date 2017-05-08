@@ -30,11 +30,8 @@ public class VisitManagementEditShowAPIFunc extends AsyncTask<VisitManagementEdi
     private Context context;
     private ProgressDialog progressDialog;
 
-    public VisitManagementEditShowAPIFunc(Context context) {
+    public VisitManagementEditShowAPIFunc(Context context, VisitEditIntf delegate) {
         this.context = context;
-    }
-
-    public void setDelegate(VisitEditIntf delegate) {
         this.delegate = delegate;
     }
 

@@ -33,6 +33,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     private final int HABITS = 6;
     private SummaryWrapperModel summaryWrapperModel;
     private Context context;
+    private int itemCount = 0;
 
     public SummaryAdapter(Context context) {
         this.context = context;
@@ -41,6 +42,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     public void setModel(SummaryWrapperModel data){
         this.summaryWrapperModel = data;
+        itemCount = 7;
     }
 
     @Override
@@ -136,7 +138,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public int getItemCount() {
-        return 7;
+        return itemCount;
     }
 
     class SummaryMedicineVH extends FastBaseViewHolder{

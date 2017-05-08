@@ -27,13 +27,11 @@ public class VisitManagementEditSubmitAPIFunc extends AsyncTask<VisitManagementE
     private VisitEditIntf delegate;
     private Activity activity;
 
-    public VisitManagementEditSubmitAPIFunc(Activity activity) {
+    public VisitManagementEditSubmitAPIFunc(Activity activity, VisitEditIntf delegate) {
         this.activity = activity;
-    }
-
-    public void setDelegate(VisitEditIntf delegate) {
         this.delegate = delegate;
     }
+
     @Override
     protected ResponseAPI doInBackground(VisitManagementEditSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();

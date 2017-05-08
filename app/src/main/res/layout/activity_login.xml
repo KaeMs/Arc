@@ -99,7 +99,7 @@
                 android:layout_weight="1"
                 android:gravity="start"
                 android:text="@string/forgot_password_question"
-                android:textColor="@color/textcolor_white_to_tosca" />
+                android:textColor="@color/textcolor_white_to_pink" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/loginactivity_signup_tv"
@@ -109,7 +109,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:text="@string/sign_up"
-                android:textColor="@color/textcolor_white_to_tosca" />
+                android:textColor="@color/textcolor_white_to_pink" />
 
         </LinearLayout>
 

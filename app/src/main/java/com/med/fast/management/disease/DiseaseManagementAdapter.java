@@ -101,6 +101,11 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         notifyItemInserted(getItemCount() - 1);
     }
 
+    public void addSingle(DiseaseManagementModel model, int position){
+        this.mDataset.add(position, model);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
     public void removeProgress(){
         if (mDataset.size() > 0){
             if (mDataset.get(mDataset.size() - 1) == null){
@@ -239,7 +244,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     }
                     diseaseManagementModel.setDate_created(Utils.getCurrentDate());
                     diseaseManagementModel.setTag(diseaseNameString + String.valueOf(getItemCount()));
-                    addSingle(diseaseManagementModel);
+                    addSingle(diseaseManagementModel, 0);
 
                     DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
                     diseaseManagementCreateSubmitAPI.data.query.disease_name = diseaseNameString;
@@ -293,7 +298,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by model
     public void updateItem(DiseaseManagementModel item){
-        for (int i = getItemCount() - 1; i > 0; i++){
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getDisease_name().equals(item.getDisease_name()) &&
                     mDataset.get(i).getDisease_hereditary_carriers().equals(item.getDisease_hereditary_carriers())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
@@ -305,7 +310,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -383,24 +388,21 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
             diseaseManagementVH.createdDate.setText(mDataset.get(position).getDate_created());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                diseaseManagementVH.statusProgressBar.setOnClickListener(null);
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                diseaseManagementVH.statusProgressBar.setOnClickListener(null);
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
-                diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                diseaseManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
+                diseaseManagementVH.progressFailImg.setVisibility(View.VISIBLE);
+                diseaseManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
-                diseaseManagementVH.statusProgressBar.setOnClickListener(null);
                 diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -485,6 +487,8 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
         @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.management_disease_item_name)
         CustomFontTextView name;
         @BindView(R.id.management_disease_item_hereditary)

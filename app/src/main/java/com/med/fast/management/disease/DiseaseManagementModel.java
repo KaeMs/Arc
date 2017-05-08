@@ -14,7 +14,7 @@ public class DiseaseManagementModel {
     private String date_historic;
     private String date_approximate;
     private String date_created;
-    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Add Failed
+    private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Add Failed
     private String tag;
 
     public String getDisease_id() {

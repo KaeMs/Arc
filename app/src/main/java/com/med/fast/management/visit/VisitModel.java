@@ -15,7 +15,7 @@ public class VisitModel {
     private String diagnose;
     private List<VisitDiseaseModel> diseases;
     private List<VisitImageItem> image_list;
-    private String progress_status; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
+    private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
 
     public String getVisit_id() {

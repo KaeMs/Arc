@@ -11,7 +11,7 @@ public class SurgeryManagementModel {
     private String surgery_hospital_name;
     private String surgery_date;
     private String surgery_note;
-    private String progress_status;
+    private String progress_status = "0";
     private String tag;
 
     public String getSurgery_id() {

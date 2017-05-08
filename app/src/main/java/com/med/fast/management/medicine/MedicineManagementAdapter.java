@@ -83,7 +83,12 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     }
 
     public void addSingle(MedicineManagementModel accident){
-        this.mDataset.add(0, accident);
+        this.mDataset.add(accident);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void addSingle(MedicineManagementModel accident, int position){
+        this.mDataset.add(position, accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -112,7 +117,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
 
     // Update by model
     public void updateItem(MedicineManagementModel item) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getMedicine_id().equals(item.getMedicine_id())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
@@ -123,7 +128,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -199,7 +204,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementModel.setMedicine_medication_status(statusString);
                     medicineManagementModel.setMedicine_additional_instruction(additional_instructionString);
                     medicineManagementModel.setTag(nameString + String.valueOf(getItemCount()));
-                    addSingle(medicineManagementModel);
+                    addSingle(medicineManagementModel, 0);
 
                     MedicineManagementSubmitAPI medicineManagementSubmitAPI = new MedicineManagementSubmitAPI();
                     medicineManagementSubmitAPI.data.query.user_id = userId;
@@ -272,24 +277,21 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
             medicineManagementVH.createdDate.setText(mDataset.get(position).getMedicine_created_date());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                medicineManagementVH.statusProgressBar.setOnClickListener(null);
                 medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                medicineManagementVH.statusProgressBar.setOnClickListener(null);
                 medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
-                medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                medicineManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
+                medicineManagementVH.progressFailImg.setVisibility(View.VISIBLE);
+                medicineManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
-                medicineManagementVH.statusProgressBar.setOnClickListener(null);
                 medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -391,8 +393,10 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
 
     static class MedicineManagementVH extends FastBaseViewHolder {
 
-        @BindView(R.id.management_medicine_item_card_progress)
+        @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.management_medicine_item_medicine_name)
         CustomFontTextView medicineName;
         @BindView(R.id.management_medicine_item_medicine_form)

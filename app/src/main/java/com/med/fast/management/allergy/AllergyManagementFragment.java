@@ -80,6 +80,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(allergyManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_allergy_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -218,7 +219,8 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                     lastItemCounter = output.data.results.allergy_list.size();
                     counter += output.data.results.allergy_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.ALLERGY_INF_SCROLL){
                         allergyManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

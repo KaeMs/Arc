@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.misc.MiscManagementFragment;
 import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.summary.SummaryFragment;
 
@@ -64,6 +65,20 @@ public class MainActivity extends FastBaseActivity {
             public void onClick(View v) {
                 if (currentFragment() instanceof FastBaseFragment){
                     ((FastBaseFragment) currentFragment()).addItem();
+                }
+            }
+        });
+
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if (currentFragment() instanceof SummaryFragment ||
+                        currentFragment() instanceof MiscManagementFragment){
+                    dashboardFab.hide();
+                } else {
+                    if (!dashboardFab.isShown()){
+                        dashboardFab.show();
+                    }
                 }
             }
         });

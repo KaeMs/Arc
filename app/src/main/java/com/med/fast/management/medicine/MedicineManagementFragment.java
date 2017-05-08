@@ -87,6 +87,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(medicineManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_medication_record));
         progressBar.setVisibility(View.VISIBLE);
@@ -220,7 +221,8 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                     lastItemCounter = output.data.results.medicine_list.size();
                     counter += output.data.results.medicine_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.MEDICINE_INF_SCROLL){
                         medicineManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&

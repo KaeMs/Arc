@@ -82,7 +82,12 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     }
 
     public void addSingle(VisitModel visit) {
-        this.mDataset.add(0, visit);
+        this.mDataset.add(visit);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void addSingle(VisitModel visit, int position) {
+        this.mDataset.add(position, visit);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -206,7 +211,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
         });*/
     }
 
-    private void resubmitItem(int position){
+    private void reSubmitItem(int position){
         /*VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
         visitManagementCreateSubmitAPI.data.query.user_id = userId;
         visitManagementCreateSubmitAPI.data.query.doctor = mDataset.get(position).getDoctor_name();
@@ -222,7 +227,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
 
     // Update by model
     public void updateItem(VisitModel item){
-        for (int i = getItemCount() - 1; i > 0; i++){
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getVisit_id().equals(item.getVisit_id())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
@@ -233,7 +238,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -295,24 +300,21 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             snapHelper.attachToRecyclerView(visitViewHolder.imageRecycler);
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                visitViewHolder.statusProgressBar.setOnClickListener(null);
                 visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
                 visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                visitViewHolder.statusProgressBar.setOnClickListener(null);
                 visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
                 visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
-                visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
-                visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                visitViewHolder.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                visitViewHolder.statusProgressBar.setVisibility(View.GONE);
+                visitViewHolder.progressFailImg.setVisibility(View.VISIBLE);
+                visitViewHolder.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        resubmitItem(holder.getAdapterPosition());
+                        reSubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
-                visitViewHolder.statusProgressBar.setOnClickListener(null);
                 visitViewHolder.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -404,8 +406,10 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
 
     static class VisitViewHolder extends FastBaseViewHolder {
 
-        @BindView(R.id.management_visit_item_card_progress)
+        @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.visit_card_date)
         CustomFontTextView visitDate;
         @BindView(R.id.visit_card_hospital_name)

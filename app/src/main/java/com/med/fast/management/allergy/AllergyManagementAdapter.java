@@ -92,7 +92,12 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     public void addSingle(AllergyManagementModel accident) {
-        this.mDataset.add(0, accident);
+        this.mDataset.add(accident);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void addSingle(AllergyManagementModel accident, int position) {
+        this.mDataset.add(position, accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -121,7 +126,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by model
     public void updateItem(AllergyManagementModel item) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getAgent().equals(item.getAgent()) &&
                     mDataset.get(i).getDrug().equals(item.getDrug()) &&
                     mDataset.get(i).getReaction().equals(item.getReaction()) &&
@@ -135,7 +140,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
-        for (int i = getItemCount() - 1; i > 0; i++) {
+        for (int i = 0; i < getItemCount(); i++) {
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
@@ -198,7 +203,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     allergy.setCreated_date(Utils.getCurrentDate());
                     allergy.setProgress_status("1");
                     allergy.setTag(causativeString + String.valueOf(getItemCount()));
-                    addSingle(allergy);
+                    addSingle(allergy, 0);
 
                     AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
                     allergyManagementCreateSubmitAPI.data.query.user_id = userId;
@@ -261,28 +266,24 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             allergyManagementVH.drug.setText(mDataset.get(position).getDrug());
             allergyManagementVH.reaction.setText(mDataset.get(position).getReaction());
             allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.dateFormatSlash, Locale.getDefault());
-            allergyManagementVH.date.setText(simpleDateFormat.format(mDataset.get(position).getCreated_date()));
+            allergyManagementVH.date.setText(mDataset.get(position).getCreated_date());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                allergyManagementVH.statusProgressBar.setOnClickListener(null);
                 allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
-                allergyManagementVH.statusProgressBar.setOnClickListener(null);
                 allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
-                allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
-                allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.ic_repeat_tosca));
-                allergyManagementVH.statusProgressBar.setOnClickListener(new View.OnClickListener() {
+                allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
+                allergyManagementVH.progressFailImg.setVisibility(View.VISIBLE);
+                allergyManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
             } else {
-                allergyManagementVH.statusProgressBar.setOnClickListener(null);
                 allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -397,6 +398,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
         @BindView(R.id.management_status_progress_progressbar)
         ProgressBar statusProgressBar;
+        @BindView(R.id.management_status_progress_fail)
+        ImageView progressFailImg;
         @BindView(R.id.allergy_item_card_agent)
         CustomFontTextView agent;
         @BindView(R.id.allergy_item_card_drug)

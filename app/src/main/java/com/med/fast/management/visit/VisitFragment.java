@@ -93,6 +93,8 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(visitAdapter);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -244,7 +246,8 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
                     lastItemCounter = output.data.results.visit_list.size();
                     counter += output.data.results.visit_list.size();
 
-                    if (lastItemCounter > 0){
+                    if (lastItemCounter > 0 &&
+                            lastItemCounter >= APIConstants.VISIT_INF_SCROLL){
                         visitAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&
