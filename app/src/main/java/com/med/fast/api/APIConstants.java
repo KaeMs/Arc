@@ -10,6 +10,8 @@ public class APIConstants {
     // REGISTER
     public static final String REGISTER = "/register/registersubmit";
     public static final String REGISTER_EMAIL_VERIFY = "/register/emailverifysubmit";
+    public static final String INITIAL_SKIP = "/init/skiptodashboardsubmit";
+
     // Token
     public static final String TOKEN = "/token";
 

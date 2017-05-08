@@ -50,6 +50,7 @@
     <string name="step_3_medication">STEP 3 - MEDICATION</string>
     <string name="step_4_miscellaneous">STEP 4 - MISCELLANEOUS</string>
     <string name="skip_to_summary">Skip to Summary</string>
+    <string name="skip_to_summary_progress_mssg">Finishing your registration..</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="step">Step</string>

@@ -29,6 +29,8 @@ import com.med.fast.management.misc.api.MiscCreateAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
 import com.med.fast.management.misc.api.MiscShowAPIFunc;
 import com.med.fast.management.misc.miscinterface.MiscShowCreateIntf;
+import com.med.fast.signup.api.SkipInitialAPI;
+import com.med.fast.signup.api.SkipInitialAPIFunc;
 
 import butterknife.BindView;
 
@@ -36,7 +38,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/11/2017. Fast
  */
 
-public class InitialDataMiscActivity extends FastBaseActivity implements MiscShowCreateIntf {
+public class InitialDataMiscActivity extends FastBaseActivity implements MiscShowCreateIntf, SkipInitialIntf {
 
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
@@ -149,8 +151,11 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
-                startActivity(intent);
+                SkipInitialAPI skipInitialAPI = new SkipInitialAPI();
+                skipInitialAPI.data.query.user_id = userId;
+
+                SkipInitialAPIFunc skipInitialAPIFunc = new SkipInitialAPIFunc(InitialDataMiscActivity.this, InitialDataMiscActivity.this);
+                skipInitialAPIFunc.execute(skipInitialAPI);
             }
         });
 
@@ -231,5 +236,28 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onFinishSkip(ResponseAPI responseAPI) {
+        if(responseAPI.status_code == 200) {
+            Gson gson = new Gson();
+            SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
+            if (output.data.status.code.equals("200")) {
+                Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            }
+        } else if(responseAPI.status_code == 504) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 401 ||
+                responseAPI.status_code == 505) {
+            forceLogout();
+        } else {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

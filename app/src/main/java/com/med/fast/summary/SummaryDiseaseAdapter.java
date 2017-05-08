@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.med.fast.FastBaseRecyclerAdapter;
+import com.med.fast.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,6 @@ public class SummaryDiseaseAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.summary_medicine_card_text, parent, false);
         return new DiseaseVH(view);

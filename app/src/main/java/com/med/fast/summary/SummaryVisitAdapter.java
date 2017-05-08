@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.med.fast.FastBaseRecyclerAdapter;
+import com.med.fast.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,6 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
 
     @Override
     public int getItemCount() {
-        rreturn mDataset.size();
+        return mDataset.size();
     }
 }

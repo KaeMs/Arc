@@ -19,7 +19,6 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.VisitAddActivity;
-import com.med.fast.management.visit.LabResultImageItem;
 
 import java.util.ArrayList;
 import java.util.List;
