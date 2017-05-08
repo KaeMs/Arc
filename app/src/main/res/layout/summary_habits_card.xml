@@ -8,12 +8,17 @@
     app:cardElevation="5dp"
     app:contentPadding="@dimen/default_card_content_padding">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/habits_card_recycler"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <include layout="@layout/summary_header"/>
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/habits_card_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

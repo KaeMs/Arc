@@ -11,6 +11,7 @@ import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customviews.CustomFontTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,12 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
         if (getItemViewType(position) == PROFILE) {
             ProfileVH profileVH = (ProfileVH) holder;
         } else if (getItemViewType(position) == VISIT) {
+            SummaryVisitAdapter summaryVisitAdapter = new SummaryVisitAdapter(context);
+            summaryVisitAdapter.addList(summaryWrapperModel.visit);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
+            ((SummaryVisitVH)holder).visitRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryVisitVH)holder).visitRecycler.setAdapter(summaryVisitAdapter);
         } else if (getItemViewType(position) == MEDICINE) {
             SummaryMedicineAdapter summaryMedicineAdapter = new SummaryMedicineAdapter(context);
             summaryMedicineAdapter.addList(summaryWrapperModel.medicine);
@@ -103,13 +109,28 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             ((SummaryMedicineVH)holder).medicineRecycler.setAdapter(summaryMedicineAdapter);
 
         } else if (getItemViewType(position) == ANAMNESY) {
+            SummaryAnamnesyAdapter summaryAnamnesyAdapter = new SummaryAnamnesyAdapter(context);
+            summaryAnamnesyAdapter.addList(summaryWrapperModel.family_anamnesy);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
+            ((SummaryAnamnesyVH)holder).anamnesyRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryAnamnesyVH)holder).anamnesyRecycler.setAdapter(summaryAnamnesyAdapter);
         } else if (getItemViewType(position) == DISEASE) {
+            SummaryDiseaseAdapter summaryDiseaseAdapter = new SummaryDiseaseAdapter(context);
+            summaryDiseaseAdapter.addList(summaryWrapperModel.disease);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
+            ((SummaryDiseaseVH)holder).diseaseRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryDiseaseVH)holder).diseaseRecycler.setAdapter(summaryDiseaseAdapter);
         } else if (getItemViewType(position) == ALLERGY) {
+            SummaryAllergyAdapter summaryAllergyAdapter = new SummaryAllergyAdapter(context);
+            summaryAllergyAdapter.addList(summaryWrapperModel.allergies);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
+            ((SummaryAllergyVH)holder).allergyRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryAllergyVH)holder).allergyRecycler.setAdapter(summaryAllergyAdapter);
         } else {
-
+            ((SummaryHabitVH)holder).habitsTxt.setText(summaryWrapperModel.voluptary_habits);
         }
     }
 
@@ -124,6 +145,61 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
         RecyclerView medicineRecycler;
 
         public SummaryMedicineVH(View v) {
+            super(v);
+
+        }
+    }
+
+    class SummaryVisitVH extends FastBaseViewHolder{
+
+        @BindView(R.id.visit_card_recycler)
+        RecyclerView visitRecycler;
+
+        public SummaryVisitVH(View v) {
+            super(v);
+
+        }
+    }
+
+    class SummaryDiseaseVH extends FastBaseViewHolder{
+
+        @BindView(R.id.disease_card_recycler)
+        RecyclerView diseaseRecycler;
+
+        public SummaryDiseaseVH(View v) {
+            super(v);
+
+        }
+    }
+
+    class SummaryAnamnesyVH extends FastBaseViewHolder{
+
+        @BindView(R.id.anamnesy_card_recycler)
+        RecyclerView anamnesyRecycler;
+
+        public SummaryAnamnesyVH(View v) {
+            super(v);
+
+        }
+    }
+
+    class SummaryHabitVH extends FastBaseViewHolder{
+
+        @BindView(R.id.habits_card_text)
+        CustomFontTextView habitsTxt;
+
+        public SummaryHabitVH(View v) {
+            super(v);
+
+        }
+    }
+
+    class SummaryAllergyVH extends FastBaseViewHolder{
+
+        @BindView(R.id.allergy_card_recycler)
+        RecyclerView allergyRecycler;
+
+        public SummaryAllergyVH(View v) {
             super(v);
 
         }

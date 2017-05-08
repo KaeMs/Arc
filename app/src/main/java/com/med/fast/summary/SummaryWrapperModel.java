@@ -16,4 +16,5 @@ public class SummaryWrapperModel {
     public List<DiseaseModel> family_anamnesy;
     public List<MedicineModel> medicine;
     public List<VisitModel> visit;
+    public String voluptary_habits;
 }
