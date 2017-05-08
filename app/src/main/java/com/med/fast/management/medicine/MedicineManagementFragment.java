@@ -105,7 +105,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter >= APIConstants.MEDICINE_INF_SCROLL) {
                         MedicineManagementListShowAPI medicineManagementListShowAPI = new MedicineManagementListShowAPI();
                         medicineManagementListShowAPI.data.query.user_id = userId;
                         medicineManagementListShowAPI.data.query.keyword = currentKeyword;

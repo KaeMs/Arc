@@ -1,7 +1,6 @@
 package com.med.fast.management.allergy;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
@@ -30,13 +27,9 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementShowIntf;
-import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPI;
-import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPIFunc;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPI;
 import com.med.fast.management.allergy.api.AllergyManagementListShowAPIFunc;
 
@@ -44,8 +37,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
-
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin Murvie on 4/23/2017. FM
@@ -70,6 +61,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     private int lastItemCounter = 0;
     private String currentKeyword = APIConstants.DEFAULT;
     private String currentSort = APIConstants.DEFAULT;
+    private String currentType = APIConstants.DEFAULT;
     private String userId;
 
     @Nullable
@@ -106,11 +98,12 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter >= APIConstants.ALLERGY_INF_SCROLL) {
                         AllergyManagementListShowAPI allergyManagementListShowAPI = new AllergyManagementListShowAPI();
                         allergyManagementListShowAPI.data.query.user_id = userId;
                         allergyManagementListShowAPI.data.query.keyword = currentKeyword;
                         allergyManagementListShowAPI.data.query.sort = currentSort;
+                        allergyManagementListShowAPI.data.query.type = currentType;
                         allergyManagementListShowAPI.data.query.counter = String.valueOf(counter);
                         allergyManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 
@@ -138,6 +131,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
         allergyManagementListShowAPI.data.query.user_id = userId;
         allergyManagementListShowAPI.data.query.keyword = currentKeyword;
         allergyManagementListShowAPI.data.query.sort = currentSort;
+        allergyManagementListShowAPI.data.query.type = currentType;
         allergyManagementListShowAPI.data.query.counter = "0";
         allergyManagementListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
 
@@ -176,6 +170,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
             allergyManagementListShowAPI.data.query.user_id = userId;
             allergyManagementListShowAPI.data.query.keyword = currentKeyword;
             allergyManagementListShowAPI.data.query.sort = currentSort;
+            allergyManagementListShowAPI.data.query.type = currentType;
             allergyManagementListShowAPI.data.query.counter = String.valueOf(counter);
             allergyManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 

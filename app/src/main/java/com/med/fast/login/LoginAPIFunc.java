@@ -79,7 +79,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
 
             Response responseToken = clientToken.newCall(requestToken).execute();
 
-            if(responseToken.code() == 200){
+            if (responseToken.code() == 200) {
                 Gson gson = new GsonBuilder().create();
                 String tmp = responseToken.body().string();
                 JsonParser parser = new JsonParser();
@@ -87,7 +87,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
 
                 // Get new token
                 String accessToken = obj.get("access_token").toString();
-                SharedPreferenceUtilities.setUserInformation(context, SharedPreferenceUtilities.USER_TOKEN, accessToken.replace("\"", ""));
+                SharedPreferenceUtilities.setUserInformation(context, TokenUtils.TOKEN, accessToken.replace("\"", ""));
 
                 // Get new expired date
                 int secExpired = obj.get("expires_in").getAsInt();
@@ -99,9 +99,8 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
                 calendar.add(Calendar.DATE, (days - 1));
                 String expiredDate = sdf.format(calendar.getTime());
 
-                SharedPreferenceUtilities.setUserInformation(context, SharedPreferenceUtilities.USER_TOKEN_EXP_DATE, expiredDate);
-            }
-            else{
+                SharedPreferenceUtilities.setUserInformation(context, TokenUtils.TOKEN_EXPIRY, expiredDate);
+            } else {
                 responseAPI.status_code = responseToken.code();
                 responseAPI.status_response = responseToken.message();
 

@@ -97,7 +97,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter >= APIConstants.LAB_INF_SCROLL) {
                         LabResultManagementListShowAPI labResultManagementListShowAPI = new LabResultManagementListShowAPI();
                         labResultManagementListShowAPI.data.query.user_id = userId;
                         labResultManagementListShowAPI.data.query.keyword = currentKeyword;
