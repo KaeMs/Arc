@@ -14,7 +14,7 @@ public class ConstantsManagement {
     public static final String SURGERY_MODEL_EXTRA = "surgery_model";
 
     // Allergy
-    public static final String ALLERGY_ID_EXTRA = "allergy_id";
+    public static final String ALLERGY_ID_EXTRA = "id";
     public static final String ALLERGY_MODEL_EXTRA = "allergy_model";
 
     // Disease

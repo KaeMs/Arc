@@ -34,9 +34,8 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_medicine_card_text, parent, false);
+                .inflate(R.layout.summary_allergy_card_text, parent, false);
         return new AllergyVH(view);
     }
 
@@ -47,18 +46,20 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
         // Append ALlergy Name
-        String visitString = context.getString(R.string.allergy_agent);
+        String visitString = context.getString(R.string.allergy_agent_colon);
         sb.append(visitString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - visitString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getAllergy_agent());
+        sb.append(mDataset.get(position).getAgent());
+        sb.append("\n");
 
         // Append Allergy Reaction
-        String formString = context.getString(R.string.allergy_reaction);
+        String formString = context.getString(R.string.allergy_reaction_colon);
         sb.append(formString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getAllergy_reaction());
+        sb.append(mDataset.get(position).getReaction());
+        sb.append("\n");
 
         allergyVH.summaryAllergyText.setText(sb);
     }

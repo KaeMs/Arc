@@ -111,7 +111,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
         RecyclerView.ViewHolder vh;
         if (viewType == PLACEHOLDER) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.management_visit_card_image, parent, false);
+                    .inflate(R.layout.image_placeholder, parent, false);
             vh = new ImagePlaceholderVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())

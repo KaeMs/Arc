@@ -242,6 +242,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UtilsRealPath.getRealPathFromURI(this, data.getData());
+                mDestinationUri = MediaUtils.compressImage(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setImage_id(visitImageAdapter.getItemCount());
                 visitImageItem.setImage_path(currentMediaPath);

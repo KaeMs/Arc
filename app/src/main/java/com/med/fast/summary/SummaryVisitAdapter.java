@@ -33,9 +33,8 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_medicine_card_text, parent, false);
+                .inflate(R.layout.summary_visit_card_text, parent, false);
         return new VisitVH(view);
     }
 
@@ -51,6 +50,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - dateString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getCreated_date().toString());
+        sb.append("\n");
 
         // Append Hospital
         String hospitalString = context.getString(R.string.visit_place);
@@ -58,6 +58,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - hospitalString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getHospital_name());
+        sb.append("\n");
 
         // Append Doctor
         String doctorString = context.getString(R.string.visit_doctor);
@@ -65,12 +66,14 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doctorString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getDoctor_name());
+        sb.append("\n");
 
         // Append Image
         String imageString = context.getString(R.string.visit_image);
         sb.append(imageString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
+        sb.append("\n");
         //sb.append(mDataset.get(position).getMedicine_dose());
 
         visitVH.summaryVisitText.setText(sb);

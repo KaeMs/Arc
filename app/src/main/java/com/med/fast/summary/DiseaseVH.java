@@ -13,7 +13,7 @@ import butterknife.BindView;
  */
 
 public class DiseaseVH extends FastBaseViewHolder {
-    @BindView(R.id.summary_medicine_text)
+    @BindView(R.id.summary_disease_text)
     TextView summaryDiseaseText;
 
     public DiseaseVH(View itemView) {

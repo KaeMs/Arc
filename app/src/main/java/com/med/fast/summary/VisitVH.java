@@ -5,16 +5,17 @@ import android.widget.TextView;
 
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.customviews.CustomFontTextView;
 
 import butterknife.BindView;
 
 /**
- * Created by kevindreyar on 26-Apr-17.
+ * Created by kevindreyar on 26-Apr-17. FM
  */
 
 public class VisitVH extends FastBaseViewHolder {
     @BindView(R.id.summary_visit_text)
-    TextView summaryVisitText;
+    CustomFontTextView summaryVisitText;
 
     public VisitVH(View itemView) {
         super(itemView);

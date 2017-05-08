@@ -1,6 +1,7 @@
 package com.med.fast;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,8 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
@@ -39,38 +42,27 @@ public abstract class FastBaseActivity extends AppCompatActivity {
     }
 
     protected void createImagePickerDialog(final Context context, final File output, String title){
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Camera permission has not been granted.
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.CAMERA)) {
-                // Provide an additional rationale to the user if the permission was not granted
-                // and the user would benefit from additional context for the use of the permission.
-                // For example if the user has previously denied the permission.
-                ActivityCompat.requestPermissions(FastBaseActivity.this,
-                        new String[]{Manifest.permission.CAMERA},
-                        RequestCodeList.CAMERA);
-            } else {
-                // Camera permission has not been granted yet. Request it directly.
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                        PermissionCodeList.CAMERA);
-            }
-        } else if (ActivityCompat.checkSelfPermission(FastBaseActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Provide an additional rationale to the user if the permission was not granted
-                // and the user would benefit from additional context for the use of the permission.
-                // For example if the user has previously denied the permission.
-                ActivityCompat.requestPermissions(FastBaseActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        PermissionCodeList.WRITE_EXTERNAL_STORAGE);
-            } else {
-                // Camera permission has not been granted yet. Request it directly.
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        PermissionCodeList.WRITE_EXTERNAL_STORAGE);
-            }
 
+        int hasCameraPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+        int hasReadPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission  = ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> permissions = new ArrayList<>();
+
+        if( hasCameraPermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.CAMERA );
+        }
+
+        if( hasReadPermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.READ_EXTERNAL_STORAGE );
+        }
+
+        if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE );
+        }
+
+
+        if (!permissions.isEmpty()) {
+            ActivityCompat.requestPermissions((Activity) context, permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);
         } else {
             new AlertDialog.Builder(context)
                     .setTitle(title)

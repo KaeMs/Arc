@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
-import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -44,10 +43,8 @@ import com.med.fast.viewholders.InfiScrollProgressVH;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -191,7 +188,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             public void onClick(View v) {
                 if (mAwesomeValidation.validate()) {
                     String causativeString = causative.getText().toString();
-                    String drugTypeString = drugTypeYes.isChecked() ? "yes" : "no";
+                    String drugTypeString = String.valueOf(drugTypeYes.isChecked());
                     String reactionString = reaction.getText().toString();
                     String firstExpString = firstExp.getText().toString();
 
@@ -207,10 +204,10 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
                     AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
                     allergyManagementCreateSubmitAPI.data.query.user_id = userId;
-                    allergyManagementCreateSubmitAPI.data.query.allergy_agent = causativeString;
-                    allergyManagementCreateSubmitAPI.data.query.allergy_is_drug = drugTypeString;
-                    allergyManagementCreateSubmitAPI.data.query.allergy_reaction = reactionString;
-                    allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = firstExpString;
+                    allergyManagementCreateSubmitAPI.data.query.agent = causativeString;
+                    allergyManagementCreateSubmitAPI.data.query.is_drug = drugTypeString;
+                    allergyManagementCreateSubmitAPI.data.query.reaction = reactionString;
+                    allergyManagementCreateSubmitAPI.data.query.first_experience = firstExpString;
                     allergyManagementCreateSubmitAPI.data.query.tag = causativeString + String.valueOf(getItemCount());
 
                     AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
@@ -227,10 +224,10 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     private void reSubmitItem(int position) {
         AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
         allergyManagementCreateSubmitAPI.data.query.user_id = userId;
-        allergyManagementCreateSubmitAPI.data.query.allergy_agent = mDataset.get(position).getAgent();
-        allergyManagementCreateSubmitAPI.data.query.allergy_is_drug = mDataset.get(position).getDrug();
-        allergyManagementCreateSubmitAPI.data.query.allergy_reaction = mDataset.get(position).getReaction();
-        allergyManagementCreateSubmitAPI.data.query.allergy_first_experience = mDataset.get(position).getFirst_experience();
+        allergyManagementCreateSubmitAPI.data.query.agent = mDataset.get(position).getAgent();
+        allergyManagementCreateSubmitAPI.data.query.is_drug = mDataset.get(position).getDrug();
+        allergyManagementCreateSubmitAPI.data.query.reaction = mDataset.get(position).getReaction();
+        allergyManagementCreateSubmitAPI.data.query.first_experience = mDataset.get(position).getFirst_experience();
         allergyManagementCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
 
         AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,

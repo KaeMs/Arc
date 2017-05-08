@@ -219,10 +219,10 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     String diseaseHereditaryString = "";
                     String diseaseHereditaryCarriersString = "";
                     if (hereditaryY.isChecked()){
-                        diseaseHereditaryString = "yes";
+                        diseaseHereditaryString = "true";
                         diseaseHereditaryCarriersString = inheritedFrom.getText().toString();
                     } else {
-                        diseaseHereditaryString = "no";
+                        diseaseHereditaryString = "false";
                         diseaseHereditaryCarriersString = context.getString(R.string.sign_dash);
                     }
                     String historicDateString = historicDate.getText().toString();
@@ -234,7 +234,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     diseaseManagementModel.setDisease_name(diseaseNameString);
                     diseaseManagementModel.setDisease_hereditary(diseaseHereditaryString);
                     diseaseManagementModel.setDisease_hereditary_carriers(diseaseHereditaryCarriersString);
-                    diseaseManagementModel.setDisease_ongoing(ongoingY.isChecked() ? "yes" : "no");
+                    diseaseManagementModel.setDisease_ongoing(String.valueOf(ongoingY.isChecked()));
 
                     diseaseManagementModel.setDate_last_visit("-");
                     if (!historicDate.getText().toString().equals("")){
@@ -250,7 +250,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     diseaseManagementCreateSubmitAPI.data.query.disease_name = diseaseNameString;
                     diseaseManagementCreateSubmitAPI.data.query.user_id = userId;
                     diseaseManagementCreateSubmitAPI.data.query.is_hereditary = diseaseHereditaryString;
-                    diseaseManagementCreateSubmitAPI.data.query.is_ongoing = ongoingY.isChecked() ? "yes" : "no";
+                    diseaseManagementCreateSubmitAPI.data.query.is_ongoing = String.valueOf(ongoingY.isChecked());
                     diseaseManagementCreateSubmitAPI.data.query.history_date_text = historicDateString;
                     diseaseManagementCreateSubmitAPI.data.query.date = approximateDateString;
                     diseaseManagementCreateSubmitAPI.data.query.hereditary_carrier = diseaseHereditaryCarriersString;
@@ -362,7 +362,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         RecyclerView.ViewHolder viewHolder;
         if (viewType == DISEASE) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.management_accident_item_card, parent, false);
+                    .inflate(R.layout.management_disease_item_card, parent, false);
             viewHolder = new DiseaseManagementVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())

@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
+import com.med.fast.MediaUtils;
 import com.med.fast.R;
-import com.med.fast.api.ResponseAPI;
+import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -43,6 +43,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     public void setModel(SummaryWrapperModel data){
         this.summaryWrapperModel = data;
         itemCount = 7;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -65,28 +66,28 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             viewHolder = new ProfileVH(view);
         } else if (viewType == VISIT) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_recycler_card, parent, false);
+            viewHolder = new SummaryRecyclerVH(view);
         } else if (viewType == MEDICINE) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_recycler_card, parent, false);
+            viewHolder = new SummaryRecyclerVH(view);
         } else if (viewType == ANAMNESY) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_recycler_card, parent, false);
+            viewHolder = new SummaryRecyclerVH(view);
         } else if (viewType == DISEASE) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_recycler_card, parent, false);
+            viewHolder = new SummaryRecyclerVH(view);
         } else if (viewType == ALLERGY) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_recycler_card, parent, false);
+            viewHolder = new SummaryRecyclerVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_profile_card, parent, false);
-            viewHolder = new ProfileVH(view);
+                    .inflate(R.layout.summary_habits_card, parent, false);
+            viewHolder = new SummaryHabitVH(view);
         }
         return viewHolder;
     }
@@ -94,45 +95,63 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == PROFILE) {
-            ProfileVH profileVH = (ProfileVH) holder;
+            ((ProfileVH)holder).summaryTitle.setText(context.getString(R.string.your_profile));
+
+            Glide.with(context)
+                    .load(APIConstants.WEB_URL + summaryWrapperModel.profil_image_path)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .skipMemoryCache(true)
+                    .placeholder(MediaUtils.image_placeholder_black)
+                    .error(MediaUtils.image_error_black)
+                    .into(((ProfileVH)holder).profilePhoto);
+
         } else if (getItemViewType(position) == VISIT) {
             SummaryVisitAdapter summaryVisitAdapter = new SummaryVisitAdapter(context);
             summaryVisitAdapter.addList(summaryWrapperModel.visit);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-            ((SummaryVisitVH)holder).visitRecycler.setLayoutManager(linearLayoutManager);
-            ((SummaryVisitVH)holder).visitRecycler.setAdapter(summaryVisitAdapter);
+            ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.recent_visits));
+            ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryVisitAdapter);
         } else if (getItemViewType(position) == MEDICINE) {
             SummaryMedicineAdapter summaryMedicineAdapter = new SummaryMedicineAdapter(context);
             summaryMedicineAdapter.addList(summaryWrapperModel.medicine);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-            ((SummaryMedicineVH)holder).medicineRecycler.setLayoutManager(linearLayoutManager);
-            ((SummaryMedicineVH)holder).medicineRecycler.setAdapter(summaryMedicineAdapter);
+            ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.medicines));
+            ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryMedicineAdapter);
 
         } else if (getItemViewType(position) == ANAMNESY) {
             SummaryAnamnesyAdapter summaryAnamnesyAdapter = new SummaryAnamnesyAdapter(context);
             summaryAnamnesyAdapter.addList(summaryWrapperModel.family_anamnesy);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-            ((SummaryAnamnesyVH)holder).anamnesyRecycler.setLayoutManager(linearLayoutManager);
-            ((SummaryAnamnesyVH)holder).anamnesyRecycler.setAdapter(summaryAnamnesyAdapter);
+            ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.family_anamesy));
+            ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryAnamnesyAdapter);
         } else if (getItemViewType(position) == DISEASE) {
             SummaryDiseaseAdapter summaryDiseaseAdapter = new SummaryDiseaseAdapter(context);
             summaryDiseaseAdapter.addList(summaryWrapperModel.disease);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-            ((SummaryDiseaseVH)holder).diseaseRecycler.setLayoutManager(linearLayoutManager);
-            ((SummaryDiseaseVH)holder).diseaseRecycler.setAdapter(summaryDiseaseAdapter);
+            ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.ongoing_disease));
+            ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryDiseaseAdapter);
         } else if (getItemViewType(position) == ALLERGY) {
             SummaryAllergyAdapter summaryAllergyAdapter = new SummaryAllergyAdapter(context);
             summaryAllergyAdapter.addList(summaryWrapperModel.allergies);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
-            ((SummaryAllergyVH)holder).allergyRecycler.setLayoutManager(linearLayoutManager);
-            ((SummaryAllergyVH)holder).allergyRecycler.setAdapter(summaryAllergyAdapter);
+            ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.drug_allergies));
+            ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
+            ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryAllergyAdapter);
         } else {
-            ((SummaryHabitVH)holder).habitsTxt.setText(summaryWrapperModel.voluptary_habits);
+            ((SummaryHabitVH)holder).summaryTitle.setText(context.getString(R.string.voluptuary_habits));
+
+            if (summaryWrapperModel.voluptary_habits != null &&
+                    summaryWrapperModel.voluptary_habits.equals("")) ((SummaryHabitVH)holder).habitsTxt.setText(summaryWrapperModel.voluptary_habits);
+            else ((SummaryHabitVH)holder).habitsTxt.setText(context.getString(R.string.voluptuary_habits_not_found));
         }
     }
 
@@ -141,45 +160,13 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
         return itemCount;
     }
 
-    class SummaryMedicineVH extends FastBaseViewHolder{
+    class SummaryRecyclerVH extends FastBaseViewHolder{
+        @BindView(R.id.summary_header_title)
+        CustomFontTextView summaryTitle;
+        @BindView(R.id.summary_adapter_recycler)
+        RecyclerView summaryRecycler;
 
-        @BindView(R.id.medicine_card_recycler)
-        RecyclerView medicineRecycler;
-
-        public SummaryMedicineVH(View v) {
-            super(v);
-
-        }
-    }
-
-    class SummaryVisitVH extends FastBaseViewHolder{
-
-        @BindView(R.id.visit_card_recycler)
-        RecyclerView visitRecycler;
-
-        public SummaryVisitVH(View v) {
-            super(v);
-
-        }
-    }
-
-    class SummaryDiseaseVH extends FastBaseViewHolder{
-
-        @BindView(R.id.disease_card_recycler)
-        RecyclerView diseaseRecycler;
-
-        public SummaryDiseaseVH(View v) {
-            super(v);
-
-        }
-    }
-
-    class SummaryAnamnesyVH extends FastBaseViewHolder{
-
-        @BindView(R.id.anamnesy_card_recycler)
-        RecyclerView anamnesyRecycler;
-
-        public SummaryAnamnesyVH(View v) {
+        public SummaryRecyclerVH(View v) {
             super(v);
 
         }
@@ -187,21 +174,12 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     class SummaryHabitVH extends FastBaseViewHolder{
 
+        @BindView(R.id.summary_header_title)
+        CustomFontTextView summaryTitle;
         @BindView(R.id.habits_card_text)
         CustomFontTextView habitsTxt;
 
         public SummaryHabitVH(View v) {
-            super(v);
-
-        }
-    }
-
-    class SummaryAllergyVH extends FastBaseViewHolder{
-
-        @BindView(R.id.allergy_card_recycler)
-        RecyclerView allergyRecycler;
-
-        public SummaryAllergyVH(View v) {
             super(v);
 
         }

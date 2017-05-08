@@ -1,6 +1,7 @@
 package com.med.fast.summary;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +31,9 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
     TextView summaryGreeting;
     @BindView(R.id.summary_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.summary_recycler)
+    @BindView(R.id.summary_fragment_recycler)
     RecyclerView summaryRecycler;
+    private LinearLayoutManager linearLayoutManager;
     @BindView(R.id.summary_fragment_progress)
     ProgressBar summaryProgress;
     private SummaryAdapter summaryAdapter;
@@ -49,36 +51,41 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
         super.onViewCreated(view, savedInstanceState);
 
         ((MainActivity) getActivity()).changeTitle("SUMMARY");
-        SharedPreferenceUtilities.getUserId(getActivity());
+        userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         summaryAdapter = new SummaryAdapter(getActivity());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         summaryRecycler.setLayoutManager(linearLayoutManager);
         summaryRecycler.setAdapter(summaryAdapter);
+        refreshView(true);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshView();
+                refreshView(false);
             }
         });
     }
 
-    void refreshView(){
+    @Override
+    public void refreshView(boolean showProgress) {
         SummaryShowAPI summaryShowAPI = new SummaryShowAPI();
         summaryShowAPI.data.query.user_id = userId;
 
         SummaryShowAPIFunc summaryShowAPIFunc = new SummaryShowAPIFunc(getActivity(), SummaryFragment.this);
         summaryShowAPIFunc.execute(summaryShowAPI);
+        swipeRefreshLayout.setRefreshing(!showProgress);
+        if (showProgress) summaryProgress.setVisibility(View.VISIBLE);
+        else summaryProgress.setVisibility(View.GONE);
     }
 
     @Override
     public void onFinishSummaryShow(ResponseAPI responseAPI) {
-        if (this.isVisible()){
+        if (this.isVisible()) {
             summaryProgress.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
-            if(responseAPI.status_code == 200) {
+            if (responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 SummaryShowAPI output = gson.fromJson(responseAPI.status_response, SummaryShowAPI.class);
                 if (output.data.status.code.equals("200")) {
@@ -94,14 +101,21 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                     summaryWrapperModel.visit = output.data.results.visit;
 
                     summaryAdapter.setModel(summaryWrapperModel);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            linearLayoutManager.scrollToPosition(0);
+                        }
+                    }, 100);
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }
-            } else if(responseAPI.status_code == 504) {
+            } else if (responseAPI.status_code == 504) {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            } else if(responseAPI.status_code == 401 ||
+            } else if (responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity)getActivity()).forceLogout();
+                ((MainActivity) getActivity()).forceLogout();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }

@@ -85,8 +85,8 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
             // Upload multiple files
             for(int i = 0; i < params[0].data.query.image_list.size(); ++i){
                 String fileType = "image/" + "jpg";
-                String fileName = "product_img_" + i + "_" + params[0].data.query.user_id;
-                builder.addFormDataPart("product_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.image_list.get(i)));
+                String fileName = "visit_image_" + i + "_" + params[0].data.query.user_id;
+                builder.addFormDataPart("visit_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.image_list.get(i)));
             }
 
             RequestBody formBody = builder.build();

@@ -229,7 +229,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         RecyclerView.ViewHolder viewHolder;
         if (viewType == SURGERY) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.management_allergy_item_card, parent, false);
+                    .inflate(R.layout.management_surgery_item_card, parent, false);
             viewHolder = new SurgeryManagementVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())

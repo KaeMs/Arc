@@ -51,6 +51,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - medicineString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getMedicine_name());
+        sb.append("\n");
 
         // Append Form
         String formString = context.getString(R.string.medicine_form_colon);
@@ -58,6 +59,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getMedicine_form());
+        sb.append("\n");
 
         // Append Route
         String routeString = context.getString(R.string.medicine_route_colon);
@@ -65,6 +67,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - routeString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getMedicine_route());
+        sb.append("\n");
 
         // Append Dose
         String doseString = context.getString(R.string.medicine_dose_colon);
@@ -72,6 +75,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doseString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getMedicine_dose());
+        sb.append("\n");
 
         // Append Frequency
         String frequencyString = context.getString(R.string.medicine_frequency_colon);
@@ -79,6 +83,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - frequencyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
         sb.append(mDataset.get(position).getMedicine_frequency());
+        sb.append("\n");
 
         medicineVH.summaryMedicineText.setText(sb);
     }

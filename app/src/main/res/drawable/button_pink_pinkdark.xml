@@ -7,6 +7,12 @@
                 android:color="@color/pinkDark" />
         </shape>
     </item>
+    <item android:state_enabled="false">
+        <shape>
+            <solid
+                android:color="@color/pinkOpa40" />
+        </shape>
+    </item>
     <item>
         <shape>
             <solid

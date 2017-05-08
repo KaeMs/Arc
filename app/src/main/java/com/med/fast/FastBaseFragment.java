@@ -1,9 +1,32 @@
 package com.med.fast;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -36,59 +59,34 @@ public abstract class FastBaseFragment extends Fragment {
         unbinder.unbind();
     }
 
-    /*protected void createImagePickerDialog(final Context context, final File output, String title){
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Camera permission has not been granted.
-            if (ActivityCompat.shouldShowRequestPermissionRationale(((FastBaseActivity)context),
-                    Manifest.permission.CAMERA)) {
-                // Provide an additional rationale to the user if the permission was not granted
-                // and the user would benefit from additional context for the use of the permission.
-                // For example if the user has previously denied the permission.
-                ActivityCompat.requestPermissions(((FastBaseActivity)context),
-                        new String[]{Manifest.permission.CAMERA},
-                        RequestCodeList.cameraRequestCode);
-            } else {
-                // Camera permission has not been granted yet. Request it directly.
-                ActivityCompat.requestPermissions(((FastBaseActivity)context), new String[]{Manifest.permission.CAMERA},
-                        RequestCodeList.cameraRequestPermission);
-            }
-        } else if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(((FastBaseActivity)context),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Provide an additional rationale to the user if the permission was not granted
-                // and the user would benefit from additional context for the use of the permission.
-                // For example if the user has previously denied the permission.
-                ActivityCompat.requestPermissions(((FastBaseActivity)context),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        RequestCodeList.writeStoragePermission);
-            } else {
-                // Camera permission has not been granted yet. Request it directly.
-                ActivityCompat.requestPermissions(((FastBaseActivity)context), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        RequestCodeList.writeStoragePermission);
-            }
+    protected void createImagePickerDialog(final Activity activity, final File output, String title){
+        int hasCameraPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+        int hasReadPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int hasWritePermission  = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        List<String> permissions = new ArrayList<>();
 
+        if( hasCameraPermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.CAMERA );
+        }
+
+        if( hasReadPermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.READ_EXTERNAL_STORAGE );
+        }
+
+        if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
+            permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE );
+        }
+
+
+        if (!permissions.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);
         } else {
-            new AlertDialog.Builder(context)
+            new AlertDialog.Builder(activity)
                     .setTitle(title)
-                    .setItems(Constants.imageCapture, new DialogInterface.OnClickListener() {
+                    .setItems(getResources().getStringArray(R.array.select_image_source_arr), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which){
-//                                case 0:
-//                                    Intent intentVideo = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//
-//                                    // set the image file name
-//                                    intentVideo.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
-//
-//                                    // set the video image quality to high
-//                                    intentVideo.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-//                                    intentVideo.putExtra(MediaStore.EXTRA_DURATION_LIMIT, Constants.VIDEO_DURATION_LIMIT);
-//
-//                                    // start the Video Capture Intent
-//                                    startActivityForResult(intentVideo, RequestCodeList.videoRequestCode);
-//                                    break;
                                 case 0:
                                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                     if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
@@ -96,11 +94,11 @@ public abstract class FastBaseFragment extends Fragment {
                                         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
                                         Uri fileUri;
                                         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
-                                            fileUri = FileProvider.getUriForFile(context,
-                                                    "id.mallinternet.www.fileprovider",
+                                            fileUri = FileProvider.getUriForFile(activity,
+                                                    "com.med.fast.fileprovider",
                                                     output);
                                         } else {
-                                            fileUri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                                            fileUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                         }
 
                                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -109,29 +107,26 @@ public abstract class FastBaseFragment extends Fragment {
                                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
                                     }
 
-                                    startActivityForResult(cameraIntent, RequestCodeList.cameraRequestCode);
+                                    startActivityForResult(cameraIntent, RequestCodeList.CAMERA);
                                     dialog.dismiss();
                                     break;
                                 case 1:
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
-                                            && ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                            && ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                                             != PackageManager.PERMISSION_GRANTED) {
-                                        ImageCropperBase imageCropperBase = null;
-                                        imageCropperBase.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
-                                                getString(R.string.permission_read_storage_rationale),
-                                                imageCropperBase.getWritePermsion());
+                                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PermissionCodeList.READ_EXTERNAL_STORAGE);
                                     } else {
                                         if (Build.VERSION.SDK_INT < 19) {
                                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                                            intent.setType("image*//* video*//*");
-                                            intent.setType("image*//*");
-                                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.label_select_picture_video)),RequestCodeList.gallerySelectRequestcode);
+//                                            intent.setType("image/* video/*");
+                                            intent.setType("image/*");
+                                            startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.select_image)),RequestCodeList.GALLERY);
                                         } else {
                                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                                            intent.setType("image*//* video*//*");
-                                            intent.setType("image*//*");
-                                            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image*//*"*//*, "video*//**//*"*//*});
-                                            startActivityForResult(intent, RequestCodeList.gallerySelectRequestcode);
+//                                            intent.setType("image/* video/*");
+                                            intent.setType("image/*");
+                                            intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*"/*, "video*//*"*/});
+                                            startActivityForResult(intent, RequestCodeList.GALLERY);
                                             dialog.dismiss();
                                         }
                                     }
@@ -140,10 +135,10 @@ public abstract class FastBaseFragment extends Fragment {
                             }
                         }
                     })
-                        *//*.setPositiveButton(R.string.fromCamera, new DialogInterface.OnClickListener() {
+                        /*.setPositiveButton(R.string.fromCamera, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }
-                        })*//*
+                        })*/
                     .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -153,21 +148,43 @@ public abstract class FastBaseFragment extends Fragment {
         }
     }
 
-    public void startCropActivity(@NonNull Uri uri) {
-        Uri compressedUri = Utilities.compressImage(getActivity(), uri);
-        if (compressedUri != null){
-            UCrop uCrop = UCrop.of(compressedUri, compressedUri);
-            uCrop.withAspectRatio(1, 1);
-            UCrop.Options uCropOption = new UCrop.Options();
-            uCropOption.setToolbarColor(ContextCompat.getColor(getActivity(), R.color.miBlack));
-            uCropOption.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.miBlack));
-            uCropOption.setToolbarTitle(this.getString(R.string.cropTitle));
-            uCrop.withOptions(uCropOption);
-            //uCrop = basisConfig(uCrop);
-            //uCrop = advancedConfig(uCrop);
-            uCrop.start(getActivity());
+
+    public CreatedImageModel createImageFile() throws IOException {
+        CreatedImageModel createdImageModel = new CreatedImageModel();
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constants.dateFormatPicture, Locale.getDefault());
+        String imageFileName = simpleDateFormat.format(date);
+
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + MediaUtils.FMR_DIR);
+        File image;
+
+        if (externalMemoryAvailable()) {
+            image = File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
         } else {
-            Toast.makeText(getActivity(), getString(R.string.imageRetrievalFailure), Toast.LENGTH_SHORT).show();
+            image = new File(storageDir, imageFileName + ".jpg");
         }
-    }*/
+
+        // Save a file: path for use with ACTION_VIEW intents
+        createdImageModel.currentMediaPath = "file:" + image.getAbsolutePath();
+        createdImageModel.mDestinationUri = Uri.parse(createdImageModel.currentMediaPath);
+        createdImageModel.image = image;
+        return createdImageModel;
+    }
+
+    public boolean externalMemoryAvailable() {
+        if (Environment.isExternalStorageRemovable()) {
+            //device support sd card. We need to check sd card availability.
+            String state = Environment.getExternalStorageState();
+            return state.equals(Environment.MEDIA_MOUNTED) || state.equals(
+                    Environment.MEDIA_MOUNTED_READ_ONLY);
+        } else {
+            //device not support sd card.
+            return false;
+        }
+    }
 }

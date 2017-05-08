@@ -1,6 +1,5 @@
 package com.med.fast.management.allergy.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -62,10 +61,10 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("allergy_agent", params[0].data.query.allergy_agent)
-                    .add("allergy_is_drug", params[0].data.query.allergy_is_drug)
-                    .add("allergy_reaction", params[0].data.query.allergy_reaction)
-                    .add("allergy_first_experience", params[0].data.query.allergy_first_experience)
+                    .add("agent", params[0].data.query.agent)
+                    .add("is_drug", params[0].data.query.is_drug)
+                    .add("reaction", params[0].data.query.reaction)
+                    .add("first_experience", params[0].data.query.first_experience)
                     .add("tag", params[0].data.query.tag)
                     .build();
 

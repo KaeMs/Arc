@@ -8,6 +8,7 @@ public class RequestCodeList {
 
     public static final int CAMERA = 1001;
     public static final int GALLERY = 1002;
+    public static final int PHOTO_OPERATIONS = 1005;
     public static final int VISIT_CREATE = 2100;
     public static final int VISIT_EDIT = 2101;
     public static final int SURGERY_EDIT = 2201;

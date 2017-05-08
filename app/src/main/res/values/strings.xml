@@ -99,9 +99,17 @@
     <string name="medicine_route_colon">Route :</string>
     <string name="medicine_dose_colon">Dose :</string>
     <string name="medicine_frequency_colon">Frequency :</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="recent_visits">Recent Visits</string>
+    <string name="medicines">Medicines</string>
+    <string name="family_anamesy">Family Anamesy</string>
+    <string name="ongoing_disease">Ongoing Disease</string>
+    <string name="drug_allergies">Drug Allergies</string>
+    <string name="voluptuary_habits">Voluptuary Habits</string>
+    <string name="voluptuary_habits_not_found">No Voluptuary Habits</string>
 
-    <string name="allergy_agent">Allergy Agent :</string>
-    <string name="allergy_reaction">Reaction :</string>
+    <string name="allergy_agent_colon">Allergy Agent :</string>
+    <string name="allergy_reaction_colon">Reaction :</string>
 
     <string name="visit_date">Date :</string>
     <string name="visit_place">Hospital :</string>
@@ -114,6 +122,10 @@
     <string name="disease_colon">Disease :</string>
     <string name="disease_last_visit">Last Visit :</string>
     <string name="disease_date">Date :</string>
+
+    <!-- ID Card -->
+    <string name="idcard_uploaded">ID Card has been uploaded</string>
+
     <!-- Visit -->
     <string name="visiting_date">Visiting Date</string>
     <string name="placeholder_date">10/20/2017</string>

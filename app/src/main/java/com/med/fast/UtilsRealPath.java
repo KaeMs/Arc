@@ -19,10 +19,7 @@ public class UtilsRealPath {
     public static String getRealPathFromURI(Context context, Uri uri){
         String filepath = "";
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            filepath = getRealPathFromURI_BelowAPI11(context, uri);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB &&
-                Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             filepath = getRealPathFromURI_API11to18(context, uri);
         } else if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             filepath = getRealPathFromURI_API19(context, uri);

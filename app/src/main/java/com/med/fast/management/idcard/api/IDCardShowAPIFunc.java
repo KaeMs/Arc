@@ -1,4 +1,4 @@
-package com.med.fast.management.allergy.api;
+package com.med.fast.management.idcard.api;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,7 +7,9 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.allergy.allergyinterface.AllergyManagementEditIntf;
+import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPI;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateDeleteIntf;
+import com.med.fast.management.idcard.intf.IDCardShowSubmitIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,26 +20,23 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Kevin Murvie on 4/20/2017. FM
+ * Created by Kevin Murvie on 5/8/2017. FM
  */
 
-public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagementEditShowAPI, Integer, ResponseAPI> {
-    private AllergyManagementEditIntf delegate;
+public class IDCardShowAPIFunc extends AsyncTask<IDCardShowAPI, Integer, ResponseAPI> {
+    private IDCardShowSubmitIntf delegate;
     private Context context;
 
-    public AllergyManagementEditShowAPIFunc(Context context) {
+    public IDCardShowAPIFunc(Context context, IDCardShowSubmitIntf intf) {
         this.context = context;
-    }
-
-    public void setDelegate(AllergyManagementEditIntf delegate) {
-        this.delegate = delegate;
+        this.delegate = intf;
     }
 
     @Override
-    protected ResponseAPI doInBackground(AllergyManagementEditShowAPI... params) {
+    protected ResponseAPI doInBackground(IDCardShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + APIConstants.ALLERGY_EDIT_SHOW;
+            String url = APIConstants.API_URL + APIConstants.IDCARD_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -58,7 +57,6 @@ public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagemen
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("agent", params[0].data.query.allergy_id)
                     .build();
 
             Request request = new Request.Builder()
@@ -76,18 +74,19 @@ public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagemen
             } else {
                 responseAPI.status_response = response.message();
             }
+
             response.body().close();
         } catch (Exception ex) {
             responseAPI.status_code = 504;
             responseAPI.status_response = "Koneksi Bermasalah";
         }
+
         return responseAPI;
     }
 
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishAllergyManagementEditShow(responseAPI);
+        delegate.onFinishIDCardShow(responseAPI);
     }
-
 }

@@ -1,12 +1,10 @@
-package com.med.fast.management.allergy.api;
-
-import com.med.fast.management.allergy.AllergyManagementModel;
+package com.med.fast.management.idcard.api;
 
 /**
- * Created by kevindreyar on 27-Apr-17. FM
+ * Created by Kevin Murvie on 5/8/2017. FM
  */
 
-public class AllergyManagementCreateSubmitAPI {
+public class IDCardShowAPI {
     public Data data = new Data();
 
     public class Data
@@ -18,11 +16,6 @@ public class AllergyManagementCreateSubmitAPI {
         public class Query
         {
             public String user_id;
-            public String agent;
-            public String is_drug;
-            public String reaction;
-            public String first_experience;
-            public String tag;
         }
 
         public class Status
@@ -35,7 +28,7 @@ public class AllergyManagementCreateSubmitAPI {
         {
             public String result_status;
             public String description;
-            public String new_allergy_id;
+            public String card_id_image_path;
         }
     }
 }

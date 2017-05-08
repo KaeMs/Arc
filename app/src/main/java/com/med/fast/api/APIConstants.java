@@ -6,6 +6,7 @@ package com.med.fast.api;
 
 public class APIConstants {
     public static final String API_URL = "http://api.fastmedrecord.com";
+    public static final String WEB_URL = "http://www.fastmedrecord.com";
 
     // REGISTER
     public static final String REGISTER = "/register/registersubmit";
@@ -21,11 +22,8 @@ public class APIConstants {
     // Summary
     public static final String SUMMARY_SHOW = "/home/dashboardshow";
     // ID Card
-    public static final String IDCARD_SHOW = "/medicine/medicinelistshow";
-    public static final String IDCARD_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
-    public static final String IDCARD_EDIT_SHOW = "/medicine/medicineeditshow";
-    public static final String IDCARD_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
-    public static final String IDCARD_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
+    public static final String IDCARD_SHOW = "/cardid/cardidshow";
+    public static final String IDCARD_SUBMIT = "/cardid/cardidsubmit";
     // Visit
     public static final String VISIT_SHOW = "/medicine/medicinelistshow";
     public static final String VISIT_CREATE_SHOW = "/medicine/medicinecreatesubmit";
@@ -35,11 +33,11 @@ public class APIConstants {
     public static final String VISIT_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
     public static final int VISIT_INF_SCROLL = 20;
     // Surgery
-    public static final String SURGERY_SHOW = "/medicine/medicinelistshow";
-    public static final String SURGERY_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
-    public static final String SURGERY_EDIT_SHOW = "/medicine/medicineeditshow";
-    public static final String SURGERY_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
-    public static final String SURGERY_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
+    public static final String SURGERY_SHOW = "/surgery/surgerylistshow";
+    public static final String SURGERY_CREATE_SUBMIT = "/surgery/surgerycreatesubmit";
+    public static final String SURGERY_EDIT_SHOW = "/surgery/surgeryeditshow";
+    public static final String SURGERY_EDIT_SUBMIT = "/surgery/surgeryeditsubmit";
+    public static final String SURGERY_DELETE_SUBMIT = "/surgery/surgerydeletesubmit";
     public static final int SURGERY_INF_SCROLL = 20;
     // Allergy
     public static final String ALLERGY_INIT_SHOW = "/allergyinit/initallergylistshow";
@@ -76,12 +74,12 @@ public class APIConstants {
     public static final String ACCIDENT_DELETE_SUBMIT = "/accident/accidentdeletesubmit";
     public static final int ACCIDENT_INF_SCROLL = 20;
     // Lab Result
-    public static final String LABRESULT_SHOW = "/medicine/medicinelistshow";
-    public static final String LABRESULT_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
-    public static final String LABRESULT_EDIT_SHOW = "/medicine/medicineeditshow";
-    public static final String LABRESULT_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
-    public static final String LABRESULT_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
-    public static final String LABRESULT_DELETE_IMAGE_SUBMIT = "/medicine/medicinedeletesubmit";
+    public static final String LABRESULT_SHOW = "/labresult/labresultlistshow";
+    public static final String LABRESULT_CREATE_SUBMIT = "/labresult/labresultcreatesubmit";
+    public static final String LABRESULT_EDIT_SHOW = "/labresult/labresulteditshow";
+    public static final String LABRESULT_EDIT_SUBMIT = "/labresult/labresulteditsubmit";
+    public static final String LABRESULT_DELETE_SUBMIT = "/labresult/labresultdeletesubmit";
+    public static final String LABRESULT_DELETE_IMAGE_SUBMIT = "/labresult/medicinedeletesubmit";
     public static final int LAB_INF_SCROLL = 20;
 
     // Setting

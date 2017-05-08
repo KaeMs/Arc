@@ -12,6 +12,12 @@
                         android:color="@color/grey" />
                 </shape>
             </item>
+            <item android:state_enabled="false">
+                <shape>
+                    <solid
+                        android:color="@color/greyOpa40" />
+                </shape>
+            </item>
             <item>
                 <shape>
                     <solid

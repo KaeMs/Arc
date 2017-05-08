@@ -287,7 +287,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
         RecyclerView.ViewHolder viewHolder;
         if (viewType == LABRESULT) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.management_accident_item_card, parent, false);
+                    .inflate(R.layout.management_labresult_item_card, parent, false);
             viewHolder = new LabResultManagementVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())

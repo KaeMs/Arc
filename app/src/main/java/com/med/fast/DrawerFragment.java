@@ -12,6 +12,7 @@ import com.med.fast.login.LoginActivity;
 import com.med.fast.management.accidenthistory.AccidentHistoryManagementFragment;
 import com.med.fast.management.allergy.AllergyManagementFragment;
 import com.med.fast.management.disease.DiseaseManagementFragment;
+import com.med.fast.management.idcard.IDCardFragment;
 import com.med.fast.management.labresult.LabResultManagementFragment;
 import com.med.fast.management.medicine.MedicineManagementFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
@@ -75,9 +76,9 @@ public class DrawerFragment extends FastBaseFragment {
             @Override
             public void onClick(View v) {
                 ((MainActivity)getActivity()).drawerToggle();
-                if (!(((MainActivity) getActivity()).currentFragment() instanceof SummaryFragment)){
-                    SummaryFragment summaryFragment = new SummaryFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.IDCARD_FRAG, false);
+                if (!(((MainActivity) getActivity()).currentFragment() instanceof IDCardFragment)){
+                    IDCardFragment idCardFragment = new IDCardFragment();
+                    ((FastBaseActivity)getActivity()).replaceFragment(idCardFragment, Tag.IDCARD_FRAG, false);
                 }
             }
         });

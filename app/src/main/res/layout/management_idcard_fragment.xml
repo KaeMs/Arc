@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/idcard_swipe_refresh">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/default_activity_content_padding">
+
+        <ImageView
+            android:id="@+id/idcard_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/photo"
+            android:minHeight="150dp"
+            android:maxHeight="250dp"
+            android:minWidth="150dp"
+            android:maxWidth="250dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.med.fast.customviews.CustomFontButton
+                android:id="@+id/idcard_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btnMediumHeight"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_pink_pinkdark"
+                android:text="@string/save"
+                android:textColor="@color/white" />
+
+            <ProgressBar
+                android:id="@+id/idcard_save_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/progressbar_pink"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
