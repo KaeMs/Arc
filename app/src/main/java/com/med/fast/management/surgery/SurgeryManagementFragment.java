@@ -105,7 +105,7 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter > APIConstants.SURGERY_INF_SCROLL) {
                         SurgeryManagementListShowAPI surgeryManagementListShowAPI = new SurgeryManagementListShowAPI();
                         surgeryManagementListShowAPI.data.query.user_id = userId;
                         surgeryManagementListShowAPI.data.query.keyword = currentKeyword;

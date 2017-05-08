@@ -97,7 +97,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter >= APIConstants.DISEASE_INF_SCROLL) {
                         DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
                         diseaseManagementListShowAPI.data.query.user_id = userId;
                         diseaseManagementListShowAPI.data.query.keyword = currentKeyword;

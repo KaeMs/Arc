@@ -117,7 +117,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter > APIConstants.VISIT_INF_SCROLL) {
                         VisitManagementListShowAPI visitManagementListShowAPI = new VisitManagementListShowAPI();
                         visitManagementListShowAPI.data.query.user_id = userId;
                         visitManagementListShowAPI.data.query.keyword = currentKeyword;

@@ -11,7 +11,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/logo"
+        android:minHeight="100dp"
         android:padding="@dimen/default_activity_content_padding"
+        android:scaleType="centerInside"
         android:src="@drawable/logo_landscape_color" />
 
     <ScrollView

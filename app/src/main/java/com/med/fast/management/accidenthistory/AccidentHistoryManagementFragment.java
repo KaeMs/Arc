@@ -98,7 +98,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                 // When threshold is reached, API call is made to get new items
                 // for infinite scroll
                 if (!isLoading && totalItemCount <= lastVisibleItem + visibleThreshold) {
-                    if (lastItemCounter > 10) {
+                    if (lastItemCounter >= APIConstants.ACCIDENT_INF_SCROLL) {
                         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
                         accidentHistoryListShowAPI.data.query.user_id = userId;
                         accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
