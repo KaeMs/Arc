@@ -174,11 +174,7 @@ public class DrawerFragment extends FastBaseFragment {
         logoutWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferenceUtilities.clearSharedPreference(getActivity(), SharedPreferenceUtilities.SESSION_SP);
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-                getActivity().overridePendingTransition(R.anim.fade_in_slow, R.anim.fade_out_slow);
+                ((MainActivity)getActivity()).displayLogoutDialog();
             }
         });
     }

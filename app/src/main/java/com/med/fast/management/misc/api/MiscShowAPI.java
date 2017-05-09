@@ -16,6 +16,7 @@ public class MiscShowAPI {
         public class Query
         {
             public String user_id;
+            public String is_initial;
         }
 
         public class Status

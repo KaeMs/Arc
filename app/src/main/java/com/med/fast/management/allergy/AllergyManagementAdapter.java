@@ -32,7 +32,6 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.management.accidenthistory.AccidentEditActivity;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementCreateDeleteIntf;
 import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPI;
 import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPIFunc;
@@ -110,6 +109,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     public void clearList() {
         if (mDataset.size() > 0) {
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -124,12 +124,10 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     // Update by model
     public void updateItem(AllergyManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getAgent().equals(item.getAgent()) &&
-                    mDataset.get(i).getDrug().equals(item.getDrug()) &&
-                    mDataset.get(i).getReaction().equals(item.getReaction()) &&
-                    mDataset.get(i).getFirst_experience().equals(item.getFirst_experience())) {
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status("0");
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -141,7 +139,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setAllergy_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -187,10 +185,10 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             @Override
             public void onClick(View v) {
                 if (mAwesomeValidation.validate()) {
-                    String causativeString = causative.getText().toString();
+                    String causativeString = Utils.processStringForAPI(causative.getText().toString());
                     String drugTypeString = String.valueOf(drugTypeYes.isChecked());
-                    String reactionString = reaction.getText().toString();
-                    String firstExpString = firstExp.getText().toString();
+                    String reactionString = Utils.processStringForAPI(reaction.getText().toString());
+                    String firstExpString = Utils.processStringForAPI(firstExp.getText().toString());
 
                     AllergyManagementModel allergy = new AllergyManagementModel();
                     allergy.setAgent(causativeString);
@@ -288,9 +286,11 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
-                        Intent intent = new Intent(context, AccidentEditActivity.class);
-                        intent.putExtra(ConstantsManagement.ALLERGY_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getAllergy_id());
-                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ACCIDENT_EDIT);
+                        Intent intent = new Intent(context, AllergyEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ALLERGY_EDIT);
                     }
                 }
             });
@@ -299,7 +299,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
-                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "allergy" + mDataset.get(holder.getAdapterPosition()).getAllergy_id());
+                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "allergy" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
@@ -319,15 +319,15 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("allergy" + mDataset.get(i).getAllergy_id())) {
+            if (deleteConfirmEvent.deletionId.equals("allergy" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status("2");
                 notifyItemChanged(i);
 
                 AllergyManagementDeleteAPI allergyManagementDeleteAPI = new AllergyManagementDeleteAPI();
                 allergyManagementDeleteAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                allergyManagementDeleteAPI.data.query.allergy_id = mDataset.get(i).getAllergy_id();
+                allergyManagementDeleteAPI.data.query.allergy_id = mDataset.get(i).getId();
 
-                AllergyManagementDeleteAPIFunc allergyManagementDeleteAPIFunc = new AllergyManagementDeleteAPIFunc(context, mDataset.get(i).getAllergy_id());
+                AllergyManagementDeleteAPIFunc allergyManagementDeleteAPIFunc = new AllergyManagementDeleteAPIFunc(context, mDataset.get(i).getId());
                 allergyManagementDeleteAPIFunc.setDelegate(AllergyManagementAdapter.this);
                 allergyManagementDeleteAPIFunc.execute(allergyManagementDeleteAPI);
                 break;
@@ -370,7 +370,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             AllergyManagementDeleteAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementDeleteAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.allergy_id.equals(mDataset.get(i).getAllergy_id())) {
+                    if (output.data.query.allergy_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }

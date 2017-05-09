@@ -13,6 +13,7 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -40,23 +41,25 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
     CustomFontEditText reaction;
     @BindView(R.id.allergy_popup_firsttime_et)
     CustomFontEditText firstTimeExp;
+    @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
 
-    private String allergyId = "";
-    private AllergyManagementModel allergy;
+    private AllergyManagementModel allergyManagementModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_accident_popup);
+        setContentView(R.layout.management_allergy_popup);
 
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
 
         try {
-            allergyId = getIntent().getStringExtra(ConstantsManagement.ALLERGY_ID_EXTRA);
+            Gson gson = new Gson();
+            allergyManagementModel = gson.fromJson(getIntent().getStringExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA),
+                    AllergyManagementModel.class);
         } catch (NullPointerException npe){
             finish();
         }
@@ -81,25 +84,25 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             public void onClick(View v) {
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
-                    String causativeString = causative.getText().toString();
-                    String drugTypeString = drugTypeYes.isChecked() ? "yes" : "no";
-                    String reactionString = reaction.getText().toString();
-                    String firstExpString = firstTimeExp.getText().toString();
+                    String causativeString = Utils.processStringForAPI(causative.getText().toString());
+                    String drugTypeString = String.valueOf(drugTypeYes.isChecked());
+                    String reactionString = Utils.processStringForAPI(reaction.getText().toString());
+                    String firstExpString = Utils.processStringForAPI(firstTimeExp.getText().toString());
 
-                    allergy = new AllergyManagementModel();
-                    allergy.setAgent(causativeString);
-                    allergy.setDrug(drugTypeString);
-                    allergy.setReaction(reactionString);
-                    allergy.setFirst_experience(firstExpString);
-                    allergy.setProgress_status("0");
+                    allergyManagementModel = new AllergyManagementModel();
+                    allergyManagementModel.setAgent(causativeString);
+                    allergyManagementModel.setDrug(drugTypeString);
+                    allergyManagementModel.setReaction(reactionString);
+                    allergyManagementModel.setFirst_experience(firstExpString);
+                    allergyManagementModel.setProgress_status("0");
 
                     AllergyManagementEditSubmitAPI allergyManagementEditSubmitAPI = new AllergyManagementEditSubmitAPI();
                     allergyManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(AllergyEditActivity.this);
-                    allergyManagementEditSubmitAPI.data.query.allergy_id = allergyId;
-                    allergyManagementEditSubmitAPI.data.query.allergy_agent = causativeString;
-                    allergyManagementEditSubmitAPI.data.query.allergy_is_drug = drugTypeString;
-                    allergyManagementEditSubmitAPI.data.query.allergy_reaction = reactionString;
-                    allergyManagementEditSubmitAPI.data.query.allergy_first_experience = firstExpString;
+                    allergyManagementEditSubmitAPI.data.query.id = allergyManagementModel.getId();
+                    allergyManagementEditSubmitAPI.data.query.agent = causativeString;
+                    allergyManagementEditSubmitAPI.data.query.is_drug = drugTypeString;
+                    allergyManagementEditSubmitAPI.data.query.reaction = reactionString;
+                    allergyManagementEditSubmitAPI.data.query.first_experience = firstExpString;
 
                     AllergyManagementEditSubmitAPIFunc allergyManagementEditSubmitAPIFunc = new AllergyManagementEditSubmitAPIFunc(AllergyEditActivity.this);
                     allergyManagementEditSubmitAPIFunc.setDelegate(AllergyEditActivity.this);
@@ -112,7 +115,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
     void refreshView(){
         AllergyManagementEditShowAPI allergyManagementEditShowAPI = new AllergyManagementEditShowAPI();
         allergyManagementEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
-        allergyManagementEditShowAPI.data.query.allergy_id = allergyId;
+        allergyManagementEditShowAPI.data.query.allergy_id = allergyManagementModel.getId();
 
         AllergyManagementEditShowAPIFunc allergyManagementEditShowAPIFunc = new AllergyManagementEditShowAPIFunc(this);
         allergyManagementEditShowAPIFunc.setDelegate(this);
@@ -132,11 +135,15 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 
@@ -147,7 +154,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             AllergyManagementEditSubmitAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementEditSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
-                String allergyModelString = gson.toJson(allergy);
+                String allergyModelString = gson.toJson(allergyManagementModel);
                 intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
                 setResult(RESULT_OK, intent);
                 finish();

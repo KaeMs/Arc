@@ -35,13 +35,13 @@ public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_anamnesy_card_text, parent, false);
-        return new AnamnesyVH(view);
+                .inflate(R.layout.summary_textonly, parent, false);
+        return new SummaryTextOnlyVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        AnamnesyVH anamnesyVH = (AnamnesyVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -50,7 +50,7 @@ public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter{
         sb.append(anamnesyString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - anamnesyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getDisease_name());
+        sb.append(mDataset.get(position).getName());
         sb.append("\n");
 
         // Append Hereditiary Carrier
@@ -58,10 +58,10 @@ public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter{
         sb.append(formString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getDisease_hereditary_carrier());
+        sb.append(mDataset.get(position).getHereditary_carriers());
         sb.append("\n");
 
-        anamnesyVH.summaryAnamnesyText.setText(sb);
+        summaryTextOnlyVH.summaryText.setText(sb);
     }
 
     @Override

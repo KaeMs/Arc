@@ -85,6 +85,13 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -115,7 +122,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
             }
         });
     }
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
         diseaseManagementListShowAPI.data.query.user_id = userId;
         diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -126,10 +133,10 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
         DiseaseManagementListShowAPIFunc diseaseManagementListShowAPIFunc = new DiseaseManagementListShowAPIFunc(getActivity());
         diseaseManagementListShowAPIFunc.setDelegate(DiseaseManagementFragment.this);
         diseaseManagementListShowAPIFunc.execute(diseaseManagementListShowAPI);
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;

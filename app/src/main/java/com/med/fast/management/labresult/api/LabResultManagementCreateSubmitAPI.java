@@ -1,7 +1,10 @@
 package com.med.fast.management.labresult.api;
 
+import com.med.fast.management.labresult.LabResultImageItem;
 import com.med.fast.management.labresult.LabResultImgUploadModel;
+import com.med.fast.management.labresult.LabResultUploadImageItem;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +28,8 @@ public class LabResultManagementCreateSubmitAPI {
             public String desc_result;
             public String place;
             public String date;
-            public List<LabResultImgUploadModel> img_object = new ArrayList<>();
+            public String img_obj_json;
+            public List<File> img_file_list = new ArrayList<>();
         }
 
         public class Status

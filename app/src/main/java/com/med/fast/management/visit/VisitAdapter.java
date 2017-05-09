@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -52,25 +53,14 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     private Context context;
     private List<VisitModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
-    private String deletionId = "";
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
-    private VisitImageAdapter visitImageAdapter;
-    private ArrayAdapter<String> leftRecyclerAdapter;
-    private List<String> leftDataset;
-    private ArrayAdapter<String> rightRecyclerAdapter;
-    private List<String> rightDataset;
 
     public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf){
         super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.userId = SharedPreferenceUtilities.getUserId(context);
-        visitImageAdapter = new VisitImageAdapter(context);
-        this.leftRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
-        leftDataset = new ArrayList<>();
-        this.rightRecyclerAdapter = new ArrayAdapter<>(context, R.layout.layout_textview, R.id.textview_tv);
-        rightDataset = new ArrayList<>();
     }
 
     public void addList(List<VisitModel> dataset) {
@@ -103,6 +93,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     public void clearList() {
         if (mDataset.size() > 0) {
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -231,6 +222,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             if (mDataset.get(i).getVisit_id().equals(item.getVisit_id())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -292,12 +284,16 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());
             visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseasesInString());
 
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-            VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
-            SnapHelper snapHelper = new PagerSnapHelper();
-            visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
-            visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
-            snapHelper.attachToRecyclerView(visitViewHolder.imageRecycler);
+            if (mDataset.get(position).getImage_list().size() > 0) {
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
+                SnapHelper snapHelper = new PagerSnapHelper();
+                visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
+                visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
+                snapHelper.attachToRecyclerView(visitViewHolder.imageRecycler);
+            } else {
+                visitViewHolder.imageRecycler.setVisibility(View.GONE);
+            }
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
@@ -322,9 +318,11 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
-//                        Intent intent = new Intent(context, AccidentEditActivity.class);
-//                        intent.putExtra(ConstantsManagement.VISIT_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getVisit_id());
-//                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.VISIT_EDIT);
+                        Intent intent = new Intent(context, VisitEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.VISIT_EDIT);
                     }
                 }
             });
@@ -349,13 +347,12 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                 }
             });
         }
-
     }
 
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deletionId.equals(mDataset.get(i).getVisit_id())) {
+            if (deleteConfirmEvent.deletionId.equals(mDataset.get(i).getVisit_id())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
@@ -422,9 +419,9 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
         CustomFontTextView diagnosedDisease;
         @BindView(R.id.visit_card_images)
         RecyclerView imageRecycler;
-        @BindView(R.id.visit_card_edit)
+        @BindView(R.id.management_operations_edit_btn)
         ImageView editBtn;
-        @BindView(R.id.visit_card_delete)
+        @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
 
 

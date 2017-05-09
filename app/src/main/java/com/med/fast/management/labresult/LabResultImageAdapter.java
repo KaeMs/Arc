@@ -12,14 +12,18 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
+import com.med.fast.UtilityUriHelper;
+import com.med.fast.UtilsRealPath;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.VisitAddActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,10 +57,6 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
         notifyDataSetChanged();
     }
 
-    public void updateImage(LabResultImageItem labResultImageItem) {
-        mDataset.set(savedPos, labResultImageItem);
-    }
-
     public void addSingle(LabResultImageItem labResultImageItem) {
         this.mDataset.add(labResultImageItem);
         notifyItemInserted(mDataset.size() - 1);
@@ -65,8 +65,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
     public void updatemDataset(LabResultImageItem labResultImageItem) {
         if (mDataset.get(savedPos) == null ||
                 !labResultImageItem.getImage_uri().equals(mDataset.get(savedPos).getImage_uri())) {
-            this.mDataset.set(savedPos, new LabResultImageItem());
-            this.mDataset.get(savedPos).setImage_uri(MediaUtils.compressImage(context, labResultImageItem.getImage_uri()));
+            this.mDataset.set(savedPos, labResultImageItem);
         }
         notifyItemChanged(savedPos);
 //        ((PostProductActivity)context).smoothScrollToEnd();
@@ -95,6 +94,35 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
         return returnMDataset;
     }
 
+    public List<File> getUploadFile(){
+        List<File> returnFile = new ArrayList<>();
+        for (LabResultImageItem item :
+                mDataset) {
+            if (item != null){
+                returnFile.add(new File(UtilityUriHelper.getPath(context, item.getImage_uri())));
+            }
+        }
+        return returnFile;
+    }
+
+    public String getGson(){
+        Gson gson = new Gson();
+        LabResultUploadImageItemWrapper labResultUploadImageItemWrapper = new LabResultUploadImageItemWrapper();
+        for (LabResultImageItem item :
+                mDataset) {
+            if (item != null){
+                LabResultUploadImageItem labResultUploadImageItem = new LabResultUploadImageItem();
+                labResultUploadImageItem.setId("");
+                labResultUploadImageItem.setPath(item.getImage_path());
+                labResultUploadImageItem.setDate_taken(item.getDate_taken());
+                labResultUploadImageItem.setIs_deleted(false);
+                labResultUploadImageItemWrapper.img_list.add(labResultUploadImageItem);
+            }
+        }
+
+        return gson.toJson(labResultUploadImageItemWrapper);
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mDataset.get(position) == null) {
@@ -108,7 +136,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
         RecyclerView.ViewHolder vh;
         if (viewType == PLACEHOLDER) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.management_visit_card_image, parent, false);
+                    .inflate(R.layout.image_placeholder, parent, false);
             vh = new ImagePlaceholderVH(view);
         } else {
             View view = LayoutInflater.from(parent.getContext())
@@ -127,7 +155,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
             visitImageVH.imageWrapper.getLayoutParams().height = width * 30 / 100;
 
             Glide.with(context)
-                    .load(mDataset.get(position).getImage_uri())
+                    .load(UtilityUriHelper.getPath(context, mDataset.get(position).getImage_uri()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(true)
                     .placeholder(MediaUtils.image_placeholder_black)
@@ -157,7 +185,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
                         @Override
                         public void onClick(View v) {
                             savedPos = holder.getAdapterPosition();
-
+                            ((LabResultAddActivity)context).addNewImage();
                             dialog.dismiss();
                         }
                     });
@@ -172,7 +200,8 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
                     });
 
                 } else {
-                    ((VisitAddActivity)context).addNewImage();
+                    savedPos = holder.getAdapterPosition();
+                    ((LabResultAddActivity)context).addNewImage();
                 }
             }
         });

@@ -86,6 +86,13 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -127,7 +134,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
         });
     }
 
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         AllergyManagementListShowAPI allergyManagementListShowAPI = new AllergyManagementListShowAPI();
         allergyManagementListShowAPI.data.query.user_id = userId;
         allergyManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -139,10 +146,10 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
         AllergyManagementListShowAPIFunc allergyManagementListShowAPIFunc = new AllergyManagementListShowAPIFunc(getActivity());
         allergyManagementListShowAPIFunc.setDelegate(AllergyManagementFragment.this);
         allergyManagementListShowAPIFunc.execute(allergyManagementListShowAPI);
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;

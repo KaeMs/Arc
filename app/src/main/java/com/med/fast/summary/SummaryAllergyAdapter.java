@@ -35,13 +35,13 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_allergy_card_text, parent, false);
-        return new AllergyVH(view);
+                .inflate(R.layout.summary_textonly, parent, false);
+        return new SummaryTextOnlyVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        AllergyVH allergyVH = (AllergyVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -61,7 +61,7 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
         sb.append(mDataset.get(position).getReaction());
         sb.append("\n");
 
-        allergyVH.summaryAllergyText.setText(sb);
+        summaryTextOnlyVH.summaryText.setText(sb);
     }
 
     @Override

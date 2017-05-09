@@ -19,7 +19,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
-    <string name="success_register">Success Register</string>
+    <string name="success_register">Registration Succeeded</string>
 
     <!-- Forgot Password -->
     <string name="find_your_email">Find Your Email</string>
@@ -144,7 +144,7 @@
     <string name="image_upload">Upload Image</string>
     <string name="image_change">Change Image</string>
     <string name="image_delete">Delete Image</string>
-    <string name="visit_delete_confirmation">Are you sure you want to delete this visit?</string>
+    <string name="visit_delete_confirmation">Are you sure you want to delete this visit record?</string>
 
     <!-- Allergy -->
     <string name="created_date">Created Date</string>
@@ -167,7 +167,7 @@
     <string name="last_visit">Last Visit</string>
     <string name="historic_date">Historic date</string>
     <string name="approximate_date">Approximate Date</string>
-    <string name="disease_delete_confirmation">Are you sure you want to delete this diseases record?</string>
+    <string name="disease_delete_confirmation">Are you sure you want to delete this disease record?</string>
 
     <!-- Medicine -->
     <string name="medicine_name">Medicine Name</string>
@@ -242,6 +242,8 @@
         <item>Other</item>
     </string-array>
     <string name="accident_delete_confirmation">Are you sure you want to delete this accident record?</string>
+    <string name="accident_other_title">Describe when the accident happened</string>
+    <string name="accident_other_hint">Approximate date or vague answer such as years ago, childhood, etc.</string>
 
     <!-- Lab Result -->
     <string name="lab_test_type_question">What was the type of test?</string>
@@ -299,13 +301,17 @@
     <string name="select_image">Select image</string>
     <string name="select_image_source">Select image source</string>
     <string-array name="select_image_source_arr">
-    <item>Camera</item>
-    <item>Gallery</item>
+        <item>Camera</item>
+        <item>Gallery</item>
     </string-array>
+    <string name="image_retrieval_failed">Can not retrieve selected image</string>
+
+    <!-- Logout -->
+    <string name="logout_question">Are you sure you want to logout?</string>
 
     <!-- General -->
     <string name="ok">OK</string>
-    <string name="confirm">Delete</string>
+    <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     <string name="logo">Logo</string>
     <string name="yes">Yes</string>

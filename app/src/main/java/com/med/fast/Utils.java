@@ -1,5 +1,7 @@
 package com.med.fast;
 
+import android.text.Html;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,5 +28,14 @@ public class Utils {
     public static String getCurrentDate(){
         SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormatSpace, Locale.getDefault());
         return sdf.format(new java.util.Date());
+    }
+
+    public static String processStringForAPI(String input){
+        if (input.equals("") ||
+                input.equals("-")){
+            return "default";
+        } else {
+            return Html.fromHtml(input).toString();
+        }
     }
 }

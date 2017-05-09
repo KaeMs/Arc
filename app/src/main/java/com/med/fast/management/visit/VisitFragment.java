@@ -103,6 +103,14 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         });
 
         noContentTV.setText(getString(R.string.no_visit_record));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
@@ -146,7 +154,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         });
     }
 
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         VisitManagementListShowAPI visitManagementListShowAPI = new VisitManagementListShowAPI();
         visitManagementListShowAPI.data.query.user_id = userId;
         visitManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -157,10 +165,10 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         VisitManagementListShowAPIFunc visitManagementListShowAPIFunc = new VisitManagementListShowAPIFunc(getActivity());
         visitManagementListShowAPIFunc.setDelegate(VisitFragment.this);
         visitManagementListShowAPIFunc.execute(visitManagementListShowAPI);
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;

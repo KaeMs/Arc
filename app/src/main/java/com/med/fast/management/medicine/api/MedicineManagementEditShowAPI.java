@@ -7,13 +7,13 @@ import com.med.fast.management.medicine.MedicineManagementModel;
  */
 
 public class MedicineManagementEditShowAPI {
-    public Data data;
+    public Data data = new Data();
 
     public class Data
     {
-        public Query query;
-        public Status status;
-        public Results results;
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
         public class Query
         {
@@ -31,7 +31,16 @@ public class MedicineManagementEditShowAPI {
         {
             public String result_status;
             public String description;
-            public MedicineManagementModel medicine;
+            public String id;
+            public String name;
+            public String form;
+            public String administration_method;
+            public String administration_dose;
+            public String frequency;
+            public String medication_reason;
+            public String medication_status;
+            public String additional_instruction;
+            public String created_date;
         }
     }
 }

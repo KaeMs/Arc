@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -23,7 +21,6 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
-import com.med.fast.management.disease.DiseaseManagementAdapter;
 import com.med.fast.management.misc.api.MiscCreateAPI;
 import com.med.fast.management.misc.api.MiscCreateAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
@@ -75,14 +72,13 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
     CustomFontButton saveBtn;
     @BindView(R.id.management_operations_gravitystart_right_btn)
     CustomFontButton backBtn;
-    private String userId;
-    private boolean isLoading;
-
     // Btns
     @BindView(R.id.initialdata_misc_skip_btn)
     CustomFontTextView skipBtn;
     @BindView(R.id.initialdata_misc_next_btn)
     CustomFontTextView nextBtn;
+    private String userId;
+    private boolean isLoading;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +89,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         userId = SharedPreferenceUtilities.getUserId(this);
 
         String gender = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_GENDER);
-        if (gender != null){
+        if (gender != null) {
             if (gender.equals("0")) {
                 femaleWrapper.setVisibility(View.GONE);
             } else {
@@ -130,14 +126,14 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLoading){
+                if (!isLoading) {
                     MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
                     miscCreateAPI.data.query.user_id = userId;
                     miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
-                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked()? "yes" : "no";
-                    miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked()? pregnancyWeeks.getText().toString() : "default";
-                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked()? "yes" : "no";
-                    miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked()? miscarriageDate.getText().toString() : "default";
+                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked() ? pregnancyWeeks.getText().toString() : "default";
+                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked() ? miscarriageDate.getText().toString() : "default";
                     miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
 
                     MiscCreateAPIFunc miscCreateAPIFunc = new MiscCreateAPIFunc(InitialDataMiscActivity.this, InitialDataMiscActivity.this);
@@ -169,13 +165,14 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         });
     }
 
-    void refreshView(boolean setIsRefreshing){
+    void refreshView(boolean setIsRefreshing) {
         MiscShowAPI miscShowAPI = new MiscShowAPI();
         miscShowAPI.data.query.user_id = userId;
+        miscShowAPI.data.query.is_initial = "true";
 
         MiscShowAPIFunc miscShowAPIFunc = new MiscShowAPIFunc(this, this);
         miscShowAPIFunc.execute(miscShowAPI);
-        if (setIsRefreshing){
+        if (setIsRefreshing) {
             swipeRefreshLayout.setRefreshing(true);
             progressBar.setVisibility(View.GONE);
         } else {
@@ -205,9 +202,9 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
@@ -228,9 +225,9 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
@@ -240,7 +237,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
 
     @Override
     public void onFinishSkip(ResponseAPI responseAPI) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
             if (output.data.status.code.equals("200")) {
@@ -250,9 +247,9 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {

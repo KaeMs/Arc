@@ -24,6 +24,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
@@ -91,7 +92,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         visitImageAdapter = new VisitImageAdapter(this);
         visitImageAdapter.setWidth(displayMetrics.widthPixels);
         visitImageAdapter.addSingle(null);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(visitImageAdapter);
         this.diseasesLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
@@ -186,14 +187,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
                     visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
 
-                    List<VisitImageItem> uploadImageItems = visitImageAdapter.getmDataset();
-                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = uploadImageItems.size() > 0 ? "true" : "false";
-                    List<File> uploadImageFiles = new ArrayList<>();
-                    for (VisitImageItem item :
-                            uploadImageItems) {
-                        uploadImageFiles.add(new File(UtilsRealPath.getRealPathFromURI(VisitAddActivity.this, item.getImage_uri())));
-                    }
-                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(uploadImageFiles);
+                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAdapter.getImageCount() > 0 ? "true" : "false";
+                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAdapter.getUploadFile());
 
                     VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
                             new VisitManagementCreateSubmitAPIFunc(VisitAddActivity.this, VisitAddActivity.this, visitModel.getTag());
@@ -237,18 +232,18 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 visitImageItem.setImage_path(currentMediaPath);
                 visitImageItem.setImage_uri(mDestinationUri);
                 visitImageItem.setImage_is_deleted(false);
-                visitImageAdapter.updateImage(visitImageItem);
+                visitImageAdapter.updatemDataset(visitImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
-                currentMediaPath = UtilsRealPath.getRealPathFromURI(this, data.getData());
-                mDestinationUri = MediaUtils.compressImage(this, data.getData());
+                currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
+                Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setImage_id(visitImageAdapter.getItemCount());
                 visitImageItem.setImage_path(currentMediaPath);
-                visitImageItem.setImage_uri(mDestinationUri);
+                visitImageItem.setImage_uri(mediaUri);
                 visitImageItem.setImage_is_deleted(false);
-                visitImageAdapter.updateImage(visitImageItem);
+                visitImageAdapter.updatemDataset(visitImageItem);
             }
         }
     }

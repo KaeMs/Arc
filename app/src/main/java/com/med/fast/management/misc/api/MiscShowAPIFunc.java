@@ -55,6 +55,7 @@ public class MiscShowAPIFunc extends AsyncTask<MiscShowAPI, Integer, ResponseAPI
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
+                    .add("is_initial", params[0].data.query.is_initial)
                     .build();
 
             Request request = new Request.Builder()

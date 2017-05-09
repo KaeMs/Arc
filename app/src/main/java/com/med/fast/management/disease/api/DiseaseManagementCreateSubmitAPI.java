@@ -15,13 +15,13 @@ public class DiseaseManagementCreateSubmitAPI {
 
         public class Query
         {
-            public String disease_name;
+            public String name;
             public String user_id;
             public String is_hereditary;
             public String is_ongoing;
-            public String history_date_text;
-            public String date;
-            public String hereditary_carrier;
+            public String hereditary_carriers;
+            public String historic_date;
+            public String approximate_date;
             public String tag;
         }
 

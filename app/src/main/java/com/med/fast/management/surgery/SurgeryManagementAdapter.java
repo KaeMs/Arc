@@ -1,7 +1,10 @@
 package com.med.fast.management.surgery;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,11 +17,16 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
+import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -33,8 +41,13 @@ import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -51,12 +64,15 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     private Context context;
     private List<SurgeryManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
+    private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
+    private int year, month, day;
 
-    public SurgeryManagementAdapter(Context context){
+    public SurgeryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
         super(false);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.startActivityForResultInAdapterIntf = intf;
     }
 
     public void addList(List<SurgeryManagementModel> dataset){
@@ -89,6 +105,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     public void clearList(){
         if (mDataset.size() > 0){
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -103,9 +120,10 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     // Update by model
     public void updateItem(SurgeryManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getSurgery_id().equals(item.getSurgery_id())) {
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -117,7 +135,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setSurgery_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -147,6 +165,55 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         final CustomFontTextView surgeryDate = (CustomFontTextView) dialog.findViewById(R.id.surgery_popup_surgery_date);
         final CustomFontEditText surgeryNote = (CustomFontEditText) dialog.findViewById(R.id.surgery_popup_note);
 
+        Calendar calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        surgeryDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(context, null, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
+                datePickerDialog.getDatePicker().updateDate(year, month, day);
+                datePickerDialog.show();
+                datePickerDialog.setCanceledOnTouchOutside(true);
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                year = datePickerDialog.getDatePicker().getYear();
+                                month = datePickerDialog.getDatePicker().getMonth();
+                                day = datePickerDialog.getDatePicker().getDayOfMonth();
+                                // Formatting date from MM to MMM
+                                SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
+                                Date newDate = null;
+                                try {
+                                    newDate = format.parse(String.valueOf(month + 1) + " " + String.valueOf(day) + " " + String.valueOf(year));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
+                                String date = format.format(newDate);
+                                surgeryDate.setText(date);
+                            }
+                        });
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                                    // Do Stuff
+                                    datePickerDialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+        
         CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
         CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
@@ -160,8 +227,6 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(context);
         mAwesomeValidation.addValidation(surgeryProcedure, RegexTemplate.NOT_EMPTY, context.getString(R.string.surgery_procedure_required));
-        mAwesomeValidation.addValidation(hospitalName, RegexTemplate.NOT_EMPTY, context.getString(R.string.hospital_name_required));
-        mAwesomeValidation.addValidation(physicianName, RegexTemplate.NOT_EMPTY, context.getString(R.string.physician_name_required));
 
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,16 +235,16 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                 if (!surgeryDate.getText().toString().equals("")){
                     if (mAwesomeValidation.validate()){
                         String surgeryProcedureString = surgeryProcedure.getText().toString();
-                        String physicianNameString = physicianName.getText().toString();
+                        String physicianNameString = Utils.processStringForAPI(physicianName.getText().toString());
                         String surgeryDateString = surgeryDate.getText().toString();
-                        String hospitalNameString = hospitalName.getText().toString();
-                        String surgeryNoteString = surgeryNote.getText().toString();
+                        String hospitalNameString = Utils.processStringForAPI(hospitalName.getText().toString());
+                        String surgeryNoteString = Utils.processStringForAPI(surgeryNote.getText().toString());
                         SurgeryManagementModel surgeryManagementModel = new SurgeryManagementModel();
-                        surgeryManagementModel.setSurgery_procedure(surgeryProcedureString);
-                        surgeryManagementModel.setSurgery_physician_name(physicianNameString);
-                        surgeryManagementModel.setSurgery_hospital_name(hospitalNameString);
-                        surgeryManagementModel.setSurgery_date(surgeryDateString);
-                        surgeryManagementModel.setSurgery_note(surgeryNoteString);
+                        surgeryManagementModel.setProcedure(surgeryProcedureString);
+                        surgeryManagementModel.setPhysician(physicianNameString);
+                        surgeryManagementModel.setHospital(hospitalNameString);
+                        surgeryManagementModel.setDate(surgeryDateString);
+                        surgeryManagementModel.setNote(surgeryNoteString);
                         surgeryManagementModel.setTag(surgeryProcedureString + String.valueOf(getItemCount()));
 
                         addSingle(surgeryManagementModel, 0);
@@ -191,6 +256,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         surgeryManagementCreateSubmitAPI.data.query.date = surgeryDateString;
                         surgeryManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                         surgeryManagementCreateSubmitAPI.data.query.notes = surgeryNoteString;
+                        surgeryManagementCreateSubmitAPI.data.query.tag = surgeryManagementModel.getTag();
 
                         SurgeryManagementCreateSubmitAPIFunc surgeryManagementCreateSubmitAPIFunc = new SurgeryManagementCreateSubmitAPIFunc(context, surgeryManagementModel.getTag());
                         surgeryManagementCreateSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);
@@ -208,11 +274,12 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     private void reSubmitItem(int position){
         SurgeryManagementCreateSubmitAPI surgeryManagementCreateSubmitAPI = new SurgeryManagementCreateSubmitAPI();
         surgeryManagementCreateSubmitAPI.data.query.user_id = userId;
-        surgeryManagementCreateSubmitAPI.data.query.procedure = mDataset.get(position).getSurgery_procedure();
-        surgeryManagementCreateSubmitAPI.data.query.physician = mDataset.get(position).getSurgery_physician_name();
-        surgeryManagementCreateSubmitAPI.data.query.date = mDataset.get(position).getSurgery_date();
-        surgeryManagementCreateSubmitAPI.data.query.hospital = mDataset.get(position).getSurgery_hospital_name();
-        surgeryManagementCreateSubmitAPI.data.query.notes = mDataset.get(position).getSurgery_note();
+        surgeryManagementCreateSubmitAPI.data.query.procedure = mDataset.get(position).getProcedure();
+        surgeryManagementCreateSubmitAPI.data.query.physician = mDataset.get(position).getPhysician();
+        surgeryManagementCreateSubmitAPI.data.query.date = mDataset.get(position).getDate();
+        surgeryManagementCreateSubmitAPI.data.query.hospital = mDataset.get(position).getHospital();
+        surgeryManagementCreateSubmitAPI.data.query.notes = mDataset.get(position).getNote();
+        surgeryManagementCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
 
         SurgeryManagementCreateSubmitAPIFunc surgeryManagementCreateSubmitAPIFunc = new SurgeryManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
         surgeryManagementCreateSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);
@@ -243,10 +310,10 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == SURGERY) {
             SurgeryManagementVH surgeryManagementVH = (SurgeryManagementVH)holder;
-            surgeryManagementVH.surgeryDate.setText(mDataset.get(position).getSurgery_date());
-            surgeryManagementVH.surgeryProcedure.setText(mDataset.get(position).getSurgery_procedure());
-            surgeryManagementVH.physicianName.setText(mDataset.get(position).getSurgery_physician_name());
-            surgeryManagementVH.hospitalName.setText(mDataset.get(position).getSurgery_hospital_name());
+            surgeryManagementVH.surgeryDate.setText(mDataset.get(position).getDate());
+            surgeryManagementVH.surgeryProcedure.setText(mDataset.get(position).getProcedure());
+            surgeryManagementVH.physicianName.setText(mDataset.get(position).getPhysician());
+            surgeryManagementVH.hospitalName.setText(mDataset.get(position).getHospital());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 surgeryManagementVH.statusProgressBar.setOnClickListener(null);
@@ -270,14 +337,28 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                 surgeryManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
+            surgeryManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
+                        Intent intent = new Intent(context, SurgeryEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.SURGERY_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.SURGERY_EDIT);
+                    }
+                }
+            });
+
             surgeryManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
-                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "surgery" + mDataset.get(holder.getAdapterPosition()).getSurgery_id());
+                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "surgery" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
+
         } else {
             InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
             infiScrollProgressVH.setFailLoad(failLoad);
@@ -325,7 +406,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             SurgeryManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, SurgeryManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.surgery_id.equals(mDataset.get(i).getSurgery_id())) {
+                    if (output.data.query.surgery_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }
@@ -364,7 +445,6 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         ImageView editBtn;
         @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
-
 
         public SurgeryManagementVH(View view) {
             super(view);

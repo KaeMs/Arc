@@ -16,11 +16,11 @@ public class AllergyManagementEditSubmitAPI {
         public class Query
         {
             public String user_id;
-            public String allergy_id;
-            public String allergy_agent;
-            public String allergy_is_drug;
-            public String allergy_reaction;
-            public String allergy_first_experience;
+            public String id;
+            public String agent;
+            public String is_drug;
+            public String reaction;
+            public String first_experience;
         }
 
         public class Status

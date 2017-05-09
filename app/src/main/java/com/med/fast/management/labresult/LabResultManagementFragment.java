@@ -85,6 +85,13 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -125,7 +132,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         });
     }
 
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         LabResultManagementListShowAPI labResultManagementListShowAPI = new LabResultManagementListShowAPI();
         labResultManagementListShowAPI.data.query.user_id = userId;
         labResultManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -136,10 +143,10 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         LabResultManagementListShowAPIFunc labResultManagementListShowAPIFunc = new LabResultManagementListShowAPIFunc(getActivity());
         labResultManagementListShowAPIFunc.setDelegate(LabResultManagementFragment.this);
         labResultManagementListShowAPIFunc.execute(labResultManagementListShowAPI);
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;

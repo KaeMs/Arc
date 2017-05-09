@@ -3,17 +3,17 @@ package com.med.fast.management.visit.api;
 import com.med.fast.management.visit.VisitModel;
 
 /**
- * Created by kevindreyar on 03-May-17.
+ * Created by kevindreyar on 03-May-17. FM
  */
 
 public class VisitManagementEditShowAPI {
-    public Data data;
+    public Data data = new Data();
 
     public class Data
     {
-        public Query query;
-        public Status status;
-        public Results results;
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
         public class Query
         {

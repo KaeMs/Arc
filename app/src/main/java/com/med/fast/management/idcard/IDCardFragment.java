@@ -23,6 +23,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -106,10 +107,11 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
 
     private Uri createdPhotoUri;
     private String currentMediaPath = "";
+    private CreatedImageModel createdImageModel;
 
     public void addNewImage() {
         try {
-            CreatedImageModel createdImageModel = createImageFile();
+            createdImageModel = createImageFile();
             File output = createdImageModel.image;
             currentMediaPath = createdImageModel.currentMediaPath;
             createdPhotoUri = createdImageModel.mDestinationUri;
@@ -124,28 +126,49 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCodeList.CAMERA) {
             if (resultCode == Activity.RESULT_OK) {
-                createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
-                photo.setImageURI(createdPhotoUri);
+                try {
+                    createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
+                    photo.setImageURI(createdPhotoUri);
+                    saveBtn.setEnabled(true);
+                } catch (Exception e){
+                    Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                    new File(currentMediaPath).delete();
+                }
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == Activity.RESULT_OK) {
-                currentMediaPath = UtilsRealPath.getRealPathFromURI(getActivity(), data.getData());
-                createdPhotoUri = MediaUtils.compressImage(getActivity(), data.getData());
-                photo.setImageURI(data.getData());
+                try {
+                    currentMediaPath = UtilityUriHelper.getPath(getActivity(), data.getData());
+                    createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
+                    if (createdPhotoUri != null){
+                        photo.setImageURI(data.getData());
+                        saveBtn.setEnabled(true);
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                        new File(currentMediaPath).delete();
+                    }
+                } catch (Exception e){
+                    Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                    new File(currentMediaPath).delete();
+                }
+            }
+        } else if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
+            if (resultCode == Activity.RESULT_OK){
+                createImagePickerDialog(getActivity(), createdImageModel.image, getString(R.string.select_image_source));
             }
         }
     }
 
 
     @Override
-    public void refreshView(boolean showProgress) {
+    public void refreshView(boolean setRefreshing) {
         isLoading = true;
         IDCardShowAPI idCardShowAPI = new IDCardShowAPI();
         idCardShowAPI.data.query.user_id = userId;
 
         IDCardShowAPIFunc idCardShowAPIFunc = new IDCardShowAPIFunc(getActivity(), IDCardFragment.this);
         idCardShowAPIFunc.execute(idCardShowAPI);
-        swipeRefreshLayout.setRefreshing(!showProgress);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
     }
 
     @Override
@@ -184,7 +207,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
     public void onFinishIDCardSubmit(ResponseAPI responseAPI) {
         if (this.isVisible()) {
             isLoading = false;
-            saveProgress.setVisibility(View.GONE);
+            saveProgress.setVisibility(View.INVISIBLE);
             saveBtn.setEnabled(true);
             swipeRefreshLayout.setRefreshing(false);
             if (responseAPI.status_code == 200) {

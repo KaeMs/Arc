@@ -24,21 +24,17 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.management.visit.api.VisitManagementCreateShowAPI;
-import com.med.fast.management.visit.api.VisitManagementCreateShowAPIFunc;
-import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPI;
-import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementEditShowAPI;
 import com.med.fast.management.visit.api.VisitManagementEditShowAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementEditSubmitAPI;
 import com.med.fast.management.visit.api.VisitManagementEditSubmitAPIFunc;
-import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
 import com.med.fast.management.visit.visitinterface.VisitEditIntf;
 
 import java.io.File;
@@ -55,9 +51,6 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  */
 
 public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf {
-
-    private String userId;
-    private String visitId;
 
     @BindView(R.id.visit_popup_doctor_name)
     CustomFontEditText doctorName;
@@ -77,13 +70,15 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
-
+    private String userId;
     private VisitImageAdapter visitImageAdapter;
     private ArrayAdapter<VisitDiseaseModel> diseasesLVAdapter;
     private List<String> leftDataset;
     private ArrayAdapter<VisitDiseaseModel> selectedLVAdapter;
     private List<String> rightDataset;
     private VisitModel visitModel;
+    private Uri mDestinationUri;
+    private String currentMediaPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,16 +89,11 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        if (getIntent() != null){
-            String visitIdExtra = getIntent().getStringExtra(ConstantsManagement.VISIT_ID_EXTRA);
-            if (visitIdExtra != null){
-                this.visitId = visitIdExtra;
-            } else {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        } else {
-            setResult(RESULT_CANCELED);
+        try {
+            Gson gson = new Gson();
+            visitModel = gson.fromJson(getIntent().getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA),
+                    VisitModel.class);
+        } catch (NullPointerException npe) {
             finish();
         }
 
@@ -182,10 +172,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
 
 //                    List<VisitImageItem> image_list;
 
-                    visitModel = new VisitModel();
-                    visitModel.setVisit_id("");
                     visitModel.setOwner_id(userId);
-                    visitModel.setCreated_date(currentDate);
                     visitModel.setHospital_name(hospitalNameString);
                     visitModel.setDoctor_name(doctorNameString);
                     visitModel.setDiagnose(diagnoseString);
@@ -210,7 +197,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                     List<File> uploadImageFiles = new ArrayList<>();
                     for (VisitImageItem item :
                             uploadImageItems) {
-                        uploadImageFiles.add(new File(UtilsRealPath.getRealPathFromURI(VisitEditActivity.this, item.getImage_uri())));
+                        uploadImageFiles.add(new File(UtilityUriHelper.getPath(VisitEditActivity.this, item.getImage_uri())));
                     }
 //                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(uploadImageFiles);
 
@@ -225,14 +212,11 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     void refreshView() {
         VisitManagementEditShowAPI visitManagementEditShowAPI = new VisitManagementEditShowAPI();
         visitManagementEditShowAPI.data.query.user_id = userId;
-        visitManagementEditShowAPI.data.query.visit_id = userId;
+        visitManagementEditShowAPI.data.query.visit_id = visitModel.getVisit_id();
 
         VisitManagementEditShowAPIFunc visitManagementCreateShowAPIFunc = new VisitManagementEditShowAPIFunc(this, this);
         visitManagementCreateShowAPIFunc.execute(visitManagementEditShowAPI);
     }
-
-    private Uri mDestinationUri;
-    private String currentMediaPath;
 
     public void addNewImage() {
         try {
@@ -261,7 +245,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
-                currentMediaPath = UtilsRealPath.getRealPathFromURI(this, data.getData());
+                currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setImage_id(visitImageAdapter.getItemCount());
                 visitImageItem.setImage_path(currentMediaPath);
@@ -289,14 +273,20 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 visitImageAdapter.addList(visitModel.getImage_list());
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+                setResult(RESULT_CANCELED);
+                finish();
             }
         } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 

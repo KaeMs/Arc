@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,7 +42,6 @@ import com.med.fast.management.accidenthistory.api.AccidentHistoryCreateSubmitAP
 import com.med.fast.management.accidenthistory.api.AccidentHistoryCreateSubmitAPIFunc;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryDeleteSubmitAPIFunc;
-import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,12 +73,6 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private String userId;
     private int year, month, day;
-
-    public AccidentHistoryManagementAdapter(Context context) {
-        super(true);
-        this.context = context;
-        this.userId = SharedPreferenceUtilities.getUserId(context);
-    }
 
     public AccidentHistoryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf) {
         super(true);
@@ -117,6 +111,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     public void clearList() {
         if (mDataset.size() > 0) {
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -138,10 +133,27 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         final CustomFontEditText injuryLocation = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_injury_location);
         final CustomFontTextView accidentDateTV = (CustomFontTextView) dialog.findViewById(R.id.accident_popup_accident_date_tv);
         final Spinner accidentDateSpinner = (Spinner) dialog.findViewById(R.id.accident_popup_accident_date_spinner);
+        final CustomFontTextView injuryDateCustomTV = (CustomFontTextView) dialog.findViewById(R.id.accident_popup_accident_other_date);
         String[] approximates = context.getResources().getStringArray(R.array.accident_approximate_values);
         final ArrayAdapter<String> accidentSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, approximates);
         accidentSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accidentDateSpinner.setAdapter(accidentSpinnerAdapter);
+
+        accidentDateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == accidentSpinnerAdapter.getCount() - 1){
+                    injuryDateCustomTV.setVisibility(View.VISIBLE);
+                } else {
+                    injuryDateCustomTV.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -202,7 +214,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (dialog.isShowing()){
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -211,9 +225,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             public void onClick(View v) {
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
-                    String detail = accidentDetails.getText().toString();
-                    String injuryNatureString = injuryNature.getText().toString();
-                    String injuryLocationString = injuryLocation.getText().toString();
+                    String detail = Utils.processStringForAPI(accidentDetails.getText().toString());
+                    String injuryNatureString = Utils.processStringForAPI(injuryNature.getText().toString());
+                    String injuryLocationString = Utils.processStringForAPI(injuryLocation.getText().toString());
                     String accidentDate = accidentDateTV.getText().toString();
                     String accidentDateTmp;
                     if (accidentDateSpinner.getSelectedItemPosition() > 0) {
@@ -221,12 +235,14 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     } else {
                         accidentDateTmp = APIConstants.DEFAULT;
                     }
+                    String injuryDateCustom = Utils.processStringForAPI(injuryDateCustomTV.getText().toString());
                     AccidentHistoryManagementModel accidentHistoryManagementModel = new AccidentHistoryManagementModel();
                     accidentHistoryManagementModel.setDetail(detail);
                     accidentHistoryManagementModel.setInjury_nature(injuryNatureString);
                     accidentHistoryManagementModel.setInjury_location(injuryLocationString);
                     accidentHistoryManagementModel.setInjury_date(accidentDate);
                     accidentHistoryManagementModel.setInjury_date_tmp(accidentDateTmp);
+                    accidentHistoryManagementModel.setInjury_date_custom(injuryDateCustom);
                     accidentHistoryManagementModel.setCreated_date(Utils.getCurrentDate());
                     accidentHistoryManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
 
@@ -239,16 +255,20 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryCreateSubmitAPI.data.query.injury_location = injuryLocationString;
                     accidentHistoryCreateSubmitAPI.data.query.injury_date = accidentDate;
                     accidentHistoryCreateSubmitAPI.data.query.injury_date_tmp = accidentDateTmp;
-                    accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = "default";
+                    accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = injuryDateCustom;
                     accidentHistoryCreateSubmitAPI.data.query.tag = detail + String.valueOf(getItemCount());
 
                     AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc =
                             new AccidentHistoryCreateSubmitAPIFunc(context, AccidentHistoryManagementAdapter.this, detail + String.valueOf(getItemCount()));
                     accidentHistoryCreateSubmitAPIFunc.execute(accidentHistoryCreateSubmitAPI);
-                    dialog.dismiss();
+                    if (dialog.isShowing()){
+                        dialog.dismiss();
+                    }
                 }
             }
         });
+
+        dialog.show();
     }
 
     private void reSubmitItem(int position) {
@@ -271,12 +291,10 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     // Update by model
     public void updateItem(AccidentHistoryManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getAccident_id().equals(item.getAccident_id()) &&
-                    mDataset.get(i).getDetail().equals(item.getDetail()) &&
-                    mDataset.get(i).getInjury_date().equals(item.getInjury_date()) &&
-                    mDataset.get(i).getInjury_location().equals(item.getInjury_location())) {
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status("0");
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -288,7 +306,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setAccident_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -361,7 +379,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
                         Intent intent = new Intent(context, AccidentEditActivity.class);
-                        intent.putExtra(ConstantsManagement.ACCIDENT_ID_EXTRA, mDataset.get(holder.getAdapterPosition()).getAccident_id());
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.ACCIDENT_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
                         startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.ACCIDENT_EDIT);
                     }
                 }
@@ -371,7 +391,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
-                        createDeleteDialog(context, context.getString(R.string.accident_delete_confirmation), "accident" + mDataset.get(holder.getAdapterPosition()).getAccident_id());
+                        createDeleteDialog(context, context.getString(R.string.accident_delete_confirmation), "accident" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
@@ -391,15 +411,15 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("accident" + mDataset.get(i).getAccident_id())) {
+            if (deleteConfirmEvent.deletionId.equals("accident" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 AccidentHistoryDeleteSubmitAPI accidentHistoryDeleteSubmitAPI = new AccidentHistoryDeleteSubmitAPI();
                 accidentHistoryDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                accidentHistoryDeleteSubmitAPI.data.query.accident_id = mDataset.get(i).getAccident_id();
+                accidentHistoryDeleteSubmitAPI.data.query.accident_id = mDataset.get(i).getId();
 
-                AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context, mDataset.get(i).getAccident_id());
+                AccidentHistoryDeleteSubmitAPIFunc accidentHistoryDeleteSubmitAPIFunc = new AccidentHistoryDeleteSubmitAPIFunc(context, mDataset.get(i).getId());
                 accidentHistoryDeleteSubmitAPIFunc.setDelegate(AccidentHistoryManagementAdapter.this);
                 accidentHistoryDeleteSubmitAPIFunc.execute(accidentHistoryDeleteSubmitAPI);
                 break;
@@ -442,7 +462,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             AccidentHistoryDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.accident_id.equals(mDataset.get(i).getAccident_id())) {
+                    if (output.data.query.accident_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }

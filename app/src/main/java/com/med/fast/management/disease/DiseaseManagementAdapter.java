@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,10 +21,12 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
@@ -35,6 +38,7 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPI;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPIFunc;
 import com.med.fast.management.disease.api.DiseaseManagementDeleteSubmitAPI;
@@ -73,14 +77,14 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     private boolean initial = false;
     private int year, month, day;
 
-    public DiseaseManagementAdapter(Context context, boolean initial){
+    public DiseaseManagementAdapter(Context context, boolean initial) {
         super(true);
         userId = SharedPreferenceUtilities.getUserId(context);
         this.context = context;
         this.initial = initial;
     }
 
-    public DiseaseManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial){
+    public DiseaseManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial) {
         super(true);
         userId = SharedPreferenceUtilities.getUserId(context);
         this.context = context;
@@ -88,7 +92,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         this.initial = initial;
     }
 
-    public void addList(List<DiseaseManagementModel> dataset){
+    public void addList(List<DiseaseManagementModel> dataset) {
         for (DiseaseManagementModel model :
                 dataset) {
             this.mDataset.add(model);
@@ -96,26 +100,26 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         }
     }
 
-    public void addSingle(DiseaseManagementModel model){
+    public void addSingle(DiseaseManagementModel model) {
         this.mDataset.add(model);
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void addSingle(DiseaseManagementModel model, int position){
+    public void addSingle(DiseaseManagementModel model, int position) {
         this.mDataset.add(position, model);
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void removeProgress(){
-        if (mDataset.size() > 0){
-            if (mDataset.get(mDataset.size() - 1) == null){
+    public void removeProgress() {
+        if (mDataset.size() > 0) {
+            if (mDataset.get(mDataset.size() - 1) == null) {
                 mDataset.remove(mDataset.size() - 1);
                 notifyItemRemoved(mDataset.size());
             }
         }
     }
-    
-    public void submitItem(){
+
+    public void submitItem() {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_disease_popup);
         dialog.setCanceledOnTouchOutside(false);
@@ -133,7 +137,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 inheritedFrom.setEnabled(isChecked);
-                if (isChecked){
+                if (isChecked) {
                     mAwesomeValidation.addValidation(inheritedFrom, RegexTemplate.NOT_EMPTY, context.getString(R.string.disease_hereditary_inherited_from_required));
                 } else {
                     mAwesomeValidation.clear();
@@ -214,11 +218,11 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
-                if (mAwesomeValidation.validate()){
+                if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
-                    String diseaseHereditaryString = "";
-                    String diseaseHereditaryCarriersString = "";
-                    if (hereditaryY.isChecked()){
+                    String diseaseHereditaryString;
+                    String diseaseHereditaryCarriersString;
+                    if (hereditaryY.isChecked()) {
                         diseaseHereditaryString = "true";
                         diseaseHereditaryCarriersString = inheritedFrom.getText().toString();
                     } else {
@@ -231,78 +235,81 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                             "default";
 
                     DiseaseManagementModel diseaseManagementModel = new DiseaseManagementModel();
-                    diseaseManagementModel.setDisease_name(diseaseNameString);
-                    diseaseManagementModel.setDisease_hereditary(diseaseHereditaryString);
-                    diseaseManagementModel.setDisease_hereditary_carriers(diseaseHereditaryCarriersString);
-                    diseaseManagementModel.setDisease_ongoing(String.valueOf(ongoingY.isChecked()));
+                    diseaseManagementModel.setName(diseaseNameString);
+                    diseaseManagementModel.setIs_hereditary(diseaseHereditaryString);
+                    diseaseManagementModel.setHereditary_carriers(diseaseHereditaryCarriersString);
+                    diseaseManagementModel.setIs_ongoing(String.valueOf(ongoingY.isChecked()));
 
-                    diseaseManagementModel.setDate_last_visit("-");
-                    if (!historicDate.getText().toString().equals("")){
-                        diseaseManagementModel.setDate_historic(historicDate.getText().toString());
-                    } else if (approximateDateSpinner.getSelectedItemPosition() > 0){
-                        diseaseManagementModel.setDate_approximate(approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()));
+                    diseaseManagementModel.setLast_visit(context.getString(R.string.sign_dash));
+                    if (!historicDate.getText().toString().equals("")) {
+                        diseaseManagementModel.setHistoric_date(historicDate.getText().toString());
+                    } else if (approximateDateSpinner.getSelectedItemPosition() > 0) {
+                        diseaseManagementModel.setApproximate_date(approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()));
                     }
-                    diseaseManagementModel.setDate_created(Utils.getCurrentDate());
+                    diseaseManagementModel.setCreated_date(Utils.getCurrentDate());
                     diseaseManagementModel.setTag(diseaseNameString + String.valueOf(getItemCount()));
                     addSingle(diseaseManagementModel, 0);
 
                     DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
-                    diseaseManagementCreateSubmitAPI.data.query.disease_name = diseaseNameString;
+                    diseaseManagementCreateSubmitAPI.data.query.name = diseaseNameString;
                     diseaseManagementCreateSubmitAPI.data.query.user_id = userId;
                     diseaseManagementCreateSubmitAPI.data.query.is_hereditary = diseaseHereditaryString;
                     diseaseManagementCreateSubmitAPI.data.query.is_ongoing = String.valueOf(ongoingY.isChecked());
-                    diseaseManagementCreateSubmitAPI.data.query.history_date_text = historicDateString;
-                    diseaseManagementCreateSubmitAPI.data.query.date = approximateDateString;
-                    diseaseManagementCreateSubmitAPI.data.query.hereditary_carrier = diseaseHereditaryCarriersString;
+                    diseaseManagementCreateSubmitAPI.data.query.hereditary_carriers = diseaseHereditaryCarriersString;
+                    diseaseManagementCreateSubmitAPI.data.query.historic_date = historicDateString;
+                    diseaseManagementCreateSubmitAPI.data.query.approximate_date = approximateDateString;
                     diseaseManagementCreateSubmitAPI.data.query.tag = diseaseNameString + String.valueOf(getItemCount());
 
                     DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, diseaseManagementModel.getTag(), initial);
                     diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
                     diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
 
-                    dialog.dismiss();
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                 }
             }
         });
         dialog.show();
     }
 
-    private void reSubmitItem(int position){
+    private void reSubmitItem(int position) {
         DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
-        diseaseManagementCreateSubmitAPI.data.query.disease_name = mDataset.get(position).getDisease_name();
+        diseaseManagementCreateSubmitAPI.data.query.name = mDataset.get(position).getName();
         diseaseManagementCreateSubmitAPI.data.query.user_id = userId;
-        diseaseManagementCreateSubmitAPI.data.query.is_hereditary = mDataset.get(position).getDisease_hereditary();
-        diseaseManagementCreateSubmitAPI.data.query.is_ongoing = mDataset.get(position).getDisease_ongoing();
-        diseaseManagementCreateSubmitAPI.data.query.history_date_text = mDataset.get(position).getDate_historic();
-        diseaseManagementCreateSubmitAPI.data.query.date = mDataset.get(position).getDate_approximate();
-        diseaseManagementCreateSubmitAPI.data.query.hereditary_carrier = mDataset.get(position).getDisease_hereditary_carriers();
+        diseaseManagementCreateSubmitAPI.data.query.is_hereditary = mDataset.get(position).getIs_hereditary();
+        diseaseManagementCreateSubmitAPI.data.query.is_ongoing = mDataset.get(position).getIs_ongoing();
+        diseaseManagementCreateSubmitAPI.data.query.historic_date = mDataset.get(position).getHistoric_date();
+        diseaseManagementCreateSubmitAPI.data.query.approximate_date = mDataset.get(position).getApproximate_date();
+        diseaseManagementCreateSubmitAPI.data.query.hereditary_carriers = mDataset.get(position).getHereditary_carriers();
 
         DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag(), initial);
         diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
         diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
     }
-    
-    public void clearList(){
-        if (mDataset.size() > 0){
+
+    public void clearList() {
+        if (mDataset.size() > 0) {
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
         notifyItemChanged(getItemCount() - 1);
-        if (!failLoad){
+        if (!failLoad) {
             removeProgress();
         }
     }
 
     // Update by model
-    public void updateItem(DiseaseManagementModel item){
+    public void updateItem(DiseaseManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getDisease_name().equals(item.getDisease_name()) &&
-                    mDataset.get(i).getDisease_hereditary_carriers().equals(item.getDisease_hereditary_carriers())){
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -314,7 +321,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setDisease_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -334,17 +341,17 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent){
-        for (int i = 0; i < getItemCount(); i++){
-            if (deleteConfirmEvent.deletionId.equals("disease" + mDataset.get(i).getDisease_id())){
+    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (deleteConfirmEvent.deletionId.equals("disease" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 DiseaseManagementDeleteSubmitAPI diseaseManagementDeleteSubmitAPI = new DiseaseManagementDeleteSubmitAPI();
                 diseaseManagementDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                diseaseManagementDeleteSubmitAPI.data.query.disease_id = mDataset.get(i).getDisease_id();
+                diseaseManagementDeleteSubmitAPI.data.query.disease_id = mDataset.get(i).getId();
 
-                DiseaseManagementDeleteSubmitAPIFunc diseaseManagementDeleteSubmitAPIFunc = new DiseaseManagementDeleteSubmitAPIFunc(context, mDataset.get(i).getDisease_id());
+                DiseaseManagementDeleteSubmitAPIFunc diseaseManagementDeleteSubmitAPIFunc = new DiseaseManagementDeleteSubmitAPIFunc(context, mDataset.get(i).getId());
                 diseaseManagementDeleteSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
                 diseaseManagementDeleteSubmitAPIFunc.execute(diseaseManagementDeleteSubmitAPI);
                 break;
@@ -374,26 +381,26 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == DISEASE){
-            DiseaseManagementVH diseaseManagementVH = (DiseaseManagementVH)holder;
-            diseaseManagementVH.name.setText(mDataset.get(position).getDisease_name());
-            diseaseManagementVH.isHereditaryTV.setText(mDataset.get(position).getDisease_hereditary());
-            diseaseManagementVH.hereditaryCarriers.setText(mDataset.get(position).getDisease_hereditary_carriers());
-            diseaseManagementVH.isOngoingTV.setText(mDataset.get(position).getDisease_ongoing());
-            diseaseManagementVH.lastVisit.setText(mDataset.get(position).getDate_last_visit());
-            diseaseManagementVH.historicDate.setText(mDataset.get(position).getDate_historic());
-            diseaseManagementVH.approximateDate.setText(mDataset.get(position).getDate_approximate().equals("default")? 
+        if (getItemViewType(position) == DISEASE) {
+            DiseaseManagementVH diseaseManagementVH = (DiseaseManagementVH) holder;
+            diseaseManagementVH.name.setText(mDataset.get(position).getName());
+            diseaseManagementVH.isHereditaryTV.setText(mDataset.get(position).getIs_hereditary());
+            diseaseManagementVH.hereditaryCarriers.setText(mDataset.get(position).getHereditary_carriers());
+            diseaseManagementVH.isOngoingTV.setText(mDataset.get(position).getIs_ongoing());
+            diseaseManagementVH.lastVisit.setText(mDataset.get(position).getLast_visit());
+            diseaseManagementVH.historicDate.setText(mDataset.get(position).getHistoric_date());
+            diseaseManagementVH.approximateDate.setText(mDataset.get(position).getApproximate_date().equals("default") ?
                     context.getString(R.string.sign_dash) :
-                    mDataset.get(position).getDate_approximate());
-            diseaseManagementVH.createdDate.setText(mDataset.get(position).getDate_created());
+                    mDataset.get(position).getApproximate_date());
+            diseaseManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
-            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
                 diseaseManagementVH.progressFailImg.setVisibility(View.VISIBLE);
                 diseaseManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
@@ -406,17 +413,30 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                 diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
+            diseaseManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
+                        Intent intent = new Intent(context, DiseaseEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.DISEASE_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.DISEASE_EDIT);
+                    }
+                }
+            });
+
             diseaseManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
-                        createDeleteDialog(context, context.getString(R.string.disease_delete_confirmation), "disease" + mDataset.get(holder.getAdapterPosition()).getDisease_id());
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
+                        createDeleteDialog(context, context.getString(R.string.disease_delete_confirmation), "disease" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
 
         } else {
-            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
+            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH) holder;
             infiScrollProgressVH.setFailLoad(failLoad);
             infiScrollProgressVH.failTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -434,7 +454,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     @Override
     public void onFinishDiseaseManagementCreate(ResponseAPI responseAPI, String tag) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             DiseaseManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
@@ -443,12 +463,12 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                 updateItem(tag, APIConstants.NO_ID, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            ((FastBaseActivity)context).forceLogout();
+            ((FastBaseActivity) context).forceLogout();
         } else {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
@@ -457,12 +477,12 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     @Override
     public void onFinishDiseaseManagementDelete(ResponseAPI responseAPI, String tag) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             DiseaseManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.disease_id.equals(mDataset.get(i).getDisease_id())) {
+                    if (output.data.query.disease_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }
@@ -471,12 +491,12 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                 updateItem(tag, output.data.query.disease_id, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            ((FastBaseActivity)context).forceLogout();
+            ((FastBaseActivity) context).forceLogout();
         } else {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

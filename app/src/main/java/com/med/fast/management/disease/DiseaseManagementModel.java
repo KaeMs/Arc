@@ -5,88 +5,88 @@ package com.med.fast.management.disease;
  */
 
 public class DiseaseManagementModel {
-    private String disease_id;
-    private String disease_name;
-    private String disease_hereditary;
-    private String disease_hereditary_carriers;
-    private String disease_ongoing;
-    private String date_last_visit;
-    private String date_historic;
-    private String date_approximate;
-    private String date_created;
+    private String id;
+    private String name;
+    private String is_hereditary;
+    private String hereditary_carriers;
+    private String last_visit;
+    private String is_ongoing;
+    private String created_date;
+    private String historic_date;
+    private String approximate_date;
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Add Failed
     private String tag;
 
-    public String getDisease_id() {
-        return disease_id;
+    public String getId() {
+        return id;
     }
 
-    public void setDisease_id(String disease_id) {
-        this.disease_id = disease_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getDisease_name() {
-        return disease_name;
+    public String getName() {
+        return name;
     }
 
-    public void setDisease_name(String disease_name) {
-        this.disease_name = disease_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDisease_hereditary() {
-        return disease_hereditary;
+    public String getIs_hereditary() {
+        return is_hereditary;
     }
 
-    public void setDisease_hereditary(String disease_hereditary) {
-        this.disease_hereditary = disease_hereditary;
+    public void setIs_hereditary(String is_hereditary) {
+        this.is_hereditary = is_hereditary;
     }
 
-    public String getDisease_hereditary_carriers() {
-        return disease_hereditary_carriers;
+    public String getHereditary_carriers() {
+        return hereditary_carriers;
     }
 
-    public void setDisease_hereditary_carriers(String disease_hereditary_carriers) {
-        this.disease_hereditary_carriers = disease_hereditary_carriers;
+    public void setHereditary_carriers(String hereditary_carriers) {
+        this.hereditary_carriers = hereditary_carriers;
     }
 
-    public String getDisease_ongoing() {
-        return disease_ongoing;
+    public String getIs_ongoing() {
+        return is_ongoing;
     }
 
-    public void setDisease_ongoing(String disease_ongoing) {
-        this.disease_ongoing = disease_ongoing;
+    public void setIs_ongoing(String is_ongoing) {
+        this.is_ongoing = is_ongoing;
     }
 
-    public String getDate_last_visit() {
-        return date_last_visit;
+    public String getLast_visit() {
+        return last_visit;
     }
 
-    public void setDate_last_visit(String date_last_visit) {
-        this.date_last_visit = date_last_visit;
+    public void setLast_visit(String last_visit) {
+        this.last_visit = last_visit;
     }
 
-    public String getDate_historic() {
-        return date_historic;
+    public String getHistoric_date() {
+        return historic_date;
     }
 
-    public void setDate_historic(String date_historic) {
-        this.date_historic = date_historic;
+    public void setHistoric_date(String historic_date) {
+        this.historic_date = historic_date;
     }
 
-    public String getDate_approximate() {
-        return date_approximate;
+    public String getApproximate_date() {
+        return approximate_date;
     }
 
-    public void setDate_approximate(String date_approximate) {
-        this.date_approximate = date_approximate;
+    public void setApproximate_date(String approximate_date) {
+        this.approximate_date = approximate_date;
     }
 
-    public String getDate_created() {
-        return date_created;
+    public String getCreated_date() {
+        return created_date;
     }
 
-    public void setDate_created(String date_created) {
-        this.date_created = date_created;
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
     }
 
     public String getProgress_status() {

@@ -2,6 +2,7 @@ package com.med.fast.management.medicine;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.R;
+import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
@@ -104,6 +108,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     public void clearList(){
         if (mDataset.size() > 0){
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -118,9 +123,10 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     // Update by model
     public void updateItem(MedicineManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getMedicine_id().equals(item.getMedicine_id())) {
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -132,7 +138,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setMedicine_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -165,8 +171,8 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
         final CustomFontEditText medicationStatus = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_status);
         final CustomFontEditText additionalInstruction = (CustomFontEditText) dialog.findViewById(R.id.medicine_popup_additional_instruction);
 
-        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.medicine_popup_back_btn);
-        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.medicine_popup_create_btn);
+        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
+        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,23 +192,23 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()){
                     String nameString = medicineName.getText().toString();
-                    String routeString = administrationMethod.getText().toString();
+                    String routeString = Utils.processStringForAPI(administrationMethod.getText().toString());
                     String formString = medicineForm.getText().toString();
-                    String doseString = administrationDose.getText().toString();
-                    String frequencyString = frequency.getText().toString();
-                    String reasonString = reason.getText().toString();
-                    String statusString = medicationStatus.getText().toString();
-                    String additional_instructionString = additionalInstruction.getText().toString();
+                    String doseString = Utils.processStringForAPI(administrationDose.getText().toString());
+                    String frequencyString = Utils.processStringForAPI(frequency.getText().toString());
+                    String reasonString = Utils.processStringForAPI(reason.getText().toString());
+                    String statusString = Utils.processStringForAPI(medicationStatus.getText().toString());
+                    String additionalInstructionString = Utils.processStringForAPI(additionalInstruction.getText().toString());
 
                     MedicineManagementModel medicineManagementModel = new MedicineManagementModel();
-                    medicineManagementModel.setMedicine_name(nameString);
-                    medicineManagementModel.setMedicine_form(formString);
-                    medicineManagementModel.setMedicine_administration_method(routeString);
-                    medicineManagementModel.setMedicine_administration_dose(doseString);
-                    medicineManagementModel.setMedicine_frequency(frequencyString);
-                    medicineManagementModel.setMedicine_medication_reason(reasonString);
-                    medicineManagementModel.setMedicine_medication_status(statusString);
-                    medicineManagementModel.setMedicine_additional_instruction(additional_instructionString);
+                    medicineManagementModel.setName(nameString);
+                    medicineManagementModel.setForm(formString);
+                    medicineManagementModel.setAdministration_method(routeString);
+                    medicineManagementModel.setAdministration_dose(doseString);
+                    medicineManagementModel.setFrequency(frequencyString);
+                    medicineManagementModel.setMedication_reason(reasonString);
+                    medicineManagementModel.setMedication_status(statusString);
+                    medicineManagementModel.setAdditional_instruction(additionalInstructionString);
                     medicineManagementModel.setTag(nameString + String.valueOf(getItemCount()));
                     addSingle(medicineManagementModel, 0);
 
@@ -215,7 +221,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementSubmitAPI.data.query.frequency = frequencyString;
                     medicineManagementSubmitAPI.data.query.reason = reasonString;
                     medicineManagementSubmitAPI.data.query.status = statusString;
-                    medicineManagementSubmitAPI.data.query.additional_instruction = additional_instructionString;
+                    medicineManagementSubmitAPI.data.query.additional_instruction = additionalInstructionString;
 
                     MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, medicineManagementModel.getTag(), initial);
                     medicineManagementSubmitAPIFunc.setDelegate(MedicineManagementAdapter.this);
@@ -231,14 +237,14 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     private void reSubmitItem(int position){
         MedicineManagementSubmitAPI medicineManagementSubmitAPI = new MedicineManagementSubmitAPI();
         medicineManagementSubmitAPI.data.query.user_id = userId;
-        medicineManagementSubmitAPI.data.query.name = mDataset.get(position).getMedicine_name();
-        medicineManagementSubmitAPI.data.query.route = mDataset.get(position).getMedicine_administration_method();
-        medicineManagementSubmitAPI.data.query.form = mDataset.get(position).getMedicine_form();
-        medicineManagementSubmitAPI.data.query.dose = mDataset.get(position).getMedicine_administration_dose();
-        medicineManagementSubmitAPI.data.query.frequency = mDataset.get(position).getMedicine_frequency();
-        medicineManagementSubmitAPI.data.query.reason = mDataset.get(position).getMedicine_medication_reason();
-        medicineManagementSubmitAPI.data.query.status = mDataset.get(position).getMedicine_medication_status();
-        medicineManagementSubmitAPI.data.query.additional_instruction = mDataset.get(position).getMedicine_additional_instruction();
+        medicineManagementSubmitAPI.data.query.name = mDataset.get(position).getName();
+        medicineManagementSubmitAPI.data.query.route = mDataset.get(position).getAdministration_method();
+        medicineManagementSubmitAPI.data.query.form = mDataset.get(position).getForm();
+        medicineManagementSubmitAPI.data.query.dose = mDataset.get(position).getAdministration_dose();
+        medicineManagementSubmitAPI.data.query.frequency = mDataset.get(position).getFrequency();
+        medicineManagementSubmitAPI.data.query.reason = mDataset.get(position).getMedication_reason();
+        medicineManagementSubmitAPI.data.query.status = mDataset.get(position).getMedication_status();
+        medicineManagementSubmitAPI.data.query.additional_instruction = mDataset.get(position).getAdditional_instruction();
 
         MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, mDataset.get(position).getTag(), initial);
         medicineManagementSubmitAPIFunc.setDelegate(MedicineManagementAdapter.this);
@@ -269,12 +275,12 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == MEDICINE){
             MedicineManagementVH medicineManagementVH = (MedicineManagementVH)holder;
-            medicineManagementVH.medicineName.setText(mDataset.get(position).getMedicine_name());
-            medicineManagementVH.medicineForm.setText(mDataset.get(position).getMedicine_form());
-            medicineManagementVH.administrationMethod.setText(mDataset.get(position).getMedicine_administration_method());
-            medicineManagementVH.administrationDose.setText(mDataset.get(position).getMedicine_administration_dose());
-            medicineManagementVH.frequency.setText(mDataset.get(position).getMedicine_frequency());
-            medicineManagementVH.createdDate.setText(mDataset.get(position).getMedicine_created_date());
+            medicineManagementVH.medicineName.setText(mDataset.get(position).getName());
+            medicineManagementVH.medicineForm.setText(mDataset.get(position).getForm());
+            medicineManagementVH.administrationMethod.setText(mDataset.get(position).getAdministration_method());
+            medicineManagementVH.administrationDose.setText(mDataset.get(position).getAdministration_dose());
+            medicineManagementVH.frequency.setText(mDataset.get(position).getFrequency());
+            medicineManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
@@ -295,11 +301,24 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                 medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
+            medicineManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
+                        Intent intent = new Intent(context, MedicineEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.MEDICINE_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.MEDICINE_EDIT);
+                    }
+                }
+            });
+
             medicineManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
-                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "medicine" + mDataset.get(holder.getAdapterPosition()).getMedicine_id());
+                        createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "medicine" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
@@ -319,15 +338,15 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("medicine" + mDataset.get(i).getMedicine_id())) {
+            if (deleteConfirmEvent.deletionId.equals("medicine" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 MedicineManagementDeleteAPI medicineManagementDeleteAPI = new MedicineManagementDeleteAPI();
                 medicineManagementDeleteAPI.data.query.user_id = userId;
-                medicineManagementDeleteAPI.data.query.medicine_id = mDataset.get(i).getMedicine_id();
+                medicineManagementDeleteAPI.data.query.medicine_id = mDataset.get(i).getId();
 
-                MedicineManagementDeleteAPIFunc medicineManagementDeleteAPIFunc = new MedicineManagementDeleteAPIFunc(context, mDataset.get(i).getMedicine_id());
+                MedicineManagementDeleteAPIFunc medicineManagementDeleteAPIFunc = new MedicineManagementDeleteAPIFunc(context, mDataset.get(i).getId());
                 medicineManagementDeleteAPIFunc.setDelegate(MedicineManagementAdapter.this);
                 medicineManagementDeleteAPIFunc.execute(medicineManagementDeleteAPI);
                 break;
@@ -370,7 +389,7 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
             MedicineManagementDeleteAPI output = gson.fromJson(responseAPI.status_response, MedicineManagementDeleteAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.medicine_id.equals(mDataset.get(i).getMedicine_id())) {
+                    if (output.data.query.medicine_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }
@@ -410,9 +429,9 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
         @BindView(R.id.management_medicine_item_created_date)
         CustomFontTextView createdDate;
 
-        @BindView(R.id.allergy_item_card_edit)
+        @BindView(R.id.management_operations_edit_btn)
         ImageView editBtn;
-        @BindView(R.id.allergy_item_card_delete)
+        @BindView(R.id.management_operations_delete_btn)
         ImageView deleteBtn;
 
 

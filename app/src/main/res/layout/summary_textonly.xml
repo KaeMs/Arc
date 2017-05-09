@@ -1,8 +1,7 @@
 <com.med.fast.customviews.CustomFontTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/summary_visit_text"
+    android:id="@+id/summary_textonly_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:ellipsize="end"
-    android:padding="8dp"
-    android:textSize="@dimen/font_large" />
+    android:padding="8dp" />

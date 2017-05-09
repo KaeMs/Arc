@@ -42,7 +42,7 @@ public abstract class FastBaseFragment extends Fragment {
     public void scrollToTop() {
     }
 
-    public void refreshView(boolean showProgress) {
+    public void refreshView(boolean setRefreshing) {
     }
 
     public void addItem() {}
@@ -76,7 +76,6 @@ public abstract class FastBaseFragment extends Fragment {
         if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
             permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE );
         }
-
 
         if (!permissions.isEmpty()) {
             ActivityCompat.requestPermissions(activity, permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);

@@ -35,13 +35,13 @@ public class SummaryDiseaseAdapter extends FastBaseRecyclerAdapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_disease_card_text, parent, false);
-        return new DiseaseVH(view);
+                .inflate(R.layout.summary_textonly, parent, false);
+        return new SummaryTextOnlyVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        DiseaseVH diseaseVH = (DiseaseVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
         // Append Disease Name
@@ -49,7 +49,7 @@ public class SummaryDiseaseAdapter extends FastBaseRecyclerAdapter {
         sb.append(diseaseString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - diseaseString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getDisease_name());
+        sb.append(mDataset.get(position).getName());
         sb.append("\n");
 
         // Append Last Visit
@@ -65,10 +65,10 @@ public class SummaryDiseaseAdapter extends FastBaseRecyclerAdapter {
         sb.append(routeString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - routeString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getDisease_history_date());
+        sb.append(mDataset.get(position).getHistoric_date());
         sb.append("\n");
 
-        diseaseVH.summaryDiseaseText.setText(sb);
+        summaryTextOnlyVH.summaryText.setText(sb);
     }
 
     @Override

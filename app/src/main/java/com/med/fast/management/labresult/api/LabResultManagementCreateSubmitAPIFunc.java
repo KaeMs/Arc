@@ -8,11 +8,12 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -56,19 +57,25 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
             }
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("user_id", params[0].data.query.user_id)
-                    .add("test_name", params[0].data.query.test_name)
-                    .add("desc_result", params[0].data.query.desc_result)
-                    .add("date", params[0].data.query.date)
-                    .add("place", params[0].data.query.place)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("user_id", params[0].data.query.user_id)
+                    .addFormDataPart("test_name", params[0].data.query.test_name)
+                    .addFormDataPart("desc_result", params[0].data.query.desc_result)
+                    .addFormDataPart("date", params[0].data.query.date)
+                    .addFormDataPart("place", params[0].data.query.place);
+
+            // Upload multiple files
+            for(int i = 0; i < params[0].data.query.img_file_list.size(); ++i){
+                String fileType = "image/" + "jpg";
+                String fileName = "labresult_image_" + i + "_" + params[0].data.query.user_id;
+                builder.addFormDataPart("labresult_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.img_file_list.get(i)));
+            }
 
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Accept", "application/json")
                     .addHeader("Authorization", "Bearer " + token)
-                    .post(formBody)
+                    .post(builder.build())
                     .build();
 
             Response response = client.newCall(request).execute();

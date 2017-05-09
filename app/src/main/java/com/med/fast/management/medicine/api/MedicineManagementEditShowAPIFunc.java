@@ -105,5 +105,6 @@ public class MedicineManagementEditShowAPIFunc extends AsyncTask<MedicineManagem
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishMedicineEditShow(responseAPI);
+        progressDialog.dismiss();
     }
 }

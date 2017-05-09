@@ -6,99 +6,104 @@
     android:id="@+id/labresult_swipe_refresh"
     tools:ignore="RtlHardcoded">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/default_activity_content_padding">
+        android:layout_height="wrap_content">
 
-        <!-- Test type -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lab_test_type_question"
-            android:textColor="@color/blackDark" />
-
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/labresult_popup_test_type"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_pink_selector"
-            android:hint="@string/lab_test_type_question_hint"
-            android:textSize="@dimen/font_small" />
+            android:orientation="vertical"
+            android:padding="@dimen/default_activity_content_padding">
 
-        <!-- Test location -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/lab_test_location_question"
-            android:textColor="@color/blackDark" />
+            <!-- Test type -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lab_test_type_question"
+                android:textColor="@color/blackDark" />
 
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/labresult_popup_test_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_pink_selector"
-            android:gravity="start"
-            android:hint="@string/lab_test_location_question_hint"
-            android:textSize="@dimen/font_small" />
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/labresult_popup_test_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:hint="@string/lab_test_type_question_hint"
+                android:textSize="@dimen/font_small" />
 
-        <!-- Test Description -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/lab_test_description_question"
-            android:textColor="@color/blackDark" />
+            <!-- Test location -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/lab_test_location_question"
+                android:textColor="@color/blackDark" />
 
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/labresult_popup_test_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_edittext_grey_pink_selector"
-            android:gravity="start"
-            android:hint="@string/lab_test_description_question_hint"
-            android:textSize="@dimen/font_small" />
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/labresult_popup_test_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
+                android:hint="@string/lab_test_location_question_hint"
+                android:textSize="@dimen/font_small" />
 
-        <!-- Date -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/lab_test_date_question"
-            android:textColor="@color/blackDark" />
+            <!-- Test Description -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/lab_test_description_question"
+                android:textColor="@color/blackDark" />
 
-        <com.med.fast.customviews.CustomFontEditText
-            android:id="@+id/labresult_popup_test_finished_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_grey"
-            android:enabled="false"
-            android:hint="@string/lab_test_date_question_hint"
-            android:textColor="@color/blackDark"
-            android:textSize="@dimen/font_small" />
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/labresult_popup_test_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
+                android:hint="@string/lab_test_description_question_hint"
+                android:textSize="@dimen/font_small" />
 
-        <!-- Upload Image -->
-        <com.med.fast.customviews.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="@string/image_upload"
-            android:textColor="@color/blackDark" />
+            <!-- Date -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/lab_test_date_question"
+                android:textColor="@color/blackDark" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/labresult_popup_image_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp" />
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/labresult_popup_test_finished_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_grey"
+                android:hint="@string/lab_test_date_question_hint"
+                android:textColor="@color/blackDark"
+                android:textSize="@dimen/font_small" />
 
-        <include layout="@layout/management_operation_backcreate_buttons" />
+            <!-- Upload Image -->
+            <com.med.fast.customviews.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/image_upload"
+                android:textColor="@color/blackDark" />
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/labresult_popup_image_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+
+            <include layout="@layout/management_operation_backcreate_buttons" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </android.support.v4.widget.SwipeRefreshLayout>

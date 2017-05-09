@@ -86,6 +86,13 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -126,7 +133,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         });
     }
 
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
         accidentHistoryListShowAPI.data.query.user_id = userId;
         accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
@@ -137,10 +144,10 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         AccidentHistoryListShowAPIFunc accidentHistoryListShowAPIFunc = new AccidentHistoryListShowAPIFunc(getActivity());
         accidentHistoryListShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
         accidentHistoryListShowAPIFunc.execute(accidentHistoryListShowAPI);
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;

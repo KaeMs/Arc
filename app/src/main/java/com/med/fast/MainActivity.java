@@ -1,5 +1,6 @@
 package com.med.fast;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.login.LoginActivity;
 import com.med.fast.management.idcard.IDCardFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
 import com.med.fast.management.visit.VisitFragment;
@@ -154,5 +157,27 @@ public class MainActivity extends FastBaseActivity {
             i.addCategory(Intent.CATEGORY_HOME);
             startActivity(i);
         }
+    }
+
+    public void displayLogoutDialog(){
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.logout_question))
+                .setCancelable(true)
+                .setPositiveButton(getString(R.string.logout), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferenceUtilities.clearSharedPreference(MainActivity.this, SharedPreferenceUtilities.SESSION_SP);
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.fade_in_slow, R.anim.fade_out_slow);
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 }

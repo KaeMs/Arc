@@ -23,25 +23,24 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<MedicineModel> mDataset = new ArrayList<>();
 
-    public SummaryMedicineAdapter(Context context){
+    public SummaryMedicineAdapter(Context context) {
         this.context = context;
     }
 
-    public void addList(List<MedicineModel> dataset){
+    public void addList(List<MedicineModel> dataset) {
         this.mDataset.addAll(dataset);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.summary_medicine_card_text, parent, false);
-            return new MedicineVH(view);
-
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.summary_textonly, parent, false);
+        return new SummaryTextOnlyVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MedicineVH medicineVH = (MedicineVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH) holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -50,7 +49,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.append(medicineString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - medicineString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getMedicine_name());
+        sb.append(mDataset.get(position).getName());
         sb.append("\n");
 
         // Append Form
@@ -58,7 +57,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.append(formString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getMedicine_form());
+        sb.append(mDataset.get(position).getForm());
         sb.append("\n");
 
         // Append Route
@@ -66,7 +65,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.append(routeString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - routeString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getMedicine_route());
+        sb.append(mDataset.get(position).getRoute());
         sb.append("\n");
 
         // Append Dose
@@ -74,7 +73,7 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.append(doseString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doseString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getMedicine_dose());
+        sb.append(mDataset.get(position).getDose());
         sb.append("\n");
 
         // Append Frequency
@@ -82,10 +81,10 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         sb.append(frequencyString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - frequencyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getMedicine_frequency());
+        sb.append(mDataset.get(position).getFrequency());
         sb.append("\n");
 
-        medicineVH.summaryMedicineText.setText(sb);
+        summaryTextOnlyVH.summaryText.setText(sb);
     }
 
     @Override

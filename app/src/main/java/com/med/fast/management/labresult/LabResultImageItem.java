@@ -7,28 +7,18 @@ import android.net.Uri;
  */
 
 public class LabResultImageItem {
-    private int image_id;
-    private String image_name;
+    private String image_id;
     private String image_path;
-    private String image_description;
-    private boolean image_is_main;
+    private String date_taken;
     private boolean image_is_deleted;
     private Uri image_uri;
 
-    public int getImage_id() {
+    public String getImage_id() {
         return image_id;
     }
 
-    public void setImage_id(int image_id) {
+    public void setImage_id(String image_id) {
         this.image_id = image_id;
-    }
-
-    public String getImage_name() {
-        return image_name;
-    }
-
-    public void setImage_name(String image_name) {
-        this.image_name = image_name;
     }
 
     public String getImage_path() {
@@ -39,20 +29,12 @@ public class LabResultImageItem {
         this.image_path = image_path;
     }
 
-    public String getImage_description() {
-        return image_description;
+    public String getDate_taken() {
+        return date_taken;
     }
 
-    public void setImage_description(String image_description) {
-        this.image_description = image_description;
-    }
-
-    public boolean isImage_is_main() {
-        return image_is_main;
-    }
-
-    public void setImage_is_main(boolean image_is_main) {
-        this.image_is_main = image_is_main;
+    public void setDate_taken(String date_taken) {
+        this.date_taken = date_taken;
     }
 
     public boolean isImage_is_deleted() {

@@ -1,7 +1,5 @@
 package com.med.fast.management.misc;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,13 +21,11 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
-import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.misc.api.MiscCreateAPI;
 import com.med.fast.management.misc.api.MiscCreateAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
 import com.med.fast.management.misc.api.MiscShowAPIFunc;
 import com.med.fast.management.misc.miscinterface.MiscShowCreateIntf;
-import com.med.fast.signup.InitialDataMiscActivity;
 
 import butterknife.BindView;
 
@@ -80,11 +75,11 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ((MainActivity)getActivity()).changeTitle("MISC MANAGEMENT");
+        ((MainActivity) getActivity()).changeTitle("MISC MANAGEMENT");
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         String gender = SharedPreferenceUtilities.getUserInformation(getActivity(), SharedPreferenceUtilities.USER_GENDER);
-        if (gender != null){
+        if (gender != null) {
             if (gender.equals("0")) {
                 femaleWrapper.setVisibility(View.GONE);
             } else {
@@ -100,6 +95,7 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                 refreshView(true);
             }
         });
+
         refreshView(false);
 
         pregnantY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -121,14 +117,14 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLoading){
+                if (!isLoading) {
                     MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
                     miscCreateAPI.data.query.user_id = userId;
                     miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
-                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked()? "yes" : "no";
-                    miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked()? pregnancyWeeks.getText().toString() : "default";
-                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked()? "yes" : "no";
-                    miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked()? miscarriageDate.getText().toString() : "default";
+                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked() ? pregnancyWeeks.getText().toString() : "default";
+                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked() ? miscarriageDate.getText().toString() : "default";
                     miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
 
                     MiscCreateAPIFunc miscCreateAPIFunc = new MiscCreateAPIFunc(getActivity(), MiscManagementFragment.this);
@@ -140,20 +136,19 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
         backBtn.setVisibility(View.GONE);
     }
 
-    public void refreshView(boolean setIsRefreshing){
+    public void refreshView(boolean setRefreshing) {
         MiscShowAPI miscShowAPI = new MiscShowAPI();
         miscShowAPI.data.query.user_id = userId;
+        miscShowAPI.data.query.is_initial = "false";
 
         MiscShowAPIFunc miscShowAPIFunc = new MiscShowAPIFunc(getActivity(), MiscManagementFragment.this);
         miscShowAPIFunc.execute(miscShowAPI);
-        if (setIsRefreshing){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing) {
             progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
-
         isLoading = true;
     }
 
@@ -181,11 +176,11 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            ((FastBaseActivity)getActivity()).forceLogout();
+            ((FastBaseActivity) getActivity()).forceLogout();
         } else {
             Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
@@ -204,11 +199,11 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            ((FastBaseActivity)getActivity()).forceLogout();
+            ((FastBaseActivity) getActivity()).forceLogout();
         } else {
             Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }

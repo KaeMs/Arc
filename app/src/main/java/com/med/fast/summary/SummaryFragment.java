@@ -69,14 +69,14 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
     }
 
     @Override
-    public void refreshView(boolean showProgress) {
+    public void refreshView(boolean setRefreshing) {
         SummaryShowAPI summaryShowAPI = new SummaryShowAPI();
         summaryShowAPI.data.query.user_id = userId;
 
         SummaryShowAPIFunc summaryShowAPIFunc = new SummaryShowAPIFunc(getActivity(), SummaryFragment.this);
         summaryShowAPIFunc.execute(summaryShowAPI);
-        swipeRefreshLayout.setRefreshing(!showProgress);
-        if (showProgress) summaryProgress.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(!setRefreshing);
+        if (setRefreshing) summaryProgress.setVisibility(View.VISIBLE);
         else summaryProgress.setVisibility(View.GONE);
     }
 
@@ -102,12 +102,12 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
 
                     summaryAdapter.setModel(summaryWrapperModel);
 
-                    new Handler().postDelayed(new Runnable() {
+                    /*new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             linearLayoutManager.scrollToPosition(0);
                         }
-                    }, 100);
+                    }, 100);*/
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }

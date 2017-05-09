@@ -6,11 +6,12 @@ package com.med.fast.management.accidenthistory;
 
 public class AccidentHistoryManagementModel {
     private String detail;
-    private String accident_id;
+    private String id;
     private String injury_nature;
     private String injury_location;
     private String injury_date;
     private String injury_date_tmp;
+    private String injury_date_custom;
     private String created_date;
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
@@ -31,12 +32,12 @@ public class AccidentHistoryManagementModel {
         this.detail = detail;
     }
 
-    public String getAccident_id() {
-        return accident_id;
+    public String getId() {
+        return id;
     }
 
-    public void setAccident_id(String accident_id) {
-        this.accident_id = accident_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getInjury_nature() {
@@ -69,6 +70,14 @@ public class AccidentHistoryManagementModel {
 
     public void setInjury_date_tmp(String injury_date_tmp) {
         this.injury_date_tmp = injury_date_tmp;
+    }
+
+    public String getInjury_date_custom() {
+        return injury_date_custom;
+    }
+
+    public void setInjury_date_custom(String injury_date_custom) {
+        this.injury_date_custom = injury_date_custom;
     }
 
     public String getProgress_status() {

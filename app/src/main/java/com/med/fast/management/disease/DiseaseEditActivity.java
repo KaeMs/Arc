@@ -19,7 +19,6 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
-import com.med.fast.management.allergy.api.AllergyManagementEditShowAPI;
 import com.med.fast.management.disease.api.DiseaseManagementEditShowAPI;
 import com.med.fast.management.disease.api.DiseaseManagementEditShowAPIFunc;
 import com.med.fast.management.disease.api.DiseaseManagementEditSubmitAPI;
@@ -43,11 +42,12 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     CustomFontRadioButton hereditaryNo;
     @BindView(R.id.disease_popup_inherited_from)
     CustomFontEditText inheritedFrom;
-    CustomFontButton backBtn;
     @BindView(R.id.disease_popup_currently_having_y_rb)
-    CustomFontRadioButton curHavingYes;
+    CustomFontRadioButton ongoingY;
     @BindView(R.id.disease_popup_currently_having_n_rb)
-    CustomFontRadioButton curHavingNo;
+    CustomFontRadioButton ongoingN;
+    @BindView(R.id.management_operations_back_btn)
+    CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
     @BindView(R.id.disease_popup_date_spinner)
@@ -56,20 +56,20 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     @BindView(R.id.disease_popup_historic_date_tv)
     CustomFontEditText historicDate;
 
-    private String diseaseId = "";
-    private DiseaseManagementModel disease;
+    private DiseaseManagementModel diseaseManagementModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_accident_popup);
+        setContentView(R.layout.management_disease_popup);
 
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
 
         try {
-            diseaseId = getIntent().getStringExtra(ConstantsManagement.ALLERGY_ID_EXTRA);
+            Gson gson = new Gson();
+            diseaseManagementModel = gson.fromJson(getIntent().getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA),
+                    DiseaseManagementModel.class);
         } catch (NullPointerException npe){
             finish();
         }
@@ -99,27 +99,27 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
-                    String hereditaryType = hereditaryYes.isChecked() ? "yes" : "no";
+                    String hereditaryType = String.valueOf(hereditaryYes.isChecked());
                     String inheritedFromString = inheritedFrom.getText().toString();
                     String historicDateString = historicDate.getText().toString();
                     String dateSpinnerString = dateSpinner.getSelectedItem().toString();
 
-                    disease = new DiseaseManagementModel();
-                    disease.setDisease_name(diseaseNameString);
-                    disease.setDisease_hereditary(hereditaryType);
-                    disease.setDisease_hereditary_carriers(inheritedFromString);
-                    disease.setDate_historic(historicDateString);
-                    disease.setDate_approximate(dateSpinnerString);
-                    disease.setProgress_status("0");
+                    diseaseManagementModel.setName(diseaseNameString);
+                    diseaseManagementModel.setIs_hereditary(hereditaryType);
+                    diseaseManagementModel.setHereditary_carriers(inheritedFromString);
+                    diseaseManagementModel.setHistoric_date(historicDateString);
+                    diseaseManagementModel.setApproximate_date(dateSpinnerString);
+                    diseaseManagementModel.setProgress_status("0");
 
                     DiseaseManagementEditSubmitAPI diseaseManagementEditSubmitAPI = new DiseaseManagementEditSubmitAPI();
+                    diseaseManagementEditSubmitAPI.data.query.name = diseaseNameString;
+                    diseaseManagementEditSubmitAPI.data.query.id = diseaseManagementModel.getId();
                     diseaseManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(DiseaseEditActivity.this);
-                    diseaseManagementEditSubmitAPI.data.query.disease_id = diseaseId;
-                    diseaseManagementEditSubmitAPI.data.query.disease_name = diseaseNameString;
                     diseaseManagementEditSubmitAPI.data.query.is_hereditary = hereditaryType;
-                    diseaseManagementEditSubmitAPI.data.query.hereditary_carrier = inheritedFromString;
-                    diseaseManagementEditSubmitAPI.data.query.history_date_text = historicDateString;
-                    diseaseManagementEditSubmitAPI.data.query.date = dateSpinnerString;
+                    diseaseManagementEditSubmitAPI.data.query.is_ongoing = String.valueOf(ongoingY);
+                    diseaseManagementEditSubmitAPI.data.query.hereditary_carriers = inheritedFromString;
+                    diseaseManagementEditSubmitAPI.data.query.historic_date = historicDateString;
+                    diseaseManagementEditSubmitAPI.data.query.approximate_date = dateSpinnerString;
 
                     DiseaseManagementEditSubmitAPIFunc diseaseManagementEditSubmitAPIFunc = new DiseaseManagementEditSubmitAPIFunc(DiseaseEditActivity.this);
                     diseaseManagementEditSubmitAPIFunc.setDelegate(DiseaseEditActivity.this);
@@ -132,7 +132,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     private void refreshView() {
         DiseaseManagementEditShowAPI diseaseManagementEditShowAPI = new DiseaseManagementEditShowAPI();
         diseaseManagementEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
-        diseaseManagementEditShowAPI.data.query.disease_id = diseaseId;
+        diseaseManagementEditShowAPI.data.query.disease_id = diseaseManagementModel.getId();
 
         DiseaseManagementEditShowAPIFunc diseaseManagementEditShowAPIFunc = new DiseaseManagementEditShowAPIFunc(this);
         diseaseManagementEditShowAPIFunc.setDelegate(this);
@@ -145,24 +145,28 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             Gson gson = new Gson();
             DiseaseManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                diseaseName.setText(output.data.results.disease_item.getDisease_name());
-                hereditaryYes.setSelected(output.data.results.disease_item.getDisease_hereditary().equals("true"));
-                historicDate.setText(output.data.results.disease_item.getDate_historic());
-                int spinnerPos = approximateSpinnerAdapter.getPosition(output.data.results.disease_item.getDate_approximate());
+                diseaseName.setText(output.data.results.name);
+                hereditaryYes.setSelected(output.data.results.is_hereditary.equals("true"));
+                historicDate.setText(output.data.results.historic_date);
+                int spinnerPos = approximateSpinnerAdapter.getPosition(output.data.results.approximate_date);
                 if (spinnerPos >= 0){
-                    dateSpinner.setSelection(approximateSpinnerAdapter.getPosition(output.data.results.disease_item.getDate_approximate()));
+                    dateSpinner.setSelection(approximateSpinnerAdapter.getPosition(output.data.results.approximate_date));
                 } else {
                     dateSpinner.setSelection(0);
                 }
-                inheritedFrom.setText(output.data.results.disease_item.getDisease_hereditary_carriers());
+                inheritedFrom.setText(output.data.results.hereditary_carriers);
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
 
     }
@@ -174,7 +178,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             DiseaseManagementEditSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
-                String allergyModelString = gson.toJson(disease);
+                String allergyModelString = gson.toJson(diseaseManagementModel);
                 intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
                 setResult(RESULT_OK, intent);
                 finish();

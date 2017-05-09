@@ -24,11 +24,13 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPIFunc;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
@@ -62,7 +64,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
     @BindView(R.id.labresult_popup_test_description)
     CustomFontEditText testDescription;
     @BindView(R.id.labresult_popup_test_finished_date)
-    CustomFontEditText testFinishedDate;
+    CustomFontTextView testFinishedDate;
 
     @BindView(R.id.labresult_popup_image_recycler)
     RecyclerView imageRecycler;
@@ -90,7 +92,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         labResultImageAdapter.setWidth(displayMetrics.widthPixels);
         labResultImageAdapter.addSingle(null);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(labResultImageAdapter);
 
@@ -157,38 +159,44 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         mAwesomeValidation.addValidation(testType, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_type_question_required));
         mAwesomeValidation.addValidation(testLocation, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_location_question_required));
         mAwesomeValidation.addValidation(testDescription, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_description_question_required));
-        mAwesomeValidation.addValidation(testFinishedDate, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_date_question_required));
 
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
-                if (mAwesomeValidation.validate()) {
-                    String testTypeString = testType.getText().toString();
-                    String testLocationString = testLocation.getText().toString();
-                    String testDescriptionString = testDescription.getText().toString();
-                    String testFinishedDateString = testFinishedDate.getText().toString();
+                if (!testFinishedDate.getText().toString().equals("")){
+                    if (mAwesomeValidation.validate()) {
+                        String testTypeString = testType.getText().toString();
+                        String testLocationString = testLocation.getText().toString();
+                        String testDescriptionString = testDescription.getText().toString();
+                        String testFinishedDateString = testFinishedDate.getText().toString();
 
-                    labResultManagementModel = new LabResultManagementModel();
-                    labResultManagementModel.setTest_type(testTypeString);
-                    labResultManagementModel.setTest_location(testLocationString);
-                    labResultManagementModel.setTest_description(testDescriptionString);
-                    labResultManagementModel.setTest_date(testFinishedDateString);
-                    labResultManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
-                    labResultManagementModel.setTag(testTypeString + testFinishedDateString);
+                        labResultManagementModel = new LabResultManagementModel();
+                        labResultManagementModel.setTest_type(testTypeString);
+                        labResultManagementModel.setTest_location(testLocationString);
+                        labResultManagementModel.setTest_description(testDescriptionString);
+                        labResultManagementModel.setTest_date(testFinishedDateString);
+                        labResultManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
+                        labResultManagementModel.setTag(testTypeString + testFinishedDateString);
 
-                    LabResultManagementCreateSubmitAPI labResultManagementCreateSubmitAPI = new LabResultManagementCreateSubmitAPI();
-                    labResultManagementCreateSubmitAPI.data.query.user_id = userId;
-                    labResultManagementCreateSubmitAPI.data.query.test_name = testTypeString;
-                    labResultManagementCreateSubmitAPI.data.query.desc_result = testDescriptionString;
-                    labResultManagementCreateSubmitAPI.data.query.place = testLocationString;
-                    labResultManagementCreateSubmitAPI.data.query.date = testFinishedDateString;
-//                    labResultManagementCreateSubmitAPI.data.query.img_object = testFinishedDateString;
+                        LabResultManagementCreateSubmitAPI labResultManagementCreateSubmitAPI = new LabResultManagementCreateSubmitAPI();
+                        labResultManagementCreateSubmitAPI.data.query.user_id = userId;
+                        labResultManagementCreateSubmitAPI.data.query.test_name = testTypeString;
+                        labResultManagementCreateSubmitAPI.data.query.desc_result = testDescriptionString;
+                        labResultManagementCreateSubmitAPI.data.query.place = testLocationString;
+                        labResultManagementCreateSubmitAPI.data.query.date = testFinishedDateString;
+                        labResultManagementCreateSubmitAPI.data.query.img_file_list = labResultImageAdapter.getUploadFile();
+                        labResultManagementCreateSubmitAPI.data.query.img_obj_json = labResultImageAdapter.getGson();
 
-                    LabResultManagementCreateSubmitAPIFunc labResultManagementCreateSubmitAPIFunc = new
-                            LabResultManagementCreateSubmitAPIFunc(LabResultAddActivity.this, LabResultAddActivity.this, testTypeString + testFinishedDateString);
-                    labResultManagementCreateSubmitAPIFunc.execute(labResultManagementCreateSubmitAPI);
+//                    labResultManagementCreateSubmitAPI.data.query.img_list = testFinishedDateString;
 
+                        LabResultManagementCreateSubmitAPIFunc labResultManagementCreateSubmitAPIFunc = new
+                                LabResultManagementCreateSubmitAPIFunc(LabResultAddActivity.this, LabResultAddActivity.this, testTypeString + testFinishedDateString);
+                        labResultManagementCreateSubmitAPIFunc.execute(labResultManagementCreateSubmitAPI);
+
+                    }
+                } else {
+                    Toast.makeText(LabResultAddActivity.this, getString(R.string.lab_test_date_question_required), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -216,21 +224,22 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(labResultImageAdapter.getItemCount());
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
                 labResultImageItem.setImage_path(currentMediaPath);
                 labResultImageItem.setImage_uri(mDestinationUri);
                 labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updateImage(labResultImageItem);
+                labResultImageAdapter.updatemDataset(labResultImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
-                currentMediaPath = UtilsRealPath.getRealPathFromURI(this, data.getData());
+                currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
+                Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(labResultImageAdapter.getItemCount());
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
                 labResultImageItem.setImage_path(currentMediaPath);
-                labResultImageItem.setImage_uri(mDestinationUri);
+                labResultImageItem.setImage_uri(mediaUri);
                 labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updateImage(labResultImageItem);
+                labResultImageAdapter.updatemDataset(labResultImageItem);
             }
         }
     }

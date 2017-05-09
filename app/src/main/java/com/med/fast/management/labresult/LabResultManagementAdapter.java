@@ -18,6 +18,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -32,6 +33,7 @@ import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteAPIFunc;
@@ -109,6 +111,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     public void clearList(){
         if (mDataset.size() > 0){
             mDataset.clear();
+            notifyDataSetChanged();
         }
     }
 
@@ -123,118 +126,6 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     public void submitItem(){
         Intent intent = new Intent(context, LabResultAddActivity.class);
         startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.LABRESULT_CREATE);
-
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.management_labresult_popup);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-        final CustomFontEditText testType = (CustomFontEditText) dialog.findViewById(R.id.labresult_popup_test_type);
-        final CustomFontEditText testLocation = (CustomFontEditText) dialog.findViewById(R.id.labresult_popup_test_location);
-        final CustomFontEditText testDescription = (CustomFontEditText) dialog.findViewById(R.id.labresult_popup_test_description);
-        final CustomFontEditText testFinishedDate = (CustomFontEditText) dialog.findViewById(R.id.labresult_popup_test_finished_date);
-
-        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
-        mAwesomeValidation.setContext(context);
-        mAwesomeValidation.addValidation(testType, RegexTemplate.NOT_EMPTY, context.getString(R.string.lab_test_type_question_required));
-        mAwesomeValidation.addValidation(testLocation, RegexTemplate.NOT_EMPTY, context.getString(R.string.lab_test_location_question_required));
-        mAwesomeValidation.addValidation(testDescription, RegexTemplate.NOT_EMPTY, context.getString(R.string.lab_test_description_question_required));
-        mAwesomeValidation.addValidation(testFinishedDate, RegexTemplate.NOT_EMPTY, context.getString(R.string.lab_test_date_question_required));
-
-        final Calendar calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        testFinishedDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(context, null, year, month, day);
-                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
-                datePickerDialog.getDatePicker().updateDate(year, month, day);
-                datePickerDialog.show();
-                datePickerDialog.setCanceledOnTouchOutside(true);
-
-                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, context.getString(R.string.ok),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                year = datePickerDialog.getDatePicker().getYear();
-                                month = datePickerDialog.getDatePicker().getMonth();
-                                day = datePickerDialog.getDatePicker().getDayOfMonth();
-                                // Formatting date from MM to MMM
-                                SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
-                                Date newDate = null;
-                                try {
-                                    newDate = format.parse(String.valueOf(month + 1) + " " + String.valueOf(day) + " " + String.valueOf(year));
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-
-                                format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
-                                String date = format.format(newDate);
-                                testFinishedDate.setText(date);
-                            }
-                        });
-
-                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == DialogInterface.BUTTON_NEGATIVE) {
-                                    // Do Stuff
-                                    datePickerDialog.dismiss();
-                                }
-                            }
-                        });
-            }
-        });
-
-        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
-        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAwesomeValidation.clear();
-                if (mAwesomeValidation.validate()) {
-                    String testTypeString = testType.getText().toString();
-                    String testLocationString = testLocation.getText().toString();
-                    String testDescriptionString = testDescription.getText().toString();
-                    String testFinishedDateString = testFinishedDate.getText().toString();
-
-                    LabResultManagementModel labResultManagementModel = new LabResultManagementModel();
-                    labResultManagementModel.setTest_type(testTypeString);
-                    labResultManagementModel.setTest_location(testLocationString);
-                    labResultManagementModel.setTest_description(testDescriptionString);
-                    labResultManagementModel.setTest_date(testFinishedDateString);
-                    labResultManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
-                    labResultManagementModel.setTag(APIConstants.PROGRESS_ADD);
-
-                    addSingle(labResultManagementModel, 0);
-
-                    LabResultManagementCreateSubmitAPI labResultManagementCreateSubmitAPI = new LabResultManagementCreateSubmitAPI();
-                    labResultManagementCreateSubmitAPI.data.query.user_id = userId;
-                    labResultManagementCreateSubmitAPI.data.query.test_name = testTypeString;
-                    labResultManagementCreateSubmitAPI.data.query.desc_result = testDescriptionString;
-                    labResultManagementCreateSubmitAPI.data.query.place = testLocationString;
-                    labResultManagementCreateSubmitAPI.data.query.date = testFinishedDateString;
-//                    labResultManagementCreateSubmitAPI.data.query.img_object = testFinishedDateString;
-
-                    LabResultManagementCreateSubmitAPIFunc labResultManagementCreateSubmitAPIFunc = new
-                            LabResultManagementCreateSubmitAPIFunc(context, LabResultManagementAdapter.this, labResultManagementModel.getTag());
-
-                    dialog.dismiss();
-                }
-            }
-        });
     }
 
     public void reSubmitItem(int position){
@@ -247,6 +138,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             if (mDataset.get(i).getTest_id().equals(item.getTest_id())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
+                notifyItemChanged(i);
                 break;
             }
         }
@@ -324,6 +216,19 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             } else {
                 labResultManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
+
+            labResultManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
+                        Intent intent = new Intent(context, AllergyEditActivity.class);
+                        Gson gson = new Gson();
+                        intent.putExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA,
+                                gson.toJson(mDataset.get(holder.getAdapterPosition())));
+                        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.LABRESULT_EDIT);
+                    }
+                }
+            });
 
             labResultManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

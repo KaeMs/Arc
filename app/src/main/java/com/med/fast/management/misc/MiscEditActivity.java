@@ -21,7 +21,6 @@ import com.med.fast.management.misc.api.MiscEditShowAPIFunc;
 import com.med.fast.management.misc.api.MiscEditSubmitAPI;
 import com.med.fast.management.misc.api.MiscEditSubmitAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
-import com.med.fast.management.misc.api.MiscShowAPIFunc;
 import com.med.fast.management.misc.miscinterface.MiscEditIntf;
 
 import butterknife.BindView;
@@ -46,15 +45,17 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
     @BindView(R.id.misc_popup_miscarriageY)
     CustomFontRadioButton miscIsMiscarriage;
 
+    @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
 
     private String miscId = "";
     private MiscModel misc;
+
     @Override
     public void onFinishMiscEditShow(ResponseAPI responseAPI) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
             if (output.data.status.code.equals("200")) {
@@ -65,9 +66,9 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
                 miscIsMiscarriage.setText(output.data.results.had_miscarriage);
                 miscMiscarriageWeeks.setText(output.data.results.last_time_miscarriage);
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
@@ -78,7 +79,7 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_accident_popup);
+        setContentView(R.layout.management_misc_popup);
 
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
@@ -139,6 +140,7 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
     private void refreshView() {
         MiscShowAPI miscShowAPI = new MiscShowAPI();
         miscShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
+        miscShowAPI.data.query.is_initial = "false";
 
         MiscEditShowAPIFunc miscEditShowAPIFunc = new MiscEditShowAPIFunc(this);
         miscEditShowAPIFunc.setDelegate(this);
@@ -147,7 +149,7 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
 
     @Override
     public void onFinishMiscEditSubmit(ResponseAPI responseAPI) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             MiscEditSubmitAPI output = gson.fromJson(responseAPI.status_response, MiscEditSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
@@ -157,13 +159,17 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
                 setResult(RESULT_OK, intent);
                 finish();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+            setResult(RESULT_CANCELED);
+            finish();
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 }

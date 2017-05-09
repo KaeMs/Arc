@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,10 +19,12 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryEditIntf;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryEditShowAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryEditShowAPIFunc;
@@ -50,9 +53,11 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
     @BindView(R.id.accident_popup_injury_location)
     CustomFontEditText injuryLocation;
     @BindView(R.id.accident_popup_accident_date_tv)
-    CustomFontEditText accidentDateTV;
+    CustomFontTextView accidentDateTV;
     @BindView(R.id.accident_popup_accident_date_spinner)
     Spinner accidentDateSpinner;
+    @BindView(R.id.accident_popup_accident_other_date)
+    CustomFontTextView injuryDateCustomTV;
     ArrayAdapter<String> accidentSpinnerAdapter;
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
@@ -60,7 +65,6 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
     CustomFontButton createBtn;
     int year, month, day;
 
-    private String accidentId = "";
     private AccidentHistoryManagementModel accidentHistoryManagementModel;
 
     @Override
@@ -72,7 +76,9 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
         createBtn.setText(getString(R.string.confirm));
 
         try {
-            accidentId = getIntent().getStringExtra(ConstantsManagement.ACCIDENT_ID_EXTRA);
+            Gson gson = new Gson();
+            accidentHistoryManagementModel = gson.fromJson(getIntent().getStringExtra(ConstantsManagement.ACCIDENT_MODEL_EXTRA),
+                    AccidentHistoryManagementModel.class);
         } catch (NullPointerException npe){
             finish();
         }
@@ -83,6 +89,21 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
         accidentSpinnerAdapter = new ArrayAdapter<>(AccidentEditActivity.this, android.R.layout.simple_spinner_item, approximates);
         accidentSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accidentDateSpinner.setAdapter(accidentSpinnerAdapter);
+        accidentDateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == accidentSpinnerAdapter.getCount() - 1){
+                    injuryDateCustomTV.setVisibility(View.VISIBLE);
+                } else {
+                    injuryDateCustomTV.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -151,14 +172,13 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()){
 
-                    String detail = accidentDetails.getText().toString();
-                    String injury_nature = injuryNature.getText().toString();
-                    String injury_location = injuryLocation.getText().toString();
+                    String detail = Utils.processStringForAPI(accidentDetails.getText().toString());
+                    String injury_nature = Utils.processStringForAPI(injuryNature.getText().toString());
+                    String injury_location = Utils.processStringForAPI(injuryLocation.getText().toString());
                     String injury_date = accidentDateTV.getText().toString();
-                    String injury_date_tmp = "";
-                    String injury_date_custom = accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition());
+                    String injury_date_tmp = accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition());
+                    String injuryDateCustom = Utils.processStringForAPI(injuryDateCustomTV.getText().toString());
 
-                    accidentHistoryManagementModel = new AccidentHistoryManagementModel();
                     accidentHistoryManagementModel.setDetail(accidentDetails.getText().toString());
                     accidentHistoryManagementModel.setInjury_nature(injuryNature.getText().toString());
                     accidentHistoryManagementModel.setInjury_location(injuryLocation.getText().toString());
@@ -167,18 +187,20 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                     } else if (accidentDateSpinner.getSelectedItemPosition() > 0){
                         accidentHistoryManagementModel.setInjury_date(accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition()));
                     }
+                    accidentHistoryManagementModel.setInjury_date_tmp(injury_date_tmp);
+                    accidentHistoryManagementModel.setInjury_date_custom(injuryDateCustom);
 
                     accidentHistoryManagementModel.setProgress_status("0");
 
                     AccidentHistoryEditSubmitAPI accidentHistoryEditSubmitAPI = new AccidentHistoryEditSubmitAPI();
-                    accidentHistoryEditSubmitAPI.data.query.id = accidentId;
+                    accidentHistoryEditSubmitAPI.data.query.id = accidentHistoryManagementModel.getId();
                     accidentHistoryEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(AccidentEditActivity.this);
                     accidentHistoryEditSubmitAPI.data.query.detail = detail;
                     accidentHistoryEditSubmitAPI.data.query.injury_nature = injury_nature;
                     accidentHistoryEditSubmitAPI.data.query.injury_location = injury_location;
                     accidentHistoryEditSubmitAPI.data.query.injury_date = injury_date;
                     accidentHistoryEditSubmitAPI.data.query.injury_date_tmp = injury_date_tmp;
-                    accidentHistoryEditSubmitAPI.data.query.injury_date_custom = injury_date_custom;
+                    accidentHistoryEditSubmitAPI.data.query.injury_date_custom = injuryDateCustom;
 
                     AccidentHistoryEditSubmitAPIFunc accidentHistoryEditSubmitAPIFunc = new AccidentHistoryEditSubmitAPIFunc(AccidentEditActivity.this);
                     accidentHistoryEditSubmitAPIFunc.setDelegate(AccidentEditActivity.this);
@@ -191,7 +213,7 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
     void refreshView(){
         AccidentHistoryEditShowAPI accidentHistoryEditShowAPI = new AccidentHistoryEditShowAPI();
         accidentHistoryEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
-        accidentHistoryEditShowAPI.data.query.accident_id = accidentId;
+        accidentHistoryEditShowAPI.data.query.accident_id = accidentHistoryManagementModel.getId();
 
         AccidentHistoryEditShowAPIFunc accidentHistoryEditShowAPIFunc = new AccidentHistoryEditShowAPIFunc(this);
         accidentHistoryEditShowAPIFunc.setDelegate(this);
@@ -237,11 +259,15 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 }

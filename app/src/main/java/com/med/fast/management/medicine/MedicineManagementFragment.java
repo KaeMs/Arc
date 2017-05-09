@@ -93,6 +93,13 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -132,7 +139,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         });
     }
 
-    public void refreshView(boolean showProgress){
+    public void refreshView(boolean setRefreshing){
         MedicineManagementListShowAPI medicineManagementListShowAPI = new MedicineManagementListShowAPI();
         medicineManagementListShowAPI.data.query.user_id = userId;
         medicineManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -142,11 +149,10 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
 
         MedicineManagementListShowAPIFunc medicineManagementListShowAPIFunc = new MedicineManagementListShowAPIFunc(getActivity(), MedicineManagementFragment.this);
         medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
-        
-        if (showProgress){
-            swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing){
+            progressBar.setVisibility(View.GONE);
         } else {
-            swipeRefreshLayout.setRefreshing(false);
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;
@@ -187,7 +193,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_EDIT){
+        if (requestCode == RequestCodeList.MEDICINE_EDIT){
             if (resultCode == Activity.RESULT_OK){
                 Gson gson = new Gson();
                 MedicineManagementModel model =

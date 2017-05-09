@@ -25,12 +25,12 @@ public class APIConstants {
     public static final String IDCARD_SHOW = "/cardid/cardidshow";
     public static final String IDCARD_SUBMIT = "/cardid/cardidsubmit";
     // Visit
-    public static final String VISIT_SHOW = "/medicine/medicinelistshow";
-    public static final String VISIT_CREATE_SHOW = "/medicine/medicinecreatesubmit";
-    public static final String VISIT_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
-    public static final String VISIT_EDIT_SHOW = "/medicine/medicineeditshow";
-    public static final String VISIT_EDIT_SUBMIT = "/medicine/medicineeditsubmit";
-    public static final String VISIT_DELETE_SUBMIT = "/medicine/medicinedeletesubmit";
+    public static final String VISIT_SHOW = "/visit/visitlistshow";
+    public static final String VISIT_CREATE_SHOW = "/visit/visitcreatesubmit";
+    public static final String VISIT_CREATE_SUBMIT = "/visit/visitcreatesubmit";
+    public static final String VISIT_EDIT_SHOW = "/visit/visiteditshow";
+    public static final String VISIT_EDIT_SUBMIT = "/visit/visiteditsubmit";
+    public static final String VISIT_DELETE_SUBMIT = "/visit/visitdeletesubmit";
     public static final int VISIT_INF_SCROLL = 20;
     // Surgery
     public static final String SURGERY_SHOW = "/surgery/surgerylistshow";

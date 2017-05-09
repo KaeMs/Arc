@@ -30,7 +30,6 @@ import okhttp3.Response;
 public class IDCardSubmitAPIFunc extends AsyncTask<IDCardSubmitAPI, Integer, ResponseAPI> {
     private IDCardShowSubmitIntf delegate;
     private Context context;
-    private ProgressDialog progressDialog;
 
     public IDCardSubmitAPIFunc(Context context, IDCardShowSubmitIntf delegate) {
         this.context = context;
@@ -38,21 +37,10 @@ public class IDCardSubmitAPIFunc extends AsyncTask<IDCardSubmitAPI, Integer, Res
     }
 
     @Override
-    protected void onPreExecute() {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Submitting your edit..");
-        progressDialog.setIndeterminate(true);
-        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-    @Override
     protected ResponseAPI doInBackground(IDCardSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + APIConstants.VISIT_CREATE_SUBMIT;
+            String url = APIConstants.API_URL + APIConstants.IDCARD_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -110,6 +98,5 @@ public class IDCardSubmitAPIFunc extends AsyncTask<IDCardSubmitAPI, Integer, Res
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishIDCardSubmit(responseAPI);
-        progressDialog.dismiss();
     }
 }

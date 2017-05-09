@@ -34,13 +34,13 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_visit_card_text, parent, false);
-        return new VisitVH(view);
+                .inflate(R.layout.summary_textonly, parent, false);
+        return new SummaryTextOnlyVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        VisitVH visitVH = (VisitVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -76,7 +76,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.append("\n");
         //sb.append(mDataset.get(position).getMedicine_dose());
 
-        visitVH.summaryVisitText.setText(sb);
+        summaryTextOnlyVH.summaryText.setText(sb);
     }
 
     @Override

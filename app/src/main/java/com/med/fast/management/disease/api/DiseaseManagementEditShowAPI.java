@@ -35,7 +35,15 @@ public class DiseaseManagementEditShowAPI {
             public String result_status;
             public String description;
             public String user_id;
-            public DiseaseManagementModel disease_item;
+            public String id;
+            public String name;
+            public String is_hereditary;
+            public String hereditary_carriers;
+            public String last_visit;
+            public String is_ongoing;
+            public String created_date;
+            public String historic_date;
+            public String approximate_date;
         }
     }
 }

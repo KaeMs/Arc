@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -19,6 +20,7 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.customviews.CustomFontTextView;
 
 import java.io.File;
@@ -69,7 +71,6 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
         if (mDataset.get(savedPos) == null ||
                 !visitImageItem.getImage_uri().equals(mDataset.get(savedPos).getImage_uri())) {
             this.mDataset.set(savedPos, new VisitImageItem());
-            this.mDataset.get(savedPos).setImage_uri(MediaUtils.compressImage(context, visitImageItem.getImage_uri()));
         }
         notifyItemChanged(savedPos);
 //        ((PostProductActivity)context).smoothScrollToEnd();
@@ -97,6 +98,44 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
         }
         return returnMDataset;
     }
+
+    public List<File> getUploadFile(){
+        List<File> returnFile = new ArrayList<>();
+        for (VisitImageItem item :
+                mDataset) {
+            if (item != null){
+                returnFile.add(new File(UtilityUriHelper.getPath(context, item.getImage_uri())));
+            }
+        }
+        return returnFile;
+    }
+
+    public int getImageCount(){
+        int count = 0;
+        for (VisitImageItem item :
+                mDataset) {
+            if (item != null) count++;
+        }
+        return count;
+    }
+
+    /*public String getGson(){
+        Gson gson = new Gson();
+        LabResultUploadImageItemWrapper labResultUploadImageItemWrapper = new LabResultUploadImageItemWrapper();
+        for (LabResultImageItem item :
+                mDataset) {
+            if (item != null){
+                LabResultUploadImageItem labResultUploadImageItem = new LabResultUploadImageItem();
+                labResultUploadImageItem.setId("");
+                labResultUploadImageItem.setPath(item.getImage_path());
+                labResultUploadImageItem.setDate_taken(item.getDate_taken());
+                labResultUploadImageItem.setIs_deleted(false);
+                labResultUploadImageItemWrapper.img_list.add(labResultUploadImageItem);
+            }
+        }
+
+        return gson.toJson(labResultUploadImageItemWrapper);
+    }*/
 
     @Override
     public int getItemViewType(int position) {
@@ -175,6 +214,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                     });
 
                 } else {
+                    savedPos = holder.getAdapterPosition();
                     ((VisitAddActivity)context).addNewImage();
                 }
             }

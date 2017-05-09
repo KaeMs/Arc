@@ -63,13 +63,13 @@ public class DiseaseManagementCreateSubmitAPIFunc extends AsyncTask<DiseaseManag
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("disease_name", params[0].data.query.disease_name)
+                    .add("disease_name", params[0].data.query.name)
                     .add("user_id", params[0].data.query.user_id)
                     .add("is_hereditary", params[0].data.query.is_hereditary)
                     .add("is_ongoing", params[0].data.query.is_ongoing)
-                    .add("history_date_text", params[0].data.query.history_date_text)
-                    .add("date", params[0].data.query.date)
-                    .add("hereditary_carrier", params[0].data.query.hereditary_carrier)
+                    .add("historic_date", params[0].data.query.historic_date)
+                    .add("approximate_date", params[0].data.query.approximate_date)
+                    .add("hereditary_carriers", params[0].data.query.hereditary_carriers)
                     .add("tag", params[0].data.query.tag)
                     .build();
 
