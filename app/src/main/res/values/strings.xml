@@ -19,6 +19,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
+    <string name="success_register">Success Register</string>
 
     <!-- Forgot Password -->
     <string name="find_your_email">Find Your Email</string>
