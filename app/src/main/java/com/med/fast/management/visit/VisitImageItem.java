@@ -7,40 +7,40 @@ import android.net.Uri;
  */
 
 public class VisitImageItem {
-    private int image_id;
-    private String image_path;
-    private boolean image_is_deleted;
-    private Uri image_uri;
+    private int id;
+    private String path;
+    private boolean is_deleted;
+    private Uri uri;
 
-    public int getImage_id() {
-        return image_id;
+    public int getId() {
+        return id;
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getImage_path() {
-        return image_path;
+    public String getPath() {
+        return path;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public boolean isImage_is_deleted() {
-        return image_is_deleted;
+    public boolean isIs_deleted() {
+        return is_deleted;
     }
 
-    public void setImage_is_deleted(boolean image_is_deleted) {
-        this.image_is_deleted = image_is_deleted;
+    public void setIs_deleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
     }
 
-    public Uri getImage_uri() {
-        return image_uri;
+    public Uri getUri() {
+        return uri;
     }
 
-    public void setImage_uri(Uri image_uri) {
-        this.image_uri = image_uri;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 }

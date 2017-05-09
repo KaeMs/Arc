@@ -10,7 +10,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.visit.VisitImageItemUpload;
 import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
 
 import java.util.concurrent.TimeUnit;

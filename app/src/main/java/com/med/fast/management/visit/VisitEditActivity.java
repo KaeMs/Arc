@@ -26,7 +26,6 @@ import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
-import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -71,7 +70,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
     private String userId;
-    private VisitImageAdapter visitImageAdapter;
+    private VisitImageEditAdapter visitImageEditAdapter;
     private ArrayAdapter<VisitDiseaseModel> diseasesLVAdapter;
     private List<String> leftDataset;
     private ArrayAdapter<VisitDiseaseModel> selectedLVAdapter;
@@ -97,12 +96,11 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             finish();
         }
 
-        visitImageAdapter = new VisitImageAdapter(this);
-        visitImageAdapter.setWidth(displayMetrics.widthPixels);
-        visitImageAdapter.addSingle(null);
+        visitImageEditAdapter = new VisitImageEditAdapter(this);
+        visitImageEditAdapter.setWidth(displayMetrics.widthPixels);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
-        imageRecycler.setAdapter(visitImageAdapter);
+        imageRecycler.setAdapter(visitImageEditAdapter);
         this.diseasesLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
         leftDataset = new ArrayList<>();
         this.selectedLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
@@ -177,9 +175,13 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                     visitModel.setDoctor_name(doctorNameString);
                     visitModel.setDiagnose(diagnoseString);
                     List<VisitDiseaseModel> diseases = new ArrayList<>();
+                    StringBuilder diseaseSb = new StringBuilder();
                     for (int i = 0; i < selectedLVAdapter.getCount(); i++) {
                         diseases.add(selectedLVAdapter.getItem(i));
+                        diseaseSb.append(selectedLVAdapter.getItem(i));
+                        diseaseSb.append(",");
                     }
+                    diseaseSb.deleteCharAt(diseaseSb.length() - 1);
                     visitModel.setDiseases(diseases);
 
                     visitModel.setProgress_status("1");
@@ -187,19 +189,14 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
 
                     VisitManagementEditSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementEditSubmitAPI();
                     visitManagementCreateSubmitAPI.data.query.user_id = userId;
+                    visitManagementCreateSubmitAPI.data.query.visit_id = visitModel.getVisit_id();
                     visitManagementCreateSubmitAPI.data.query.doctor = doctorNameString;
                     visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
-                    visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
-
-                    List<VisitImageItem> uploadImageItems = visitImageAdapter.getmDataset();
-                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = uploadImageItems.size() > 0 ? "true" : "false";
-                    List<File> uploadImageFiles = new ArrayList<>();
-                    for (VisitImageItem item :
-                            uploadImageItems) {
-                        uploadImageFiles.add(new File(UtilityUriHelper.getPath(VisitEditActivity.this, item.getImage_uri())));
-                    }
-//                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(uploadImageFiles);
+                    visitManagementCreateSubmitAPI.data.query.disease_id_list = diseaseSb.toString();
+                    visitManagementCreateSubmitAPI.data.query.image_json_str = visitImageEditAdapter.getGson();
+                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = String.valueOf(visitImageEditAdapter.checkNewImage());
+                    visitManagementCreateSubmitAPI.data.query.image_files = visitImageEditAdapter.getSortedFileUpload();
 
                     VisitManagementEditSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
                             new VisitManagementEditSubmitAPIFunc(VisitEditActivity.this, VisitEditActivity.this);
@@ -237,21 +234,21 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setImage_id(visitImageAdapter.getItemCount());
-                visitImageItem.setImage_path(currentMediaPath);
-                visitImageItem.setImage_uri(mDestinationUri);
-                visitImageItem.setImage_is_deleted(false);
-                visitImageAdapter.updateImage(visitImageItem);
+                visitImageItem.setId(visitImageEditAdapter.getItemCount());
+                visitImageItem.setPath(currentMediaPath);
+                visitImageItem.setUri(mDestinationUri);
+                visitImageItem.setIs_deleted(false);
+                visitImageEditAdapter.updateImage(visitImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setImage_id(visitImageAdapter.getItemCount());
-                visitImageItem.setImage_path(currentMediaPath);
-                visitImageItem.setImage_uri(mDestinationUri);
-                visitImageItem.setImage_is_deleted(false);
-                visitImageAdapter.updateImage(visitImageItem);
+                visitImageItem.setId(visitImageEditAdapter.getItemCount());
+                visitImageItem.setPath(currentMediaPath);
+                visitImageItem.setUri(mDestinationUri);
+                visitImageItem.setIs_deleted(false);
+                visitImageEditAdapter.updateImage(visitImageItem);
             }
         }
     }
@@ -270,7 +267,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
 
                 diseasesLVAdapter.addAll(visitModel.getDiseases());
                 selectedLVAdapter.addAll(visitModel.getDiseases());
-                visitImageAdapter.addList(visitModel.getImage_list());
+                visitImageEditAdapter.addList(visitModel.getImage_list());
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CANCELED);

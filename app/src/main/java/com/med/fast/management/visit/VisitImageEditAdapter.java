@@ -31,7 +31,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class VisitImageAdapter extends FastBaseRecyclerAdapter {
+public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
 
     private int PLACEHOLDER = 0;
     private int IMAGE = 1;
@@ -40,8 +40,9 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
 
     private Context context;
     private List<VisitImageItem> mDataset = new ArrayList<>();
+    private List<VisitImageItemUpload> uploadVisitImageItem = new ArrayList<>();
 
-    public VisitImageAdapter(Context context) {
+    public VisitImageEditAdapter(Context context) {
         super(false);
         this.context = context;
     }
@@ -52,6 +53,10 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
 
     public void addList(List<VisitImageItem> dataset) {
         this.mDataset.addAll(dataset);
+        for (VisitImageItem item :
+                dataset) {
+            uploadVisitImageItem.add(new VisitImageItemUpload(item));
+        }
         notifyDataSetChanged();
     }
 
@@ -83,6 +88,11 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
             this.mDataset.add(null);
             notifyItemInserted(mDataset.size() - 1);
         }
+
+        // Updating dataset to be uploaded
+        if (savedPos > uploadVisitImageItem.size()){
+            uploadVisitImageItem.add(new VisitImageItemUpload(visitImageItem));
+        }
     }
 
     public List<VisitImageItem> getmDataset(){
@@ -96,33 +106,43 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
         return returnMDataset;
     }
 
-    public List<File> getUploadFile(){
-        List<File> returnFile = new ArrayList<>();
-        for (VisitImageItem item :
-                mDataset) {
-            if (item != null){
-                returnFile.add(new File(UtilityUriHelper.getPath(context, item.getUri())));
+    public List<File> getSortedFileUpload(){
+        List<File> returnFileList = new ArrayList<>();
+
+        for (VisitImageItemUpload visitImageItemUpload:
+             uploadVisitImageItem){
+            for (VisitImageItem visitImageItem :
+                    mDataset) {
+                if (visitImageItemUpload.getPath().equals(visitImageItem.getPath())){
+                    if (visitImageItem.getUri() != null){
+                        returnFileList.add(new File(UtilityUriHelper.getPath(context, visitImageItem.getUri())));
+                    }
+                }
             }
         }
-        return returnFile;
+
+        return returnFileList;
     }
 
-    public int getImageCount(){
-        int count = 0;
+    public boolean checkNewImage(){
+        boolean isNewImageAdded = false;
         for (VisitImageItem item :
                 mDataset) {
-            if (item != null) count++;
+            if (item != null &&
+                    item.getUri() != null){
+                return true;
+            }
         }
-        return count;
+        return false;
     }
 
-    /*public String getGson(){
+    public String getGson(){
         Gson gson = new Gson();
         VisitImageItemUploadWrapper visitImageItemUploadWrapper = new VisitImageItemUploadWrapper();
-        visitImageItemUploadWrapper.image_list = visi
+        visitImageItemUploadWrapper.image_list = uploadVisitImageItem;
 
         return gson.toJson(visitImageItemUploadWrapper);
-    }*/
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -155,13 +175,23 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
             visitImageVH.imageWrapper.getLayoutParams().width = width * 30 / 100;
             visitImageVH.imageWrapper.getLayoutParams().height = width * 30 / 100;
 
-            Glide.with(context)
-                    .load(mDataset.get(position).getUri())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(true)
-                    .placeholder(MediaUtils.image_placeholder_black)
-                    .error(MediaUtils.image_error_black)
-                    .into(visitImageVH.image);
+            if (mDataset.get(position).getUri() != null){
+                Glide.with(context)
+                        .load(mDataset.get(position).getUri())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(true)
+                        .placeholder(MediaUtils.image_placeholder_black)
+                        .error(MediaUtils.image_error_black)
+                        .into(visitImageVH.image);
+            } else {
+                Glide.with(context)
+                        .load(mDataset.get(position).getPath())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(true)
+                        .placeholder(MediaUtils.image_placeholder_black)
+                        .error(MediaUtils.image_error_black)
+                        .into(visitImageVH.image);
+            }
 
         } else {
             ImagePlaceholderVH imagePlaceholderVH = (ImagePlaceholderVH) holder;
@@ -182,11 +212,12 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                     CustomFontTextView changeImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_imageDescText);
                     CustomFontTextView deleteImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_deleteImageText);
 
+                    changeImage.setVisibility(View.GONE);
                     changeImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             savedPos = holder.getAdapterPosition();
-                            ((VisitAddActivity)context).addNewImage();
+
                             dialog.dismiss();
                         }
                     });
@@ -196,6 +227,8 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                         public void onClick(View v) {
                             mDataset.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
+
+                            uploadVisitImageItem.get(holder.getAdapterPosition()).setIs_deleted(true);
                             dialog.dismiss();
                         }
                     });

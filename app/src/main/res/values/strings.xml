@@ -19,7 +19,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
-    <string name="success_register">Registration Succeeded</string>
+    <string name="registration_success_message">Registration Succeeded. To continue, please click on the link sent to </string>
 
     <!-- Forgot Password -->
     <string name="find_your_email">Find Your Email</string>

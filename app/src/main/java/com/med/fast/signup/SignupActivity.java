@@ -171,8 +171,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                 SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.saved_user_id);
 //                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.saved_user_id);
 //                SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.saved_user_id);
-                Intent intent = new Intent(this, InitialDataAllergyActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this, SignupSuccessActivity.class);
+                intent.putExtra("email", emailAddressET.getText().toString());
                 startActivity(intent);
                 finish();
             } else {

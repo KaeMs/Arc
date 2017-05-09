@@ -7,67 +7,37 @@ import android.net.Uri;
  */
 
 public class VisitImageItemUpload {
-    private int image_id;
-    private String image_name;
-    private String image_path;
-    private String image_description;
-    private boolean image_is_main;
-    private boolean image_is_deleted;
-    private Uri image_uri;
+    private int id;
+    private String path;
+    private boolean is_deleted;
 
-    public int getImage_id() {
-        return image_id;
+    public VisitImageItemUpload(VisitImageItem item){
+        this.id = item.getId();
+        this.path = item.getPath();
+        this.is_deleted = item.isIs_deleted();
     }
 
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public int getId() {
+        return id;
     }
 
-    public String getImage_name() {
-        return image_name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setImage_name(String image_name) {
-        this.image_name = image_name;
+    public String getPath() {
+        return path;
     }
 
-    public String getImage_path() {
-        return image_path;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public boolean is_deleted() {
+        return is_deleted;
     }
 
-    public String getImage_description() {
-        return image_description;
-    }
-
-    public void setImage_description(String image_description) {
-        this.image_description = image_description;
-    }
-
-    public boolean isImage_is_main() {
-        return image_is_main;
-    }
-
-    public void setImage_is_main(boolean image_is_main) {
-        this.image_is_main = image_is_main;
-    }
-
-    public boolean isImage_is_deleted() {
-        return image_is_deleted;
-    }
-
-    public void setImage_is_deleted(boolean image_is_deleted) {
-        this.image_is_deleted = image_is_deleted;
-    }
-
-    public Uri getImage_uri() {
-        return image_uri;
-    }
-
-    public void setImage_uri(Uri image_uri) {
-        this.image_uri = image_uri;
+    public void setIs_deleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
     }
 }

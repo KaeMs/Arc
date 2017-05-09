@@ -26,7 +26,6 @@ import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
-import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -228,10 +227,10 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setImage_id(visitImageAdapter.getItemCount());
-                visitImageItem.setImage_path(currentMediaPath);
-                visitImageItem.setImage_uri(mDestinationUri);
-                visitImageItem.setImage_is_deleted(false);
+                visitImageItem.setId(visitImageAdapter.getItemCount());
+                visitImageItem.setPath(currentMediaPath);
+                visitImageItem.setUri(mDestinationUri);
+                visitImageItem.setIs_deleted(false);
                 visitImageAdapter.updatemDataset(visitImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
@@ -239,10 +238,10 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setImage_id(visitImageAdapter.getItemCount());
-                visitImageItem.setImage_path(currentMediaPath);
-                visitImageItem.setImage_uri(mediaUri);
-                visitImageItem.setImage_is_deleted(false);
+                visitImageItem.setId(visitImageAdapter.getItemCount());
+                visitImageItem.setPath(currentMediaPath);
+                visitImageItem.setUri(mediaUri);
+                visitImageItem.setIs_deleted(false);
                 visitImageAdapter.updatemDataset(visitImageItem);
             }
         }

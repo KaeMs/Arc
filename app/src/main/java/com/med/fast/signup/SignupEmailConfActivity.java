@@ -46,7 +46,6 @@ public class SignupEmailConfActivity extends FastBaseActivity implements EmailCo
             Gson gson = new Gson();
             SignupEmailConfirmationAPI output = gson.fromJson(responseAPI.status_response,
                     SignupEmailConfirmationAPI.class);
-
             switch (output.data.results.result_status) {
                 case "200":
                     SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
