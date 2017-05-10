@@ -1,5 +1,6 @@
 package com.med.fast.setting.api;
 
+import java.io.File;
 import java.sql.Date;
 
 /**
@@ -23,6 +24,7 @@ public class SettingSubmitAPI {
             public String date_of_birth;
             public String gender; //0="Male", 1= "Female"
             public String profil_image_path;
+            public File profile_image_file;
         }
 
         public class Status

@@ -1,20 +1,25 @@
 package com.med.fast.setting;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Patterns;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
+import com.med.fast.UtilityUriHelper;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -22,11 +27,10 @@ import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.setting.api.SettingSubmitAPI;
 import com.med.fast.setting.api.SettingSubmitAPIFunc;
-import com.med.fast.signup.SignupActivity;
-import com.med.fast.signup.api.RegisterSubmitAPI;
-import com.med.fast.signup.api.RegisterSubmitAPIFunc;
 import com.med.fast.summary.SummaryFragment;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,36 +45,48 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
  * Created by kevindreyar on 01-May-17. FM
  */
 
-public class SettingActivity extends FastBaseActivity implements SettingSubmitAPIIntf {
+public class SettingProfileActivity extends FastBaseActivity implements SettingSubmitAPIIntf {
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
+    // Picture    
+    @BindView(R.id.setting_profile_photo)
+    ImageView profilePhoto;
+    
     // Name
-    @BindView(R.id.setting_firstNameET)
+    @BindView(R.id.setting_profile_fname)
     CustomFontEditText firstNameET;
-    @BindView(R.id.setting_lastNameET)
+    @BindView(R.id.setting_profile_lname)
     CustomFontEditText lastNameET;
 
     // Date of Birth
-    @BindView(R.id.setting_dobTV)
+    @BindView(R.id.setting_profile_dob)
     CustomFontTextView dobTV;
     // Gender
-    @BindView(R.id.setting_maleRB)
+    @BindView(R.id.setting_profile_maleRB)
     CustomFontRadioButton maleRB;
-    @BindView(R.id.setting_femaleRB)
+    @BindView(R.id.setting_profile_femaleRB)
     CustomFontRadioButton femaleRB;
     // Confirm
-    @BindView(R.id.signup_confirmBtn)
-    CustomFontButton confirmBtn;
+    @BindView(R.id.setting_profile_submit_btn)
+    CustomFontButton submitBtn;
     private int year, month, day;
+    private boolean photoChanged = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.setting_profile_layout);
 
-        toolbarTitle.setText(getString(R.string.signup_title));
+        toolbarTitle.setText(getString(R.string.setting_edit_account));
+
+        profilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewImage();
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -10);
@@ -81,7 +97,7 @@ public class SettingActivity extends FastBaseActivity implements SettingSubmitAP
         dobTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(SettingActivity.this, null, year, month, day);
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(SettingProfileActivity.this, null, year, month, day);
                 datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                 datePickerDialog.getDatePicker().updateDate(year, month, day);
                 datePickerDialog.show();
@@ -131,7 +147,7 @@ public class SettingActivity extends FastBaseActivity implements SettingSubmitAP
         mAwesomeValidation.addValidation(firstNameET, regexName, "Format nama salah");
         mAwesomeValidation.addValidation(lastNameET, regexName, "Format nama belakang salah");
 
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
+        submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
@@ -143,14 +159,70 @@ public class SettingActivity extends FastBaseActivity implements SettingSubmitAP
                     settingSubmitAPI.data.query.date_of_birth = dobTV.getText().toString();
                     settingSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
-                    SettingSubmitAPIFunc settingSubmitAPIFunc = new SettingSubmitAPIFunc(SettingActivity.this);
-                    settingSubmitAPIFunc.setDelegate(SettingActivity.this);
+                    if (photoChanged){
+                        settingSubmitAPI.data.query.profile_image_file = new File(UtilityUriHelper.getPath(SettingProfileActivity.this, createdPhotoUri));
+                    }
+
+                    SettingSubmitAPIFunc settingSubmitAPIFunc = new SettingSubmitAPIFunc(SettingProfileActivity.this);
+                    settingSubmitAPIFunc.setDelegate(SettingProfileActivity.this);
                     settingSubmitAPIFunc.execute(settingSubmitAPI);
-                } else {
-                    Toast.makeText(SettingActivity.this, "Lohlohloh", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private Uri createdPhotoUri;
+    private String currentMediaPath = "";
+    private CreatedImageModel createdImageModel;
+
+    public void addNewImage() {
+        try {
+            createdImageModel = createImageFile();
+            File output = createdImageModel.image;
+            currentMediaPath = createdImageModel.currentMediaPath;
+            createdPhotoUri = createdImageModel.mDestinationUri;
+            createImagePickerDialog(this, output, getString(R.string.select_image_source));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodeList.CAMERA) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    createdPhotoUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
+                    profilePhoto.setImageURI(createdPhotoUri);
+                    photoChanged = true;
+                } catch (Exception e){
+                    Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                    new File(currentMediaPath).delete();
+                }
+            }
+        } else if (requestCode == RequestCodeList.GALLERY) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
+                    createdPhotoUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
+                    photoChanged = true;
+                    if (createdPhotoUri != null){
+                        profilePhoto.setImageURI(data.getData());
+                    } else {
+                        Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                        new File(currentMediaPath).delete();
+                    }
+                } catch (Exception e){
+                    Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
+                    new File(currentMediaPath).delete();
+                }
+            }
+        } else if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
+            if (resultCode == Activity.RESULT_OK){
+                createImagePickerDialog(this, createdImageModel.image, getString(R.string.select_image_source));
+            }
+        }
     }
 
     @Override

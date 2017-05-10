@@ -10,12 +10,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawablePadding="5dp"
-        android:textStyle="bold"
         android:text="@string/title"
-        android:textSize="@dimen/font_large" />
-    <!--<ImageView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="@dimen/toolbarHeight"-->
-    <!--android:id="@+id/summary_header_setting"/>-->
+        android:textSize="@dimen/font_large"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/summary_header_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/toolbarHeight"
+        android:src="@drawable/ic_settings_black_24dp"
+        android:visibility="gone"/>
+
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.med.fast.summary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -15,6 +17,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.setting.SettingProfileActivity;
 
 import butterknife.BindView;
 
@@ -98,6 +101,14 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == PROFILE) {
             ((ProfileVH)holder).summaryTitle.setText(context.getString(R.string.your_profile));
+            ((ProfileVH)holder).summarySetting.setVisibility(View.VISIBLE);
+            ((ProfileVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, SettingProfileActivity.class);
+                    context.startActivity(intent);
+                }
+            });
 
             Glide.with(context)
                     .load(APIConstants.WEB_URL + summaryWrapperModel.profil_image_path)
@@ -107,12 +118,24 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                     .error(MediaUtils.image_error_black)
                     .into(((ProfileVH)holder).profilePhoto);
 
+            ((ProfileVH)holder).profileName.setText(summaryWrapperModel.name);
+            ((ProfileVH)holder).profileDob.setText(summaryWrapperModel.date_of_birth);
+            ((ProfileVH)holder).profileGender.setText(summaryWrapperModel.gender);
+
         } else if (getItemViewType(position) == VISIT) {
             SummaryVisitAdapter summaryVisitAdapter = new SummaryVisitAdapter(context);
             summaryVisitAdapter.addList(summaryWrapperModel.visit);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.recent_visits));
+            ((SummaryRecyclerVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryRecyclerVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
             ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryVisitAdapter);
         } else if (getItemViewType(position) == MEDICINE) {
@@ -121,6 +144,14 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.medicines));
+            ((SummaryRecyclerVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryRecyclerVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
             ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryMedicineAdapter);
 
@@ -130,6 +161,14 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.family_anamesy));
+            ((SummaryRecyclerVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryRecyclerVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
             ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryAnamnesyAdapter);
         } else if (getItemViewType(position) == DISEASE) {
@@ -138,6 +177,14 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.ongoing_disease));
+            ((SummaryRecyclerVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryRecyclerVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
             ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryDiseaseAdapter);
         } else if (getItemViewType(position) == ALLERGY) {
@@ -146,10 +193,25 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH)holder).summaryTitle.setText(context.getString(R.string.drug_allergies));
+            ((SummaryRecyclerVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryRecyclerVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
             ((SummaryRecyclerVH)holder).summaryRecycler.setLayoutManager(linearLayoutManager);
             ((SummaryRecyclerVH)holder).summaryRecycler.setAdapter(summaryAllergyAdapter);
         } else {
             ((SummaryHabitVH)holder).summaryTitle.setText(context.getString(R.string.voluptuary_habits));
+            ((SummaryHabitVH)holder).summarySetting.setVisibility(View.GONE);
+            ((SummaryHabitVH)holder).summarySetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             if (summaryWrapperModel.voluptary_habits != null &&
                     summaryWrapperModel.voluptary_habits.equals("")) ((SummaryHabitVH)holder).habitsTxt.setText(summaryWrapperModel.voluptary_habits);
@@ -165,6 +227,8 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     class SummaryRecyclerVH extends FastBaseViewHolder{
         @BindView(R.id.summary_header_title)
         CustomFontTextView summaryTitle;
+        @BindView(R.id.summary_header_setting)
+        ImageView summarySetting;
         @BindView(R.id.summary_adapter_recycler)
         RecyclerView summaryRecycler;
 
@@ -178,6 +242,8 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
         @BindView(R.id.summary_header_title)
         CustomFontTextView summaryTitle;
+        @BindView(R.id.summary_header_setting)
+        ImageView summarySetting;
         @BindView(R.id.habits_card_text)
         CustomFontTextView habitsTxt;
 

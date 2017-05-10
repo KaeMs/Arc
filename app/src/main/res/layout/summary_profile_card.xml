@@ -20,8 +20,7 @@
             android:id="@+id/summary_profile_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:contentDescription="@string/photo"
-            android:scaleType="centerCrop" />
+            android:contentDescription="@string/photo" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/summary_profile_name"
@@ -44,7 +43,7 @@
                 android:id="@+id/summary_profile_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:padding="8dp"
                 android:text="@string/placeholder_date"
                 android:textSize="@dimen/font_small_medium" />
 
@@ -52,7 +51,6 @@
                 android:id="@+id/summary_profile_gender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
                 android:padding="8dp"
                 android:text="@string/placeholder_gender"
                 android:textSize="@dimen/font_small_medium" />

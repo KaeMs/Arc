@@ -13,6 +13,8 @@ import com.med.fast.signup.RegisterSubmitAPIIntf;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -33,6 +35,7 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
     public void setDelegate(SettingSubmitAPIIntf delegate) {
         this.delegate = delegate;
     }
+
     @Override
     protected ResponseAPI doInBackground(SettingSubmitAPI... params) {
 
@@ -57,20 +60,26 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
             }
             String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("first_name", params[0].data.query.first_name)
-                    .add("user_id", params[0].data.query.user_id)
-                    .add("last_name", params[0].data.query.last_name)
-                    .add("profil_image_path", params[0].data.query.profil_image_path)
-                    .add("date_of_birth", params[0].data.query.date_of_birth)
-                    .add("gender", params[0].data.query.gender)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("first_name", params[0].data.query.first_name)
+                    .addFormDataPart("user_id", params[0].data.query.user_id)
+                    .addFormDataPart("last_name", params[0].data.query.last_name)
+                    .addFormDataPart("profil_image_path", params[0].data.query.profil_image_path)
+                    .addFormDataPart("date_of_birth", params[0].data.query.date_of_birth)
+                    .addFormDataPart("gender", params[0].data.query.gender);
+
+            // Upload photo file
+            if (params[0].data.query.profile_image_file != null){
+                String fileType = "image/" + "jpg";
+                String fileName = "profile_image_" + params[0].data.query.user_id;
+                builder.addFormDataPart("profile_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.profile_image_file));
+            }
 
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Accept", "application/json")
                     .addHeader("Authorization", "Bearer " + token)
-                    .post(formBody)
+                    .post(builder.build())
                     .build();
 
             Response response = client.newCall(request).execute();

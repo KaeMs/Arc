@@ -5,6 +5,7 @@
     <string name="splash_image">Splash Image</string>
 
     <!--Setting-->
+    <string name="setting_edit_account">EDIT YOUR ACCOUNT</string>
     <string name="setting_profile_picture">Profile Picture</string>
     <string name="setting_name">Name</string>
     <string name="setting_dob">Date of Birth</string>
@@ -93,7 +94,7 @@
 
     <!-- Summary -->
     <string name="placeholder_name">Fast Med Dev Name</string>
-    <string name="placeholder_gender">Visiting Date</string>
+    <string name="placeholder_gender">Gender</string>
     <string name="photo">Photo</string>
     <string name="medicine_colon">Medicine :</string>
     <string name="medicine_form_colon">Form :</string>
@@ -325,6 +326,7 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="submit">Submit</string>
+    <string name="submit_changes">Submit Changes</string>
     <string name="finish">Finish</string>
     <string name="upload">Upload</string>
     <string name="retry">Retry</string>

@@ -159,7 +159,6 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
         }
     }
 
-
     @Override
     public void refreshView(boolean setRefreshing) {
         isLoading = true;

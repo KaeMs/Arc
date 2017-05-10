@@ -1,0 +1,125 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_margin="10dp"
+    app:cardElevation="5dp"
+    app:contentPadding="@dimen/default_card_content_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/summary_header" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/setting_profile_picture" />
+
+        <ImageView
+            android:id="@+id/setting_profile_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/photo"
+            android:scaleType="centerCrop" />
+
+        <!-- Name -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/disease_name"
+            android:textColor="@color/blackDark" />
+
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/setting_profile_fname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_pink_selector"
+            android:hint="@string/first_name"
+            android:textSize="@dimen/font_small"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <com.med.fast.customviews.CustomFontEditText
+            android:id="@+id/setting_profile_lname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_edittext_grey_pink_selector"
+            android:hint="@string/last_name"
+            android:textSize="@dimen/font_small"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+        <!-- Date of Birth -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/setting_dob" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/setting_profile_dob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_grey" />
+
+        <!-- Gender -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:text="@string/setting_gender" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/setting_profile_maleRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male" />
+
+            <com.med.fast.customviews.CustomFontRadioButton
+                android:id="@+id/setting_profile_femaleRB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female" />
+
+        </RadioGroup>
+
+        <!-- Forgot password -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/setting_profile_forgot_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:text="@string/setting_forgot_password"
+            android:textColor="@color/textcolor_pink_to_black"/>
+
+        <!-- Save -->
+        <com.med.fast.customviews.CustomFontButton
+            android:id="@+id/setting_profile_submit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btnMediumHeight"
+            android:layout_marginTop="15dp"
+            android:text="@string/submit_changes"
+            android:background="@drawable/button_ltgrey_grey"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

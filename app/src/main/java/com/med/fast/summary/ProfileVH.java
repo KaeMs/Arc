@@ -16,6 +16,8 @@ import butterknife.BindView;
 public class ProfileVH extends FastBaseViewHolder {
     @BindView(R.id.summary_header_title)
     CustomFontTextView summaryTitle;
+    @BindView(R.id.summary_header_setting)
+    ImageView summarySetting;
     @BindView(R.id.summary_profile_photo)
     ImageView profilePhoto;
     @BindView(R.id.summary_profile_name)
