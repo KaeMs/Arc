@@ -52,4 +52,6 @@ dependencies {
     annotationProcessor 'dk.ilios:realmfieldnameshelper:1.1.1'
     // Compressor
     compile 'id.zelory:compressor:1.0.4'
+    // Joda Time
+    compile 'joda-time:joda-time:2.9.9'
 }

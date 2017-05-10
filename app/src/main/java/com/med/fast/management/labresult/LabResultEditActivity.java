@@ -20,7 +20,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UtilityUriHelper;
-import com.med.fast.UtilsRealPath;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -65,7 +64,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_labresult_popup);
+        setContentView(R.layout.management_labresult_add_activity);
 
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
@@ -109,15 +108,15 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                         String descriptionString = testDescription.getText().toString();
                         String finishedDateString = testFinishedDate.getText().toString();
 
-                        labResultManagementModel.setTest_type(testTypeString);
-                        labResultManagementModel.setTest_location(testLocationString);
-                        labResultManagementModel.setTest_description(descriptionString);
-                        labResultManagementModel.setTest_date(finishedDateString);
+                        labResultManagementModel.setTest_name(testTypeString);
+                        labResultManagementModel.setPlace(testLocationString);
+                        labResultManagementModel.setDesc_result(descriptionString);
+                        labResultManagementModel.setDate(finishedDateString);
                         labResultManagementModel.setProgress_status("0");
 
                         LabResultManagementEditSubmitAPI labResultManagementEditSubmitAPI = new LabResultManagementEditSubmitAPI();
                         labResultManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(LabResultEditActivity.this);
-                        labResultManagementEditSubmitAPI.data.query.lab_result_id = labResultManagementModel.getTest_id();
+                        labResultManagementEditSubmitAPI.data.query.lab_result_id = labResultManagementModel.getId();
                         labResultManagementEditSubmitAPI.data.query.test_name = testTypeString;
                         labResultManagementEditSubmitAPI.data.query.place = testLocationString;
                         labResultManagementEditSubmitAPI.data.query.desc_result = descriptionString;
@@ -137,7 +136,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
     private void refreshView() {
         LabResultManagementEditShowAPI labResultManagementEditShowAPI = new LabResultManagementEditShowAPI();
         labResultManagementEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
-        labResultManagementEditShowAPI.data.query.lab_result_id = labResultManagementModel.getTest_id();
+        labResultManagementEditShowAPI.data.query.lab_result_id = labResultManagementModel.getId();
 
         LabResultManagementEditShowAPIFunc labResultManagementEditShowAPIFunc = new LabResultManagementEditShowAPIFunc(this);
         labResultManagementEditShowAPIFunc.setDelegate(this);
@@ -192,10 +191,10 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             Gson gson = new Gson();
             LabResultManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                testType.setText(output.data.results.lab_result.getTest_type());
-                testLocation.setText(output.data.results.lab_result.getTest_location());
-                testFinishedDate.setText(output.data.results.lab_result.getTest_date());
-                testDescription.setText(output.data.results.lab_result.getTest_description());
+                testType.setText(output.data.results.lab_result.getTest_name());
+                testLocation.setText(output.data.results.lab_result.getPlace());
+                testFinishedDate.setText(output.data.results.lab_result.getDate());
+                testDescription.setText(output.data.results.lab_result.getDesc_result());
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

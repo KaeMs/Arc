@@ -1,6 +1,7 @@
 package com.med.fast.management.labresult;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -25,7 +27,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UtilityUriHelper;
-import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -34,6 +35,10 @@ import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPIFunc;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
+
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,7 +87,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_labresult_popup);
+        setContentView(R.layout.management_labresult_add_activity);
 
         userId = SharedPreferenceUtilities.getUserId(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -172,10 +177,10 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                         String testFinishedDateString = testFinishedDate.getText().toString();
 
                         labResultManagementModel = new LabResultManagementModel();
-                        labResultManagementModel.setTest_type(testTypeString);
-                        labResultManagementModel.setTest_location(testLocationString);
-                        labResultManagementModel.setTest_description(testDescriptionString);
-                        labResultManagementModel.setTest_date(testFinishedDateString);
+                        labResultManagementModel.setTest_name(testTypeString);
+                        labResultManagementModel.setPlace(testLocationString);
+                        labResultManagementModel.setDesc_result(testDescriptionString);
+                        labResultManagementModel.setDate(testFinishedDateString);
                         labResultManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
                         labResultManagementModel.setTag(testTypeString + testFinishedDateString);
 
@@ -217,29 +222,107 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         }
     }
 
+    private void showImageAddedDialog(final Uri imageUri){
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.management_labresult_imagedate_popup);
+        dialog.setCanceledOnTouchOutside(false);
+
+        ImageView photo = (ImageView) dialog.findViewById(R.id.labresult_imagedate_popup_selected_img);
+        final CustomFontTextView dateTaken = (CustomFontTextView) dialog.findViewById(R.id.labresult_imagedate_popup_date_tv);
+        CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
+        CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
+
+        photo.setImageURI(imageUri);
+
+        dateTaken.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.dateFormatComma)
+                        .withLocale(Locale.getDefault());
+
+                LocalDate localDate = new LocalDate();
+                if (!dateTaken.getText().toString().equals("")){
+                    localDate = formatter.parseLocalDate(dateTaken.getText().toString());
+                }
+
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(LabResultAddActivity.this, null,
+                        localDate.getYear(),
+                        localDate.getMonthOfYear() - 1,
+                        localDate.getDayOfMonth());
+                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
+//                datePickerDialog.getDatePicker().updateDate(year, month, day);
+                datePickerDialog.show();
+                datePickerDialog.setCanceledOnTouchOutside(true);
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                DateTimeFormatter datePickDialogFormatter = DateTimeFormat.forPattern("MM dd yyyy")
+                                        .withLocale(Locale.getDefault());
+                                LocalDate datePickDialogLocalDate = new LocalDate();
+                                datePickDialogLocalDate = datePickDialogFormatter.parseLocalDate(
+                                        String.valueOf(datePickerDialog.getDatePicker().getMonth() + 1) + " "  +
+                                                String.valueOf(datePickerDialog.getDatePicker().getDayOfMonth()) + " "  +
+                                                String.valueOf(datePickerDialog.getDatePicker().getYear()));
+                                DateTimeFormatter datePickReformatter = DateTimeFormat.forPattern(Constants.dateFormatComma)
+                                        .withLocale(Locale.getDefault());
+                                dateTaken.setText(datePickReformatter.print(datePickDialogLocalDate));
+                            }
+                        });
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                                    // Do Stuff
+                                    datePickerDialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LabResultImageItem labResultImageItem = new LabResultImageItem();
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
+                labResultImageItem.setImage_path(currentMediaPath);
+                labResultImageItem.setImage_uri(imageUri);
+                labResultImageItem.setImage_is_deleted(false);
+                labResultImageItem.getLabResultUploadImageItem().setId(String.valueOf(labResultImageAdapter.getItemCount()) + userId);
+                labResultImageItem.getLabResultUploadImageItem().setPath(currentMediaPath);
+                labResultImageItem.getLabResultUploadImageItem().setDate_taken(dateTaken.getText().toString());
+                labResultImageItem.getLabResultUploadImageItem().setIs_deleted(false);
+                labResultImageAdapter.updatemDataset(labResultImageItem);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCodeList.CAMERA) {
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
-                LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
-                labResultImageItem.setImage_path(currentMediaPath);
-                labResultImageItem.setImage_uri(mDestinationUri);
-                labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updatemDataset(labResultImageItem);
+                showImageAddedDialog(mDestinationUri);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
-                LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
-                labResultImageItem.setImage_path(currentMediaPath);
-                labResultImageItem.setImage_uri(mediaUri);
-                labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updatemDataset(labResultImageItem);
+                showImageAddedDialog(mediaUri);
             }
         }
     }
@@ -252,7 +335,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 intent.putExtra(ConstantsManagement.LABRESULT_ID_EXTRA, output.data.results.new_lab_result_id);
-                labResultManagementModel.setTest_id(output.data.results.new_lab_result_id);
+                labResultManagementModel.setId(output.data.results.new_lab_result_id);
                 labResultManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA, gson.toJson(labResultManagementModel));
                 setResult(RESULT_OK, intent);

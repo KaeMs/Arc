@@ -5,52 +5,61 @@ package com.med.fast.management.labresult;
  */
 
 public class LabResultManagementModel {
-    private String test_id;
-    private String test_type;
-    private String test_location;
-    private String test_description;
-    private String test_date;
+    private String id;
+    private String user_id;
+    private String test_name;
+    private String desc_result;
+    private String place;
+    private String date;
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
 
-    public String getTest_id() {
-        return test_id;
+    public String getId() {
+        return id;
     }
 
-    public void setTest_id(String test_id) {
-        this.test_id = test_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getTest_type() {
-        return test_type;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setTest_type(String test_type) {
-        this.test_type = test_type;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getTest_location() {
-        return test_location;
+    public String getTest_name() {
+        return test_name;
     }
 
-    public void setTest_location(String test_location) {
-        this.test_location = test_location;
+    public void setTest_name(String test_name) {
+        this.test_name = test_name;
     }
 
-    public String getTest_description() {
-        return test_description;
+    public String getDesc_result() {
+        return desc_result;
     }
 
-    public void setTest_description(String test_description) {
-        this.test_description = test_description;
+    public void setDesc_result(String desc_result) {
+        this.desc_result = desc_result;
     }
 
-    public String getTest_date() {
-        return test_date;
+    public String getPlace() {
+        return place;
     }
 
-    public void setTest_date(String test_date) {
-        this.test_date = test_date;
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getProgress_status() {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_activity_content_padding">
+
+        <ImageView
+            android:id="@+id/labresult_imagedate_popup_selected_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/select_image" />
+
+        <!-- Date Taken -->
+        <com.med.fast.customviews.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/date_taken_optional"
+            android:textColor="@color/blackDark" />
+
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/labresult_imagedate_popup_date_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border_grey"
+            android:hint="@string/date_taken_optional"
+            android:textColor="@color/blackDark"
+            android:textSize="@dimen/font_small" />
+
+        <include layout="@layout/management_operation_backcreate_buttons" />
+
+    </LinearLayout>
+
+</RelativeLayout>

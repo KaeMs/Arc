@@ -12,6 +12,7 @@ public class LabResultImageItem {
     private String date_taken;
     private boolean image_is_deleted;
     private Uri image_uri;
+    private LabResultUploadImageItem labResultUploadImageItem = new LabResultUploadImageItem();
 
     public String getImage_id() {
         return image_id;
@@ -51,5 +52,13 @@ public class LabResultImageItem {
 
     public void setImage_uri(Uri image_uri) {
         this.image_uri = image_uri;
+    }
+
+    public LabResultUploadImageItem getLabResultUploadImageItem() {
+        return labResultUploadImageItem;
+    }
+
+    public void setLabResultUploadImageItem(LabResultUploadImageItem labResultUploadImageItem) {
+        this.labResultUploadImageItem = labResultUploadImageItem;
     }
 }

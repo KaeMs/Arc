@@ -7,10 +7,10 @@ import android.net.Uri;
  */
 
 public class LabResultUploadImageItem {
-    private String id;
-    private String path;
-    private String date_taken;
-    private boolean is_deleted;
+    private String id = "";
+    private String path = "";
+    private String date_taken = "";
+    private boolean is_deleted = false;
 
     public String getId() {
         return id;

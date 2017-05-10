@@ -265,6 +265,9 @@
     <string name="lab_testing_date">Testing Date</string>
     <string name="lab_test_name">Test Name</string>
     <string name="lab_test_name_hint">Blood check</string>
+    <string name="date_taken_optional">Image taken date (Optional)</string>
+    <string name="date_taken_optional_hint">(Optional) Pick date taken</string>
+    <string name="selected_image">Selected image</string>
     <string name="place">Place</string>
     <string name="description">Description</string>
     <string name="lab_test_delete_confirmation">Are you sure you want to delete this lab result?</string>

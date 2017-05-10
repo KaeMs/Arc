@@ -1,9 +1,6 @@
 package com.med.fast.management.labresult;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
-import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
@@ -30,12 +24,9 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontButton;
-import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPI;
-import com.med.fast.management.labresult.api.LabResultManagementCreateSubmitAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteSubmitAPI;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementCreateIntf;
@@ -45,17 +36,10 @@ import com.med.fast.viewholders.InfiScrollProgressVH;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
-
-import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
@@ -135,7 +119,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     // Update by model
     public void updateItem(LabResultManagementModel item){
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTest_id().equals(item.getTest_id())){
+            if (mDataset.get(i).getId().equals(item.getId())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
                 notifyItemChanged(i);
@@ -150,7 +134,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setTest_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -193,10 +177,10 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == LABRESULT){
             LabResultManagementVH labResultManagementVH = (LabResultManagementVH)holder;
-            labResultManagementVH.testingDate.setText(mDataset.get(position).getTest_date());
-            labResultManagementVH.testName.setText(mDataset.get(position).getTest_type());
-            labResultManagementVH.testingPlace.setText(mDataset.get(position).getTest_location());
-            labResultManagementVH.testingDescription.setText(mDataset.get(position).getTest_description());
+            labResultManagementVH.testingDate.setText(mDataset.get(position).getDate());
+            labResultManagementVH.testName.setText(mDataset.get(position).getTest_name());
+            labResultManagementVH.testingPlace.setText(mDataset.get(position).getPlace());
+            labResultManagementVH.testingDescription.setText(mDataset.get(position).getDesc_result());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
@@ -234,7 +218,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
-                        createDeleteDialog(context, context.getString(R.string.lab_test_delete_confirmation), "labresult" + mDataset.get(holder.getAdapterPosition()).getTest_id());
+                        createDeleteDialog(context, context.getString(R.string.lab_test_delete_confirmation), "labresult" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
@@ -254,16 +238,16 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent){
         for (int i = 0; i < getItemCount(); i++){
-            if (deleteConfirmEvent.deletionId.equals("labresult" + mDataset.get(i).getTest_id())){
+            if (deleteConfirmEvent.deletionId.equals("labresult" + mDataset.get(i).getId())){
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 LabResultManagementDeleteSubmitAPI accidentHistoryDeleteSubmitAPI = new LabResultManagementDeleteSubmitAPI();
                 accidentHistoryDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                accidentHistoryDeleteSubmitAPI.data.query.lab_result_id = mDataset.get(i).getTest_id();
+                accidentHistoryDeleteSubmitAPI.data.query.lab_result_id = mDataset.get(i).getId();
 
                 LabResultManagementDeleteAPIFunc accidentHistoryDeleteSubmitAPIFunc =
-                        new LabResultManagementDeleteAPIFunc(context, LabResultManagementAdapter.this, mDataset.get(i).getTest_id());
+                        new LabResultManagementDeleteAPIFunc(context, LabResultManagementAdapter.this, mDataset.get(i).getId());
                 accidentHistoryDeleteSubmitAPIFunc.execute(accidentHistoryDeleteSubmitAPI);
                 break;
             }
@@ -305,7 +289,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             LabResultManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.lab_result_id.equals(mDataset.get(i).getTest_id())) {
+                    if (output.data.query.lab_result_id.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }

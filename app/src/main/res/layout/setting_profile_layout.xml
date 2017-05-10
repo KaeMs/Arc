@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/summary_header" />
+        <include layout="@layout/toolbar_title_divider" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:layout_width="match_parent"

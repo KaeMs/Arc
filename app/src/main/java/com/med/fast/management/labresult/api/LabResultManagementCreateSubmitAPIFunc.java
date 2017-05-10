@@ -62,7 +62,8 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
                     .addFormDataPart("test_name", params[0].data.query.test_name)
                     .addFormDataPart("desc_result", params[0].data.query.desc_result)
                     .addFormDataPart("date", params[0].data.query.date)
-                    .addFormDataPart("place", params[0].data.query.place);
+                    .addFormDataPart("place", params[0].data.query.place)
+                    .addFormDataPart("img_obj_json", params[0].data.query.img_obj_json);
 
             // Upload multiple files
             for(int i = 0; i < params[0].data.query.img_file_list.size(); ++i){

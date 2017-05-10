@@ -111,12 +111,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
         for (LabResultImageItem item :
                 mDataset) {
             if (item != null){
-                LabResultUploadImageItem labResultUploadImageItem = new LabResultUploadImageItem();
-                labResultUploadImageItem.setId("");
-                labResultUploadImageItem.setPath(item.getImage_path());
-                labResultUploadImageItem.setDate_taken(item.getDate_taken());
-                labResultUploadImageItem.setIs_deleted(false);
-                labResultUploadImageItemWrapper.img_list.add(labResultUploadImageItem);
+                labResultUploadImageItemWrapper.img_list.add(item.getLabResultUploadImageItem());
             }
         }
 
