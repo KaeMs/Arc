@@ -193,7 +193,14 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_EDIT){
+        if (requestCode == RequestCodeList.LABRESULT_CREATE){
+            if (resultCode == Activity.RESULT_OK){
+                Gson gson = new Gson();
+                LabResultManagementModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA), LabResultManagementModel.class);
+                labResultManagementAdapter.addSingle(model, 0);
+            }
+        } else if (requestCode == RequestCodeList.LABRESULT_EDIT){
             if (resultCode == Activity.RESULT_OK){
                 Gson gson = new Gson();
                 LabResultManagementModel model =

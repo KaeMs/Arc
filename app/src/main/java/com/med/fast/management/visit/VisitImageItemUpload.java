@@ -7,7 +7,7 @@ import android.net.Uri;
  */
 
 public class VisitImageItemUpload {
-    private int id;
+    private String id;
     private String path;
     private boolean is_deleted;
 
@@ -17,11 +17,11 @@ public class VisitImageItemUpload {
         this.is_deleted = item.isIs_deleted();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

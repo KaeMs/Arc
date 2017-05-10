@@ -337,7 +337,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                 intent.putExtra(ConstantsManagement.LABRESULT_ID_EXTRA, output.data.results.new_lab_result_id);
                 labResultManagementModel.setId(output.data.results.new_lab_result_id);
                 labResultManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
-                intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA, gson.toJson(labResultManagementModel));
+                intent.putExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA, gson.toJson(labResultManagementModel));
                 setResult(RESULT_OK, intent);
                 finish();
             } else {

@@ -285,6 +285,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseasesInString());
 
             if (mDataset.get(position).getImage_list().size() > 0) {
+                visitViewHolder.imageRecycler.setVisibility(View.VISIBLE);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
                 SnapHelper snapHelper = new PagerSnapHelper();

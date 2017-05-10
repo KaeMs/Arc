@@ -227,7 +227,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(visitImageAdapter.getItemCount());
+                visitImageItem.setId(String.valueOf(visitImageAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
@@ -238,7 +238,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                 currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(visitImageAdapter.getItemCount());
+                visitImageItem.setId(String.valueOf(visitImageAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mediaUri);
                 visitImageItem.setIs_deleted(false);

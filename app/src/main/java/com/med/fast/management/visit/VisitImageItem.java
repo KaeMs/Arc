@@ -7,16 +7,16 @@ import android.net.Uri;
  */
 
 public class VisitImageItem {
-    private int id;
+    private String id;
     private String path;
     private boolean is_deleted;
     private Uri uri;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

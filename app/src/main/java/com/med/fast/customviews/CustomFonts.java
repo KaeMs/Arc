@@ -15,4 +15,5 @@ public class CustomFonts {
     public static final String opensansRegular = "OpenSans-Regular.ttf";
     public static final String opensansSemibold = "OpenSans-Semibold.ttf";
     public static final String opensansSemiboldItalic = "OpenSans-SemiboldItalic.ttf";
+    public static final String fontawesome = "fontawesome-webfont.ttf";
 }

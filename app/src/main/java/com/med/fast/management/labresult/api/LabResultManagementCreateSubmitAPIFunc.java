@@ -1,8 +1,11 @@
 package com.med.fast.management.labresult.api;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -27,11 +30,23 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
     private LabResultManagementCreateIntf delegate;
     private Context context;
     private String tag;
+    private ProgressDialog progressDialog;
 
     public LabResultManagementCreateSubmitAPIFunc(Context context, LabResultManagementCreateIntf delegate, String tag) {
         this.context = context;
         this.delegate = delegate;
         this.tag = tag;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Submitting your Lab Result..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -101,5 +116,6 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishLabResultManagementCreate(responseAPI, tag);
+        progressDialog.dismiss();
     }
 }

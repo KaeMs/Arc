@@ -14,9 +14,23 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig getSigningConfig()
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def date = new Date();
+                    def formattedDate = date.format('yyyy MM dd')
+                    output.outputFile = new File(output.outputFile.parent,
+                            output.outputFile.name.replace("app-release", "FM - " + formattedDate)
+                    )
+                }
+            }
         }
+    }
+    sourceSets {
+        main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] }
     }
 }
 

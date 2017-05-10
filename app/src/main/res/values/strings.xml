@@ -345,5 +345,7 @@
     <string name="opensans_regular">OpenSans-Regular.ttf</string>
     <string name="opensans_semibold">OpenSans-Semibold.ttf</string>
     <string name="opensans_semiboldItalic">OpenSans-SemiboldItalic.ttf</string>
+    <string name="fontawesome">fontawesome-webfont.ttf</string>
+
 
 </resources>

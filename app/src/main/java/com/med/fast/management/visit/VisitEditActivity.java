@@ -234,7 +234,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(visitImageEditAdapter.getItemCount());
+                visitImageItem.setId(String.valueOf(visitImageEditAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
@@ -244,7 +244,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(visitImageEditAdapter.getItemCount());
+                visitImageItem.setId(String.valueOf(visitImageEditAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
