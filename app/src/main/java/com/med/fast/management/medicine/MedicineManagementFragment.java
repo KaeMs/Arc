@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -139,6 +140,20 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
         });
     }
 
+    @Override
+    public void scrollToTop()
+    {
+        this.recyclerView.smoothScrollBy(0, -1000);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(0);
+            }
+        }, Constants.scrollTopTime);
+    }
+
+    @Override
     public void refreshView(boolean setRefreshing){
         MedicineManagementListShowAPI medicineManagementListShowAPI = new MedicineManagementListShowAPI();
         medicineManagementListShowAPI.data.query.user_id = userId;

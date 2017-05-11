@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,8 @@ public class MainActivity extends FastBaseActivity {
     private FragmentManager fragmentManager;
     private DrawerFragment drawerFragment;
 
+    @BindView(R.id.fmcontainer_appbar)
+    AppBarLayout appBarLayout;
     @BindView(R.id.toolbar_main_top_toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_main_top_title)
@@ -90,6 +93,18 @@ public class MainActivity extends FastBaseActivity {
 
         SummaryFragment summaryFragment = new SummaryFragment();
         replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
+    }
+
+    @Override
+    public void scrollToTop() {
+        if (currentFragment() instanceof FastBaseFragment){
+            ((FastBaseFragment) currentFragment()).scrollToTop();
+            appBarLayout.setExpanded(true, true);
+        }
+    }
+
+    public void expandAppBarLayout(boolean expand, boolean animation){
+        appBarLayout.setExpanded(expand, animation);
     }
 
     @Override

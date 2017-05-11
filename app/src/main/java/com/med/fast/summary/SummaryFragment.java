@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.med.fast.Constants;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
@@ -66,6 +67,21 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                 refreshView(false);
             }
         });
+    }
+
+    @Override
+    public void scrollToTop()
+    {
+        this.summaryRecycler.smoothScrollBy(0, -1000);
+
+        Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                summaryRecycler.scrollToPosition(0);
+            }
+        }, Constants.scrollTopTime);
     }
 
     @Override

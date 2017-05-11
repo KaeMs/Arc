@@ -41,6 +41,9 @@ public abstract class FastBaseActivity extends AppCompatActivity {
     public void replaceFragment(Fragment fragment, String tag, boolean addToBackstack) {
     }
 
+    public void scrollToTop() {
+    }
+
     protected void createImagePickerDialog(final Context context, final File output, String title){
 
         int hasCameraPermission = ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA);

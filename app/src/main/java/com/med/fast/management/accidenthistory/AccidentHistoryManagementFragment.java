@@ -3,6 +3,7 @@ package com.med.fast.management.accidenthistory;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -133,6 +134,20 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         });
     }
 
+    @Override
+    public void scrollToTop()
+    {
+        this.recyclerView.smoothScrollBy(0, -1000);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(0);
+            }
+        }, Constants.scrollTopTime);
+    }
+
+    @Override
     public void refreshView(boolean setRefreshing){
         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
         accidentHistoryListShowAPI.data.query.user_id = userId;

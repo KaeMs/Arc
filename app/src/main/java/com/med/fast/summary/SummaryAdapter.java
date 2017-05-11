@@ -45,10 +45,8 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     public void setModel(SummaryWrapperModel data){
         this.summaryWrapperModel = data;
+        notifyDataSetChanged();
         itemCount = 7;
-        for (int i = 0; i < itemCount; i++){
-            notifyItemInserted(i);
-        }
     }
 
     @Override
