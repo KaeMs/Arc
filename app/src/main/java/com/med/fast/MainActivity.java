@@ -96,6 +96,16 @@ public class MainActivity extends FastBaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getStringExtra(IntentNames.SETTING_FINISHED) != null){
+            if (currentFragment() instanceof SummaryFragment){
+                ((SummaryFragment) currentFragment()).refreshView(true);
+            }
+        }
+    }
+
+    @Override
     public void scrollToTop() {
         if (currentFragment() instanceof FastBaseFragment){
             ((FastBaseFragment) currentFragment()).scrollToTop();

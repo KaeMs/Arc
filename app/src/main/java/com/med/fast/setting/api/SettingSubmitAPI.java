@@ -23,7 +23,6 @@ public class SettingSubmitAPI {
             public String last_name;
             public String date_of_birth;
             public String gender; //0="Male", 1= "Female"
-            public String profil_image_path;
             public File profile_image_file;
         }
 
