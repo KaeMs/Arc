@@ -38,10 +38,15 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     private SummaryWrapperModel summaryWrapperModel;
     private Context context;
     private int itemCount = 0;
+    private int width;
 
     public SummaryAdapter(Context context) {
         this.context = context;
         this.summaryWrapperModel = new SummaryWrapperModel();
+    }
+
+    public void setWidth(int width){
+        this.width = width;
     }
 
     public void setModel(SummaryWrapperModel data){
@@ -124,6 +129,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
         } else if (getItemViewType(position) == VISIT) {
             SummaryVisitAdapter summaryVisitAdapter = new SummaryVisitAdapter(context);
+            summaryVisitAdapter.setWidth(width);
             summaryVisitAdapter.addList(summaryWrapperModel.visit);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 

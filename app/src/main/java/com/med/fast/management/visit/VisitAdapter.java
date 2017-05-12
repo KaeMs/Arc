@@ -291,6 +291,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                 SnapHelper snapHelper = new PagerSnapHelper();
                 visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
                 visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
+                visitViewHolder.imageRecycler.setOnFlingListener(null);
                 snapHelper.attachToRecyclerView(visitViewHolder.imageRecycler);
             } else {
                 visitViewHolder.imageRecycler.setVisibility(View.GONE);

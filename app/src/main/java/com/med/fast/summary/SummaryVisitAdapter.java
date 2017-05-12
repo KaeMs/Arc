@@ -1,14 +1,18 @@
 package com.med.fast.summary;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.R;
 
@@ -22,9 +26,14 @@ import java.util.List;
 public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
     private Context context;
     private List<VisitModel> mDataset = new ArrayList<>();
+    private int width;
 
     public SummaryVisitAdapter(Context context){
         this.context = context;
+    }
+
+    public void setWidth(int width){
+        this.width = width;
     }
 
     public void addList(List<VisitModel> dataset){
@@ -34,13 +43,13 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.summary_textonly, parent, false);
-        return new SummaryTextOnlyVH(view);
+                .inflate(R.layout.summary_visit_viewholder, parent, false);
+        return new SummaryVisitVH(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
+        SummaryVisitVH summaryVisitVH = (SummaryVisitVH)holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -49,7 +58,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.append(dateString);
         sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - dateString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sb.append(" ");
-        sb.append(mDataset.get(position).getCreated_date().toString());
+        sb.append(mDataset.get(position).getCreated_date());
         sb.append("\n");
 
         // Append Hospital
@@ -68,15 +77,31 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.append(mDataset.get(position).getDoctor_name());
         sb.append("\n");
 
-        // Append Image
-        String imageString = context.getString(R.string.visit_image);
-        sb.append(imageString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append("\n");
-        //sb.append(mDataset.get(position).getMedicine_dose());
+        if (mDataset.get(position).getImage_list().size() > 0){
+            summaryVisitVH.recyclerView.setVisibility(View.VISIBLE);
+            summaryVisitVH.recyclerView.setOnFlingListener(null);
+            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+            snapHelper.attachToRecyclerView(summaryVisitVH.recyclerView);
 
-        summaryTextOnlyVH.summaryText.setText(sb);
+            SummaryVisitImageAdapter summaryVisitImageAdapter = new SummaryVisitImageAdapter(context, width);
+            summaryVisitImageAdapter.addList(mDataset.get(position).getImage_list());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+
+            summaryVisitVH.recyclerView.setLayoutManager(linearLayoutManager);
+            summaryVisitVH.recyclerView.setAdapter(summaryVisitImageAdapter);
+
+            // Append Image
+            String imageString = context.getString(R.string.visit_image);
+            sb.append(imageString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append("\n");
+            //sb.append(mDataset.get(position).getMedicine_dose());
+        } else {
+            summaryVisitVH.recyclerView.setVisibility(View.GONE);
+        }
+
+        summaryVisitVH.summaryText.setText(sb);
     }
 
     @Override

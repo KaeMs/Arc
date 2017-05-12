@@ -1,21 +1,29 @@
 package com.med.fast.summary;
 
+import com.med.fast.management.visit.VisitImageItem;
+
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by kevindreyar on 25-Apr-17.
+ * Created by kevindreyar on 25-Apr-17. FM
  */
 
 public class VisitModel {
-    public String visit_id ;
-    public String owner_id ;
-    public Date created_date ;
-    public String hospital_name ;
-    public String doctor_name ;
-    public String diagnose ;
+    private String visit_id = "";
+    private String owner_id = "";
+    private String created_date = "";
+    private String hospital_name = "";
+    private String doctor_name = "";
+    private String diagnose = "";
+    private String disease = "";
+    private List<VisitImageItem> image_list;
 
     public String getVisit_id() {
+        if (visit_id == null){
+            return "-";
+        }
         return visit_id;
     }
 
@@ -24,6 +32,9 @@ public class VisitModel {
     }
 
     public String getOwner_id() {
+        if (owner_id == null){
+            return "-";
+        }
         return owner_id;
     }
 
@@ -31,15 +42,21 @@ public class VisitModel {
         this.owner_id = owner_id;
     }
 
-    public Date getCreated_date() {
+    public String getCreated_date() {
+        if (created_date == null){
+            return "-";
+        }
         return created_date;
     }
 
-    public void setCreated_date(Date created_date) {
+    public void setCreated_date(String created_date) {
         this.created_date = created_date;
     }
 
     public String getHospital_name() {
+        if (hospital_name == null){
+            return "-";
+        }
         return hospital_name;
     }
 
@@ -48,6 +65,9 @@ public class VisitModel {
     }
 
     public String getDoctor_name() {
+        if (doctor_name == null){
+            return "-";
+        }
         return doctor_name;
     }
 
@@ -56,6 +76,9 @@ public class VisitModel {
     }
 
     public String getDiagnose() {
+        if (diagnose == null){
+            return "-";
+        }
         return diagnose;
     }
 
@@ -64,6 +87,9 @@ public class VisitModel {
     }
 
     public String getDisease() {
+        if (disease == null){
+            return "-";
+        }
         return disease;
     }
 
@@ -72,13 +98,13 @@ public class VisitModel {
     }
 
     public List<VisitImageItem> getImage_list() {
+        if (image_list == null){
+            return new ArrayList<>();
+        }
         return image_list;
     }
 
     public void setImage_list(List<VisitImageItem> image_list) {
         this.image_list = image_list;
     }
-
-    public String disease ;
-    public List<VisitImageItem> image_list ;
 }

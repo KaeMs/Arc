@@ -69,4 +69,6 @@ dependencies {
     compile 'id.zelory:compressor:1.0.4'
     // Joda Time
     compile 'joda-time:joda-time:2.9.9'
+    // Gravity Snap Helper
+    compile 'com.github.rubensousa:gravitysnaphelper:1.1'
 }
