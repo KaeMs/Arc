@@ -173,14 +173,18 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
                     SettingSubmitAPI settingSubmitAPI = new SettingSubmitAPI();
+                    settingSubmitAPI.data.query.user_id = userId;
                     settingSubmitAPI.data.query.first_name = firstNameET.getText().toString();
-//                    settingSubmitAPI.data.query.profil_image_path = firstNameET.getText().toString();
                     settingSubmitAPI.data.query.last_name = lastNameET.getText().toString();
                     settingSubmitAPI.data.query.date_of_birth = dobTV.getText().toString();
                     settingSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
                     if (photoChanged){
+                        String[] imagePaths = currentMediaPath.split("/");
+                        settingSubmitAPI.data.query.profil_image_path = imagePaths[imagePaths.length - 1];
                         settingSubmitAPI.data.query.profile_image_file = new File(UtilityUriHelper.getPath(SettingProfileActivity.this, createdPhotoUri));
+                    } else {
+                        settingSubmitAPI.data.query.profil_image_path = "";
                     }
 
                     SettingSubmitAPIFunc settingSubmitAPIFunc = new SettingSubmitAPIFunc(SettingProfileActivity.this, SettingProfileActivity.this);
