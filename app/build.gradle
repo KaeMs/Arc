@@ -60,6 +60,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
     // Glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
     // Eventbus
     compile 'org.greenrobot:eventbus:3.0.0'
     // Realm Field Name Helper
