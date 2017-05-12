@@ -21,6 +21,9 @@ public class APIConstants {
 
     // Summary
     public static final String SUMMARY_SHOW = "/home/dashboardshow";
+    // Setting
+    public static final String SETTING_SHOW = "/setting/settingshow";
+    public static final String SETTING_SUBMIT = "/setting/settingsubmit";
     // ID Card
     public static final String IDCARD_SHOW = "/cardid/cardidshow";
     public static final String IDCARD_SUBMIT = "/cardid/cardidsubmit";
@@ -81,12 +84,6 @@ public class APIConstants {
     public static final String LABRESULT_DELETE_SUBMIT = "/labresult/labresultdeletesubmit";
     public static final String LABRESULT_DELETE_IMAGE_SUBMIT = "/labresult/medicinedeletesubmit";
     public static final int LAB_INF_SCROLL = 20;
-
-    // Setting
-    public static final String SETTING_SHOW = "/setting/settingshow";
-    public static final String SETTING_SUBMIT = "/setting/settingsubmit";
-    public static final String SETTING_IDCARD_SHOW = "/cardid/cardidshow";
-    public static final String SETTING_IDCARD_SUBMIT = "/cardid/cardidsubmit";
 
     // Misc
     public static final String MISC_SHOW = "/misc/miscshow";

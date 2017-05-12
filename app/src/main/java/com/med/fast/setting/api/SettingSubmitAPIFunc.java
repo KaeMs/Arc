@@ -29,11 +29,8 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
     private SettingAPIIntf delegate;
     private Activity activity;
 
-    public SettingSubmitAPIFunc(Activity activity) {
+    public SettingSubmitAPIFunc(Activity activity, SettingAPIIntf delegate) {
         this.activity = activity;
-    }
-
-    public void setDelegate(SettingAPIIntf delegate) {
         this.delegate = delegate;
     }
 
@@ -42,7 +39,7 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
 
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "setting/settingsubmit";
+            String url = APIConstants.API_URL + APIConstants.SETTING_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

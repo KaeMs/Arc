@@ -6,6 +6,12 @@
     <item android:state_pressed="true" >
         <shape>
             <solid
+                android:color="@color/pinkOpa60" />
+        </shape>
+    </item>
+    <item android:state_activated="true" >
+        <shape>
+            <solid
                 android:color="@color/pink" />
         </shape>
     </item>

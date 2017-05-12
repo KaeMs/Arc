@@ -82,30 +82,34 @@ public class SplashScreenActivity extends FastBaseActivity {
             Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         } else {
             Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
 
     void showProgress(boolean show){
-        if (show){
-            dimmer.setAnimation(animFadeIn);
-            dimmer.getAnimation().start();
-            progressBar.setAnimation(animFadeIn);
-            progressBar.getAnimation().start();
-            dimmer.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            dimmer.setAnimation(animFadeOut);
-            dimmer.getAnimation().start();
-            progressBar.setAnimation(animFadeOut);
-            progressBar.getAnimation().start();
-            dimmer.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+        if (dimmer != null){
+            if (show){
+                dimmer.setAnimation(animFadeIn);
+                dimmer.getAnimation().start();
+                progressBar.setAnimation(animFadeIn);
+                progressBar.getAnimation().start();
+                dimmer.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                dimmer.setAnimation(animFadeOut);
+                dimmer.getAnimation().start();
+                progressBar.setAnimation(animFadeOut);
+                progressBar.getAnimation().start();
+                dimmer.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+            }
         }
     }
 }

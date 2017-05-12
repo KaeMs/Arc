@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
@@ -62,7 +63,6 @@ public abstract class FastBaseActivity extends AppCompatActivity {
         if( hasWritePermission != PackageManager.PERMISSION_GRANTED ) {
             permissions.add( Manifest.permission.WRITE_EXTERNAL_STORAGE );
         }
-
 
         if (!permissions.isEmpty()) {
             ActivityCompat.requestPermissions((Activity) context, permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);
@@ -133,7 +133,7 @@ public abstract class FastBaseActivity extends AppCompatActivity {
                     .show();
         }
     }
-    
+
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
@@ -172,6 +172,7 @@ public abstract class FastBaseActivity extends AppCompatActivity {
             image = new File(storageDir, imageFileName + ".jpg");
         }
 
+        storageDir.mkdirs();
         // Save a file: path for use with ACTION_VIEW intents
         createdImageModel.currentMediaPath = "file:" + image.getAbsolutePath();
         createdImageModel.mDestinationUri = Uri.parse(createdImageModel.currentMediaPath);

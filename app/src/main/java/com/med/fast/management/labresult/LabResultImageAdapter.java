@@ -18,7 +18,7 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
-import com.med.fast.UtilityUriHelper;
+import com.med.fast.UriUtils;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.VisitAddActivity;
@@ -99,7 +99,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
         for (LabResultImageItem item :
                 mDataset) {
             if (item != null){
-                returnFile.add(new File(UtilityUriHelper.getPath(context, item.getImage_uri())));
+                returnFile.add(new File(UriUtils.getPath(context, item.getImage_uri())));
             }
         }
         return returnFile;
@@ -150,7 +150,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
             visitImageVH.imageWrapper.getLayoutParams().height = width * 30 / 100;
 
             Glide.with(context)
-                    .load(UtilityUriHelper.getPath(context, mDataset.get(position).getImage_uri()))
+                    .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(true)
                     .placeholder(MediaUtils.image_placeholder_black)

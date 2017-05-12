@@ -68,11 +68,13 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof SummaryFragment)){
                     SummaryFragment summaryFragment = new SummaryFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, false);
+                    setSelected(summaryWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
+        setSelected(summaryWrapper);
 
         idcardWrapper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +83,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof IDCardFragment)){
                     IDCardFragment idCardFragment = new IDCardFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(idCardFragment, Tag.IDCARD_FRAG, false);
+                    setSelected(idcardWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -94,8 +97,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof VisitFragment)){
                     VisitFragment visitFragment = new VisitFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
+                    setSelected(visitWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -107,8 +111,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof SurgeryManagementFragment)){
                     SurgeryManagementFragment surgeryManagementFragment = new SurgeryManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(surgeryManagementFragment, Tag.SURGERY_FRAG, false);
+                    setSelected(surgeryWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -120,8 +125,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof AllergyManagementFragment)){
                     AllergyManagementFragment allergyManagementFragment = new AllergyManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, false);
+                    setSelected(allergyWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -133,8 +139,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof DiseaseManagementFragment)){
                     DiseaseManagementFragment diseaseManagementFragment = new DiseaseManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, false);
+                    setSelected(diseaseWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -146,8 +153,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof MedicineManagementFragment)){
                     MedicineManagementFragment medicineManagementFragment = new MedicineManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, false);
+                    setSelected(medicineWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -159,8 +167,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof AccidentHistoryManagementFragment)){
                     AccidentHistoryManagementFragment accidentHistoryManagementFragment = new AccidentHistoryManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.ACCIDENT_FRAG, false);
+                    setSelected(accidentWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -172,8 +181,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof LabResultManagementFragment)){
                     LabResultManagementFragment labResultManagementFragment = new LabResultManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(labResultManagementFragment, Tag.LABRESULT_FRAG, false);
+                    setSelected(labresultWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -185,8 +195,9 @@ public class DrawerFragment extends FastBaseFragment {
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof MiscManagementFragment)){
                     MiscManagementFragment miscManagementFragment = new MiscManagementFragment();
                     ((FastBaseActivity)getActivity()).replaceFragment(miscManagementFragment, Tag.MISC_FRAG, false);
+                    setSelected(miscWrapper);
                 } else {
-                    scrollToTop();
+                    ((MainActivity) getActivity()).scrollToTop();
                 }
             }
         });
@@ -197,5 +208,19 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).displayLogoutDialog();
             }
         });
+    }
+
+    public void setSelected(View view){
+        summaryWrapper.setActivated(false);
+        idcardWrapper.setActivated(false);
+        visitWrapper.setActivated(false);
+        surgeryWrapper.setActivated(false);
+        allergyWrapper.setActivated(false);
+        diseaseWrapper.setActivated(false);
+        medicineWrapper.setActivated(false);
+        accidentWrapper.setActivated(false);
+        labresultWrapper.setActivated(false);
+        miscWrapper.setActivated(false);
+        view.setActivated(true);
     }
 }

@@ -1,8 +1,10 @@
 package com.med.fast.management.visit;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UriUtils;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
@@ -78,6 +81,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     private VisitModel visitModel;
     private Uri mDestinationUri;
     private String currentMediaPath;
+    private CreatedImageModel createdImageModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -217,7 +221,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
 
     public void addNewImage() {
         try {
-            CreatedImageModel createdImageModel = createImageFile();
+            createdImageModel = createImageFile();
             File output = createdImageModel.image;
             currentMediaPath = createdImageModel.currentMediaPath;
             mDestinationUri = createdImageModel.mDestinationUri;
@@ -242,7 +246,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
-                currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
+                currentMediaPath = UriUtils.getPath(this, data.getData());
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setId(String.valueOf(visitImageEditAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
@@ -250,6 +254,19 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 visitImageItem.setIs_deleted(false);
                 visitImageEditAdapter.updateImage(visitImageItem);
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
+            for (int i = 0; i < permissions.length; i++){
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
+            }
+            createImagePickerDialog(this, createdImageModel.image, getString(R.string.select_image_source));
         }
     }
 

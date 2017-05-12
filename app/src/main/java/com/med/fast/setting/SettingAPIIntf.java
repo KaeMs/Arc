@@ -9,6 +9,4 @@ import com.med.fast.api.ResponseAPI;
 public interface SettingAPIIntf {
     void onFinishSettingShow(ResponseAPI responseAPI);
     void onFinishSettingSubmit(ResponseAPI responseAPI);
-    void onFinishSettingIdCardShow(ResponseAPI responseAPI);
-    void onFinishSettingIdCardSubmit(ResponseAPI responseAPI);
 }

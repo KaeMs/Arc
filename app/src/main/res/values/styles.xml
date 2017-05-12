@@ -12,6 +12,7 @@
         <item name="android:radioButtonStyle">@style/AppTheme.RadioButtonStyle</item>
         <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
         <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
     </style>
 
     <style name="AppTheme.EditTextStyle" parent="@android:style/Widget.EditText">
@@ -47,6 +48,21 @@
 
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.PositiveButtonStyle</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogTheme.NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AlertDialogTheme.PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <!-- Initial Data Theme -->

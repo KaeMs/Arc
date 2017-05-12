@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -78,7 +79,7 @@ public abstract class FastBaseFragment extends Fragment {
         }
 
         if (!permissions.isEmpty()) {
-            ActivityCompat.requestPermissions(activity, permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);
+            requestPermissions(permissions.toArray(new String[permissions.size()]), RequestCodeList.PHOTO_OPERATIONS);
         } else {
             new AlertDialog.Builder(activity)
                     .setTitle(title)
@@ -147,7 +148,6 @@ public abstract class FastBaseFragment extends Fragment {
         }
     }
 
-
     public CreatedImageModel createImageFile() throws IOException {
         CreatedImageModel createdImageModel = new CreatedImageModel();
         Calendar calendar = Calendar.getInstance();
@@ -168,6 +168,7 @@ public abstract class FastBaseFragment extends Fragment {
             image = new File(storageDir, imageFileName + ".jpg");
         }
 
+        storageDir.mkdirs();
         // Save a file: path for use with ACTION_VIEW intents
         createdImageModel.currentMediaPath = "file:" + image.getAbsolutePath();
         createdImageModel.mDestinationUri = Uri.parse(createdImageModel.currentMediaPath);

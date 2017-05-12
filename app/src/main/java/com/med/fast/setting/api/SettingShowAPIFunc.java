@@ -19,25 +19,23 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by kevindreyar on 01-May-17.
+ * Created by kevindreyar on 01-May-17. FM
  */
 
 public class SettingShowAPIFunc extends AsyncTask<SettingShowAPI, Integer, ResponseAPI> {
     private SettingAPIIntf delegate;
     private Activity activity;
 
-    public SettingShowAPIFunc(Activity activity) {
+    public SettingShowAPIFunc(Activity activity, SettingAPIIntf delegate) {
         this.activity = activity;
-    }
-
-    public void setDelegate(SettingAPIIntf delegate) {
         this.delegate = delegate;
     }
+
     @Override
     protected ResponseAPI doInBackground(SettingShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "setting/settingshow";
+            String url = APIConstants.API_URL + APIConstants.SETTING_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -88,5 +86,6 @@ public class SettingShowAPIFunc extends AsyncTask<SettingShowAPI, Integer, Respo
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
+        delegate.onFinishSettingShow(responseAPI);
     }
 }

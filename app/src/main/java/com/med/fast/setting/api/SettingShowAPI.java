@@ -3,17 +3,17 @@ package com.med.fast.setting.api;
 import java.sql.Date;
 
 /**
- * Created by kevindreyar on 01-May-17.
+ * Created by kevindreyar on 01-May-17. FM
  */
 
 public class SettingShowAPI {
-    public Data data;
+    public Data data = new Data();
 
     public class Data
     {
-        public Query query;
-        public Status status;
-        public Results results;
+        public Query query = new Query();
+        public Status status = new Status();
+        public Results results = new Results();
 
         public class Query
         {
@@ -32,7 +32,7 @@ public class SettingShowAPI {
             public String description;
             public String first_name;
             public String last_name;
-            public Date date_of_birth;
+            public String date_of_birth;
             public int gender; //0="Male", 1= "Female"
             public String profil_image_path;
         }

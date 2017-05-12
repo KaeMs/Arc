@@ -2,8 +2,10 @@ package com.med.fast.management.idcard;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.UriUtils;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.UtilsRealPath;
 import com.med.fast.api.APIConstants;
@@ -138,10 +141,10 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    currentMediaPath = UtilityUriHelper.getPath(getActivity(), data.getData());
+                    currentMediaPath = UriUtils.getPath(getActivity(), data.getData());
                     createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
                     if (createdPhotoUri != null){
-                        photo.setImageURI(data.getData());
+                        photo.setImageURI(createdPhotoUri);
                         saveBtn.setEnabled(true);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
@@ -152,10 +155,19 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                     new File(currentMediaPath).delete();
                 }
             }
-        } else if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
-            if (resultCode == Activity.RESULT_OK){
-                createImagePickerDialog(getActivity(), createdImageModel.image, getString(R.string.select_image_source));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
+            for (int i = 0; i < permissions.length; i++){
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                    return;
+                }
             }
+            createImagePickerDialog(getActivity(), createdImageModel.image, getString(R.string.select_image_source));
         }
     }
 
@@ -178,16 +190,20 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
             if (responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 IDCardShowAPI output = gson.fromJson(responseAPI.status_response, IDCardShowAPI.class);
-                if (output.data.status.code.equals("200")) {
+                if (output != null){
+                    if (output.data.status.code.equals("200")) {
 
-                    Glide.with(getActivity())
-                            .load(APIConstants.WEB_URL + output.data.results.card_id_image_path)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .skipMemoryCache(true)
-                            .placeholder(MediaUtils.image_placeholder_black)
-                            .error(MediaUtils.image_error_black)
-                            .into(photo);
+                        Glide.with(getActivity())
+                                .load(APIConstants.WEB_URL + output.data.results.card_id_image_path)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .skipMemoryCache(true)
+                                .placeholder(MediaUtils.image_placeholder_black)
+                                .error(MediaUtils.image_error_black)
+                                .into(photo);
 
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }

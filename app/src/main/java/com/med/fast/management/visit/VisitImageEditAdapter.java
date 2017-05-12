@@ -18,6 +18,7 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
+import com.med.fast.UriUtils;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.customviews.CustomFontTextView;
 
@@ -115,7 +116,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
                     mDataset) {
                 if (visitImageItemUpload.getPath().equals(visitImageItem.getPath())){
                     if (visitImageItem.getUri() != null){
-                        returnFileList.add(new File(UtilityUriHelper.getPath(context, visitImageItem.getUri())));
+                        returnFileList.add(new File(UriUtils.getPath(context, visitImageItem.getUri())));
                     }
                 }
             }
@@ -235,7 +236,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
 
                 } else {
                     savedPos = holder.getAdapterPosition();
-                    ((VisitAddActivity)context).addNewImage();
+                    ((VisitEditActivity)context).addNewImage();
                 }
             }
         });
