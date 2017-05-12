@@ -7,6 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.setting.SettingAPIIntf;
 import com.med.fast.setting.SettingShowAPIIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -22,14 +23,14 @@ import okhttp3.Response;
  */
 
 public class SettingShowAPIFunc extends AsyncTask<SettingShowAPI, Integer, ResponseAPI> {
-    private SettingShowAPIIntf delegate;
+    private SettingAPIIntf delegate;
     private Activity activity;
 
     public SettingShowAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(SettingShowAPIIntf delegate) {
+    public void setDelegate(SettingAPIIntf delegate) {
         this.delegate = delegate;
     }
     @Override

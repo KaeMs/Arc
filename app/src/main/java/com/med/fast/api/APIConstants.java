@@ -85,6 +85,8 @@ public class APIConstants {
     // Setting
     public static final String SETTING_SHOW = "/setting/settingshow";
     public static final String SETTING_SUBMIT = "/setting/settingsubmit";
+    public static final String SETTING_IDCARD_SHOW = "/cardid/cardidshow";
+    public static final String SETTING_IDCARD_SUBMIT = "/cardid/cardidsubmit";
 
     // Misc
     public static final String MISC_SHOW = "/misc/miscshow";

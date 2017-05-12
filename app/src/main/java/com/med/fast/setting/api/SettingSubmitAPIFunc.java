@@ -7,6 +7,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.setting.SettingAPIIntf;
 import com.med.fast.setting.SettingSubmitAPIIntf;
 import com.med.fast.signup.RegisterSubmitAPIIntf;
 
@@ -25,14 +26,14 @@ import okhttp3.Response;
  */
 
 public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, ResponseAPI> {
-    private SettingSubmitAPIIntf delegate;
+    private SettingAPIIntf delegate;
     private Activity activity;
 
     public SettingSubmitAPIFunc(Activity activity) {
         this.activity = activity;
     }
 
-    public void setDelegate(SettingSubmitAPIIntf delegate) {
+    public void setDelegate(SettingAPIIntf delegate) {
         this.delegate = delegate;
     }
 

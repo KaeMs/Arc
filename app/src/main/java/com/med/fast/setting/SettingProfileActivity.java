@@ -45,7 +45,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
  * Created by kevindreyar on 01-May-17. FM
  */
 
-public class SettingProfileActivity extends FastBaseActivity implements SettingSubmitAPIIntf {
+public class SettingProfileActivity extends FastBaseActivity implements SettingAPIIntf {
     // Toolbar
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
@@ -223,6 +223,11 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingS
                 createImagePickerDialog(this, createdImageModel.image, getString(R.string.select_image_source));
             }
         }
+    }
+
+    @Override
+    public void onFinishSettingShow(ResponseAPI responseAPI) {
+
     }
 
     @Override
