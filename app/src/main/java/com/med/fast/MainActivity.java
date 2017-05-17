@@ -65,7 +65,7 @@ public class MainActivity extends FastBaseActivity {
 
         fragmentManager = getSupportFragmentManager();
         drawerFragment = (DrawerFragment) fragmentManager.findFragmentById(R.id.dashboard_drawerfrag);
-
+        dashboardFab.setAlpha(0.25f);
         dashboardFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
