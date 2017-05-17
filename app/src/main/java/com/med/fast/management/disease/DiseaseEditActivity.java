@@ -100,12 +100,14 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
                     String hereditaryType = String.valueOf(hereditaryYes.isChecked());
+                    String isOngoingStr = String.valueOf(ongoingY.isChecked());
                     String inheritedFromString = inheritedFrom.getText().toString();
                     String historicDateString = historicDate.getText().toString();
                     String dateSpinnerString = dateSpinner.getSelectedItem().toString();
 
                     diseaseManagementModel.setName(diseaseNameString);
                     diseaseManagementModel.setIs_hereditary(hereditaryType);
+                    diseaseManagementModel.setIs_ongoing(isOngoingStr);
                     diseaseManagementModel.setHereditary_carriers(inheritedFromString);
                     diseaseManagementModel.setHistoric_date(historicDateString);
                     diseaseManagementModel.setApproximate_date(dateSpinnerString);
@@ -116,7 +118,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                     diseaseManagementEditSubmitAPI.data.query.id = diseaseManagementModel.getId();
                     diseaseManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(DiseaseEditActivity.this);
                     diseaseManagementEditSubmitAPI.data.query.is_hereditary = hereditaryType;
-                    diseaseManagementEditSubmitAPI.data.query.is_ongoing = String.valueOf(ongoingY);
+                    diseaseManagementEditSubmitAPI.data.query.is_ongoing = isOngoingStr;
                     diseaseManagementEditSubmitAPI.data.query.hereditary_carriers = inheritedFromString;
                     diseaseManagementEditSubmitAPI.data.query.historic_date = historicDateString;
                     diseaseManagementEditSubmitAPI.data.query.approximate_date = dateSpinnerString;

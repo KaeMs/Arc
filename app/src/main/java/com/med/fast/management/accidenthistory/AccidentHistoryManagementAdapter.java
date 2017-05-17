@@ -228,7 +228,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     String detail = Utils.processStringForAPI(accidentDetails.getText().toString());
                     String injuryNatureString = Utils.processStringForAPI(injuryNature.getText().toString());
                     String injuryLocationString = Utils.processStringForAPI(injuryLocation.getText().toString());
-                    String accidentDate = accidentDateTV.getText().toString();
+                    String accidentDate = Utils.processStringForAPI(accidentDateTV.getText().toString());
                     String accidentDateTmp;
                     if (accidentDateSpinner.getSelectedItemPosition() > 0) {
                         accidentDateTmp = accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition());

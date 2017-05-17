@@ -60,7 +60,7 @@ public class AllergyManagementDeleteAPIFunc extends AsyncTask<AllergyManagementD
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("id", params[0].data.query.allergy_id)
+                    .add("allergy_id", params[0].data.query.allergy_id)
                     .build();
 
             Request request = new Request.Builder()
