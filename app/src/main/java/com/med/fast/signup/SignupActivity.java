@@ -144,19 +144,23 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAwesomeValidation.clear();
-                if (mAwesomeValidation.validate()) {
-                    RegisterSubmitAPI registerSubmitAPI = new RegisterSubmitAPI();
-                    registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();
-                    registerSubmitAPI.data.query.last_name = lastNameET.getText().toString();
-                    registerSubmitAPI.data.query.email = emailAddressET.getText().toString();
-                    registerSubmitAPI.data.query.dob = dobTV.getText().toString();
-                    registerSubmitAPI.data.query.password = passwordET.getText().toString();
-                    registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
+                if (dobTV.getText().toString().equals("")){
+                    Toast.makeText(SignupActivity.this, getString(R.string.date_of_birth_required), Toast.LENGTH_SHORT).show();
+                } else {
+                    mAwesomeValidation.clear();
+                    if (mAwesomeValidation.validate()) {
+                        RegisterSubmitAPI registerSubmitAPI = new RegisterSubmitAPI();
+                        registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();
+                        registerSubmitAPI.data.query.last_name = lastNameET.getText().toString();
+                        registerSubmitAPI.data.query.email = emailAddressET.getText().toString();
+                        registerSubmitAPI.data.query.dob = dobTV.getText().toString();
+                        registerSubmitAPI.data.query.password = passwordET.getText().toString();
+                        registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
-                    RegisterSubmitAPIFunc registerSubmitAPIFunc = new RegisterSubmitAPIFunc(SignupActivity.this);
-                    registerSubmitAPIFunc.setDelegate(SignupActivity.this);
-                    registerSubmitAPIFunc.execute(registerSubmitAPI);
+                        RegisterSubmitAPIFunc registerSubmitAPIFunc = new RegisterSubmitAPIFunc(SignupActivity.this);
+                        registerSubmitAPIFunc.setDelegate(SignupActivity.this);
+                        registerSubmitAPIFunc.execute(registerSubmitAPI);
+                    }
                 }
             }
         });
