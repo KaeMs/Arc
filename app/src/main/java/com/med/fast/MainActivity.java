@@ -23,7 +23,6 @@ import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.login.LoginActivity;
 import com.med.fast.management.idcard.IDCardFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
-import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.summary.SummaryFragment;
 
 import butterknife.BindView;
@@ -88,6 +87,7 @@ public class MainActivity extends FastBaseActivity {
                         dashboardFab.show();
                     }
                 }
+                drawerFragment.activateCurrentFragment();
             }
         });
 

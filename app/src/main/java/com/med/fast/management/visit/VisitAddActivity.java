@@ -27,7 +27,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
-import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -75,7 +74,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
 
-    private VisitImageAdapter visitImageAdapter;
+    private VisitImageAddAdapter visitImageAddAdapter;
     private ArrayAdapter<VisitDiseaseModel> diseasesLVAdapter;
     private List<String> leftDataset;
     private ArrayAdapter<VisitDiseaseModel> selectedLVAdapter;
@@ -91,12 +90,11 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        visitImageAdapter = new VisitImageAdapter(this);
-        visitImageAdapter.setWidth(displayMetrics.widthPixels);
-        visitImageAdapter.addSingle(null);
+        visitImageAddAdapter = new VisitImageAddAdapter(this,displayMetrics.widthPixels);
+        visitImageAddAdapter.addSingle(null);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
-        imageRecycler.setAdapter(visitImageAdapter);
+        imageRecycler.setAdapter(visitImageAddAdapter);
         this.diseasesLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
         leftDataset = new ArrayList<>();
         this.selectedLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
@@ -189,8 +187,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
                     visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
 
-                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAdapter.getImageCount() > 0 ? "true" : "false";
-                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAdapter.getUploadFile());
+                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAddAdapter.getImageCount() > 0 ? "true" : "false";
+                    visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAddAdapter.getUploadFile());
 
                     VisitManagementCreateSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
                             new VisitManagementCreateSubmitAPIFunc(VisitAddActivity.this, VisitAddActivity.this, visitModel.getTag());
@@ -231,22 +229,22 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(String.valueOf(visitImageAdapter.getItemCount()));
+                visitImageItem.setId(String.valueOf(visitImageAddAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
-                visitImageAdapter.updatemDataset(visitImageItem);
+                visitImageAddAdapter.updatemDataset(visitImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UriUtils.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 VisitImageItem visitImageItem = new VisitImageItem();
-                visitImageItem.setId(String.valueOf(visitImageAdapter.getItemCount()));
+                visitImageItem.setId(String.valueOf(visitImageAddAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mediaUri);
                 visitImageItem.setIs_deleted(false);
-                visitImageAdapter.updatemDataset(visitImageItem);
+                visitImageAddAdapter.updatemDataset(visitImageItem);
             }
         }
     }

@@ -4,17 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 import com.google.gson.Gson;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
@@ -54,13 +54,13 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     private List<VisitModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
-    private String userId;
+    private int width;
 
-    public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+    public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf, int width){
         super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
-        this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.width = width;
     }
 
     public void addList(List<VisitModel> dataset) {
@@ -287,8 +287,8 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             if (mDataset.get(position).getImage_list().size() > 0) {
                 visitViewHolder.imageRecycler.setVisibility(View.VISIBLE);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-                VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context);
-                SnapHelper snapHelper = new PagerSnapHelper();
+                VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context, width);
+                SnapHelper snapHelper = new GravityPagerSnapHelper(Gravity.START);
                 visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
                 visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
                 visitViewHolder.imageRecycler.setOnFlingListener(null);
@@ -354,7 +354,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals(mDataset.get(i).getVisit_id())) {
+            if (deleteConfirmEvent.deletionId.equals("visit" + mDataset.get(i).getVisit_id())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
@@ -382,9 +382,10 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.visit_id.equals(mDataset.get(i).getVisit_id())) {
+                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getVisit_id())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
+                        break;
                     }
                 }
             } else {

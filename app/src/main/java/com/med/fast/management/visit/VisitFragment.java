@@ -10,6 +10,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,9 +89,11 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).changeTitle("VISIT MANAGEMENT");
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         setHasOptionsMenu(true);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
-        visitAdapter = new VisitAdapter(getActivity(), VisitFragment.this);
+        visitAdapter = new VisitAdapter(getActivity(), VisitFragment.this, displayMetrics.widthPixels);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
