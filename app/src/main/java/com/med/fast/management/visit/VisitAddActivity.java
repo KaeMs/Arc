@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -69,6 +70,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     ListView diseaseHistoryListView;
     @BindView(R.id.visit_popup_disease_input_recycler)
     ListView diseaseInputListView;
+    @BindView(R.id.visit_popup_disease_history_recycler_wrapper)
+    LinearLayout listViewsWrapper;
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
@@ -176,6 +179,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                         diseases.add(selectedLVAdapter.getItem(i));
                     }
                     visitModel.setDiseases(diseases);
+                    visitModel.setImage_list(visitImageAddAdapter.getmDataset());
 
                     visitModel.setProgress_status("1");
                     visitModel.setTag(doctorNameString + currentDate);
@@ -186,6 +190,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
                     visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
+                    visitManagementCreateSubmitAPI.data.query.tag = doctorNameString + currentDate;
 
                     visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAddAdapter.getImageCount() > 0 ? "true" : "false";
                     visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAddAdapter.getUploadFile());
@@ -264,11 +269,17 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
 
     @Override
     public void onFinishVisitCreateShow(ResponseAPI responseAPI) {
+        swipeRefreshLayout.setRefreshing(false);
         if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             VisitManagementCreateShowAPI output = gson.fromJson(responseAPI.status_response, VisitManagementCreateShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                diseasesLVAdapter.addAll(output.data.results.disease_list);
+                if (output.data.results.disease_list.size() > 0){
+                    listViewsWrapper.setVisibility(View.VISIBLE);
+                    diseasesLVAdapter.addAll(output.data.results.disease_list);
+                } else {
+                    listViewsWrapper.setVisibility(View.GONE);
+                }
             }
         } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

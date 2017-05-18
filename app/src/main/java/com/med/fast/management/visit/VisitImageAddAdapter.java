@@ -65,7 +65,7 @@ public class VisitImageAddAdapter extends FastBaseRecyclerAdapter {
     public void updatemDataset(VisitImageItem visitImageItem) {
         if (mDataset.get(savedPos) == null ||
                 !visitImageItem.getUri().equals(mDataset.get(savedPos).getUri())) {
-            this.mDataset.set(savedPos, new VisitImageItem());
+            this.mDataset.set(savedPos, visitImageItem);
         }
         notifyItemChanged(savedPos);
 //        ((PostProductActivity)context).smoothScrollToEnd();

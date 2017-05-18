@@ -19,6 +19,7 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
+import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.disease.api.DiseaseManagementEditShowAPI;
 import com.med.fast.management.disease.api.DiseaseManagementEditShowAPIFunc;
 import com.med.fast.management.disease.api.DiseaseManagementEditSubmitAPI;
@@ -54,7 +55,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     Spinner dateSpinner;
     ArrayAdapter<String> approximateSpinnerAdapter;
     @BindView(R.id.disease_popup_historic_date_tv)
-    CustomFontEditText historicDate;
+    CustomFontTextView historicDate;
 
     private DiseaseManagementModel diseaseManagementModel;
 

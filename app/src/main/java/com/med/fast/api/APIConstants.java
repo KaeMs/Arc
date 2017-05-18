@@ -29,7 +29,7 @@ public class APIConstants {
     public static final String IDCARD_SUBMIT = "/cardid/cardidsubmit";
     // Visit
     public static final String VISIT_SHOW = "/visit/visitlistshow";
-    public static final String VISIT_CREATE_SHOW = "/visit/visitcreatesubmit";
+    public static final String VISIT_CREATE_SHOW = "/visit/visitcreateshow";
     public static final String VISIT_CREATE_SUBMIT = "/visit/visitcreatesubmit";
     public static final String VISIT_EDIT_SHOW = "/visit/visiteditshow";
     public static final String VISIT_EDIT_SUBMIT = "/visit/visiteditsubmit";

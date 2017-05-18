@@ -71,7 +71,7 @@ public class VisitModel {
     }
 
     public String getDiseasesInString() {
-        if (diseases != null){
+        if (diseases != null && diseases.size() > 0){
             StringBuilder sb = new StringBuilder();
             for (VisitDiseaseModel model :
                     diseases) {

@@ -49,7 +49,7 @@ public class VisitManagementEditShowAPIFunc extends AsyncTask<VisitManagementEdi
     protected ResponseAPI doInBackground(VisitManagementEditShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + "/visit/visiteditshow";
+            String url = APIConstants.API_URL + APIConstants.VISIT_EDIT_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)

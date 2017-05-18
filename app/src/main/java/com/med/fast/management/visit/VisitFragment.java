@@ -250,9 +250,10 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
                 String visitId = data.getStringExtra(ConstantsManagement.VISIT_ID_EXTRA);
                 Gson gson = new Gson();
                 VisitModel model =
-                        gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), VisitModel.class);
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA), VisitModel.class);
                 visitAdapter.addSingle(model, 0);
                 noContentTV.setVisibility(View.GONE);
+                scrollToTop();
             }
         } else if (requestCode == RequestCodeList.VISIT_EDIT){
             if (resultCode == Activity.RESULT_OK){

@@ -29,6 +29,7 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -37,10 +38,12 @@ import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.surgery.api.SurgeryManagementCreateSubmitAPI;
 import com.med.fast.management.surgery.api.SurgeryManagementCreateSubmitAPIFunc;
 import com.med.fast.management.surgery.api.SurgeryManagementDeleteSubmitAPI;
+import com.med.fast.management.surgery.api.SurgeryManagementDeleteSubmitAPIFunc;
 import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementCreateDeleteIntf;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,7 +73,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     private int year, month, day;
 
     public SurgeryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
-        super(false);
+        super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
         this.startActivityForResultInAdapterIntf = intf;
@@ -371,6 +374,26 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                     EventBus.getDefault().post(new LoadMoreEvent());
                 }
             });
+        }
+    }
+
+    @Subscribe
+    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+        for (int i = 0; i < getItemCount(); i++) {
+            if (deleteConfirmEvent.deletionId.equals("surgery" + mDataset.get(i).getId())) {
+                mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
+                notifyItemChanged(i);
+
+                SurgeryManagementDeleteSubmitAPI surgeryManagementDeleteSubmitAPI = new SurgeryManagementDeleteSubmitAPI();
+                surgeryManagementDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
+                surgeryManagementDeleteSubmitAPI.data.query.surgery_id = mDataset.get(i).getId();
+
+                SurgeryManagementDeleteSubmitAPIFunc surgeryManagementDeleteSubmitAPIFunc =
+                        new SurgeryManagementDeleteSubmitAPIFunc(context, mDataset.get(i).getId());
+                surgeryManagementDeleteSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);
+                surgeryManagementDeleteSubmitAPIFunc.execute(surgeryManagementDeleteSubmitAPI);
+                break;
+            }
         }
     }
 

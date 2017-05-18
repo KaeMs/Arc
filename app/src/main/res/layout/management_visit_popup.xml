@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/visit_popup_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/visit_popup_swipe_refresh"
     tools:ignore="RtlHardcoded">
 
     <ScrollView
@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/diagnose"
                 android:minLines="3"
                 android:textColor="@color/blackDark"
@@ -85,41 +86,50 @@
                 android:layout_marginTop="5dp" />
 
             <!-- Diagnosed diseases -->
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/diagnosed_diseases"
-                android:textColor="@color/blackDark" />
-
             <LinearLayout
+                android:id="@+id/visit_popup_disease_history_recycler_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/visit_popup_disease_history_recycler"
-                    android:layout_width="0dp"
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_grey"
-                    android:minHeight="200dp" />
+                    android:layout_marginTop="15dp"
+                    android:text="@string/diagnosed_diseases"
+                    android:textColor="@color/blackDark" />
 
-                <ListView
-                    android:id="@+id/visit_popup_disease_input_recycler"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_grey"
-                    android:minHeight="200dp" />
+                    android:layout_marginTop="5dp"
+                    android:baselineAligned="false">
+
+                    <ListView
+                        android:id="@+id/visit_popup_disease_history_recycler"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_grey"
+                        android:minHeight="200dp" />
+
+                    <ListView
+                        android:id="@+id/visit_popup_disease_input_recycler"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/border_grey"
+                        android:minHeight="200dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

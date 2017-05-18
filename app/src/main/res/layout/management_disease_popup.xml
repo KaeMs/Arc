@@ -109,7 +109,7 @@
             android:text="@string/historic_date"
             android:textColor="@color/blackDark" />
 
-        <com.med.fast.customviews.CustomFontEditText
+        <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/disease_popup_historic_date_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
