@@ -85,6 +85,13 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         noContentTV.setText(getString(R.string.no_labresult_record));
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
+        /*Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+        if(savedRecyclerLayoutState == null){
+            refreshView(false);
+        } else {
+            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+            refreshView(false);
+        }*/
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -131,6 +138,12 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override

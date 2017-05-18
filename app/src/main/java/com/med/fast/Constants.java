@@ -17,4 +17,5 @@ public class Constants {
     public static final String REGEX_PASSWORD = "[^-\\s]{6,50}"; // No whitespace, min 8 max 50
 
     public static final int scrollTopTime = 75;
+    public static final String MANAGER_STATE = "manager_state";
 }

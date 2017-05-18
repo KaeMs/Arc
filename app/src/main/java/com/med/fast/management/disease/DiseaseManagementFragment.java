@@ -86,6 +86,13 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
         noContentTV.setText(getString(R.string.no_disease_record));
         progressBar.setVisibility(View.VISIBLE);
         refreshView(false);
+        /*Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+        if(savedRecyclerLayoutState == null){
+            refreshView(false);
+        } else {
+            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+            refreshView(false);
+        }*/
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -123,6 +130,12 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override

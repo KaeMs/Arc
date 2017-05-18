@@ -45,7 +45,7 @@ public class ViewImageActivity extends FastBaseActivity {
                     .error(MediaUtils.image_error_black)
                     .into(image);
 
-            supportPostponeEnterTransition();
+            /*supportPostponeEnterTransition();
             imageWrapper.getViewTreeObserver().addOnPreDrawListener(
                     new ViewTreeObserver.OnPreDrawListener() {
                         @Override
@@ -55,7 +55,7 @@ public class ViewImageActivity extends FastBaseActivity {
                             return true;
                         }
                     }
-            );
+            );*/
         }
     }
 

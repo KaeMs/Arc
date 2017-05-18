@@ -2,6 +2,7 @@ package com.med.fast.summary;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,14 +64,30 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         summaryRecycler.setLayoutManager(linearLayoutManager);
         summaryRecycler.setAdapter(summaryAdapter);
-        refreshView(true);
+        refreshView(false);
+
+        /*Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+        if(savedRecyclerLayoutState == null){
+            refreshView(false);
+        } else {
+            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+            refreshView(false);
+        }*/
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshView(false);
+                refreshView(true);
             }
         });
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getArguments().putParcelable(Constants.MANAGER_STATE, summaryRecycler.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -95,9 +112,9 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
 
         SummaryShowAPIFunc summaryShowAPIFunc = new SummaryShowAPIFunc(getActivity(), SummaryFragment.this);
         summaryShowAPIFunc.execute(summaryShowAPI);
-        swipeRefreshLayout.setRefreshing(!setRefreshing);
-        if (setRefreshing) summaryProgress.setVisibility(View.VISIBLE);
-        else summaryProgress.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(setRefreshing);
+        if (setRefreshing) summaryProgress.setVisibility(View.GONE);
+        else summaryProgress.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/greyOpa60">
+
+    <item>
+        <selector
+            android:enterFadeDuration="@integer/default_fade_duration"
+            android:exitFadeDuration="@integer/default_fade_duration">
+            <item android:state_pressed="true" >
+                <shape>
+                    <solid
+                        android:color="@color/greyLightOpa60" />
+                </shape>
+            </item>
+            <item android:state_activated="true" >
+                <shape>
+                    <solid
+                        android:color="@color/greyLight" />
+                </shape>
+            </item>
+            <item>
+                <shape>
+                    <solid
+                        android:color="@color/transparent" />
+                </shape>
+            </item>
+        </selector>
+    </item>
+
+</ripple>
