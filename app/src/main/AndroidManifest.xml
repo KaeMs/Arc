@@ -165,6 +165,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".signup.SignupSuccessActivity" />
+        <activity android:name=".ViewImageActivity" />
     </application>
 
 </manifest>

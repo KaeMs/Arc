@@ -33,6 +33,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -203,6 +204,11 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
             medicineManagementListShowAPIFunc.execute(medicineManagementListShowAPI);
             isLoading = true;
         }
+    }
+
+    @Subscribe
+    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+        noContentTV.setVisibility(View.GONE);
     }
 
     @Override

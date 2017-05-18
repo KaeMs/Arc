@@ -287,6 +287,8 @@
     <string name="cycle_alteration_question">Do you have any cycle alteration?</string>
     <string name="cycle_alteration_question_placeholder">Cycle alterations</string>
 
+    <string name="view_image_transition">view_image_transition</string>
+
     <!-- API -->
     <!-- Reply -->
     <string name="no_data">No data</string>

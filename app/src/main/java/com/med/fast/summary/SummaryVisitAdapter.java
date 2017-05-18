@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.R;
+import com.med.fast.management.visit.VisitImageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,20 +24,20 @@ import java.util.List;
  * Created by kevindreyar on 07-May-17. FM
  */
 
-public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
+public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<VisitModel> mDataset = new ArrayList<>();
     private int width;
 
-    public SummaryVisitAdapter(Context context){
+    public SummaryVisitAdapter(Context context) {
         this.context = context;
     }
 
-    public void setWidth(int width){
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public void addList(List<VisitModel> dataset){
+    public void addList(List<VisitModel> dataset) {
         this.mDataset.addAll(dataset);
     }
 
@@ -49,7 +50,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SummaryVisitVH summaryVisitVH = (SummaryVisitVH)holder;
+        SummaryVisitVH summaryVisitVH = (SummaryVisitVH) holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
@@ -77,18 +78,18 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter{
         sb.append(mDataset.get(position).getDoctor_name());
         sb.append("\n");
 
-        if (mDataset.get(position).getImage_list().size() > 0){
+        if (mDataset.get(position).getImage_list().size() > 0) {
             summaryVisitVH.recyclerView.setVisibility(View.VISIBLE);
             summaryVisitVH.recyclerView.setOnFlingListener(null);
             SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
             snapHelper.attachToRecyclerView(summaryVisitVH.recyclerView);
 
-            SummaryVisitImageAdapter summaryVisitImageAdapter = new SummaryVisitImageAdapter(context, width);
-            summaryVisitImageAdapter.addList(mDataset.get(position).getImage_list());
+            VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context, width);
+            visitImageAdapter.addList(mDataset.get(position).getImage_list());
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 
             summaryVisitVH.recyclerView.setLayoutManager(linearLayoutManager);
-            summaryVisitVH.recyclerView.setAdapter(summaryVisitImageAdapter);
+            summaryVisitVH.recyclerView.setAdapter(visitImageAdapter);
 
             // Append Image
             String imageString = context.getString(R.string.visit_image);

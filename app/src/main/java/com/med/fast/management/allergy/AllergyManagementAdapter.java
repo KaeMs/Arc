@@ -27,6 +27,7 @@ import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -94,7 +95,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
     public void addSingle(AllergyManagementModel accident, int position) {
         this.mDataset.add(position, accident);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(position);
     }
 
     public void removeProgress() {
@@ -190,15 +191,17 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     String reactionString = Utils.processStringForAPI(reaction.getText().toString());
                     String firstExpString = Utils.processStringForAPI(firstExp.getText().toString());
 
-                    AllergyManagementModel allergy = new AllergyManagementModel();
-                    allergy.setAgent(causativeString);
-                    allergy.setDrug(drugTypeString);
-                    allergy.setReaction(reactionString);
-                    allergy.setFirst_experience(firstExpString);
-                    allergy.setCreated_date(Utils.getCurrentDate());
-                    allergy.setProgress_status("1");
-                    allergy.setTag(causativeString + String.valueOf(getItemCount()));
-                    addSingle(allergy, 0);
+                    AllergyManagementModel allergyManagementModel = new AllergyManagementModel();
+                    allergyManagementModel.setAgent(causativeString);
+                    allergyManagementModel.setDrug(drugTypeString);
+                    allergyManagementModel.setReaction(reactionString);
+                    allergyManagementModel.setFirst_experience(firstExpString);
+                    allergyManagementModel.setCreated_date(Utils.getCurrentDate());
+                    allergyManagementModel.setProgress_status("1");
+                    allergyManagementModel.setTag(causativeString + String.valueOf(getItemCount()));
+                    mDataset.add(0, allergyManagementModel);
+                    notifyItemInserted(0);
+                    EventBus.getDefault().post(new ItemAddedEvent());
 
                     AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
                     allergyManagementCreateSubmitAPI.data.query.user_id = userId;
@@ -209,7 +212,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     allergyManagementCreateSubmitAPI.data.query.tag = causativeString + String.valueOf(getItemCount());
 
                     AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
-                            allergy.getTag(), initial);
+                            allergyManagementModel.getTag(), initial);
                     allergyManagementCreateSubmitAPIFunc.execute(allergyManagementCreateSubmitAPI);
 
                     dialog.dismiss();

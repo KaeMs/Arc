@@ -236,7 +236,11 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         if (requestCode == RequestCodeList.VISIT_CREATE){
             if (resultCode == Activity.RESULT_OK){
                 String visitId = data.getStringExtra(ConstantsManagement.VISIT_ID_EXTRA);
-                visitAdapter.updateItem(visitId, visitId, true);
+                Gson gson = new Gson();
+                VisitModel model =
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), VisitModel.class);
+                visitAdapter.addSingle(model, 0);
+                noContentTV.setVisibility(View.GONE);
             }
         } else if (requestCode == RequestCodeList.VISIT_EDIT){
             if (resultCode == Activity.RESULT_OK){

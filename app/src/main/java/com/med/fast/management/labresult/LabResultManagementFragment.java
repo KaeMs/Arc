@@ -214,6 +214,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
                 LabResultManagementModel model =
                         gson.fromJson(data.getStringExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA), LabResultManagementModel.class);
                 labResultManagementAdapter.addSingle(model, 0);
+                noContentTV.setVisibility(View.GONE);
             }
         } else if (requestCode == RequestCodeList.LABRESULT_EDIT){
             if (resultCode == Activity.RESULT_OK){

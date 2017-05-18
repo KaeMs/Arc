@@ -41,4 +41,6 @@
 
     <dimen name="txtViewSmallPadding">5dp</dimen>
 
+    <dimen name="image_margin">5dp</dimen>
+
 </resources>

@@ -27,6 +27,7 @@ import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -210,7 +211,9 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementModel.setMedication_status(statusString);
                     medicineManagementModel.setAdditional_instruction(additionalInstructionString);
                     medicineManagementModel.setTag(nameString + String.valueOf(getItemCount()));
-                    addSingle(medicineManagementModel, 0);
+                    mDataset.add(0, medicineManagementModel);
+                    notifyItemInserted(0);
+                    EventBus.getDefault().post(new ItemAddedEvent());
 
                     MedicineManagementSubmitAPI medicineManagementSubmitAPI = new MedicineManagementSubmitAPI();
                     medicineManagementSubmitAPI.data.query.user_id = userId;

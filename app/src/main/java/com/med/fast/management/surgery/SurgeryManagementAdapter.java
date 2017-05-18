@@ -29,6 +29,7 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -247,7 +248,9 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         surgeryManagementModel.setNote(surgeryNoteString);
                         surgeryManagementModel.setTag(surgeryProcedureString + String.valueOf(getItemCount()));
 
-                        addSingle(surgeryManagementModel, 0);
+                        mDataset.add(0, surgeryManagementModel);
+                        notifyItemInserted(0);
+                        EventBus.getDefault().post(new ItemAddedEvent());
 
                         SurgeryManagementCreateSubmitAPI surgeryManagementCreateSubmitAPI = new SurgeryManagementCreateSubmitAPI();
                         surgeryManagementCreateSubmitAPI.data.query.user_id = userId;

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -96,7 +98,7 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
 
     public void addSingle(AccidentHistoryManagementModel accident, int position) {
         this.mDataset.add(position, accident);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(position);
     }
 
     public void removeProgress() {
@@ -133,7 +135,8 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         final CustomFontEditText injuryLocation = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_injury_location);
         final CustomFontTextView accidentDateTV = (CustomFontTextView) dialog.findViewById(R.id.accident_popup_accident_date_tv);
         final Spinner accidentDateSpinner = (Spinner) dialog.findViewById(R.id.accident_popup_accident_date_spinner);
-        final CustomFontTextView injuryDateCustomTV = (CustomFontTextView) dialog.findViewById(R.id.accident_popup_accident_other_date);
+        final CustomFontEditText injuryDateCustomTV = (CustomFontEditText) dialog.findViewById(R.id.accident_popup_accident_other_date);
+        final LinearLayout customDateWrapper = (LinearLayout) dialog.findViewById(R.id.accident_popup_accident_other_date_wrapper);
         String[] approximates = context.getResources().getStringArray(R.array.accident_approximate_values);
         final ArrayAdapter<String> accidentSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, approximates);
         accidentSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -143,9 +146,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == accidentSpinnerAdapter.getCount() - 1){
-                    injuryDateCustomTV.setVisibility(View.VISIBLE);
+                    customDateWrapper.setVisibility(View.VISIBLE);
                 } else {
-                    injuryDateCustomTV.setVisibility(View.GONE);
+                    customDateWrapper.setVisibility(View.GONE);
                 }
             }
 
@@ -246,7 +249,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryManagementModel.setCreated_date(Utils.getCurrentDate());
                     accidentHistoryManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
 
-                    addSingle(accidentHistoryManagementModel, 0);
+                    mDataset.add(0, accidentHistoryManagementModel);
+                    notifyItemInserted(0);
+                    EventBus.getDefault().post(new ItemAddedEvent());
 
                     AccidentHistoryCreateSubmitAPI accidentHistoryCreateSubmitAPI = new AccidentHistoryCreateSubmitAPI();
                     accidentHistoryCreateSubmitAPI.data.query.user_id = userId;

@@ -1,6 +1,5 @@
 package com.med.fast.management.labresult;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -30,7 +29,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
-import com.med.fast.UtilityUriHelper;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -77,7 +75,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
 
     @BindView(R.id.labresult_popup_image_recycler)
     RecyclerView imageRecycler;
-    LabResultImageAdapter labResultImageAdapter;
+    LabResultImageAddAdapter labResultImageAddAdapter;
 
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
@@ -97,13 +95,13 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-        labResultImageAdapter = new LabResultImageAdapter(this);
-        labResultImageAdapter.setWidth(displayMetrics.widthPixels);
-        labResultImageAdapter.addSingle(null);
+        labResultImageAddAdapter = new LabResultImageAddAdapter(this);
+        labResultImageAddAdapter.setWidth(displayMetrics.widthPixels);
+        labResultImageAddAdapter.addSingle(null);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
-        imageRecycler.setAdapter(labResultImageAdapter);
+        imageRecycler.setAdapter(labResultImageAddAdapter);
 
         swipeRefreshLayout.setEnabled(false);
         final Calendar calendar = Calendar.getInstance();
@@ -194,8 +192,8 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                         labResultManagementCreateSubmitAPI.data.query.desc_result = testDescriptionString;
                         labResultManagementCreateSubmitAPI.data.query.place = testLocationString;
                         labResultManagementCreateSubmitAPI.data.query.date = testFinishedDateString;
-                        labResultManagementCreateSubmitAPI.data.query.img_file_list = labResultImageAdapter.getUploadFile();
-                        labResultManagementCreateSubmitAPI.data.query.img_obj_json = labResultImageAdapter.getGson();
+                        labResultManagementCreateSubmitAPI.data.query.img_file_list = labResultImageAddAdapter.getUploadFile();
+                        labResultManagementCreateSubmitAPI.data.query.img_obj_json = labResultImageAddAdapter.getGson();
 
 //                    labResultManagementCreateSubmitAPI.data.query.img_list = testFinishedDateString;
 
@@ -300,15 +298,15 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
             @Override
             public void onClick(View v) {
                 LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
                 labResultImageItem.setImage_path(currentMediaPath);
                 labResultImageItem.setImage_uri(imageUri);
                 labResultImageItem.setImage_is_deleted(false);
-                labResultImageItem.getLabResultUploadImageItem().setId(String.valueOf(labResultImageAdapter.getItemCount()) + userId);
+                labResultImageItem.getLabResultUploadImageItem().setId(String.valueOf(labResultImageAddAdapter.getItemCount()) + userId);
                 labResultImageItem.getLabResultUploadImageItem().setPath(currentMediaPath);
                 labResultImageItem.getLabResultUploadImageItem().setDate_taken(dateTaken.getText().toString());
                 labResultImageItem.getLabResultUploadImageItem().setIs_deleted(false);
-                labResultImageAdapter.updatemDataset(labResultImageItem);
+                labResultImageAddAdapter.updatemDataset(labResultImageItem);
                 dialog.dismiss();
             }
         });

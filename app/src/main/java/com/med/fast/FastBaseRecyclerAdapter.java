@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
 
-    boolean enableEventbus = false;
+    private boolean enableEventbus = false;
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -54,5 +54,10 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
                     }
                 })
                 .show();
+    }
+
+    public void setItemDecoration(RecyclerView recyclerView, RecyclerView.ItemDecoration itemDecoration){
+        recyclerView.removeItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(itemDecoration);
     }
 }

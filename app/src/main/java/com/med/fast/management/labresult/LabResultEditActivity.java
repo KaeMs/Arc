@@ -22,7 +22,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
-import com.med.fast.UtilityUriHelper;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -54,7 +53,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
     CustomFontEditText testDescription;
     @BindView(R.id.labresult_popup_image_recycler)
     RecyclerView imgRecycler;
-    LabResultImageAdapter labResultImageAdapter;
+    LabResultImageAddAdapter labResultImageAddAdapter;
     @BindView(R.id.labresult_popup_test_finished_date)
     CustomFontTextView testFinishedDate;
     @BindView(R.id.management_operations_back_btn)
@@ -84,7 +83,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imgRecycler.setLayoutManager(linearLayoutManager);
-        imgRecycler.setAdapter(labResultImageAdapter);
+        imgRecycler.setAdapter(labResultImageAddAdapter);
 
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(this);
@@ -169,22 +168,22 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
                 labResultImageItem.setImage_path(currentMediaPath);
                 labResultImageItem.setImage_uri(mDestinationUri);
                 labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updatemDataset(labResultImageItem);
+                labResultImageAddAdapter.updatemDataset(labResultImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UriUtils.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                 LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAdapter.getItemCount()));
+                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
                 labResultImageItem.setImage_path(currentMediaPath);
                 labResultImageItem.setImage_uri(mediaUri);
                 labResultImageItem.setImage_is_deleted(false);
-                labResultImageAdapter.updatemDataset(labResultImageItem);
+                labResultImageAddAdapter.updatemDataset(labResultImageItem);
             }
         }
     }

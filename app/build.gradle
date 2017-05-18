@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.med.fast"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,9 @@ android {
     }
     sourceSets {
         main { assets.srcDirs = ['src/main/assets', 'src/main/assets/fonts'] }
+    }
+    repositories {
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -71,4 +74,6 @@ dependencies {
     compile 'joda-time:joda-time:2.9.9'
     // Gravity Snap Helper
     compile 'com.github.rubensousa:gravitysnaphelper:1.1'
+    // Touch ImageView
+    compile 'com.github.oxoooo:touch-image-view:1.0.1'
 }

@@ -3,7 +3,10 @@ package com.med.fast.management.labresult;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.rubensousa.gravitysnaphelper.GravityPagerSnapHelper;
 import com.google.gson.Gson;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -53,14 +58,13 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     private List<LabResultManagementModel> mDataset = new ArrayList<>();
     private boolean failLoad = false;
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
-    private String userId;
-    private int year, month, day;
+    private HorizontalItemDecoration horizontalItemDecoration;
 
     public LabResultManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
         super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
-        this.userId = SharedPreferenceUtilities.getUserId(context);
+        this.horizontalItemDecoration = new HorizontalItemDecoration();
     }
 
     public void addList(List<LabResultManagementModel> dataset){
@@ -80,7 +84,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
 
     public void addSingle(LabResultManagementModel model, int position){
         this.mDataset.add(position, model);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(position);
     }
 
     public void removeProgress(){
@@ -181,6 +185,21 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             labResultManagementVH.testName.setText(mDataset.get(position).getTest_name());
             labResultManagementVH.testingPlace.setText(mDataset.get(position).getPlace());
             labResultManagementVH.testingDescription.setText(mDataset.get(position).getDesc_result());
+
+            if (mDataset.get(position).getList_img_uploadeds().size() > 0) {
+                labResultManagementVH.imageRecycler.setVisibility(View.VISIBLE);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                LabResultImageShowAdapter labResultImageShowAdapter = new LabResultImageShowAdapter(context);
+                labResultImageShowAdapter.addList(mDataset.get(position).getList_img_uploadeds());
+                SnapHelper snapHelper = new GravityPagerSnapHelper(Gravity.START);
+                setItemDecoration(labResultManagementVH.imageRecycler, horizontalItemDecoration);
+                labResultManagementVH.imageRecycler.setLayoutManager(linearLayoutManager);
+                labResultManagementVH.imageRecycler.setAdapter(labResultImageShowAdapter);
+                labResultManagementVH.imageRecycler.setOnFlingListener(null);
+                snapHelper.attachToRecyclerView(labResultManagementVH.imageRecycler);
+            } else {
+                labResultManagementVH.imageRecycler.setVisibility(View.GONE);
+            }
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
@@ -324,6 +343,8 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
         CustomFontTextView testingPlace;
         @BindView(R.id.management_labresult_item_testing_description)
         CustomFontTextView testingDescription;
+        @BindView(R.id.management_labresult_item_images)
+        RecyclerView imageRecycler;
         @BindView(R.id.management_operations_edit_btn)
         ImageView editBtn;
         @BindView(R.id.management_operations_delete_btn)

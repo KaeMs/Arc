@@ -22,6 +22,7 @@
         <item name="android:background">@drawable/background_loginedittext</item>
         <item name="android:paddingLeft">@dimen/row_text_padding</item>
         <item name="android:paddingRight">@dimen/row_text_padding</item>
+        <item name="android:textCursorDrawable">@color/pink</item>
     </style>
 
     <style name="AppTheme.TextViewStyle" parent="@android:style/Widget.TextView">

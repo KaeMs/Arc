@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,8 +57,10 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
     CustomFontTextView accidentDateTV;
     @BindView(R.id.accident_popup_accident_date_spinner)
     Spinner accidentDateSpinner;
+    @BindView(R.id.accident_popup_accident_other_date_wrapper)
+    LinearLayout injuryDateCustomWrapper;
     @BindView(R.id.accident_popup_accident_other_date)
-    CustomFontTextView injuryDateCustomTV;
+    CustomFontEditText injuryDateCustomTV;
     ArrayAdapter<String> accidentSpinnerAdapter;
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
@@ -93,9 +96,9 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == accidentSpinnerAdapter.getCount() - 1){
-                    injuryDateCustomTV.setVisibility(View.VISIBLE);
+                    injuryDateCustomWrapper.setVisibility(View.VISIBLE);
                 } else {
-                    injuryDateCustomTV.setVisibility(View.GONE);
+                    injuryDateCustomWrapper.setVisibility(View.GONE);
                 }
             }
 

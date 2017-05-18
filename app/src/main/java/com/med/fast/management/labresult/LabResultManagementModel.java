@@ -1,5 +1,8 @@
 package com.med.fast.management.labresult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
@@ -11,6 +14,7 @@ public class LabResultManagementModel {
     private String desc_result;
     private String place;
     private String date;
+    private List<LabResultImageItem> list_img_uploadeds = new ArrayList<>();
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
 
@@ -60,6 +64,14 @@ public class LabResultManagementModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public List<LabResultImageItem> getList_img_uploadeds() {
+        return list_img_uploadeds;
+    }
+
+    public void setList_img_uploadeds(List<LabResultImageItem> list_img_uploadeds) {
+        this.list_img_uploadeds = list_img_uploadeds;
     }
 
     public String getProgress_status() {

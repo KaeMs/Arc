@@ -33,6 +33,7 @@ import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -107,7 +108,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     public void addSingle(DiseaseManagementModel model, int position) {
         this.mDataset.add(position, model);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(position);
     }
 
     public void removeProgress() {
@@ -248,7 +249,9 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     }
                     diseaseManagementModel.setCreated_date(Utils.getCurrentDate());
                     diseaseManagementModel.setTag(diseaseNameString + String.valueOf(getItemCount()));
-                    addSingle(diseaseManagementModel, 0);
+                    mDataset.add(0, diseaseManagementModel);
+                    notifyItemInserted(0);
+                    EventBus.getDefault().post(new ItemAddedEvent());
 
                     DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
                     diseaseManagementCreateSubmitAPI.data.query.name = diseaseNameString;

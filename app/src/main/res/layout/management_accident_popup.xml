@@ -107,22 +107,31 @@
                 android:layout_height="wrap_content" />
 
             <!-- Accident Other Date  -->
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="@string/accident_other_title"
-                android:textColor="@color/blackDark" />
-
-            <com.med.fast.customviews.CustomFontTextView
-                android:id="@+id/accident_popup_accident_other_date"
+            <LinearLayout
+                android:id="@+id/accident_popup_accident_other_date_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/accident_other_hint"
-                android:textColor="@color/blackDark"
-                android:textSize="@dimen/font_small" />
+                android:orientation="vertical">
+
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/accident_other_title"
+                    android:textColor="@color/blackDark" />
+
+                <com.med.fast.customviews.CustomFontEditText
+                    android:id="@+id/accident_popup_accident_other_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start"
+                    android:background="@drawable/border_edittext_grey_pink_selector"
+                    android:hint="@string/accident_other_hint"
+                    android:textColor="@color/blackDark"
+                    android:textSize="@dimen/font_small" />
+
+            </LinearLayout>
 
             <include layout="@layout/management_operation_backcreate_buttons" />
 

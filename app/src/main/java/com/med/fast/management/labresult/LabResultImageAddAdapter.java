@@ -33,7 +33,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 5/6/2017. FM
  */
 
-public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
+public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
 
     private int PLACEHOLDER = 0;
     private int IMAGE = 1;
@@ -43,7 +43,7 @@ public class LabResultImageAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<LabResultImageItem> mDataset = new ArrayList<>();
 
-    public LabResultImageAdapter(Context context) {
+    public LabResultImageAddAdapter(Context context) {
         super(false);
         this.context = context;
     }

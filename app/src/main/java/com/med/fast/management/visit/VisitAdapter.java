@@ -20,6 +20,7 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -55,12 +56,14 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     private boolean failLoad = false;
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private int width;
+    private HorizontalItemDecoration horizontalItemDecoration;
 
     public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf, int width){
         super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.width = width;
+        horizontalItemDecoration = new HorizontalItemDecoration();
     }
 
     public void addList(List<VisitModel> dataset) {
@@ -78,7 +81,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
 
     public void addSingle(VisitModel visit, int position) {
         this.mDataset.add(position, visit);
-        notifyItemInserted(getItemCount() - 1);
+        notifyItemInserted(position);
     }
 
     public void removeProgress() {
@@ -288,7 +291,9 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                 visitViewHolder.imageRecycler.setVisibility(View.VISIBLE);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context, width);
+                visitImageAdapter.addList(mDataset.get(position).getImage_list());
                 SnapHelper snapHelper = new GravityPagerSnapHelper(Gravity.START);
+                setItemDecoration(visitViewHolder.imageRecycler, horizontalItemDecoration);
                 visitViewHolder.imageRecycler.setLayoutManager(linearLayoutManager);
                 visitViewHolder.imageRecycler.setAdapter(visitImageAdapter);
                 visitViewHolder.imageRecycler.setOnFlingListener(null);
