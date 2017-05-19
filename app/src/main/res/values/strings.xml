@@ -189,13 +189,16 @@
     <string name="medicine_form_hint">Capsules, drops, tablets, etc.</string>
     <string name="medicine_form_placeholder">Capsule droplets.. Wut</string>
     <string name="medicine_form_required">Medicine Form is required</string>
-    <string name="medicine_administration_method">Method of Administration - Optional</string>
+    <string name="medicine_administration_method">Method of Administration</string>
+    <string name="medicine_administration_method_optional">Method of Administration - Optional</string>
     <string name="medicine_administration_method_hint">Oral, infusion, via nebuliser, via NG tube or site of use (eg, \'to wound\', to \'left eye\', etc.)</string>
     <string name="medicine_administration_method_placeholder">Nebuliser to left eye</string>
-    <string name="medicine_administration_dose">Dose per Administration - Optional</string>
+    <string name="medicine_administration_dose">Dose per Administration</string>
+    <string name="medicine_administration_dose_optional">Dose per Administration - Optional</string>
     <string name="medicine_administration_dose_hint">Units of measurement, number of tablets, volume of liquid, etc.</string>
     <string name="medicine_administration_dose_placeholder">1k ml</string>
-    <string name="medicine_frequency">Medicine Frequency - Optional</string>
+    <string name="medicine_frequency">Medicine Frequency</string>
+    <string name="medicine_frequency_optional">Medicine Frequency - Optional</string>
     <string name="medicine_frequency_hint">Frequency of taking administration (one time a day, three times a week, etc.)</string>
     <string name="medicine_frequency_placeholder">20 times a day, cause, why not</string>
     <string name="medication_reason">Reason for Medication - Optional</string>
@@ -295,6 +298,7 @@
     <string name="misc_miscarriage_time_question_placeholder">Exact or relative date such as early 2016, years ago, etc.</string>
     <string name="cycle_alteration_question">Do you have any cycle alteration?</string>
     <string name="cycle_alteration_question_placeholder">Cycle alterations</string>
+    <string name="misc_settings_saved">Misc settings saved</string>
 
     <string name="view_image_transition">view_image_transition</string>
 

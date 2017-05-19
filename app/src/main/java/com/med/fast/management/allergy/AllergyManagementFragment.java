@@ -221,6 +221,7 @@ public class AllergyManagementFragment extends FastBaseFragment implements Aller
     @Subscribe
     void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
+        scrollToTop();
     }
 
     @Override

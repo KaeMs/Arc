@@ -63,7 +63,6 @@ public class AccidentHistoryCreateSubmitAPIFunc extends AsyncTask<AccidentHistor
                     .add("injury_date", params[0].data.query.injury_date)
                     .add("injury_date_tmp", params[0].data.query.injury_date_tmp)
                     .add("injury_date_custom", params[0].data.query.injury_date_custom)
-                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

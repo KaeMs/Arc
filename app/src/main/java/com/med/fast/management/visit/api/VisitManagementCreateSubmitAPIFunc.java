@@ -78,8 +78,7 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
                     .addFormDataPart("hospital", params[0].data.query.hospital)
                     .addFormDataPart("diagnose", params[0].data.query.diagnose)
                     .addFormDataPart("disease_id_list", params[0].data.query.disease_id_list)
-                    .addFormDataPart("is_image_uploaded", params[0].data.query.is_image_uploaded)
-                    .addFormDataPart("tag", params[0].data.query.tag);
+                    .addFormDataPart("is_image_uploaded", params[0].data.query.is_image_uploaded);
 
             // Upload multiple files
             for(int i = 0; i < params[0].data.query.image_list.size(); ++i){

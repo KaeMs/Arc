@@ -41,7 +41,6 @@ public class ViewImageActivity extends FastBaseActivity {
                     .load(APIConstants.WEB_URL + imagePath)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(true)
-                    .placeholder(MediaUtils.image_placeholder_black)
                     .error(MediaUtils.image_error_black)
                     .into(image);
 

@@ -264,7 +264,6 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         surgeryManagementCreateSubmitAPI.data.query.date = surgeryDateString;
                         surgeryManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                         surgeryManagementCreateSubmitAPI.data.query.notes = surgeryNoteString;
-                        surgeryManagementCreateSubmitAPI.data.query.tag = surgeryManagementModel.getTag();
 
                         SurgeryManagementCreateSubmitAPIFunc surgeryManagementCreateSubmitAPIFunc = new SurgeryManagementCreateSubmitAPIFunc(context, surgeryManagementModel.getTag());
                         surgeryManagementCreateSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);
@@ -287,7 +286,6 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         surgeryManagementCreateSubmitAPI.data.query.date = mDataset.get(position).getDate();
         surgeryManagementCreateSubmitAPI.data.query.hospital = mDataset.get(position).getHospital();
         surgeryManagementCreateSubmitAPI.data.query.notes = mDataset.get(position).getNote();
-        surgeryManagementCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
 
         SurgeryManagementCreateSubmitAPIFunc surgeryManagementCreateSubmitAPIFunc = new SurgeryManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
         surgeryManagementCreateSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);

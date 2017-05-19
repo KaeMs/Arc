@@ -208,6 +208,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
     @Subscribe
     void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
+        scrollToTop();
     }
 
     @Override

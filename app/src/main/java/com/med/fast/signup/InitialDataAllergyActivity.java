@@ -2,6 +2,7 @@ package com.med.fast.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontTextView;
@@ -200,6 +202,23 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @Override
+    public void scrollToTop() {
+        this.recyclerView.smoothScrollBy(0, -1000);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(0);
+            }
+        }, Constants.scrollTopTime);
+    }
+
+    @Subscribe
+    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+        scrollToTop();
     }
 
     @Subscribe

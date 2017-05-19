@@ -216,6 +216,7 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     @Subscribe
     void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
+        scrollToTop();
     }
 
     @Override

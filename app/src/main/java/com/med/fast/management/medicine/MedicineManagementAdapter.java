@@ -211,8 +211,10 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementModel.setFrequency(frequencyString);
                     medicineManagementModel.setMedication_reason(reasonString);
                     medicineManagementModel.setMedication_status(statusString);
+                    medicineManagementModel.setCreated_date(Utils.getCurrentDate());
                     medicineManagementModel.setAdditional_instruction(additionalInstructionString);
                     medicineManagementModel.setTag(nameString + String.valueOf(getItemCount()));
+                    medicineManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     mDataset.add(0, medicineManagementModel);
                     notifyItemInserted(0);
                     EventBus.getDefault().post(new ItemAddedEvent());
@@ -283,9 +285,9 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
             MedicineManagementVH medicineManagementVH = (MedicineManagementVH)holder;
             medicineManagementVH.medicineName.setText(mDataset.get(position).getName());
             medicineManagementVH.medicineForm.setText(mDataset.get(position).getForm());
-            medicineManagementVH.administrationMethod.setText(mDataset.get(position).getAdministration_method());
-            medicineManagementVH.administrationDose.setText(mDataset.get(position).getAdministration_dose());
-            medicineManagementVH.frequency.setText(mDataset.get(position).getFrequency());
+            medicineManagementVH.administrationMethod.setText(mDataset.get(position).getAdministration_method_display());
+            medicineManagementVH.administrationDose.setText(mDataset.get(position).getAdministration_dose_display());
+            medicineManagementVH.frequency.setText(mDataset.get(position).getFrequency_display());
             medicineManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
             if (initial)medicineManagementVH.editBtn.setVisibility(View.GONE);
@@ -313,8 +315,8 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                 medicineManagementVH.deleteBtn.setEnabled(false);
             } else {
                 medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
-                medicineManagementVH.editBtn.setEnabled(false);
-                medicineManagementVH.deleteBtn.setEnabled(false);
+                medicineManagementVH.editBtn.setEnabled(true);
+                medicineManagementVH.deleteBtn.setEnabled(true);
             }
 
             medicineManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {

@@ -65,7 +65,6 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
                     .add("is_drug", params[0].data.query.is_drug)
                     .add("reaction", params[0].data.query.reaction)
                     .add("first_experience", params[0].data.query.first_experience)
-                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

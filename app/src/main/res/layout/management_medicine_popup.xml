@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/medicine_administration_method"
+                android:text="@string/medicine_administration_method_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/medicine_administration_dose"
+                android:text="@string/medicine_administration_dose_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
@@ -82,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/medicine_administration_dose_hint"
                 android:textColor="@color/blackDark"
                 android:textSize="@dimen/font_small" />
@@ -91,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/medicine_frequency"
+                android:text="@string/medicine_frequency_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
@@ -100,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/medicine_frequency_hint"
                 android:textColor="@color/blackDark"
                 android:textSize="@dimen/font_small" />
@@ -118,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/medication_reason_hint"
                 android:textColor="@color/blackDark"
                 android:textSize="@dimen/font_small" />
@@ -136,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/medication_status_hint"
                 android:minLines="3"
                 android:textColor="@color/blackDark"
@@ -155,6 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/border_edittext_grey_pink_selector"
+                android:gravity="start"
                 android:hint="@string/additional_instruction_hint"
                 android:textColor="@color/blackDark"
                 android:textSize="@dimen/font_small" />

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -39,8 +39,6 @@ import butterknife.BindView;
 public class InitialDataMiscActivity extends FastBaseActivity implements MiscShowCreateIntf, SkipInitialIntf {
 
     // Toolbar
-    @BindView(R.id.toolbartitledivider_back)
-    ImageView toolbarBack;
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
@@ -86,7 +84,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.management_misc_popup);
+        setContentView(R.layout.activity_initialdata_misclayout);
 
         toolbarTitle.setText(getString(R.string.step_4_miscellaneous));
         /*toolbarBack.setVisibility(View.VISIBLE);
@@ -147,12 +145,12 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
                 if (!isLoading) {
                     MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
                     miscCreateAPI.data.query.user_id = userId;
-                    miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
+                    miscCreateAPI.data.query.voluptuary_habits = Utils.processStringForAPI(voluptuaryHabit.getText().toString());
                     miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked() ? pregnancyWeeks.getText().toString() : "default";
                     miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked() ? miscarriageDate.getText().toString() : "default";
-                    miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
+                    miscCreateAPI.data.query.cycle_alteration = Utils.processStringForAPI(cycleAlterations.getText().toString());
 
                     MiscCreateAPIFunc miscCreateAPIFunc = new MiscCreateAPIFunc(InitialDataMiscActivity.this, InitialDataMiscActivity.this);
                     miscCreateAPIFunc.execute(miscCreateAPI);
@@ -250,10 +248,11 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             Gson gson = new Gson();
             MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
             if (output.data.status.code.equals("200")) {
-                Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
+                /*Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
+                finish();*/
+                Toast.makeText(this, getString(R.string.misc_settings_saved), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }

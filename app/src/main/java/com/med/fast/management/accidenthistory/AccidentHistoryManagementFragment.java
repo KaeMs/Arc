@@ -74,7 +74,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).changeTitle("ACCIDENT MANAGEMENT");
+        ((MainActivity) getActivity()).changeTitle("ACCIDENT MANAGEMENT");
 //        setHasOptionsMenu(true);
 
         userId = SharedPreferenceUtilities.getUserId(getActivity());
@@ -149,8 +149,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Override
-    public void scrollToTop()
-    {
+    public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -162,7 +161,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Override
-    public void refreshView(boolean setRefreshing){
+    public void refreshView(boolean setRefreshing) {
         AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
         accidentHistoryListShowAPI.data.query.user_id = userId;
         accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
@@ -174,7 +173,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         accidentHistoryListShowAPIFunc.setDelegate(AccidentHistoryManagementFragment.this);
         accidentHistoryListShowAPIFunc.execute(accidentHistoryListShowAPI);
         swipeRefreshLayout.setRefreshing(setRefreshing);
-        if (setRefreshing){
+        if (setRefreshing) {
             progressBar.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.VISIBLE);
@@ -199,8 +198,8 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Subscribe
-    public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
-        if (this.isVisible()){
+    public void handleLoadMoreEvent(LoadMoreEvent loadMoreEvent) {
+        if (this.isVisible()) {
             AccidentHistoryListShowAPI accidentHistoryListShowAPI = new AccidentHistoryListShowAPI();
             accidentHistoryListShowAPI.data.query.user_id = userId;
             accidentHistoryListShowAPI.data.query.keyword = currentKeyword;
@@ -217,14 +216,15 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
 
     @Subscribe
     void onItemAdded(ItemAddedEvent itemAddedEvent) {
-     noContentTV.setVisibility(View.GONE);
+        noContentTV.setVisibility(View.GONE);
+        scrollToTop();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.ACCIDENT_EDIT){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == RequestCodeList.ACCIDENT_EDIT) {
+            if (resultCode == Activity.RESULT_OK) {
                 Gson gson = new Gson();
                 AccidentHistoryManagementModel accidentHistoryManagementModel =
                         gson.fromJson(data.getStringExtra(ConstantsManagement.ACCIDENT_MODEL_EXTRA), AccidentHistoryManagementModel.class);
@@ -350,16 +350,16 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
 
     @Override
     public void onFinishAccidentHistoryShow(ResponseAPI responseAPI) {
-        if (this.isVisible()){
+        if (this.isVisible()) {
             progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
-            if(responseAPI.status_code == 200) {
+            if (responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 AccidentHistoryListShowAPI output = gson.fromJson(responseAPI.status_response, AccidentHistoryListShowAPI.class);
                 if (output.data.status.code.equals("200")) {
                     // If refresh, clear adapter and reset the counter
                     accidentHistoryManagementAdapter.setFailLoad(false);
-                    if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
+                    if (output.data.query.flag.equals(Constants.FLAG_REFRESH)) {
                         accidentHistoryManagementAdapter.clearList();
                         counter = 0;
                     }
@@ -368,11 +368,11 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                     counter += output.data.results.accident_list.size();
 
                     if (lastItemCounter > 0 &&
-                            lastItemCounter >= APIConstants.ACCIDENT_INF_SCROLL){
+                            lastItemCounter >= APIConstants.ACCIDENT_INF_SCROLL) {
                         accidentHistoryManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&
-                            accidentHistoryManagementAdapter.getItemCount() == 0){
+                            accidentHistoryManagementAdapter.getItemCount() == 0) {
                         noContentTV.setVisibility(View.VISIBLE);
                     } else {
                         noContentTV.setVisibility(View.GONE);
@@ -381,12 +381,12 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
                     accidentHistoryManagementAdapter.setFailLoad(true);
                     Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }
-            } else if(responseAPI.status_code == 504) {
+            } else if (responseAPI.status_code == 504) {
                 accidentHistoryManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            } else if(responseAPI.status_code == 401 ||
+            } else if (responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity)getActivity()).forceLogout();
+                ((MainActivity) getActivity()).forceLogout();
             } else {
                 accidentHistoryManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

@@ -3,6 +3,7 @@ package com.med.fast.signup;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -171,8 +173,6 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
     public void refreshView(boolean setRefreshing){
         MedicineManagementListShowAPI medicineManagementListShowAPI = new MedicineManagementListShowAPI();
         medicineManagementListShowAPI.data.query.user_id = userId;
-        medicineManagementListShowAPI.data.query.keyword = currentKeyword;
-        medicineManagementListShowAPI.data.query.sort = currentSort;
         medicineManagementListShowAPI.data.query.counter = "0";
         medicineManagementListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
 
@@ -190,6 +190,18 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         Intent intent = new Intent(InitialDataMedicationActivity.this, InitialDataDiseaseActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.translate_left_to_start, R.anim.translate_start_to_right);
+    }
+
+    @Override
+    public void scrollToTop() {
+        this.recyclerView.smoothScrollBy(0, -1000);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.scrollToPosition(0);
+            }
+        }, Constants.scrollTopTime);
     }
 
     @Override
@@ -211,6 +223,11 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @Subscribe
+    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+        scrollToTop();
     }
 
     @Subscribe

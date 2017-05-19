@@ -263,7 +263,6 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                     accidentHistoryCreateSubmitAPI.data.query.injury_date = accidentDate;
                     accidentHistoryCreateSubmitAPI.data.query.injury_date_tmp = accidentDateTmp;
                     accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = injuryDateCustom;
-                    accidentHistoryCreateSubmitAPI.data.query.tag = detail + String.valueOf(getItemCount());
 
                     AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc =
                             new AccidentHistoryCreateSubmitAPIFunc(context, AccidentHistoryManagementAdapter.this, detail + String.valueOf(getItemCount()));
@@ -287,7 +286,6 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         accidentHistoryCreateSubmitAPI.data.query.injury_date = mDataset.get(position).getInjury_date();
         accidentHistoryCreateSubmitAPI.data.query.injury_date_tmp = mDataset.get(position).getInjury_date_tmp();
         accidentHistoryCreateSubmitAPI.data.query.injury_date_custom = "default";
-        accidentHistoryCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
         mDataset.get(position).setProgress_status("1");
 
         AccidentHistoryCreateSubmitAPIFunc accidentHistoryCreateSubmitAPIFunc = new

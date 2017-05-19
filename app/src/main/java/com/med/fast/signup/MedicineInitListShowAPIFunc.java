@@ -58,8 +58,6 @@ public class MedicineInitListShowAPIFunc extends AsyncTask<MedicineManagementLis
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("keyword", params[0].data.query.keyword)
-                    .add("sort", params[0].data.query.sort)
                     .build();
 
             Request request = new Request.Builder()

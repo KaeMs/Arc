@@ -21,7 +21,6 @@ public class SurgeryManagementCreateSubmitAPI {
             public String date;
             public String hospital;
             public String notes;
-            public String tag;
         }
 
         public class Status

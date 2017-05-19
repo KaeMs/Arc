@@ -2,6 +2,8 @@ package com.med.fast;
 
 import android.text.Html;
 
+import com.med.fast.api.APIConstants;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +28,7 @@ public class Utils {
     }
 
     public static String getCurrentDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormatSpace, Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
         return sdf.format(new java.util.Date());
     }
 
@@ -37,5 +39,13 @@ public class Utils {
         } else {
             return Html.fromHtml(input).toString();
         }
+    }
+
+    public static String formatAPIDefault(String apiString){
+        // If null, directly return -
+        if (apiString == null) return "-";
+        // If not, return - or string if string is empty or not respectively
+        return apiString.equals(APIConstants.DEFAULT) ||
+                apiString.equals("") ? "-" : apiString;
     }
 }

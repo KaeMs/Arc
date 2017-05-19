@@ -22,7 +22,6 @@ public class AllergyManagementCreateSubmitAPI {
             public String is_drug;
             public String reaction;
             public String first_experience;
-            public String tag;
         }
 
         public class Status

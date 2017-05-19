@@ -67,7 +67,6 @@ public class SurgeryManagementCreateSubmitAPIFunc extends AsyncTask<SurgeryManag
                     .add("date", params[0].data.query.date)
                     .add("hospital", params[0].data.query.hospital)
                     .add("notes", params[0].data.query.notes)
-                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

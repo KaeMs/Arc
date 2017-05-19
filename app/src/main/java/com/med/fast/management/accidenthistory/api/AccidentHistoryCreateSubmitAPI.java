@@ -22,7 +22,6 @@ public class AccidentHistoryCreateSubmitAPI {
             public String injury_date;
             public String injury_date_tmp;
             public String injury_date_custom;
-            public String tag;
         }
 
         public class Status {

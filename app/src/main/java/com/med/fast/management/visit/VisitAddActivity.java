@@ -190,7 +190,6 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
                     visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
-                    visitManagementCreateSubmitAPI.data.query.tag = doctorNameString + currentDate;
 
                     visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAddAdapter.getImageCount() > 0 ? "true" : "false";
                     visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAddAdapter.getUploadFile());

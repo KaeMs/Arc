@@ -61,7 +61,7 @@ public class APIConstants {
     public static final String DISEASE_DELETE_SUBMIT = "/disease/diseasedeletesubmit";
     public static final int DISEASE_INF_SCROLL = 20;
     // Medicine
-    public static final String MEDICINE_INIT_SHOW = "/medicineinit/initmedicinelitshow";
+    public static final String MEDICINE_INIT_SHOW = "/medicineinit/initmedicinelistshow";
     public static final String MEDICINE_INIT_CREATE_SUBMIT = "/medicineinit/initmedicinecreatesubmit";
     public static final String MEDICINE_SHOW = "/medicine/medicinelistshow";
     public static final String MEDICINE_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";

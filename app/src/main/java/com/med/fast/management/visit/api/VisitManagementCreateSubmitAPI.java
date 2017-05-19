@@ -26,7 +26,6 @@ public class VisitManagementCreateSubmitAPI {
             public String disease_id_list;
             public String is_image_uploaded;
             public List<File> image_list = new ArrayList<>();
-            public String tag;
         }
 
         public class Status

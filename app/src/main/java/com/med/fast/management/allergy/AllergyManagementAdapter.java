@@ -211,7 +211,6 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     allergyManagementCreateSubmitAPI.data.query.is_drug = drugTypeString;
                     allergyManagementCreateSubmitAPI.data.query.reaction = reactionString;
                     allergyManagementCreateSubmitAPI.data.query.first_experience = firstExpString;
-                    allergyManagementCreateSubmitAPI.data.query.tag = causativeString + String.valueOf(getItemCount());
 
                     AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
                             allergyManagementModel.getTag(), initial);
@@ -231,7 +230,6 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         allergyManagementCreateSubmitAPI.data.query.is_drug = mDataset.get(position).getDrug();
         allergyManagementCreateSubmitAPI.data.query.reaction = mDataset.get(position).getReaction();
         allergyManagementCreateSubmitAPI.data.query.first_experience = mDataset.get(position).getFirst_experience();
-        allergyManagementCreateSubmitAPI.data.query.tag = mDataset.get(position).getTag();
 
         AllergyManagementCreateSubmitAPIFunc allergyManagementCreateSubmitAPIFunc = new AllergyManagementCreateSubmitAPIFunc(context, AllergyManagementAdapter.this,
                 mDataset.get(position).getTag(), initial);

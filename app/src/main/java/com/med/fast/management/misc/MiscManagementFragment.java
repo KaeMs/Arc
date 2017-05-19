@@ -17,6 +17,7 @@ import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -121,12 +122,12 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                 if (!isLoading) {
                     MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
                     miscCreateAPI.data.query.user_id = userId;
-                    miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
-                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.voluptuary_habits = Utils.processStringForAPI(voluptuaryHabit.getText().toString());
+                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked() ? pregnancyWeeks.getText().toString() : "default";
-                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked() ? miscarriageDate.getText().toString() : "default";
-                    miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
+                    miscCreateAPI.data.query.cycle_alteration = Utils.processStringForAPI(cycleAlterations.getText().toString());
 
                     MiscCreateAPIFunc miscCreateAPIFunc = new MiscCreateAPIFunc(getActivity(), MiscManagementFragment.this);
                     miscCreateAPIFunc.execute(miscCreateAPI);

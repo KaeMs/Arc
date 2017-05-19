@@ -222,6 +222,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
     @Subscribe
     void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
+        scrollToTop();
     }
 
     @Override
