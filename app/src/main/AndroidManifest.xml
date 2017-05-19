@@ -154,7 +154,7 @@
             <intent-filter>
                 <data
                     android:host="www.fastmedrecord.com"
-                    android:pathPrefix="/Account/ConfirmEmail"
+                    android:pathPrefix="/account/confirmemail"
                     android:scheme="http" />
                 <action android:name="android.intent.action.VIEW" />
 

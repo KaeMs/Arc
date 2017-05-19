@@ -10,7 +10,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -178,7 +177,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
 //                    List<VisitImageItem> image_list;
 
                     VisitModel visitModel = new VisitModel();
-                    visitModel.setVisit_id("");
+                    visitModel.setId("");
                     visitModel.setOwner_id(userId);
                     visitModel.setCreated_date(Utils.getCurrentDate());
                     visitModel.setHospital_name(hospitalNameString);
@@ -224,7 +223,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     // Update by model
     public void updateItem(VisitModel item){
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getVisit_id().equals(item.getVisit_id())){
+            if (mDataset.get(i).getId().equals(item.getId())){
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
                 notifyItemChanged(i);
@@ -239,7 +238,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             if (mDataset.get(i).getTag().equals(tag)) {
                 if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                     if (success) {
-                        mDataset.get(i).setVisit_id(newId);
+                        mDataset.get(i).setId(newId);
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
@@ -349,7 +348,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
                         createDeleteDialog(context, context.getString(R.string.visit_delete_confirmation),
-                                "visit" + mDataset.get(holder.getAdapterPosition()).getVisit_id());
+                                "visit" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
@@ -369,16 +368,16 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     @Subscribe
     public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("visit" + mDataset.get(i).getVisit_id())) {
+            if (deleteConfirmEvent.deletionId.equals("visit" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 VisitManagementDeleteSubmitAPI visitManagementDeleteSubmitAPI = new VisitManagementDeleteSubmitAPI();
                 visitManagementDeleteSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(context);
-                visitManagementDeleteSubmitAPI.data.query.visit_id = mDataset.get(i).getVisit_id();
+                visitManagementDeleteSubmitAPI.data.query.visit_id = mDataset.get(i).getId();
 
                 VisitManagementDeleteSubmitAPIFunc visitManagementDeleteSubmitAPIFunc =
-                        new VisitManagementDeleteSubmitAPIFunc(context, VisitAdapter.this, mDataset.get(i).getVisit_id());
+                        new VisitManagementDeleteSubmitAPIFunc(context, VisitAdapter.this, mDataset.get(i).getId());
                 visitManagementDeleteSubmitAPIFunc.execute(visitManagementDeleteSubmitAPI);
                 break;
             }
@@ -397,7 +396,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getVisit_id())) {
+                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                         break;

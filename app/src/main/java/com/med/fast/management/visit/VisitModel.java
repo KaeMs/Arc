@@ -1,5 +1,6 @@
 package com.med.fast.management.visit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  */
 
 public class VisitModel {
-    private String visit_id;
+    private String id;
     private String owner_id;
     private String created_date;
     private String hospital_name;
@@ -18,12 +19,12 @@ public class VisitModel {
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
 
-    public String getVisit_id() {
-        return visit_id;
+    public String getId() {
+        return id;
     }
 
-    public void setVisit_id(String visit_id) {
-        this.visit_id = visit_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOwner_id() {
@@ -67,7 +68,8 @@ public class VisitModel {
     }
 
     public List<VisitDiseaseModel> getDiseases() {
-        return diseases;
+        if (diseases != null) return diseases;
+        else return new ArrayList<>();
     }
 
     public String getDiseasesInString() {

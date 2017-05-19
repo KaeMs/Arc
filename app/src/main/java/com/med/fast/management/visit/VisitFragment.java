@@ -259,7 +259,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
             if (resultCode == Activity.RESULT_OK){
                 Gson gson = new Gson();
                 VisitModel model =
-                        gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), VisitModel.class);
+                        gson.fromJson(data.getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA), VisitModel.class);
                 visitAdapter.updateItem(model);
             }
         }

@@ -168,7 +168,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
 //                    List<VisitImageItem> image_list;
 
                     visitModel = new VisitModel();
-                    visitModel.setVisit_id("");
+                    visitModel.setId("");
                     visitModel.setOwner_id(userId);
                     visitModel.setCreated_date(currentDate);
                     visitModel.setHospital_name(hospitalNameString);
@@ -298,7 +298,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 intent.putExtra(ConstantsManagement.VISIT_ID_EXTRA, output.data.results.new_visit_id);
-                visitModel.setVisit_id(output.data.results.new_visit_id);
+                visitModel.setId(output.data.results.new_visit_id);
                 visitModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA, gson.toJson(visitModel));
                 setResult(RESULT_OK, intent);

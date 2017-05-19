@@ -27,7 +27,6 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
-import com.med.fast.UtilityUriHelper;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -185,15 +184,15 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                         diseaseSb.append(selectedLVAdapter.getItem(i));
                         diseaseSb.append(",");
                     }
-                    diseaseSb.deleteCharAt(diseaseSb.length() - 1);
+                    if (diseaseSb.length() > 0) diseaseSb.deleteCharAt(diseaseSb.length() - 1);
                     visitModel.setDiseases(diseases);
 
-                    visitModel.setProgress_status("1");
+                    visitModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     visitModel.setTag(doctorNameString + currentDate);
 
                     VisitManagementEditSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementEditSubmitAPI();
                     visitManagementCreateSubmitAPI.data.query.user_id = userId;
-                    visitManagementCreateSubmitAPI.data.query.visit_id = visitModel.getVisit_id();
+                    visitManagementCreateSubmitAPI.data.query.visit_id = visitModel.getId();
                     visitManagementCreateSubmitAPI.data.query.doctor = doctorNameString;
                     visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
@@ -213,7 +212,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     void refreshView() {
         VisitManagementEditShowAPI visitManagementEditShowAPI = new VisitManagementEditShowAPI();
         visitManagementEditShowAPI.data.query.user_id = userId;
-        visitManagementEditShowAPI.data.query.visit_id = visitModel.getVisit_id();
+        visitManagementEditShowAPI.data.query.visit_id = visitModel.getId();
 
         VisitManagementEditShowAPIFunc visitManagementCreateShowAPIFunc = new VisitManagementEditShowAPIFunc(this, this);
         visitManagementCreateShowAPIFunc.execute(visitManagementEditShowAPI);
