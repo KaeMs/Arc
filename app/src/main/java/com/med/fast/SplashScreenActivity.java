@@ -10,6 +10,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import com.med.fast.login.LoginActivity;
+import com.med.fast.signup.InitialDataAllergyActivity;
+import com.med.fast.signup.InitialDataDiseaseActivity;
+import com.med.fast.signup.InitialDataMedicationActivity;
+import com.med.fast.signup.InitialDataMiscActivity;
 
 import butterknife.BindView;
 
@@ -19,12 +23,12 @@ import butterknife.BindView;
 
 public class SplashScreenActivity extends FastBaseActivity {
 
-    private Animation animFadeIn;
-    private Animation animFadeOut;
     @BindView(R.id.splash_screen_progressBar)
     ProgressBar progressBar;
     @BindView(R.id.splash_screen_dimmer)
     View dimmer;
+    private Animation animFadeIn;
+    private Animation animFadeOut;
     private String userId;
 
     @Override
@@ -78,12 +82,50 @@ public class SplashScreenActivity extends FastBaseActivity {
 
         userId = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_ID);
 
-        if (userId != null){
-            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (userId != null) {
+            String initialDataStep = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP);
+            if (initialDataStep != null) {
+                switch (initialDataStep) {
+                    case "1": {
+                        Intent intent = new Intent(this, InitialDataAllergyActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    case "2": {
+                        Intent intent = new Intent(this, InitialDataDiseaseActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    case "3": {
+                        Intent intent = new Intent(this, InitialDataMedicationActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    case "4": {
+                        Intent intent = new Intent(this, InitialDataMiscActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    default: {
+                        Intent intent = new Intent(this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    }
+                }
+            } else {
+                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         } else {
             Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -93,9 +135,9 @@ public class SplashScreenActivity extends FastBaseActivity {
         }
     }
 
-    void showProgress(boolean show){
-        if (dimmer != null){
-            if (show){
+    void showProgress(boolean show) {
+        if (dimmer != null) {
+            if (show) {
                 dimmer.setAnimation(animFadeIn);
                 dimmer.getAnimation().start();
                 progressBar.setAnimation(animFadeIn);

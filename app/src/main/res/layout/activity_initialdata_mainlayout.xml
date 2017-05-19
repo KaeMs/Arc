@@ -14,51 +14,66 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/step"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/initialdata_swiperefresh"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/initialdata_recycler"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/initialdata_swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/initialdata_add_btn">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/initialdata_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-    <com.med.fast.customviews.CustomFontButton
-        android:id="@+id/initialdata_add_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/btnMediumHeight"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/button_toscalight_tosca"
-        android:text="@string/add_allergy"
-        android:textColor="@color/white" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center_horizontal">
+        <include layout="@layout/shadow_top"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_above="@+id/initialdata_add_btn" />
 
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/initialdata_skip_btn"
+        <com.med.fast.customviews.CustomFontButton
+            android:id="@+id/initialdata_add_btn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/button_border_grey_radius10"
-            android:text="@string/skip_to_summary" />
+            android:layout_height="@dimen/btnMediumHeight"
+            android:layout_above="@+id/initialdata_skipnext_wrapper"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_toscalight_tosca"
+            android:text="@string/add_allergy"
+            android:textColor="@color/white" />
 
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/initialdata_next_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/initialdata_skipnext_wrapper"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_border_grey_radius10"
-            android:text="@string/next" />
+            android:layout_alignParentBottom="true"
+            android:padding="10dp"
+            android:gravity="center_horizontal">
 
-    </LinearLayout>
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/initialdata_skip_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/button_border_grey_radius10"
+                android:text="@string/skip_to_summary" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/initialdata_next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/button_border_grey_radius10"
+                android:text="@string/next" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

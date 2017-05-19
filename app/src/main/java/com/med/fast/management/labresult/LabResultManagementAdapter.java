@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -204,9 +206,13 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                labResultManagementVH.editBtn.setEnabled(false);
+                labResultManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                labResultManagementVH.editBtn.setEnabled(false);
+                labResultManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
                 labResultManagementVH.statusProgressBar.setVisibility(View.GONE);
                 labResultManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -216,8 +222,12 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                labResultManagementVH.editBtn.setEnabled(false);
+                labResultManagementVH.deleteBtn.setEnabled(false);
             } else {
                 labResultManagementVH.statusProgressBar.setVisibility(View.GONE);
+                labResultManagementVH.editBtn.setEnabled(true);
+                labResultManagementVH.deleteBtn.setEnabled(true);
             }
 
             labResultManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -346,9 +356,9 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
         @BindView(R.id.management_labresult_item_images)
         RecyclerView imageRecycler;
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
 
         public LabResultManagementVH(View view) {

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -38,6 +41,8 @@ import butterknife.BindView;
 public class InitialDataAllergyActivity extends FastBaseActivity implements AllergyManagementShowIntf, SkipInitialIntf {
 
     // Toolbar
+    @BindView(R.id.toolbartitledivider_back)
+    ImageView toolbarBack;
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
@@ -50,13 +55,6 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.initialdata_recycler)
     RecyclerView recyclerView;
-    private boolean isLoading = false;
-    private int counter = 0;
-    private int lastItemCounter = 0;
-    private String currentKeyword = "default";
-    private String currentSort = "default";
-    private String userId;
-
     // Btns
     @BindView(R.id.initialdata_add_btn)
     CustomFontButton addBtn;
@@ -64,7 +62,13 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
     CustomFontTextView skipBtn;
     @BindView(R.id.initialdata_next_btn)
     CustomFontTextView nextBtn;
-
+    private boolean isLoading = false;
+    private int counter = 0;
+    private int lastItemCounter = 0;
+    private String currentKeyword = APIConstants.DEFAULT;
+    private String currentSort = APIConstants.DEFAULT;
+    private String currentType = APIConstants.DEFAULT;
+    private String userId;
     private AllergyManagementAdapter allergyManagementAdapter;
 
     @Override
@@ -73,6 +77,7 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
         setContentView(R.layout.activity_initialdata_mainlayout);
 
         toolbarTitle.setText(getString(R.string.step_1_allergy));
+
         userId = SharedPreferenceUtilities.getUserId(this);
 
         allergyManagementAdapter = new AllergyManagementAdapter(this, true);
@@ -86,7 +91,14 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(allergyManagementAdapter);
 
+        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, "1");
         refreshView(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -147,11 +159,12 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
         });
     }
 
-    public void refreshView(boolean setRefreshing){
+    public void refreshView(boolean setRefreshing) {
         AllergyManagementListShowAPI allergyManagementListShowAPI = new AllergyManagementListShowAPI();
         allergyManagementListShowAPI.data.query.user_id = userId;
         allergyManagementListShowAPI.data.query.keyword = currentKeyword;
         allergyManagementListShowAPI.data.query.sort = currentSort;
+        allergyManagementListShowAPI.data.query.type = currentType;
         allergyManagementListShowAPI.data.query.counter = "0";
         allergyManagementListShowAPI.data.query.flag = Constants.FLAG_REFRESH;
 
@@ -160,12 +173,17 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
         allergyManagementListShowAPIFunc.execute(allergyManagementListShowAPI);*/
         AllergyInitListShowAPIFunc allergyInitListShowAPIFunc = new AllergyInitListShowAPIFunc(InitialDataAllergyActivity.this, InitialDataAllergyActivity.this);
         allergyInitListShowAPIFunc.execute(allergyManagementListShowAPI);
-        if (setRefreshing){
+        if (setRefreshing) {
             swipeRefreshLayout.setRefreshing(true);
         } else {
             swipeRefreshLayout.setRefreshing(false);
         }
         isLoading = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Do nothing
     }
 
     @Override
@@ -185,11 +203,12 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
     }
 
     @Subscribe
-    public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
+    public void handleLoadMoreEvent(LoadMoreEvent loadMoreEvent) {
         AllergyManagementListShowAPI allergyManagementListShowAPI = new AllergyManagementListShowAPI();
         allergyManagementListShowAPI.data.query.user_id = userId;
         allergyManagementListShowAPI.data.query.keyword = currentKeyword;
         allergyManagementListShowAPI.data.query.sort = currentSort;
+        allergyManagementListShowAPI.data.query.type = currentType;
         allergyManagementListShowAPI.data.query.counter = String.valueOf(counter);
         allergyManagementListShowAPI.data.query.flag = Constants.FLAG_LOAD;
 
@@ -204,31 +223,31 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
     @Override
     public void onFinishAllergyManagementShow(ResponseAPI responseAPI) {
         swipeRefreshLayout.setRefreshing(false);
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             AllergyManagementListShowAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementListShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 allergyManagementAdapter.setFailLoad(false);
-                // If refresh, clear adapter and reset the counter
-                if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
-                    allergyManagementAdapter.clearList();
+                /*// If refresh, clear adapter and reset the counter
+                if (output.data.query.flag.equals(Constants.FLAG_REFRESH)) {
                     counter = 0;
-                }
+                }*/
+                allergyManagementAdapter.clearList();
                 allergyManagementAdapter.addList(output.data.results.allergy_list);
-                lastItemCounter = output.data.results.allergy_list.size();
+                /*lastItemCounter = output.data.results.allergy_list.size();
                 counter += output.data.results.allergy_list.size();
 
-                if (lastItemCounter > 0){
+                if (lastItemCounter > 0) {
                     allergyManagementAdapter.addSingle(null);
-                }
+                }*/
             } else {
                 allergyManagementAdapter.setFailLoad(true);
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             allergyManagementAdapter.setFailLoad(true);
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
@@ -239,19 +258,20 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
 
     @Override
     public void onFinishSkip(ResponseAPI responseAPI) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent(InitialDataAllergyActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {

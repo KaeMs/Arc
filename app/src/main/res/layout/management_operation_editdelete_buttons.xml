@@ -9,22 +9,24 @@
     android:orientation="horizontal"
     tools:ignore="RtlHardcoded">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/management_operations_edit_btn"
         android:layout_width="@dimen/btnMediumHeight"
         android:layout_height="@dimen/btnMediumHeight"
         android:layout_marginRight="10dp"
-        android:background="@drawable/button_edit_selector"
-        android:text="@string/cancel"
+        android:src="@drawable/button_edit_selector"
+        android:scaleType="fitCenter"
+        android:background="@null"
         android:textColor="@color/black"
         android:contentDescription="@string/edit"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/management_operations_delete_btn"
         android:layout_width="@dimen/btnMediumHeight"
         android:layout_height="@dimen/btnMediumHeight"
-        android:background="@drawable/button_delete_selector"
-        android:text="@string/add"
+        android:src="@drawable/button_delete_selector"
+        android:scaleType="fitCenter"
+        android:background="@null"
         android:textColor="@color/textcolor_white_to_tosca"
         android:contentDescription="@string/delete" />
 

@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 public class SharedPreferenceUtilities {
 
     public static final String SESSION_SP = "SESSION_SP";
+    public static final String INIT_DATA_STEP = "INIT_DATA_STEP";
     public static final String USER_ID = "USER_ID";
     public static final String USER_FIRST_NAME = "USER_FIRST_NAME";
     public static final String USER_LAST_NAME = "USER_LAST_NAME";

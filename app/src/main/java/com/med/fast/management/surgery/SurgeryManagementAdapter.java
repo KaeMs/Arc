@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -322,13 +324,15 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             surgeryManagementVH.hospitalName.setText(mDataset.get(position).getHospital());
 
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
-                surgeryManagementVH.statusProgressBar.setOnClickListener(null);
                 surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                surgeryManagementVH.editBtn.setEnabled(false);
+                surgeryManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
-                surgeryManagementVH.statusProgressBar.setOnClickListener(null);
                 surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                surgeryManagementVH.editBtn.setEnabled(false);
+                surgeryManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
                 surgeryManagementVH.statusProgressBar.setVisibility(View.GONE);
                 surgeryManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -338,9 +342,12 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                surgeryManagementVH.editBtn.setEnabled(false);
+                surgeryManagementVH.deleteBtn.setEnabled(false);
             } else {
-                surgeryManagementVH.statusProgressBar.setOnClickListener(null);
                 surgeryManagementVH.statusProgressBar.setVisibility(View.GONE);
+                surgeryManagementVH.editBtn.setEnabled(true);
+                surgeryManagementVH.deleteBtn.setEnabled(true);
             }
 
             surgeryManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -468,9 +475,9 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         CustomFontTextView hospitalName;
 
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
         public SurgeryManagementVH(View view) {
             super(view);

@@ -22,7 +22,6 @@ public class DiseaseManagementCreateSubmitAPI {
             public String hereditary_carriers;
             public String historic_date;
             public String approximate_date;
-            public String tag;
         }
 
         public class Status

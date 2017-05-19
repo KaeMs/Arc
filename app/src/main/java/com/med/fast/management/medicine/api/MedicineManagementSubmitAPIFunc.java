@@ -1,6 +1,5 @@
 package com.med.fast.management.medicine.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -8,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.medicine.MedicineManagementShowIntf;
 import com.med.fast.management.medicine.medicineinterface.MedicineCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -44,7 +42,7 @@ public class MedicineManagementSubmitAPIFunc extends AsyncTask<MedicineManagemen
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url;
-            if (initial)url = APIConstants.API_URL + APIConstants.MEDICINE_INIT_SUBMIT;
+            if (initial)url = APIConstants.API_URL + APIConstants.MEDICINE_INIT_CREATE_SUBMIT;
             else url = APIConstants.API_URL + APIConstants.MEDICINE_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()

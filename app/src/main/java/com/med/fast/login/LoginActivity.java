@@ -44,12 +44,15 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
     CustomFontTextView forgotPassword;
     @BindView(R.id.loginactivity_signup_tv)
     CustomFontTextView signup;
+    AwesomeValidation mAwesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mAwesomeValidation = new AwesomeValidation(COLORATION);
+        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
+        mAwesomeValidation.addValidation(password, Constants.REGEX_PASSWORD, getString(R.string.password_wrong_format));
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,10 +112,7 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
     }
 
     void normalLogin(){
-        final AwesomeValidation mAwesomeValidation = new AwesomeValidation(COLORATION);
-        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
-        mAwesomeValidation.addValidation(password, Constants.REGEX_PASSWORD, getString(R.string.password_wrong_format));
-
+        mAwesomeValidation.clear();
         if (mAwesomeValidation.validate()){
             LoginAPI loginAPI = new LoginAPI();
             loginAPI.data.query.email = email.getText().toString();
@@ -130,6 +130,14 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
             LoginAPI output = gson.fromJson(responseAPI.status_response, LoginAPI.class);
             if (output.data.status.code.equals("200")) {
                 if (output.data.results.is_verified_email){
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, output.data.results.initial_data_step);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
+                    SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
                     switch (output.data.results.initial_data_step) {
                         case "1": {
                             Intent intent = new Intent(this, InitialDataAllergyActivity.class);
@@ -156,13 +164,6 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
                             break;
                         }
                         default: {
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_ID, output.data.results.user_id);
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_FIRST_NAME, output.data.results.first_name);
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_LAST_NAME, output.data.results.last_name);
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL, output.data.results.email);
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_EMAIL_IS_VERIFIED, String.valueOf(output.data.results.is_verified_email));
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_DOB, output.data.results.dob);
-                            SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.USER_GENDER, output.data.results.gender);
                             Intent intent = new Intent(this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);

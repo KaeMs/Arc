@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -59,6 +61,8 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 public class InitialDataDiseaseActivity extends FastBaseActivity implements DiseaseManagementShowIntf, SkipInitialIntf {
 
     // Toolbar
+    @BindView(R.id.toolbartitledivider_back)
+    ImageView toolbarBack;
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
@@ -94,6 +98,14 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
         setContentView(R.layout.activity_initialdata_mainlayout);
 
         toolbarTitle.setText(getString(R.string.step_2_disease));
+        /*toolbarBack.setVisibility(View.VISIBLE);
+        toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });*/
+
         userId = SharedPreferenceUtilities.getUserId(this);
 
         diseaseManagementAdapter = new DiseaseManagementAdapter(this, true);
@@ -101,7 +113,14 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);
 
+        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, "2");
         refreshView(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -131,7 +150,7 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
             }
         });*/
         
-        addBtn.setText(getString(R.string.add_allergy));
+        addBtn.setText(getString(R.string.add_disease));
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +196,17 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
         isLoading = true;
     }
 
+    private void back(){
+        Intent intent = new Intent(InitialDataDiseaseActivity.this, InitialDataAllergyActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.translate_left_to_start, R.anim.translate_start_to_right);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        back();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -215,18 +245,18 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
             DiseaseManagementListShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementListShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 diseaseManagementAdapter.setFailLoad(false);
-                // If refresh, clear adapter and reset the counter
+                /*// If refresh, clear adapter and reset the counter
                 if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
-                    diseaseManagementAdapter.clearList();
                     counter = 0;
-                }
+                }*/
+                diseaseManagementAdapter.clearList();
                 diseaseManagementAdapter.addList(output.data.results.disease_list);
-                lastItemCounter = output.data.results.disease_list.size();
+                /*lastItemCounter = output.data.results.disease_list.size();
                 counter += output.data.results.disease_list.size();
 
                 if (lastItemCounter > 0){
                     diseaseManagementAdapter.addSingle(null);
-                }
+                }*/
             } else {
                 diseaseManagementAdapter.setFailLoad(true);
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
@@ -250,6 +280,7 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
             SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent(InitialDataDiseaseActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             } else {

@@ -39,7 +39,7 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url;
-            if (initial)url = APIConstants.API_URL + APIConstants.ALLERGY_INIT_SUBMIT;
+            if (initial)url = APIConstants.API_URL + APIConstants.ALLERGY_INIT_CREATE_SUBMIT;
             else url = APIConstants.API_URL + APIConstants.ALLERGY_CREATE_SUBMIT;
 
                     OkHttpClient client = new OkHttpClient.Builder()
@@ -98,5 +98,4 @@ public class AllergyManagementCreateSubmitAPIFunc extends AsyncTask<AllergyManag
         super.onPostExecute(responseAPI);
         delegate.onFinishAllergyManagementCreateSubmit(responseAPI, tag);
     }
-
 }

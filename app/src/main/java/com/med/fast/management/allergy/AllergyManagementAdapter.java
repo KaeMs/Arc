@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -266,12 +268,18 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience());
             allergyManagementVH.date.setText(mDataset.get(position).getCreated_date());
 
+            if (initial)allergyManagementVH.editBtn.setVisibility(View.GONE);
+            else allergyManagementVH.editBtn.setVisibility(View.VISIBLE);
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                allergyManagementVH.editBtn.setEnabled(false);
+                allergyManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 allergyManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 allergyManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                allergyManagementVH.editBtn.setEnabled(false);
+                allergyManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
                 allergyManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -281,8 +289,12 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                allergyManagementVH.editBtn.setEnabled(false);
+                allergyManagementVH.deleteBtn.setEnabled(false);
             } else {
                 allergyManagementVH.statusProgressBar.setVisibility(View.GONE);
+                allergyManagementVH.editBtn.setEnabled(true);
+                allergyManagementVH.deleteBtn.setEnabled(true);
             }
 
             allergyManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -411,9 +423,9 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         @BindView(R.id.allergy_item_card_date)
         CustomFontTextView date;
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
         public AllergyManagementVH(View view) {
             super(view);

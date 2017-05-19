@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -150,11 +152,10 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         final CustomFontTextView historicDate = (CustomFontTextView) dialog.findViewById(R.id.disease_popup_historic_date_tv);
         final Spinner approximateDateSpinner = (Spinner) dialog.findViewById(R.id.disease_popup_date_spinner);
 
-        String[] approximates = context.getResources().getStringArray(R.array.accident_approximate_values);
+        String[] approximates = context.getResources().getStringArray(R.array.disease_approximate_values);
         final ArrayAdapter<String> approximateSpinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, approximates);
         approximateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         approximateDateSpinner.setAdapter(approximateSpinnerAdapter);
-
 
         final Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -228,12 +229,12 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                         diseaseHereditaryCarriersString = inheritedFrom.getText().toString();
                     } else {
                         diseaseHereditaryString = "false";
-                        diseaseHereditaryCarriersString = context.getString(R.string.sign_dash);
+                        diseaseHereditaryCarriersString = APIConstants.DEFAULT;
                     }
                     String historicDateString = historicDate.getText().toString();
                     String approximateDateString = approximateDateSpinner.getSelectedItemPosition() > 0 ?
                             approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()) :
-                            "default";
+                            APIConstants.DEFAULT;
 
                     DiseaseManagementModel diseaseManagementModel = new DiseaseManagementModel();
                     diseaseManagementModel.setName(diseaseNameString);
@@ -244,10 +245,11 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     diseaseManagementModel.setLast_visit(context.getString(R.string.sign_dash));
                     if (!historicDate.getText().toString().equals("")) {
                         diseaseManagementModel.setHistoric_date(historicDate.getText().toString());
-                    } else if (approximateDateSpinner.getSelectedItemPosition() > 0) {
-                        diseaseManagementModel.setApproximate_date(approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()));
                     }
+
+                    diseaseManagementModel.setApproximate_date(approximateDateString);
                     diseaseManagementModel.setCreated_date(Utils.getCurrentDate());
+                    diseaseManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     diseaseManagementModel.setTag(diseaseNameString + String.valueOf(getItemCount()));
                     mDataset.add(0, diseaseManagementModel);
                     notifyItemInserted(0);
@@ -261,7 +263,6 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                     diseaseManagementCreateSubmitAPI.data.query.hereditary_carriers = diseaseHereditaryCarriersString;
                     diseaseManagementCreateSubmitAPI.data.query.historic_date = historicDateString;
                     diseaseManagementCreateSubmitAPI.data.query.approximate_date = approximateDateString;
-                    diseaseManagementCreateSubmitAPI.data.query.tag = diseaseNameString + String.valueOf(getItemCount());
 
                     DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, diseaseManagementModel.getTag(), initial);
                     diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
@@ -387,22 +388,26 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         if (getItemViewType(position) == DISEASE) {
             DiseaseManagementVH diseaseManagementVH = (DiseaseManagementVH) holder;
             diseaseManagementVH.name.setText(mDataset.get(position).getName());
-            diseaseManagementVH.isHereditaryTV.setText(mDataset.get(position).getIs_hereditary());
-            diseaseManagementVH.hereditaryCarriers.setText(mDataset.get(position).getHereditary_carriers());
-            diseaseManagementVH.isOngoingTV.setText(mDataset.get(position).getIs_ongoing());
+            diseaseManagementVH.isHereditaryTV.setText(mDataset.get(position).getIs_hereditary_display());
+            diseaseManagementVH.hereditaryCarriers.setText(mDataset.get(position).getHereditary_carriers_display());
+            diseaseManagementVH.isOngoingTV.setText(mDataset.get(position).getIs_ongoing_display());
             diseaseManagementVH.lastVisit.setText(mDataset.get(position).getLast_visit());
             diseaseManagementVH.historicDate.setText(mDataset.get(position).getHistoric_date());
-            diseaseManagementVH.approximateDate.setText(mDataset.get(position).getApproximate_date().equals("default") ?
-                    context.getString(R.string.sign_dash) :
-                    mDataset.get(position).getApproximate_date());
+            diseaseManagementVH.approximateDate.setText(mDataset.get(position).getApproximate_date_display());
             diseaseManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
+            if (initial)diseaseManagementVH.editBtn.setVisibility(View.GONE);
+            else diseaseManagementVH.editBtn.setVisibility(View.VISIBLE);
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                diseaseManagementVH.editBtn.setEnabled(false);
+                diseaseManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 diseaseManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                diseaseManagementVH.editBtn.setEnabled(false);
+                diseaseManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
                 diseaseManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -412,8 +417,12 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                diseaseManagementVH.editBtn.setEnabled(false);
+                diseaseManagementVH.deleteBtn.setEnabled(false);
             } else {
                 diseaseManagementVH.statusProgressBar.setVisibility(View.GONE);
+                diseaseManagementVH.editBtn.setEnabled(true);
+                diseaseManagementVH.deleteBtn.setEnabled(true);
             }
 
             diseaseManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -529,9 +538,9 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         @BindView(R.id.management_disease_item_injury_created_date)
         CustomFontTextView createdDate;
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
 
         public DiseaseManagementVH(View view) {

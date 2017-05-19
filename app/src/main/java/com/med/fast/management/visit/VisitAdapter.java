@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -305,9 +307,13 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
                 visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                visitViewHolder.editBtn.setEnabled(false);
+                visitViewHolder.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
                 visitViewHolder.statusProgressBar.setVisibility(View.VISIBLE);
                 visitViewHolder.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                visitViewHolder.editBtn.setEnabled(false);
+                visitViewHolder.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
                 visitViewHolder.statusProgressBar.setVisibility(View.GONE);
                 visitViewHolder.progressFailImg.setVisibility(View.VISIBLE);
@@ -317,8 +323,12 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                visitViewHolder.editBtn.setEnabled(false);
+                visitViewHolder.deleteBtn.setEnabled(false);
             } else {
                 visitViewHolder.statusProgressBar.setVisibility(View.GONE);
+                visitViewHolder.editBtn.setEnabled(true);
+                visitViewHolder.deleteBtn.setEnabled(true);
             }
 
             visitViewHolder.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -428,9 +438,9 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
         @BindView(R.id.visit_card_images)
         RecyclerView imageRecycler;
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
 
         public VisitViewHolder(View view) {

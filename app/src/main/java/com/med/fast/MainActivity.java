@@ -58,6 +58,7 @@ public class MainActivity extends FastBaseActivity {
 
         setSupportActionBar(toolbar);
 
+        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, "5");
         // For version 21++, shadow is disabled
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             toolbarShadow.setVisibility(View.GONE);

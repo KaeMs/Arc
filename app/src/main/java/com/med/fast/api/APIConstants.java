@@ -44,7 +44,7 @@ public class APIConstants {
     public static final int SURGERY_INF_SCROLL = 20;
     // Allergy
     public static final String ALLERGY_INIT_SHOW = "/allergyinit/initallergylistshow";
-    public static final String ALLERGY_INIT_SUBMIT = "/allergyinit/initallergycreatesubmit";
+    public static final String ALLERGY_INIT_CREATE_SUBMIT = "/allergyinit/initallergycreatesubmit";
     public static final String ALLERGY_SHOW = "/allergy/allergylistshow";
     public static final String ALLERGY_CREATE_SUBMIT = "/allergy/allergycreatesubmit";
     public static final String ALLERGY_EDIT_SHOW = "/allergy/allergyeditshow";
@@ -53,7 +53,7 @@ public class APIConstants {
     public static final int ALLERGY_INF_SCROLL = 20;
     // Disease
     public static final String DISEASE_INIT_SHOW = "/diseaseinit/initdiseaselistshow";
-    public static final String DISEASE_INIT_SUBMIT = "/diseaseinit/initdiseaselistshow";
+    public static final String DISEASE_INIT_CREATE_SUBMIT = "/diseaseinit/initdiseasecreatesubmit";
     public static final String DISEASE_SHOW = "/disease/diseaselistshow";
     public static final String DISEASE_CREATE_SUBMIT = "/disease/diseasecreatesubmit";
     public static final String DISEASE_EDIT_SHOW = "/disease/diseaseeditshow";
@@ -62,7 +62,7 @@ public class APIConstants {
     public static final int DISEASE_INF_SCROLL = 20;
     // Medicine
     public static final String MEDICINE_INIT_SHOW = "/medicineinit/initmedicinelitshow";
-    public static final String MEDICINE_INIT_SUBMIT = "/medicineinit/initmedicinecreatesubmit";
+    public static final String MEDICINE_INIT_CREATE_SUBMIT = "/medicineinit/initmedicinecreatesubmit";
     public static final String MEDICINE_SHOW = "/medicine/medicinelistshow";
     public static final String MEDICINE_CREATE_SUBMIT = "/medicine/medicinecreatesubmit";
     public static final String MEDICINE_EDIT_SHOW = "/medicine/medicineeditshow";
@@ -96,6 +96,7 @@ public class APIConstants {
     public static final String MODE_EDIT = "read";
     public static final String MODE_DELETE = "delete";
     public static final String DEFAULT = "default";
+    public static final String DRUG_ALLERGY = "drug_allergy";
     public static final String NO_ID = "no_id";
     public static final String PROGRESS_NORMAL = "0";
     public static final String PROGRESS_ADD = "1";

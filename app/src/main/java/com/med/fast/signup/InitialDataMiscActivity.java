@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -38,6 +39,8 @@ import butterknife.BindView;
 public class InitialDataMiscActivity extends FastBaseActivity implements MiscShowCreateIntf, SkipInitialIntf {
 
     // Toolbar
+    @BindView(R.id.toolbartitledivider_back)
+    ImageView toolbarBack;
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
@@ -86,6 +89,14 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         setContentView(R.layout.management_misc_popup);
 
         toolbarTitle.setText(getString(R.string.step_4_miscellaneous));
+        /*toolbarBack.setVisibility(View.VISIBLE);
+        toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });*/
+
         userId = SharedPreferenceUtilities.getUserId(this);
 
         String gender = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_GENDER);
@@ -105,7 +116,14 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
                 refreshView(true);
             }
         });
+        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, "4");
         refreshView(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
 
         pregnantY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -130,9 +148,9 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
                     MiscCreateAPI miscCreateAPI = new MiscCreateAPI();
                     miscCreateAPI.data.query.user_id = userId;
                     miscCreateAPI.data.query.voluptuary_habits = voluptuaryHabit.getText().toString();
-                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.pregnancy = pregnantY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.pregnancy_weeks = pregnantY.isChecked() ? pregnancyWeeks.getText().toString() : "default";
-                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "yes" : "no";
+                    miscCreateAPI.data.query.had_miscarriage = miscarriageY.isChecked() ? "true" : "false";
                     miscCreateAPI.data.query.last_time_miscarriage = miscarriageY.isChecked() ? miscarriageDate.getText().toString() : "default";
                     miscCreateAPI.data.query.cycle_alteration = cycleAlterations.getText().toString();
 
@@ -183,6 +201,17 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         isLoading = true;
     }
 
+    private void back(){
+        Intent intent = new Intent(InitialDataMiscActivity.this, InitialDataMedicationActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.translate_left_to_start, R.anim.translate_start_to_right);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        back();
+    }
+
     @Override
     public void onFinishMiscShow(ResponseAPI responseAPI) {
         isLoading = false;
@@ -221,7 +250,10 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             Gson gson = new Gson();
             MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
             if (output.data.status.code.equals("200")) {
-
+                Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
@@ -242,6 +274,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
             SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent(InitialDataMiscActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             } else {
@@ -255,6 +288,5 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
-
     }
 }

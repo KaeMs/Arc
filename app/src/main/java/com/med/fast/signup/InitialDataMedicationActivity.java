@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,12 +41,14 @@ import butterknife.BindView;
 import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 /**
- * Created by Kevin Murvie on 4/11/2017. Fast
+ * Created by Kevin Murvie on 4/11/2017. FM
  */
 
 public class InitialDataMedicationActivity extends FastBaseActivity implements MedicineShowIntf, SkipInitialIntf {
 
     // Toolbar
+    @BindView(R.id.toolbartitledivider_back)
+    ImageView toolbarBack;
     @BindView(R.id.toolbartitledivider_title)
     CustomFontTextView toolbarTitle;
 
@@ -81,6 +84,14 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         setContentView(R.layout.activity_initialdata_mainlayout);
 
         toolbarTitle.setText(getString(R.string.step_3_medication));
+        /*toolbarBack.setVisibility(View.VISIBLE);
+        toolbarBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });*/
+
         userId = SharedPreferenceUtilities.getUserId(this);
 
         medicineManagementAdapter = new MedicineManagementAdapter(this, true);
@@ -88,7 +99,15 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(medicineManagementAdapter);
 
+        SharedPreferenceUtilities.setUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP, "3");
         refreshView(true);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshView(true);
+            }
+        });
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -143,7 +162,7 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(InitialDataMedicationActivity.this, MainActivity.class);
+                Intent intent = new Intent(InitialDataMedicationActivity.this, InitialDataMiscActivity.class);
                 startActivity(intent);
             }
         });
@@ -165,6 +184,17 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
             swipeRefreshLayout.setRefreshing(false);
         }
         isLoading = true;
+    }
+
+    private void back(){
+        Intent intent = new Intent(InitialDataMedicationActivity.this, InitialDataDiseaseActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.translate_left_to_start, R.anim.translate_start_to_right);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        back();
     }
 
     @Override
@@ -205,18 +235,18 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
             MedicineManagementListShowAPI output = gson.fromJson(responseAPI.status_response, MedicineManagementListShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 medicineManagementAdapter.setFailLoad(false);
-                // If refresh, clear adapter and reset the counter
+                /*// If refresh, clear adapter and reset the counter
                 if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
-                    medicineManagementAdapter.clearList();
                     counter = 0;
-                }
+                }*/
+                medicineManagementAdapter.clearList();
                 medicineManagementAdapter.addList(output.data.results.medicine_list);
-                lastItemCounter = output.data.results.medicine_list.size();
+                /*lastItemCounter = output.data.results.medicine_list.size();
                 counter += output.data.results.medicine_list.size();
 
                 if (lastItemCounter > 0){
                     medicineManagementAdapter.addSingle(null);
-                }
+                }*/
             } else {
                 medicineManagementAdapter.setFailLoad(true);
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
@@ -240,6 +270,7 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
             SkipInitialAPI output = gson.fromJson(responseAPI.status_response, SkipInitialAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent(InitialDataMedicationActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             } else {

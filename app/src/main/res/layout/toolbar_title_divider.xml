@@ -14,10 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/toolbartitledivider_back"
+            android:layout_width="@dimen/toolbarHeight"
+            android:layout_height="@dimen/toolbarHeight"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:scaleType="centerInside"
+            android:visibility="gone"/>
+
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/toolbartitledivider_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/toolbartitledivider_back"
             android:layout_centerVertical="true"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"

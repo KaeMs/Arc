@@ -37,6 +37,10 @@ public class DiseaseManagementModel {
         return is_hereditary;
     }
 
+    public String getIs_hereditary_display() {
+        return is_hereditary.equals("true") ? "yes" : "no";
+    }
+
     public void setIs_hereditary(String is_hereditary) {
         this.is_hereditary = is_hereditary;
     }
@@ -45,12 +49,20 @@ public class DiseaseManagementModel {
         return hereditary_carriers;
     }
 
+    public String getHereditary_carriers_display() {
+        return hereditary_carriers.equals("default") ? "-" : hereditary_carriers;
+    }
+
     public void setHereditary_carriers(String hereditary_carriers) {
         this.hereditary_carriers = hereditary_carriers;
     }
 
     public String getIs_ongoing() {
         return is_ongoing;
+    }
+
+    public String getIs_ongoing_display() {
+        return is_ongoing.equals("true") ? "yes" : "no";
     }
 
     public void setIs_ongoing(String is_ongoing) {
@@ -75,6 +87,10 @@ public class DiseaseManagementModel {
 
     public String getApproximate_date() {
         return approximate_date;
+    }
+
+    public String getApproximate_date_display() {
+        return approximate_date.equals("default") ? "-" : approximate_date;
     }
 
     public void setApproximate_date(String approximate_date) {

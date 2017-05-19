@@ -169,6 +169,15 @@
     <string name="last_visit">Last Visit</string>
     <string name="historic_date">Historic date</string>
     <string name="approximate_date">Approximate Date</string>
+    <string-array name="disease_approximate_values">
+        <item>-</item>
+        <item>1 Year Ago</item>
+        <item>2 Years Ago</item>
+        <item>3 Years Ago</item>
+        <item>4 Years Ago</item>
+        <item>5 Years Ago</item>
+        <item>>5 Years Ago</item>
+    </string-array>
     <string name="disease_delete_confirmation">Are you sure you want to delete this disease record?</string>
 
     <!-- Medicine -->

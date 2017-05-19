@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -226,7 +228,8 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                     medicineManagementSubmitAPI.data.query.status = statusString;
                     medicineManagementSubmitAPI.data.query.additional_instruction = additionalInstructionString;
 
-                    MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc = new MedicineManagementSubmitAPIFunc(context, medicineManagementModel.getTag(), initial);
+                    MedicineManagementSubmitAPIFunc medicineManagementSubmitAPIFunc =
+                            new MedicineManagementSubmitAPIFunc(context, medicineManagementModel.getTag(), initial);
                     medicineManagementSubmitAPIFunc.setDelegate(MedicineManagementAdapter.this);
                     medicineManagementSubmitAPIFunc.execute(medicineManagementSubmitAPI);
 
@@ -285,12 +288,18 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
             medicineManagementVH.frequency.setText(mDataset.get(position).getFrequency());
             medicineManagementVH.createdDate.setText(mDataset.get(position).getCreated_date());
 
+            if (initial)medicineManagementVH.editBtn.setVisibility(View.GONE);
+            else medicineManagementVH.editBtn.setVisibility(View.VISIBLE);
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
                 medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                medicineManagementVH.editBtn.setEnabled(false);
+                medicineManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
                 medicineManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 medicineManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                medicineManagementVH.editBtn.setEnabled(false);
+                medicineManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
                 medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
                 medicineManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -300,8 +309,12 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                medicineManagementVH.editBtn.setEnabled(false);
+                medicineManagementVH.deleteBtn.setEnabled(false);
             } else {
                 medicineManagementVH.statusProgressBar.setVisibility(View.GONE);
+                medicineManagementVH.editBtn.setEnabled(false);
+                medicineManagementVH.deleteBtn.setEnabled(false);
             }
 
             medicineManagementVH.editBtn.setOnClickListener(new View.OnClickListener() {
@@ -433,9 +446,9 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
         CustomFontTextView createdDate;
 
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
 
         public MedicineManagementVH(View view) {

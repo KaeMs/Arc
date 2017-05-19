@@ -42,7 +42,7 @@ public class DiseaseManagementCreateSubmitAPIFunc extends AsyncTask<DiseaseManag
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url;
-            if (initial)url = APIConstants.API_URL + APIConstants.DISEASE_INIT_SUBMIT;
+            if (initial)url = APIConstants.API_URL + APIConstants.DISEASE_INIT_CREATE_SUBMIT;
             else url = APIConstants.API_URL + APIConstants.DISEASE_CREATE_SUBMIT;
 
             OkHttpClient client = new OkHttpClient.Builder()
@@ -63,14 +63,13 @@ public class DiseaseManagementCreateSubmitAPIFunc extends AsyncTask<DiseaseManag
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("disease_name", params[0].data.query.name)
+                    .add("name", params[0].data.query.name)
                     .add("user_id", params[0].data.query.user_id)
                     .add("is_hereditary", params[0].data.query.is_hereditary)
                     .add("is_ongoing", params[0].data.query.is_ongoing)
                     .add("historic_date", params[0].data.query.historic_date)
                     .add("approximate_date", params[0].data.query.approximate_date)
                     .add("hereditary_carriers", params[0].data.query.hereditary_carriers)
-                    .add("tag", params[0].data.query.tag)
                     .build();
 
             Request request = new Request.Builder()

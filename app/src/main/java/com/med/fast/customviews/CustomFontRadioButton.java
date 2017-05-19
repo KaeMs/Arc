@@ -6,14 +6,14 @@ import android.graphics.Typeface;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 
-import com.med.fast.customclasses.FontCache;
 import com.med.fast.R;
+import com.med.fast.customclasses.FontCache;
 
 /**
  * Created by Kevin Murvie on 4/10/2017. Fas
  */
 
-public class CustomFontRadioButton extends AppCompatRadioButton{
+public class CustomFontRadioButton extends AppCompatRadioButton {
 
     public CustomFontRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);

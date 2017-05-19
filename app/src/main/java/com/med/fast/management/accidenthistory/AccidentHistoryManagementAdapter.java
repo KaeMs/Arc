@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -363,9 +365,13 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
             if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+                accidentManagementVH.editBtn.setEnabled(false);
+                accidentManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 accidentManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 accidentManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
+                accidentManagementVH.editBtn.setEnabled(false);
+                accidentManagementVH.deleteBtn.setEnabled(false);
             } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 accidentManagementVH.statusProgressBar.setVisibility(View.GONE);
                 accidentManagementVH.progressFailImg.setVisibility(View.VISIBLE);
@@ -375,7 +381,11 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
                         reSubmitItem(holder.getAdapterPosition());
                     }
                 });
+                accidentManagementVH.editBtn.setEnabled(false);
+                accidentManagementVH.deleteBtn.setEnabled(false);
             } else {
+                accidentManagementVH.editBtn.setEnabled(true);
+                accidentManagementVH.deleteBtn.setEnabled(true);
                 accidentManagementVH.statusProgressBar.setVisibility(View.GONE);
             }
 
@@ -505,9 +515,9 @@ public class AccidentHistoryManagementAdapter extends FastBaseRecyclerAdapter im
         @BindView(R.id.management_accident_item_injury_created_date)
         CustomFontTextView createdDate;
         @BindView(R.id.management_operations_edit_btn)
-        ImageView editBtn;
+        ImageButton editBtn;
         @BindView(R.id.management_operations_delete_btn)
-        ImageView deleteBtn;
+        ImageButton deleteBtn;
 
 
         public AccidentManagementVH(View view) {
