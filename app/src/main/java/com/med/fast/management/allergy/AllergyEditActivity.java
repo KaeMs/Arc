@@ -98,7 +98,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
 
                     AllergyManagementEditSubmitAPI allergyManagementEditSubmitAPI = new AllergyManagementEditSubmitAPI();
                     allergyManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(AllergyEditActivity.this);
-                    allergyManagementEditSubmitAPI.data.query.id = allergyManagementModel.getId();
+                    allergyManagementEditSubmitAPI.data.query.allergy_id = allergyManagementModel.getId();
                     allergyManagementEditSubmitAPI.data.query.agent = causativeString;
                     allergyManagementEditSubmitAPI.data.query.is_drug = drugTypeString;
                     allergyManagementEditSubmitAPI.data.query.reaction = reactionString;

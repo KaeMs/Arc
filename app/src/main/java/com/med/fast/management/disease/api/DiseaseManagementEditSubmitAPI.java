@@ -16,7 +16,7 @@ public class DiseaseManagementEditSubmitAPI {
         public class Query
         {
             public String name;
-            public String id;
+            public String disease_id;
             public String user_id;
             public String is_hereditary;
             public String is_ongoing;

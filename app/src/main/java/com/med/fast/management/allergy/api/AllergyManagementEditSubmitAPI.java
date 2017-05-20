@@ -16,7 +16,7 @@ public class AllergyManagementEditSubmitAPI {
         public class Query
         {
             public String user_id;
-            public String id;
+            public String allergy_id;
             public String agent;
             public String is_drug;
             public String reaction;

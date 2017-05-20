@@ -57,7 +57,7 @@ public class DiseaseManagementEditSubmitAPIFunc extends AsyncTask<DiseaseManagem
 
             RequestBody formBody = new FormBody.Builder()
                     .add("name", params[0].data.query.name)
-                    .add("id", params[0].data.query.id)
+                    .add("disease_id", params[0].data.query.disease_id)
                     .add("user_id", params[0].data.query.user_id)
                     .add("is_hereditary", params[0].data.query.is_hereditary)
                     .add("is_ongoing", params[0].data.query.is_ongoing)

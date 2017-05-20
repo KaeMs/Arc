@@ -58,7 +58,7 @@ public class AllergyManagementEditSubmitAPIFunc extends AsyncTask<AllergyManagem
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
-                    .add("id", params[0].data.query.id)
+                    .add("allergy_id", params[0].data.query.allergy_id)
                     .add("agent", params[0].data.query.agent)
                     .add("is_drug", params[0].data.query.is_drug)
                     .add("reaction", params[0].data.query.reaction)

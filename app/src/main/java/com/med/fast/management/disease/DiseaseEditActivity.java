@@ -16,6 +16,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -113,11 +114,11 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                     diseaseManagementModel.setHereditary_carriers(inheritedFromString);
                     diseaseManagementModel.setHistoric_date(historicDateString);
                     diseaseManagementModel.setApproximate_date(dateSpinnerString);
-                    diseaseManagementModel.setProgress_status("0");
+                    diseaseManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
 
                     DiseaseManagementEditSubmitAPI diseaseManagementEditSubmitAPI = new DiseaseManagementEditSubmitAPI();
                     diseaseManagementEditSubmitAPI.data.query.name = diseaseNameString;
-                    diseaseManagementEditSubmitAPI.data.query.id = diseaseManagementModel.getId();
+                    diseaseManagementEditSubmitAPI.data.query.disease_id = diseaseManagementModel.getId();
                     diseaseManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(DiseaseEditActivity.this);
                     diseaseManagementEditSubmitAPI.data.query.is_hereditary = hereditaryType;
                     diseaseManagementEditSubmitAPI.data.query.is_ongoing = isOngoingStr;
@@ -182,8 +183,8 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             DiseaseManagementEditSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
-                String allergyModelString = gson.toJson(diseaseManagementModel);
-                intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
+                String diseaseModelString = gson.toJson(diseaseManagementModel);
+                intent.putExtra(ConstantsManagement.DISEASE_MODEL_EXTRA, diseaseModelString);
                 setResult(RESULT_OK, intent);
                 finish();
             }
