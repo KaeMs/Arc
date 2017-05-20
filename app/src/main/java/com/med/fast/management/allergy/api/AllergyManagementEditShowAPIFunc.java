@@ -1,8 +1,12 @@
 package com.med.fast.management.allergy.api;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
+import android.widget.ProgressBar;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -24,13 +28,27 @@ import okhttp3.Response;
 public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagementEditShowAPI, Integer, ResponseAPI> {
     private AllergyManagementEditIntf delegate;
     private Context context;
+    private ProgressDialog progressDialog;
 
-    public AllergyManagementEditShowAPIFunc(Context context) {
+    public AllergyManagementEditShowAPIFunc(Context context, AllergyManagementEditIntf delegate) {
         this.context = context;
+        this.delegate = delegate;
     }
 
     public void setDelegate(AllergyManagementEditIntf delegate) {
         this.delegate = delegate;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        //super.onPreExecute();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Getting information from server...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -88,6 +106,6 @@ public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagemen
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishAllergyManagementEditShow(responseAPI);
+        progressDialog.dismiss();
     }
-
 }

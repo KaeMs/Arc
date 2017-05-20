@@ -1,5 +1,7 @@
 package com.med.fast.management.allergy;
 
+import com.med.fast.Utils;
+
 /**
  * Created by Kevin Murvie on 4/23/2017. FM
  */
@@ -48,6 +50,10 @@ public class AllergyManagementModel {
 
     public String getFirst_experience() {
         return first_experience;
+    }
+
+    public String getFirst_experience_display() {
+        return Utils.processStringFromAPI(first_experience);
     }
 
     public void setFirst_experience(String first_experience) {

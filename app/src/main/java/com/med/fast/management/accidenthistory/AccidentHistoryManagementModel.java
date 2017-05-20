@@ -1,5 +1,7 @@
 package com.med.fast.management.accidenthistory;
 
+import com.med.fast.Utils;
+
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
@@ -89,7 +91,7 @@ public class AccidentHistoryManagementModel {
     }
 
     public String getTag() {
-        return tag;
+        return Utils.processStringFromAPI(tag);
     }
 
     public void setTag(String tag) {

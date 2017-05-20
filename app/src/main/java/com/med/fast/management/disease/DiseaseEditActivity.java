@@ -15,6 +15,7 @@ import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -102,7 +103,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                     String diseaseNameString = diseaseName.getText().toString();
                     String hereditaryType = String.valueOf(hereditaryYes.isChecked());
                     String isOngoingStr = String.valueOf(ongoingY.isChecked());
-                    String inheritedFromString = inheritedFrom.getText().toString();
+                    String inheritedFromString = Utils.processStringForAPI(inheritedFrom.getText().toString());
                     String historicDateString = historicDate.getText().toString();
                     String dateSpinnerString = dateSpinner.getSelectedItem().toString();
 

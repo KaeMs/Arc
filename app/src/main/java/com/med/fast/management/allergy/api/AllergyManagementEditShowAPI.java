@@ -29,10 +29,10 @@ public class AllergyManagementEditShowAPI {
         {
             public String result_status;
             public String description;
-            public String allergy_agent;
-            public boolean allergy_is_drug;
-            public String allergy_reaction;
-            public String allergy_first_experience;
+            public String agent;
+            public boolean is_drug;
+            public String reaction;
+            public String first_experience;
         }
     }
 }

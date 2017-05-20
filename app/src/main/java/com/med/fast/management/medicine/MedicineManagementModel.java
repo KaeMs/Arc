@@ -1,7 +1,6 @@
 package com.med.fast.management.medicine;
 
 import com.med.fast.Utils;
-import com.med.fast.api.APIConstants;
 
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
@@ -50,7 +49,7 @@ public class MedicineManagementModel {
     }
 
     public String getAdministration_method_display() {
-        return Utils.formatAPIDefault(administration_method);
+        return Utils.processStringFromAPI(administration_method);
     }
 
     public void setAdministration_method(String administration_method) {
@@ -62,7 +61,7 @@ public class MedicineManagementModel {
     }
 
     public String getAdministration_dose_display() {
-        return Utils.formatAPIDefault(administration_dose);
+        return Utils.processStringFromAPI(administration_dose);
     }
 
     public void setAdministration_dose(String administration_dose) {
@@ -74,7 +73,7 @@ public class MedicineManagementModel {
     }
 
     public String getFrequency_display() {
-        return Utils.formatAPIDefault(frequency);
+        return Utils.processStringFromAPI(frequency);
     }
 
     public void setFrequency(String frequency) {

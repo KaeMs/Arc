@@ -237,13 +237,16 @@
     <string name="full_accident_details_hint">What happened</string>
     <string name="full_accident_details_placeholder">Spilled my water bottle onto some place</string>
     <string name="full_accident_details_required">Accident detail is required</string>
-    <string name="injury_nature">Nature of Injury - Optional</string>
+    <string name="injury_nature">Nature of Injury</string>
+    <string name="injury_nature_optional">Nature of Injury - Optional</string>
     <string name="injury_nature_hint">Such as laceration, open wound, etc.</string>
     <string name="injury_nature_placeholder">My bed got wet till the mattress needs to be changed</string>
-    <string name="injury_location">Location of Injury - Optional</string>
+    <string name="injury_location">Location of Injury</string>
+    <string name="injury_location_optional">Location of Injury - Optional</string>
     <string name="injury_location_hint">Such as head/face, shoulder, eye, etc.</string>
     <string name="injury_location_placeholder">My bed, duh</string>
-    <string name="accident_date">Date or When the Accident Happened - Optional</string>
+    <string name="accident_date">Date or When the Accident Happened</string>
+    <string name="accident_date_optional">Date or When the Accident Happened - Optional</string>
     <string name="accident_date_hint">Exact injury date</string>
     <string-array name="accident_approximate_values">
         <item>-</item>

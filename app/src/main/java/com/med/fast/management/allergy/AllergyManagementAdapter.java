@@ -199,7 +199,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                     allergyManagementModel.setReaction(reactionString);
                     allergyManagementModel.setFirst_experience(firstExpString);
                     allergyManagementModel.setCreated_date(Utils.getCurrentDate());
-                    allergyManagementModel.setProgress_status("1");
+                    allergyManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     allergyManagementModel.setTag(causativeString + String.valueOf(getItemCount()));
                     mDataset.add(0, allergyManagementModel);
                     notifyItemInserted(0);
@@ -263,7 +263,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
             allergyManagementVH.agent.setText(mDataset.get(position).getAgent());
             allergyManagementVH.drug.setText(mDataset.get(position).getDrug());
             allergyManagementVH.reaction.setText(mDataset.get(position).getReaction());
-            allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience());
+            allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience_display());
             allergyManagementVH.date.setText(mDataset.get(position).getCreated_date());
 
             if (initial)allergyManagementVH.editBtn.setVisibility(View.GONE);

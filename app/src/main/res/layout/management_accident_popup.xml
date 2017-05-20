@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/injury_nature"
+                android:text="@string/injury_nature_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/injury_location"
+                android:text="@string/injury_location_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/accident_date"
+                android:text="@string/accident_date_optional"
                 android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontTextView

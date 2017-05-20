@@ -14,6 +14,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -89,12 +90,11 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
                     String reactionString = Utils.processStringForAPI(reaction.getText().toString());
                     String firstExpString = Utils.processStringForAPI(firstTimeExp.getText().toString());
 
-                    allergyManagementModel = new AllergyManagementModel();
                     allergyManagementModel.setAgent(causativeString);
                     allergyManagementModel.setDrug(drugTypeString);
                     allergyManagementModel.setReaction(reactionString);
                     allergyManagementModel.setFirst_experience(firstExpString);
-                    allergyManagementModel.setProgress_status("0");
+                    allergyManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
 
                     AllergyManagementEditSubmitAPI allergyManagementEditSubmitAPI = new AllergyManagementEditSubmitAPI();
                     allergyManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(AllergyEditActivity.this);
@@ -117,8 +117,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
         allergyManagementEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
         allergyManagementEditShowAPI.data.query.allergy_id = allergyManagementModel.getId();
 
-        AllergyManagementEditShowAPIFunc allergyManagementEditShowAPIFunc = new AllergyManagementEditShowAPIFunc(this);
-        allergyManagementEditShowAPIFunc.setDelegate(this);
+        AllergyManagementEditShowAPIFunc allergyManagementEditShowAPIFunc = new AllergyManagementEditShowAPIFunc(this, this);
         allergyManagementEditShowAPIFunc.execute(allergyManagementEditShowAPI);
     }
 
@@ -128,10 +127,14 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             Gson gson = new Gson();
             AllergyManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                causative.setText(output.data.results.allergy_agent);
-                drugTypeYes.setSelected(output.data.results.allergy_is_drug);
-                reaction.setText(output.data.results.allergy_reaction);
-                firstTimeExp.setText(output.data.results.allergy_first_experience);
+                allergyManagementModel.setAgent(output.data.results.agent);
+                allergyManagementModel.setDrug(String.valueOf(output.data.results.is_drug));
+                allergyManagementModel.setReaction(output.data.results.reaction);
+                allergyManagementModel.setFirst_experience(output.data.results.first_experience);
+                causative.setText(output.data.results.agent);
+                drugTypeYes.setSelected(output.data.results.is_drug);
+                reaction.setText(output.data.results.reaction);
+                firstTimeExp.setText(output.data.results.first_experience);
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

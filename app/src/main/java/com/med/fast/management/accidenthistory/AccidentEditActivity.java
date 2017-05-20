@@ -178,8 +178,8 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                     String detail = Utils.processStringForAPI(accidentDetails.getText().toString());
                     String injury_nature = Utils.processStringForAPI(injuryNature.getText().toString());
                     String injury_location = Utils.processStringForAPI(injuryLocation.getText().toString());
-                    String injury_date = accidentDateTV.getText().toString();
-                    String injury_date_tmp = accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition());
+                    String injury_date = Utils.processStringForAPI(accidentDateTV.getText().toString());
+                    String injury_date_tmp = Utils.processStringForAPI(accidentSpinnerAdapter.getItem(accidentDateSpinner.getSelectedItemPosition()));
                     String injuryDateCustom = Utils.processStringForAPI(injuryDateCustomTV.getText().toString());
 
                     accidentHistoryManagementModel.setDetail(accidentDetails.getText().toString());
@@ -193,7 +193,7 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                     accidentHistoryManagementModel.setInjury_date_tmp(injury_date_tmp);
                     accidentHistoryManagementModel.setInjury_date_custom(injuryDateCustom);
 
-                    accidentHistoryManagementModel.setProgress_status("0");
+                    accidentHistoryManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
 
                     AccidentHistoryEditSubmitAPI accidentHistoryEditSubmitAPI = new AccidentHistoryEditSubmitAPI();
                     accidentHistoryEditSubmitAPI.data.query.id = accidentHistoryManagementModel.getId();
@@ -232,10 +232,18 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
                 accidentDetails.setText(output.data.results.detail);
                 injuryNature.setText(output.data.results.injury_nature);
                 injuryLocation.setText(output.data.results.injury_location);
-                if (!output.data.results.injury_date.equals(APIConstants.DEFAULT)) {
+                if (output.data.results.injury_date != null &&
+                        !output.data.results.injury_date.equals(APIConstants.DEFAULT)) {
                     accidentDateTV.setText(output.data.results.injury_date);
-                } else if (!output.data.results.injury_date_custom.equals(APIConstants.DEFAULT)) {
+                } else {
+                    accidentDateTV.setText(getString(R.string.sign_dash));
+                }
+
+                if (output.data.results.injury_date_custom != null &&
+                        !output.data.results.injury_date_custom.equals(APIConstants.DEFAULT)) {
                     accidentDateSpinner.setSelection(accidentSpinnerAdapter.getPosition(output.data.results.injury_date_custom));
+                } else {
+                    accidentDateSpinner.setSelection(0);
                 }
             }
         } else if(responseAPI.status_code == 504) {
@@ -262,15 +270,11 @@ public class AccidentEditActivity extends FastBaseActivity implements AccidentHi
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
         }
     }
 }
