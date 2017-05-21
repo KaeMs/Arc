@@ -1,5 +1,7 @@
 package com.med.fast.management.disease;
 
+import com.med.fast.Utils;
+
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
@@ -79,6 +81,10 @@ public class DiseaseManagementModel {
 
     public String getHistoric_date() {
         return historic_date;
+    }
+
+    public String getHistoric_date_display() {
+        return Utils.processStringFromAPI(historic_date);
     }
 
     public void setHistoric_date(String historic_date) {

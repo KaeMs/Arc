@@ -231,7 +231,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                         diseaseHereditaryString = "false";
                         diseaseHereditaryCarriersString = APIConstants.DEFAULT;
                     }
-                    String historicDateString = historicDate.getText().toString();
+                    String historicDateString = Utils.processStringForAPI(historicDate.getText().toString());
                     String approximateDateString = approximateDateSpinner.getSelectedItemPosition() > 0 ?
                             approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()) :
                             APIConstants.DEFAULT;

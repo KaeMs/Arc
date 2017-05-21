@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
@@ -169,12 +170,12 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                 } else {
                     femaleWrapper.setVisibility(View.GONE);
                 }
-                voluptuaryHabit.setText(output.data.results.voluptuary_habits);
+                voluptuaryHabit.setText(Utils.processStringFromAPI(output.data.results.voluptuary_habits));
                 pregnantY.setChecked(output.data.results.pregnancy.equals("true"));
-                pregnancyWeeks.setText(output.data.results.pregnancy_weeks);
+                pregnancyWeeks.setText(Utils.processStringFromAPI(output.data.results.pregnancy_weeks));
                 miscarriageY.setChecked(output.data.results.had_miscarriage.equals("true"));
-                miscarriageDate.setText(output.data.results.last_time_miscarriage);
-                cycleAlterations.setText(output.data.results.cycle_alteration);
+                miscarriageDate.setText(Utils.processStringFromAPI(output.data.results.last_time_miscarriage));
+                cycleAlterations.setText(Utils.processStringFromAPI(output.data.results.cycle_alteration));
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
@@ -197,7 +198,7 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
             Gson gson = new Gson();
             MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
             if (output.data.status.code.equals("200")) {
-
+                Toast.makeText(getActivity(), getString(R.string.misc_settings_saved), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }

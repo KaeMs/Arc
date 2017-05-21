@@ -105,7 +105,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                     String hereditaryType = String.valueOf(hereditaryYes.isChecked());
                     String isOngoingStr = String.valueOf(ongoingY.isChecked());
                     String inheritedFromString = Utils.processStringForAPI(inheritedFrom.getText().toString());
-                    String historicDateString = historicDate.getText().toString();
+                    String historicDateString = Utils.processStringForAPI(historicDate.getText().toString());
                     String dateSpinnerString = dateSpinner.getSelectedItem().toString();
 
                     diseaseManagementModel.setName(diseaseNameString);
