@@ -40,7 +40,8 @@ public class DiseaseManagementModel {
     }
 
     public String getIs_hereditary_display() {
-        return is_hereditary.equals("true") ? "yes" : "no";
+        return is_hereditary.toLowerCase().equals("true") ||
+                is_hereditary.toLowerCase().equals("yes") ? "yes" : "no";
     }
 
     public void setIs_hereditary(String is_hereditary) {
@@ -64,7 +65,8 @@ public class DiseaseManagementModel {
     }
 
     public String getIs_ongoing_display() {
-        return is_ongoing.equals("true") ? "yes" : "no";
+        return is_ongoing.equals("true") ||
+                is_ongoing.toLowerCase().equals("yes") ? "yes" : "no";
     }
 
     public void setIs_ongoing(String is_ongoing) {

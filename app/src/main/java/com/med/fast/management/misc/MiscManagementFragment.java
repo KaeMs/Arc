@@ -171,9 +171,9 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                     femaleWrapper.setVisibility(View.GONE);
                 }
                 voluptuaryHabit.setText(Utils.processStringFromAPI(output.data.results.voluptuary_habits));
-                pregnantY.setChecked(output.data.results.pregnancy.equals("true"));
+                pregnantY.setChecked(Utils.processBoolFromAPI(output.data.results.pregnancy));
                 pregnancyWeeks.setText(Utils.processStringFromAPI(output.data.results.pregnancy_weeks));
-                miscarriageY.setChecked(output.data.results.had_miscarriage.equals("true"));
+                miscarriageY.setChecked(Utils.processBoolFromAPI(output.data.results.had_miscarriage));
                 miscarriageDate.setText(Utils.processStringFromAPI(output.data.results.last_time_miscarriage));
                 cycleAlterations.setText(Utils.processStringFromAPI(output.data.results.cycle_alteration));
             } else {

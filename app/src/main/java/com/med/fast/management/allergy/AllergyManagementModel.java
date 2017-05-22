@@ -36,12 +36,20 @@ public class AllergyManagementModel {
         return drug;
     }
 
+    public String getDrug_display() {
+        return Utils.processStringFromAPI(drug);
+    }
+
     public void setDrug(String drug) {
         this.drug = drug;
     }
 
     public String getReaction() {
         return reaction;
+    }
+
+    public String getReaction_display() {
+        return Utils.processStringFromAPI(reaction);
     }
 
     public void setReaction(String reaction) {

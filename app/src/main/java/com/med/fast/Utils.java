@@ -48,4 +48,12 @@ public class Utils {
         return apiString.equals(APIConstants.DEFAULT) ||
                 apiString.equals("") ? "-" : apiString;
     }
+
+    public static boolean processBoolFromAPI(String apiString){
+        // If null, directly return -
+        if (apiString == null) return false;
+        // If not, return - or string if string is empty or not respectively
+        return apiString.toLowerCase().equals("true") ||
+                apiString.toLowerCase().equals("yes");
+    }
 }

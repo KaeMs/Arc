@@ -261,8 +261,8 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         if (getItemViewType(position) == ALLERGY) {
             AllergyManagementVH allergyManagementVH = (AllergyManagementVH) holder;
             allergyManagementVH.agent.setText(mDataset.get(position).getAgent());
-            allergyManagementVH.drug.setText(mDataset.get(position).getDrug());
-            allergyManagementVH.reaction.setText(mDataset.get(position).getReaction());
+            allergyManagementVH.drug.setText(mDataset.get(position).getDrug_display());
+            allergyManagementVH.reaction.setText(mDataset.get(position).getReaction_display());
             allergyManagementVH.firstExperience.setText(mDataset.get(position).getFirst_experience_display());
             allergyManagementVH.date.setText(mDataset.get(position).getCreated_date());
 
