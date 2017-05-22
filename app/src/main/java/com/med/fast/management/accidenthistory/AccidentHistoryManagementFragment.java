@@ -65,6 +65,9 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
+    public AccidentHistoryManagementFragment() {
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -143,6 +146,22 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+            if (EventBus.getDefault().isRegistered(this)) {
+                EventBus.getDefault().unregister(this);
+            }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
@@ -179,22 +198,6 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Subscribe

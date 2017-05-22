@@ -3,6 +3,7 @@ package com.med.fast.management.visit;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
@@ -31,8 +33,10 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.UriUtils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -236,7 +240,13 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
             isLoading = true;
         }
     }
-    
+
+    @Subscribe
+    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+        noContentTV.setVisibility(View.GONE);
+        scrollToTop();
+    }
+
     @Override
     public void onStartActivityForResult(Intent intent, int requestCode) {
         startActivityForResult(intent, requestCode);
@@ -247,12 +257,15 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCodeList.VISIT_CREATE){
             if (resultCode == Activity.RESULT_OK){
-                String visitId = data.getStringExtra(ConstantsManagement.VISIT_ID_EXTRA);
-                Gson gson = new Gson();
+                /*Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Uri.class, new UriUtils.UriDeserializer())
+                    .create();
+                String visitModelStr = data.getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA);
                 VisitModel model =
-                        gson.fromJson(data.getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA), VisitModel.class);
+                        gson.fromJson(visitModelStr, VisitModel.class);
                 visitAdapter.addSingle(model, 0);
-                noContentTV.setVisibility(View.GONE);
+                noContentTV.setVisibility(View.GONE);*/
+                refreshView(true);
                 scrollToTop();
             }
         } else if (requestCode == RequestCodeList.VISIT_EDIT){

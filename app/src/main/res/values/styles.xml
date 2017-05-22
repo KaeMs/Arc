@@ -11,7 +11,7 @@
         <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
         <item name="android:radioButtonStyle">@style/AppTheme.RadioButtonStyle</item>
         <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
-        <item name="dialogTheme">@style/AppTheme.DialogTheme</item>
+        <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
     </style>
 
@@ -50,7 +50,7 @@
     <item name="android:button">@drawable/btn_radio_r</item>
     <item name="android:textColor">@color/myfontcolor</item>-->
 
-    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Dialog">
+    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.NegativeButtonStyle</item>

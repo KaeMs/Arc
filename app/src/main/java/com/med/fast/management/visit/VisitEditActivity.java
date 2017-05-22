@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
@@ -311,6 +312,9 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 visitModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
+                /*Gson gsonBuilder = new GsonBuilder()
+                        .registerTypeAdapter(Uri.class, new UriUtils.UriSerializer())
+                        .create();*/
                 intent.putExtra(ConstantsManagement.VISIT_MODEL_EXTRA, gson.toJson(visitModel));
                 setResult(RESULT_OK, intent);
                 finish();

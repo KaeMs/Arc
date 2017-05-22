@@ -48,6 +48,9 @@ public abstract class FastBaseFragment extends Fragment {
 
     public void addItem() {}
 
+    public FastBaseFragment(){
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
