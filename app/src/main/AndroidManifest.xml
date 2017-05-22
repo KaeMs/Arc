@@ -153,8 +153,8 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <data
-                    android:host="www.fastmedrecord.com"
-                    android:pathPrefix="/account/confirmemail"
+                    android:host="fastmedrecord.com"
+                    android:pathPrefix="/Account/RegisterVerifyEmail"
                     android:scheme="http" />
                 <action android:name="android.intent.action.VIEW" />
 

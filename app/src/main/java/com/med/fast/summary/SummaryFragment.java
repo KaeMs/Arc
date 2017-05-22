@@ -126,6 +126,10 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                 Gson gson = new Gson();
                 SummaryShowAPI output = gson.fromJson(responseAPI.status_response, SummaryShowAPI.class);
                 if (output.data.status.code.equals("200")) {
+                    Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+                    if(savedRecyclerLayoutState != null){
+                        linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+                    }
                     SummaryWrapperModel summaryWrapperModel = new SummaryWrapperModel();
                     summaryWrapperModel.name = output.data.results.name;
                     summaryWrapperModel.date_of_birth = output.data.results.date_of_birth;
