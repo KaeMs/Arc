@@ -27,7 +27,7 @@ public class SignupEmailConfActivity extends FastBaseActivity implements EmailCo
 
         Intent intent = getIntent();
         Uri confirmationLink = intent.getData();
-        String userToken = confirmationLink.getQueryParameter("Token");
+        String userToken = confirmationLink.getQueryParameter("token");
 
         //Log.d("token", userToken);
         //Log.d("email", userEmail);
