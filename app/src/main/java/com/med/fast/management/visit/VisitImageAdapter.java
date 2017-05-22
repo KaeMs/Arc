@@ -3,6 +3,7 @@ package com.med.fast.management.visit;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                 Intent intent = new Intent(context, ViewImageActivity.class);
                 intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, mDataset.get(holder.getAdapterPosition()).getPath());
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((FastBaseActivity)context, visitImageVH.image, context.getString(R.string.view_image_transition));
+                        makeSceneTransitionAnimation((FastBaseActivity)context, visitImageVH.image, ViewCompat.getTransitionName(visitImageVH.image));
                 context.startActivity(intent, options.toBundle());
             }
         });

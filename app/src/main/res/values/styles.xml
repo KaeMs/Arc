@@ -72,6 +72,10 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.ViewImage" parent="AppTheme">
+        <!--<item name="android:transition">@transition/window_fade</item>        -->
+    </style>
+
     <!-- Initial Data Theme -->
     <style name="AppTheme.InitialData" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/AppTheme.InitialData.ActivityTransition</item>

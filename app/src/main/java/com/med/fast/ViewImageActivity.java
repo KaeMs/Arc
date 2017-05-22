@@ -1,9 +1,10 @@
 package com.med.fast;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.ViewTreeObserver;
-import android.widget.ImageView;
+import android.transition.Fade;
+import android.transition.Transition;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
@@ -33,15 +34,29 @@ public class ViewImageActivity extends FastBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_image_activity_layout);
-
         if (getIntent() != null){
             imagePath = getIntent().getStringExtra(IMAGE_PATH_EXTRA);
+            supportPostponeEnterTransition();
 
             Glide.with(this)
                     .load(APIConstants.WEB_URL + imagePath)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(true)
+                    .dontAnimate()
                     .error(MediaUtils.image_error_black)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            supportStartPostponedEnterTransition();
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            supportStartPostponedEnterTransition();
+                            return false;
+                        }
+                    })
                     .into(image);
 
             /*supportPostponeEnterTransition();
