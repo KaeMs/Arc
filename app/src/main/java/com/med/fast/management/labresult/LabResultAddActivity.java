@@ -96,7 +96,6 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         labResultImageAddAdapter = new LabResultImageAddAdapter(this);
-        labResultImageAddAdapter.setWidth(displayMetrics.widthPixels);
         labResultImageAddAdapter.addSingle(null);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -297,15 +296,15 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
-                labResultImageItem.setImage_path(currentMediaPath);
+                LabResultImgModel labResultImageItem = new LabResultImgModel();
+                labResultImageItem.setId(String.valueOf(labResultImageAddAdapter.getItemCount()));
+                labResultImageItem.setPath(currentMediaPath);
                 labResultImageItem.setImage_uri(imageUri);
-                labResultImageItem.setImage_is_deleted(false);
-                labResultImageItem.getLabResultUploadImageItem().setId(String.valueOf(labResultImageAddAdapter.getItemCount()) + userId);
-                labResultImageItem.getLabResultUploadImageItem().setPath(currentMediaPath);
-                labResultImageItem.getLabResultUploadImageItem().setDate_taken(dateTaken.getText().toString());
-                labResultImageItem.getLabResultUploadImageItem().setIs_deleted(false);
+                labResultImageItem.setIs_deleted(false);
+                labResultImageItem.getLabResultImgUploadModel().setId(String.valueOf(labResultImageAddAdapter.getItemCount()) + userId);
+                labResultImageItem.getLabResultImgUploadModel().setPath(currentMediaPath);
+                labResultImageItem.getLabResultImgUploadModel().setDate_taken(dateTaken.getText().toString());
+                labResultImageItem.getLabResultImgUploadModel().setIs_deleted(false);
                 labResultImageAddAdapter.updatemDataset(labResultImageItem);
                 dialog.dismiss();
             }

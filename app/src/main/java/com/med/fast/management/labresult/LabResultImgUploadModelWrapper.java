@@ -7,6 +7,6 @@ import java.util.List;
  * Created by Kevin Murvie on 5/09/2017. FM
  */
 
-public class LabResultUploadImageItemWrapper {
-    public List<LabResultUploadImageItem> img_list = new ArrayList<>();
+public class LabResultImgUploadModelWrapper {
+    public List<LabResultImgUploadModel> img_list = new ArrayList<>();
 }

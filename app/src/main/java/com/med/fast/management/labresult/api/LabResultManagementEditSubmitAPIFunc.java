@@ -9,9 +9,13 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
 
+import java.io.File;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -55,22 +59,28 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
             }
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
-            RequestBody formBody = new FormBody.Builder()
-                    .add("user_id", params[0].data.query.user_id)
-                    .add("test_name", params[0].data.query.test_name)
-                    .add("lab_result_id", params[0].data.query.lab_result_id)
-                    .add("desc_result", params[0].data.query.desc_result)
-                    .add("img_path", params[0].data.query.img_path)
-                    .add("date", params[0].data.query.date)
-                    .add("place", params[0].data.query.place)
-                    .add("list_img_uploadeds", params[0].data.query.list_img_uploadeds)
-                    .build();
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("user_id", params[0].data.query.user_id)
+                    .addFormDataPart("test_name", params[0].data.query.test_name)
+                    .addFormDataPart("lab_result_id", params[0].data.query.lab_result_id)
+                    .addFormDataPart("desc_result", params[0].data.query.desc_result)
+                    .addFormDataPart("img_path", params[0].data.query.img_path)
+                    .addFormDataPart("date", params[0].data.query.date)
+                    .addFormDataPart("place", params[0].data.query.place)
+                    .addFormDataPart("list_img_uploadeds", params[0].data.query.list_img_uploadeds);
+
+            // Upload multiple files
+            for(int i = 0; i < params[0].data.query.image_files.size(); ++i){
+                String fileType = "image/" + "jpg";
+                String fileName = "visit_image_" + i + "_" + params[0].data.query.user_id;
+                builder.addFormDataPart("visit_image_file", fileName, RequestBody.create(MediaType.parse(fileType), params[0].data.query.image_files.get(i)));
+            }
 
             Request request = new Request.Builder()
                     .url(url)
                     .addHeader("Accept", "application/json")
                     .addHeader("Authorization", "Bearer " + token)
-                    .post(formBody)
+                    .post(builder.build())
                     .build();
 
             Response response = client.newCall(request).execute();

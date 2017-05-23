@@ -32,7 +32,6 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.DeleteConfirmIntf;
-import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementDeleteSubmitAPI;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementDeleteIntf;
@@ -59,14 +58,14 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     private StartActivityForResultInAdapterIntf startActivityForResultInAdapterIntf;
     private HorizontalItemDecoration horizontalItemDecoration;
 
-    public LabResultManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
+    public LabResultManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf) {
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.horizontalItemDecoration = new HorizontalItemDecoration();
         deleteConfirmIntf = this;
     }
 
-    public void addList(List<LabResultManagementModel> dataset){
+    public void addList(List<LabResultManagementModel> dataset) {
 //        this.mDataset.addAll(dataset);
 //        notifyDataSetChanged();
         for (LabResultManagementModel model :
@@ -76,27 +75,27 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
         }
     }
 
-    public void addSingle(LabResultManagementModel model){
+    public void addSingle(LabResultManagementModel model) {
         this.mDataset.add(model);
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void addSingle(LabResultManagementModel model, int position){
+    public void addSingle(LabResultManagementModel model, int position) {
         this.mDataset.add(position, model);
         notifyItemInserted(position);
     }
 
-    public void removeProgress(){
-        if (mDataset.size() > 0){
-            if (mDataset.get(mDataset.size() - 1) == null){
+    public void removeProgress() {
+        if (mDataset.size() > 0) {
+            if (mDataset.get(mDataset.size() - 1) == null) {
                 mDataset.remove(mDataset.size() - 1);
                 notifyItemRemoved(mDataset.size());
             }
         }
     }
 
-    public void clearList(){
-        if (mDataset.size() > 0){
+    public void clearList() {
+        if (mDataset.size() > 0) {
             mDataset.clear();
             notifyDataSetChanged();
         }
@@ -105,24 +104,24 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
         notifyItemChanged(getItemCount() - 1);
-        if (!failLoad){
+        if (!failLoad) {
             removeProgress();
         }
     }
 
-    public void submitItem(){
+    public void submitItem() {
         Intent intent = new Intent(context, LabResultAddActivity.class);
         startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.LABRESULT_CREATE);
     }
 
-    public void reSubmitItem(int position){
+    public void reSubmitItem(int position) {
 
     }
 
     // Update by model
-    public void updateItem(LabResultManagementModel item){
+    public void updateItem(LabResultManagementModel item) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getId().equals(item.getId())){
+            if (mDataset.get(i).getId().equals(item.getId())) {
                 item.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 mDataset.set(i, item);
                 notifyItemChanged(i);
@@ -186,8 +185,8 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == LABRESULT){
-            LabResultManagementVH labResultManagementVH = (LabResultManagementVH)holder;
+        if (getItemViewType(position) == LABRESULT) {
+            LabResultManagementVH labResultManagementVH = (LabResultManagementVH) holder;
             labResultManagementVH.testingDate.setText(mDataset.get(position).getDate());
             labResultManagementVH.testName.setText(mDataset.get(position).getTest_name());
             labResultManagementVH.testingPlace.setText(mDataset.get(position).getPlace());
@@ -208,17 +207,17 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                 labResultManagementVH.imageRecycler.setVisibility(View.GONE);
             }
 
-            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
                 labResultManagementVH.editBtn.setEnabled(false);
                 labResultManagementVH.deleteBtn.setEnabled(false);
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 labResultManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 labResultManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
                 labResultManagementVH.editBtn.setEnabled(false);
                 labResultManagementVH.deleteBtn.setEnabled(false);
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 labResultManagementVH.statusProgressBar.setVisibility(View.GONE);
                 labResultManagementVH.progressFailImg.setVisibility(View.VISIBLE);
                 labResultManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +238,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                 @Override
                 public void onClick(View v) {
                     if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
-                        Intent intent = new Intent(context, AllergyEditActivity.class);
+                        Intent intent = new Intent(context, LabResultEditActivity.class);
                         Gson gson = new Gson();
                         intent.putExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA,
                                 gson.toJson(mDataset.get(holder.getAdapterPosition())));
@@ -251,14 +250,14 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
             labResultManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
                         createDeleteDialog(context, context.getString(R.string.lab_test_delete_confirmation), "labresult" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
-            
+
         } else {
-            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
+            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH) holder;
             infiScrollProgressVH.setFailLoad(failLoad);
             infiScrollProgressVH.failTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -271,8 +270,8 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
 
     @Override
     public void onDeleteConfirm(String deletionId) {
-        for (int i = 0; i < getItemCount(); i++){
-            if (deletionId.equals("labresult" + mDataset.get(i).getId())){
+        for (int i = 0; i < getItemCount(); i++) {
+            if (deletionId.equals("labresult" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
@@ -318,7 +317,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
 
     @Override
     public void onFinishLabResultManagementDelete(ResponseAPI responseAPI, String tag) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             LabResultManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
@@ -332,12 +331,12 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
                 updateItem(tag, output.data.query.lab_result_id, false);
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            ((FastBaseActivity)context).forceLogout();
+            ((FastBaseActivity) context).forceLogout();
         } else {
             updateItem(tag, APIConstants.NO_ID, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

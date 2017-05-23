@@ -1,9 +1,5 @@
 package com.med.fast.management.labresult.api;
 
-import com.med.fast.management.labresult.LabResultImageItem;
-import com.med.fast.management.labresult.LabResultImgUploadModel;
-import com.med.fast.management.labresult.LabResultUploadImageItem;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

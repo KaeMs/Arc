@@ -1,5 +1,8 @@
 package com.med.fast.management.labresult.api;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * Created by kevindreyar on 27-Apr-17. FM
  */
@@ -25,6 +28,7 @@ public class LabResultManagementEditSubmitAPI {
             public String list_img_uploadeds;
             public String img_obj_json;
             public String added_img_obj_json;
+            public List<File> image_files;
         }
 
         public class Status

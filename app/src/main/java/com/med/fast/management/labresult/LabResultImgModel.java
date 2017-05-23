@@ -1,5 +1,7 @@
 package com.med.fast.management.labresult;
 
+import android.net.Uri;
+
 /**
  * Created by Kevin Murvie on 5/3/2017. FM
  */
@@ -10,14 +12,8 @@ public class LabResultImgModel {
     private String path;
     private String date_taken;
     private boolean is_deleted;
-
-    public LabResultImgModel(LabResultImageItem labResultImageItem){
-        this.id = labResultImageItem.getImage_id();
-        this.name = labResultImageItem.getImage_id();
-        this.path = labResultImageItem.getImage_path();
-        this.date_taken = labResultImageItem.getDate_taken();
-        this.is_deleted = labResultImageItem.isImage_is_deleted();
-    }
+    private Uri image_uri;
+    private LabResultImgUploadModel labResultImgUploadModel = new LabResultImgUploadModel();
 
     public String getId() {
         return id;
@@ -57,5 +53,21 @@ public class LabResultImgModel {
 
     public void setIs_deleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
+    }
+
+    public Uri getImage_uri() {
+        return image_uri;
+    }
+
+    public void setImage_uri(Uri image_uri) {
+        this.image_uri = image_uri;
+    }
+
+    public LabResultImgUploadModel getLabResultImgUploadModel() {
+        return labResultImgUploadModel;
+    }
+
+    public void setLabResultImgUploadModel(LabResultImgUploadModel labResultImgUploadModel) {
+        this.labResultImgUploadModel = labResultImgUploadModel;
     }
 }

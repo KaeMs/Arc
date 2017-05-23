@@ -35,7 +35,6 @@ public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManag
     }
     @Override
     protected ResponseAPI doInBackground(LabResultManagementEditShowAPI... params) {
-
         ResponseAPI responseAPI = new ResponseAPI();
         try {
             String url = APIConstants.API_URL + APIConstants.LABRESULT_EDIT_SHOW;

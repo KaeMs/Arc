@@ -141,6 +141,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/visit_card_images"
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="100dp" />
 
             <include layout="@layout/management_operation_editdelete_buttons"/>

@@ -12,7 +12,7 @@ public class LabResultImageItem {
     private String date_taken;
     private boolean image_is_deleted;
     private Uri image_uri;
-    private LabResultUploadImageItem labResultUploadImageItem = new LabResultUploadImageItem();
+    private LabResultImgUploadModel labResultImgUploadModel = new LabResultImgUploadModel();
 
     public String getImage_id() {
         return image_id;
@@ -54,11 +54,11 @@ public class LabResultImageItem {
         this.image_uri = image_uri;
     }
 
-    public LabResultUploadImageItem getLabResultUploadImageItem() {
-        return labResultUploadImageItem;
+    public LabResultImgUploadModel getLabResultImgUploadModel() {
+        return labResultImgUploadModel;
     }
 
-    public void setLabResultUploadImageItem(LabResultUploadImageItem labResultUploadImageItem) {
-        this.labResultUploadImageItem = labResultUploadImageItem;
+    public void setLabResultImgUploadModel(LabResultImgUploadModel labResultImgUploadModel) {
+        this.labResultImgUploadModel = labResultImgUploadModel;
     }
 }

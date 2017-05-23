@@ -82,6 +82,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
 
         refreshView();
 
+        labResultImageAddAdapter = new LabResultImageAddAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imgRecycler.setLayoutManager(linearLayoutManager);
         imgRecycler.setAdapter(labResultImageAddAdapter);
@@ -104,7 +105,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
-                if (!testFinishedDate.equals("")){
+                if (!testFinishedDate.getText().toString().equals("")){
                     if (mAwesomeValidation.validate()) {
                         String testTypeString = testType.getText().toString();
                         String testLocationString = testLocation.getText().toString();
@@ -126,6 +127,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                         labResultManagementEditSubmitAPI.data.query.date = finishedDateString;
                         labResultManagementEditSubmitAPI.data.query.img_obj_json = labResultImageAddAdapter.getGson();
                         labResultManagementEditSubmitAPI.data.query.added_img_obj_json = labResultImageAddAdapter.getAddedImgGson();
+                        labResultManagementEditSubmitAPI.data.query.image_files.addAll(labResultImageAddAdapter.getUploadFile());
 
                         LabResultManagementEditSubmitAPIFunc labResultManagementEditSubmitAPIFunc = new LabResultManagementEditSubmitAPIFunc(LabResultEditActivity.this);
                         labResultManagementEditSubmitAPIFunc.setDelegate(LabResultEditActivity.this);
@@ -170,23 +172,23 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
         if (requestCode == RequestCodeList.CAMERA) {
             if (resultCode == RESULT_OK) {
                 mDestinationUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
-                LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
-                labResultImageItem.setImage_path(currentMediaPath);
-                labResultImageItem.setImage_uri(mDestinationUri);
-                labResultImageItem.setImage_is_deleted(false);
-                labResultImageAddAdapter.updatemDataset(labResultImageItem);
+                LabResultImgModel labResultImgModel = new LabResultImgModel();
+                labResultImgModel.setId(String.valueOf(labResultImageAddAdapter.getItemCount()));
+                labResultImgModel.setPath(currentMediaPath);
+                labResultImgModel.setImage_uri(mDestinationUri);
+                labResultImgModel.setIs_deleted(false);
+                labResultImageAddAdapter.updatemDataset(labResultImgModel);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
                 currentMediaPath = UriUtils.getPath(this, data.getData());
                 Uri mediaUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
-                LabResultImageItem labResultImageItem = new LabResultImageItem();
-                labResultImageItem.setImage_id(String.valueOf(labResultImageAddAdapter.getItemCount()));
-                labResultImageItem.setImage_path(currentMediaPath);
-                labResultImageItem.setImage_uri(mediaUri);
-                labResultImageItem.setImage_is_deleted(false);
-                labResultImageAddAdapter.updatemDataset(labResultImageItem);
+                LabResultImgModel labResultImgModel = new LabResultImgModel();
+                labResultImgModel.setId(String.valueOf(labResultImageAddAdapter.getItemCount()));
+                labResultImgModel.setPath(currentMediaPath);
+                labResultImgModel.setImage_uri(mediaUri);
+                labResultImgModel.setIs_deleted(false);
+                labResultImageAddAdapter.updatemDataset(labResultImgModel);
             }
         }
     }
@@ -214,14 +216,20 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                 testLocation.setText(output.data.results.place);
                 testFinishedDate.setText(output.data.results.date);
                 testDescription.setText(output.data.results.desc);
+
+                labResultImageAddAdapter.addList(output.data.results.img_object.img_list);
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            setResult(RESULT_CANCELED);
+            finish();
         }
     }
 
@@ -239,15 +247,11 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            setResult(RESULT_CANCELED);
-            finish();
         }
     }
 }

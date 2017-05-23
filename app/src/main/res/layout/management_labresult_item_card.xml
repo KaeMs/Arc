@@ -116,6 +116,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/management_labresult_item_images"
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="100dp" />
 
