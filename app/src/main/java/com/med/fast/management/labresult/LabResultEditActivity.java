@@ -22,6 +22,7 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -114,7 +115,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                         labResultManagementModel.setPlace(testLocationString);
                         labResultManagementModel.setDesc_result(descriptionString);
                         labResultManagementModel.setDate(finishedDateString);
-                        labResultManagementModel.setProgress_status("0");
+                        labResultManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
 
                         LabResultManagementEditSubmitAPI labResultManagementEditSubmitAPI = new LabResultManagementEditSubmitAPI();
                         labResultManagementEditSubmitAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(LabResultEditActivity.this);
@@ -123,6 +124,8 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                         labResultManagementEditSubmitAPI.data.query.place = testLocationString;
                         labResultManagementEditSubmitAPI.data.query.desc_result = descriptionString;
                         labResultManagementEditSubmitAPI.data.query.date = finishedDateString;
+                        labResultManagementEditSubmitAPI.data.query.img_obj_json = labResultImageAddAdapter.getGson();
+                        labResultManagementEditSubmitAPI.data.query.added_img_obj_json = labResultImageAddAdapter.getAddedImgGson();
 
                         LabResultManagementEditSubmitAPIFunc labResultManagementEditSubmitAPIFunc = new LabResultManagementEditSubmitAPIFunc(LabResultEditActivity.this);
                         labResultManagementEditSubmitAPIFunc.setDelegate(LabResultEditActivity.this);
@@ -207,10 +210,10 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             Gson gson = new Gson();
             LabResultManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                testType.setText(output.data.results.lab_result.getTest_name());
-                testLocation.setText(output.data.results.lab_result.getPlace());
-                testFinishedDate.setText(output.data.results.lab_result.getDate());
-                testDescription.setText(output.data.results.lab_result.getDesc_result());
+                testType.setText(output.data.results.test_name);
+                testLocation.setText(output.data.results.place);
+                testFinishedDate.setText(output.data.results.date);
+                testDescription.setText(output.data.results.desc);
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
@@ -230,7 +233,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 String allergyModelString = gson.toJson(labResultManagementModel);
-                intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
+                intent.putExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA, allergyModelString);
                 setResult(RESULT_OK, intent);
                 finish();
             }

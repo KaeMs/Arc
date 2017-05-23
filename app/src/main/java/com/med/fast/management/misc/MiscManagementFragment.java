@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
@@ -171,9 +170,9 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                     femaleWrapper.setVisibility(View.GONE);
                 }
                 voluptuaryHabit.setText(Utils.processStringFromAPI(output.data.results.voluptuary_habits));
-                pregnantY.setChecked(Utils.processBoolFromAPI(output.data.results.pregnancy));
+                pregnantY.setChecked(Utils.processBoolStringFromAPI(output.data.results.pregnancy));
                 pregnancyWeeks.setText(Utils.processStringFromAPI(output.data.results.pregnancy_weeks));
-                miscarriageY.setChecked(Utils.processBoolFromAPI(output.data.results.had_miscarriage));
+                miscarriageY.setChecked(Utils.processBoolStringFromAPI(output.data.results.had_miscarriage));
                 miscarriageDate.setText(Utils.processStringFromAPI(output.data.results.last_time_miscarriage));
                 cycleAlterations.setText(Utils.processStringFromAPI(output.data.results.cycle_alteration));
             } else {

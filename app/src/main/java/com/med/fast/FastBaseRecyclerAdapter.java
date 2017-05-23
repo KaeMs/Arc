@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
 import com.med.fast.customevents.DeleteConfirmEvent;
+import com.med.fast.management.DeleteConfirmIntf;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,21 +17,35 @@ import org.greenrobot.eventbus.EventBus;
 public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
 
     private boolean enableEventbus = false;
+    public DeleteConfirmIntf deleteConfirmIntf;
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        if (enableEventbus) EventBus.getDefault().register(this);
+        if (enableEventbus) if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        if (enableEventbus) EventBus.getDefault().unregister(this);
+        if (enableEventbus)
+            if (EventBus.getDefault().isRegistered(this))
+                EventBus.getDefault().unregister(this);
+    }
+
+    public void forceEventbusUnregistration(){
+        if (EventBus.getDefault().isRegistered(this)){
+           EventBus.getDefault().unregister(this);
+        }
     }
 
     public FastBaseRecyclerAdapter (boolean enableEventbus){
         this.enableEventbus = enableEventbus;
+    }
+
+    public FastBaseRecyclerAdapter (DeleteConfirmIntf deleteConfirmIntf){
+        this.deleteConfirmIntf = deleteConfirmIntf;
     }
 
     public FastBaseRecyclerAdapter (){
@@ -44,7 +59,8 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
                 .setPositiveButton(context.getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EventBus.getDefault().post(new DeleteConfirmEvent(deletionId));
+//                        EventBus.getDefault().post(new DeleteConfirmEvent(deletionId));
+                        deleteConfirmIntf.onDeleteConfirm(deletionId);
                     }
                 })
                 .setNegativeButton(context.getString(R.string.no), new DialogInterface.OnClickListener() {

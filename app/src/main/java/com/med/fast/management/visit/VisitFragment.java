@@ -103,13 +103,6 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(visitAdapter);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshView(false);
-            }
-        });
-
         noContentTV.setText(getString(R.string.no_visit_record));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -171,6 +164,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     @Override
     public void onPause() {
         super.onPause();
+//        visitAdapter.forceEventbusUnregistration();
         getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 

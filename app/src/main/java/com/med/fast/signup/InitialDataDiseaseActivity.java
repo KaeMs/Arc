@@ -110,7 +110,7 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        diseaseManagementAdapter = new DiseaseManagementAdapter(this, true);
+        diseaseManagementAdapter = new DiseaseManagementAdapter(this, null, true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);

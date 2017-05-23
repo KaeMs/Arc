@@ -108,26 +108,25 @@
                     <ListView
                         android:id="@+id/visit_popup_disease_history_recycler"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/border_grey"
-                        android:minHeight="200dp" />
+                        android:minHeight="500dp" />
 
                     <ListView
                         android:id="@+id/visit_popup_disease_input_recycler"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:background="@drawable/border_grey"
-                        android:minHeight="200dp" />
+                        android:background="@drawable/border_grey" />
 
                 </LinearLayout>
 

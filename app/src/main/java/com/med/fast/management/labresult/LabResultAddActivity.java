@@ -350,7 +350,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
             LabResultManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, LabResultManagementCreateSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
-                intent.putExtra(ConstantsManagement.LABRESULT_ID_EXTRA, output.data.results.new_lab_result_id);
+//                intent.putExtra(ConstantsManagement.LABRESULT_ID_EXTRA, output.data.results.new_lab_result_id);
                 labResultManagementModel.setId(output.data.results.new_lab_result_id);
                 labResultManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
                 intent.putExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA, gson.toJson(labResultManagementModel));

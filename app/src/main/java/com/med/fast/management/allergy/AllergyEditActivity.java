@@ -91,7 +91,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
                     String firstExpString = Utils.processStringForAPI(firstTimeExp.getText().toString());
 
                     allergyManagementModel.setAgent(causativeString);
-                    allergyManagementModel.setDrug(drugTypeString);
+                    allergyManagementModel.setIs_drug(drugTypeYes.isChecked());
                     allergyManagementModel.setReaction(reactionString);
                     allergyManagementModel.setFirst_experience(firstExpString);
                     allergyManagementModel.setProgress_status(APIConstants.PROGRESS_NORMAL);
@@ -128,7 +128,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
             AllergyManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, AllergyManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 allergyManagementModel.setAgent(output.data.results.agent);
-                allergyManagementModel.setDrug(String.valueOf(output.data.results.is_drug));
+                allergyManagementModel.setIs_drug(output.data.results.is_drug);
                 allergyManagementModel.setReaction(output.data.results.reaction);
                 allergyManagementModel.setFirst_experience(output.data.results.first_experience);
                 causative.setText(output.data.results.agent);

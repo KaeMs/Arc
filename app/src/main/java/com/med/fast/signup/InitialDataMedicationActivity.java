@@ -96,7 +96,7 @@ public class InitialDataMedicationActivity extends FastBaseActivity implements M
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        medicineManagementAdapter = new MedicineManagementAdapter(this, true);
+        medicineManagementAdapter = new MedicineManagementAdapter(this, null, true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(medicineManagementAdapter);

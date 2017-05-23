@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.DeleteConfirmIntf;
 import com.med.fast.management.medicine.api.MedicineManagementDeleteAPI;
 import com.med.fast.management.medicine.api.MedicineManagementDeleteAPIFunc;
 import com.med.fast.management.medicine.api.MedicineManagementSubmitAPI;
@@ -54,7 +56,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implements MedicineCreateDeleteIntf {
+public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implements MedicineCreateDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int MEDICINE = 1;
@@ -65,19 +67,14 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     private String userId;
     private boolean initial = false;
 
-    public MedicineManagementAdapter(Context context, boolean initial){
-        super(true);
-        this.context = context;
-        this.userId = SharedPreferenceUtilities.getUserId(context);
-        this.initial = initial;
-    }
-
     public MedicineManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial){
-        super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
-        this.startActivityForResultInAdapterIntf = intf;
+        if (intf != null){
+            this.startActivityForResultInAdapterIntf = intf;
+        }
         this.initial = initial;
+        deleteConfirmIntf = this;
     }
 
     public void addList(List<MedicineManagementModel> dataset){
@@ -137,24 +134,32 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                    if (success) {
-                        mDataset.get(i).setId(newId);
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    } else {
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                    }
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+            if (!TextUtils.isEmpty(mDataset.get(i).getId()) &&
+                    mDataset.get(i).getId().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                     if (success) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        notifyItemChanged(i);
+                    }
+                    break;
+                }
+            } else {
+                if (!TextUtils.isEmpty(mDataset.get(i).getTag()) &&
+                        mDataset.get(i).getTag().equals(tag)) {
+                    if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                        if (success) {
+                            mDataset.get(i).setId(newId);
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        } else {
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                        }
+                        notifyItemChanged(i);
+                        break;
                     }
                 }
-                notifyItemChanged(i);
-                break;
             }
         }
     }
@@ -352,10 +357,10 @@ public class MedicineManagementAdapter extends FastBaseRecyclerAdapter implement
         }
     }
 
-    @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+    @Override
+    public void onDeleteConfirm(String deletionId) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("medicine" + mDataset.get(i).getId())) {
+            if (deletionId.equals("medicine" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 

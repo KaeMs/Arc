@@ -1,5 +1,6 @@
 package com.med.fast.management.labresult.api;
 
+import com.med.fast.management.labresult.LabResultImgModelWrapper;
 import com.med.fast.management.labresult.LabResultManagementModel;
 import com.med.fast.management.labresult.api.PhotoDetailLabResultsApps;
 
@@ -35,8 +36,12 @@ public class LabResultManagementEditShowAPI {
             public String result_status;
             public String description;
             public String user_id;
-            public LabResultManagementModel lab_result;
-            public List<PhotoDetailLabResultsApps> list_img_detail;
+            public String lab_result_id;
+            public String test_name;
+            public String desc;
+            public String place;
+            public String date;
+            public LabResultImgModelWrapper img_object;
         }
     }
 }

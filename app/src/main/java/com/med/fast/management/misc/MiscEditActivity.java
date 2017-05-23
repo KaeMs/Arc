@@ -155,7 +155,7 @@ public class MiscEditActivity extends FastBaseActivity implements MiscEditIntf {
             if (output.data.status.code.equals("200")) {
                 Intent intent = new Intent();
                 String allergyModelString = gson.toJson(misc);
-                intent.putExtra(ConstantsManagement.ALLERGY_MODEL_EXTRA, allergyModelString);
+                intent.putExtra(ConstantsManagement.MISC_MODEL_EXTRA, allergyModelString);
                 setResult(RESULT_OK, intent);
                 finish();
             }

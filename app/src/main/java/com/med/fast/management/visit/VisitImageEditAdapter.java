@@ -21,6 +21,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.UtilityUriHelper;
+import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
 
 import java.io.File;
@@ -187,7 +188,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
                         .into(visitImageVH.image);
             } else {
                 Glide.with(context)
-                        .load(mDataset.get(position).getPath())
+                        .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .skipMemoryCache(true)
                         .fitCenter()

@@ -7,10 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,12 +31,12 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
-import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.DeleteConfirmIntf;
 import com.med.fast.management.surgery.api.SurgeryManagementCreateSubmitAPI;
 import com.med.fast.management.surgery.api.SurgeryManagementCreateSubmitAPIFunc;
 import com.med.fast.management.surgery.api.SurgeryManagementDeleteSubmitAPI;
@@ -45,7 +45,6 @@ import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementCreateD
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -63,7 +62,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements SurgeryManagementCreateDeleteIntf {
+public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements SurgeryManagementCreateDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int SURGERY = 1;
@@ -74,14 +73,14 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     private String userId;
     private int year, month, day;
 
-    public SurgeryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf){
-        super(true);
+    public SurgeryManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf) {
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
         this.startActivityForResultInAdapterIntf = intf;
+        deleteConfirmIntf = this;
     }
 
-    public void addList(List<SurgeryManagementModel> dataset){
+    public void addList(List<SurgeryManagementModel> dataset) {
         for (SurgeryManagementModel model :
                 dataset) {
             this.mDataset.add(model);
@@ -89,27 +88,27 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         }
     }
 
-    public void addSingle(SurgeryManagementModel accident){
+    public void addSingle(SurgeryManagementModel accident) {
         this.mDataset.add(accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void addSingle(SurgeryManagementModel accident, int position){
+    public void addSingle(SurgeryManagementModel accident, int position) {
         this.mDataset.add(position, accident);
         notifyItemInserted(getItemCount() - 1);
     }
 
-    public void removeProgress(){
-        if (mDataset.size() > 0){
-            if (mDataset.get(mDataset.size() - 1) == null){
+    public void removeProgress() {
+        if (mDataset.size() > 0) {
+            if (mDataset.get(mDataset.size() - 1) == null) {
                 mDataset.remove(mDataset.size() - 1);
                 notifyItemRemoved(mDataset.size());
             }
         }
     }
 
-    public void clearList(){
-        if (mDataset.size() > 0){
+    public void clearList() {
+        if (mDataset.size() > 0) {
             mDataset.clear();
             notifyDataSetChanged();
         }
@@ -118,7 +117,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     public void setFailLoad(boolean failLoad) {
         this.failLoad = failLoad;
         notifyItemChanged(getItemCount() - 1);
-        if (!failLoad){
+        if (!failLoad) {
             removeProgress();
         }
     }
@@ -138,29 +137,37 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                    if (success) {
-                        mDataset.get(i).setId(newId);
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    } else {
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                    }
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+            if (!TextUtils.isEmpty(mDataset.get(i).getId()) &&
+                    mDataset.get(i).getId().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                     if (success) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        notifyItemChanged(i);
+                    }
+                    break;
+                }
+            } else {
+                if (!TextUtils.isEmpty(mDataset.get(i).getTag()) &&
+                        mDataset.get(i).getTag().equals(tag)) {
+                    if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                        if (success) {
+                            mDataset.get(i).setId(newId);
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        } else {
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                        }
+                        notifyItemChanged(i);
+                        break;
                     }
                 }
-                notifyItemChanged(i);
-                break;
             }
         }
     }
 
-    public void submitItem(){
+    public void submitItem() {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_surgery_popup);
         dialog.setCanceledOnTouchOutside(false);
@@ -219,7 +226,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         });
             }
         });
-        
+
         CustomFontButton backBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_back_btn);
         CustomFontButton createBtn = (CustomFontButton) dialog.findViewById(R.id.management_operations_create_btn);
 
@@ -238,8 +245,8 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
-                if (!surgeryDate.getText().toString().equals("")){
-                    if (mAwesomeValidation.validate()){
+                if (!surgeryDate.getText().toString().equals("")) {
+                    if (mAwesomeValidation.validate()) {
                         String surgeryProcedureString = surgeryProcedure.getText().toString();
                         String physicianNameString = Utils.processStringForAPI(physicianName.getText().toString());
                         String surgeryDateString = surgeryDate.getText().toString();
@@ -278,7 +285,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         dialog.show();
     }
 
-    private void reSubmitItem(int position){
+    private void reSubmitItem(int position) {
         SurgeryManagementCreateSubmitAPI surgeryManagementCreateSubmitAPI = new SurgeryManagementCreateSubmitAPI();
         surgeryManagementCreateSubmitAPI.data.query.user_id = userId;
         surgeryManagementCreateSubmitAPI.data.query.procedure = mDataset.get(position).getProcedure();
@@ -289,14 +296,14 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
 
         SurgeryManagementCreateSubmitAPIFunc surgeryManagementCreateSubmitAPIFunc = new SurgeryManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag());
         surgeryManagementCreateSubmitAPIFunc.setDelegate(SurgeryManagementAdapter.this);
-        surgeryManagementCreateSubmitAPIFunc.execute(surgeryManagementCreateSubmitAPI);        
+        surgeryManagementCreateSubmitAPIFunc.execute(surgeryManagementCreateSubmitAPI);
     }
-    
+
     @Override
     public int getItemViewType(int position) {
         return mDataset.get(position) != null ? SURGERY : PROGRESS;
     }
-    
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder;
@@ -315,23 +322,23 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == SURGERY) {
-            SurgeryManagementVH surgeryManagementVH = (SurgeryManagementVH)holder;
+            SurgeryManagementVH surgeryManagementVH = (SurgeryManagementVH) holder;
             surgeryManagementVH.surgeryDate.setText(mDataset.get(position).getDate());
             surgeryManagementVH.surgeryProcedure.setText(mDataset.get(position).getProcedure());
             surgeryManagementVH.physicianName.setText(mDataset.get(position).getPhysician());
             surgeryManagementVH.hospitalName.setText(mDataset.get(position).getHospital());
 
-            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)){
+            if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
                 surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
                 surgeryManagementVH.editBtn.setEnabled(false);
                 surgeryManagementVH.deleteBtn.setEnabled(false);
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                 surgeryManagementVH.statusProgressBar.setVisibility(View.VISIBLE);
                 surgeryManagementVH.statusProgressBar.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_red));
                 surgeryManagementVH.editBtn.setEnabled(false);
                 surgeryManagementVH.deleteBtn.setEnabled(false);
-            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)){
+            } else if (mDataset.get(position).getProgress_status().equals(APIConstants.PROGRESS_ADD_FAIL)) {
                 surgeryManagementVH.statusProgressBar.setVisibility(View.GONE);
                 surgeryManagementVH.progressFailImg.setVisibility(View.VISIBLE);
                 surgeryManagementVH.progressFailImg.setOnClickListener(new View.OnClickListener() {
@@ -364,14 +371,14 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
             surgeryManagementVH.deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)){
+                    if (mDataset.get(holder.getAdapterPosition()).getProgress_status().equals(APIConstants.PROGRESS_NORMAL)) {
                         createDeleteDialog(context, context.getString(R.string.allergy_delete_confirmation), "surgery" + mDataset.get(holder.getAdapterPosition()).getId());
                     }
                 }
             });
 
         } else {
-            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH)holder;
+            InfiScrollProgressVH infiScrollProgressVH = (InfiScrollProgressVH) holder;
             infiScrollProgressVH.setFailLoad(failLoad);
             infiScrollProgressVH.failTxt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -382,10 +389,10 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         }
     }
 
-    @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+    @Override
+    public void onDeleteConfirm(String deletionId) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("surgery" + mDataset.get(i).getId())) {
+            if (deletionId.equals("surgery" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 

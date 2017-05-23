@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.DeleteConfirmIntf;
 import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPI;
 import com.med.fast.management.visit.api.VisitManagementDeleteSubmitAPIFunc;
 import com.med.fast.management.visit.visitinterface.VisitDeleteIntf;
@@ -48,7 +50,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDeleteIntf {
+public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int VISIT = 1;
@@ -60,11 +62,11 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     private HorizontalItemDecoration horizontalItemDecoration;
 
     public VisitAdapter(Context context, StartActivityForResultInAdapterIntf intf, int width){
-        super(true);
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.width = width;
         horizontalItemDecoration = new HorizontalItemDecoration();
+        deleteConfirmIntf = this;
     }
 
     public void addList(List<VisitModel> dataset) {
@@ -235,24 +237,32 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                    if (success) {
-                        mDataset.get(i).setId(newId);
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    } else {
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                    }
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+            if (!TextUtils.isEmpty(mDataset.get(i).getId()) &&
+                    mDataset.get(i).getId().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                     if (success) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        notifyItemChanged(i);
+                    }
+                    break;
+                }
+            } else {
+                if (!TextUtils.isEmpty(mDataset.get(i).getTag()) &&
+                        mDataset.get(i).getTag().equals(tag)) {
+                    if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                        if (success) {
+                            mDataset.get(i).setId(newId);
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        } else {
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                        }
+                        notifyItemChanged(i);
+                        break;
                     }
                 }
-                notifyItemChanged(i);
-                break;
             }
         }
     }
@@ -286,7 +296,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             visitViewHolder.hospitalName.setText(mDataset.get(position).getHospital_name());
             visitViewHolder.doctorName.setText(mDataset.get(position).getDoctor_name());
             visitViewHolder.diagnose.setText(mDataset.get(position).getDiagnose());
-            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseasesInString());
+            visitViewHolder.diagnosedDisease.setText(mDataset.get(position).getDiseases_display());
 
             if (mDataset.get(position).getImage_list().size() > 0) {
                 visitViewHolder.imageRecycler.setVisibility(View.VISIBLE);
@@ -365,10 +375,10 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
         }
     }
 
-    @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+    @Override
+    public void onDeleteConfirm(String deletionId) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("visit" + mDataset.get(i).getId())) {
+            if (deletionId.equals("visit" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
@@ -396,7 +406,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
             VisitManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, VisitManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.visit_id.equals("visit" + mDataset.get(i).getId())) {
+                    if (tag.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                         break;

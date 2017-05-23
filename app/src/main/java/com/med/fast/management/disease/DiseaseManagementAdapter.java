@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.DeleteConfirmIntf;
 import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPI;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPIFunc;
@@ -68,7 +70,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements DiseaseManagementCreateDeleteIntf {
+public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements DiseaseManagementCreateDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int DISEASE = 1;
@@ -80,19 +82,14 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     private boolean initial = false;
     private int year, month, day;
 
-    public DiseaseManagementAdapter(Context context, boolean initial) {
-        super(true);
-        userId = SharedPreferenceUtilities.getUserId(context);
-        this.context = context;
-        this.initial = initial;
-    }
-
     public DiseaseManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial) {
-        super(true);
         userId = SharedPreferenceUtilities.getUserId(context);
         this.context = context;
-        this.startActivityForResultInAdapterIntf = intf;
+        if (intf != null){
+            this.startActivityForResultInAdapterIntf = intf;
+        }
         this.initial = initial;
+        deleteConfirmIntf = this;
     }
 
     public void addList(List<DiseaseManagementModel> dataset) {
@@ -322,32 +319,40 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                    if (success) {
-                        mDataset.get(i).setId(newId);
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    } else {
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                    }
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+            if (!TextUtils.isEmpty(mDataset.get(i).getId()) &&
+                    mDataset.get(i).getId().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                     if (success) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        notifyItemChanged(i);
+                    }
+                    break;
+                }
+            } else {
+                if (!TextUtils.isEmpty(mDataset.get(i).getTag()) &&
+                        mDataset.get(i).getTag().equals(tag)) {
+                    if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                        if (success) {
+                            mDataset.get(i).setId(newId);
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        } else {
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                        }
+                        notifyItemChanged(i);
+                        break;
                     }
                 }
-                notifyItemChanged(i);
-                break;
             }
         }
     }
 
-    @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+    @Override
+    public void onDeleteConfirm(String deletionId) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("disease" + mDataset.get(i).getId())) {
+            if (deletionId.equals("disease" + mDataset.get(i).getId())) {
                 mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
@@ -494,7 +499,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
             DiseaseManagementDeleteSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementDeleteSubmitAPI.class);
             if (output.data.status.code.equals("200")) {
                 for (int i = 0; i < getItemCount(); i++) {
-                    if (output.data.query.disease_id.equals(mDataset.get(i).getId())) {
+                    if (tag.equals(mDataset.get(i).getId())) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     }
@@ -504,13 +509,13 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

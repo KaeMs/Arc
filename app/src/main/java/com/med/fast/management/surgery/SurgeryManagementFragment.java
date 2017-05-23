@@ -222,7 +222,7 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_EDIT) {
+        if (requestCode == RequestCodeList.SURGERY_EDIT) {
             if (resultCode == Activity.RESULT_OK) {
                 Gson gson = new Gson();
                 SurgeryManagementModel model =

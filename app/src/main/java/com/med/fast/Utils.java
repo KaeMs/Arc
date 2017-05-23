@@ -49,11 +49,16 @@ public class Utils {
                 apiString.equals("") ? "-" : apiString;
     }
 
-    public static boolean processBoolFromAPI(String apiString){
+    public static boolean processBoolStringFromAPI(String apiString){
         // If null, directly return -
         if (apiString == null) return false;
         // If not, return - or string if string is empty or not respectively
         return apiString.toLowerCase().equals("true") ||
                 apiString.toLowerCase().equals("yes");
+    }
+
+    public static String processBoolFromAPI(boolean apiString){
+        // If not, return - or string if string is empty or not respectively
+        return apiString ? "Yes" : "No";
     }
 }

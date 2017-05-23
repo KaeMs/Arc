@@ -16,6 +16,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.ViewImageActivity;
+import com.med.fast.api.APIConstants;
 import com.med.fast.viewholders.GeneralImageVH;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
         final GeneralImageVH generalImageVH = (GeneralImageVH) holder;
 
         Glide.with(context)
-                .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
+                .load(APIConstants.WEB_URL + mDataset.get(position).getImage_path())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .fitCenter()

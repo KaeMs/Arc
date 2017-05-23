@@ -33,6 +33,7 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
+import com.med.fast.management.disease.DiseaseListAdapter;
 import com.med.fast.management.visit.api.VisitManagementCreateShowAPI;
 import com.med.fast.management.visit.api.VisitManagementCreateShowAPIFunc;
 import com.med.fast.management.visit.api.VisitManagementCreateSubmitAPI;
@@ -78,10 +79,10 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     CustomFontButton createBtn;
 
     private VisitImageAddAdapter visitImageAddAdapter;
-    private ArrayAdapter<VisitDiseaseModel> diseasesLVAdapter;
-    private List<String> leftDataset;
-    private ArrayAdapter<VisitDiseaseModel> selectedLVAdapter;
-    private List<String> rightDataset;
+    private DiseaseListAdapter diseasesLVAdapter;
+    private List<VisitDiseaseModel> leftDataset;
+    private DiseaseListAdapter selectedLVAdapter;
+    private List<VisitDiseaseModel> rightDataset;
     private VisitModel visitModel;
 
     @Override
@@ -98,10 +99,12 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(visitImageAddAdapter);
-        this.diseasesLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
         leftDataset = new ArrayList<>();
-        this.selectedLVAdapter = new ArrayAdapter<>(this, R.layout.layout_textview, R.id.textview_tv);
+        this.diseasesLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, leftDataset);
+        diseaseHistoryListView.setAdapter(diseasesLVAdapter);
         rightDataset = new ArrayList<>();
+        this.selectedLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, rightDataset);
+        diseaseInputListView.setAdapter(selectedLVAdapter);
 
         imageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -122,7 +125,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         diseaseHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String tempHistoryStr = leftDataset.get(position);
+                VisitDiseaseModel tempHistoryStr = leftDataset.get(position);
                 rightDataset.add(tempHistoryStr);
                 selectedLVAdapter.notifyDataSetChanged();
                 leftDataset.remove(position);
@@ -133,7 +136,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         diseaseInputListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String tempDiseaseStr = rightDataset.get(position);
+                VisitDiseaseModel tempDiseaseStr = rightDataset.get(position);
                 leftDataset.add(tempDiseaseStr);
                 diseasesLVAdapter.notifyDataSetChanged();
                 rightDataset.remove(position);
@@ -181,7 +184,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitModel.setDiseases(diseases);
                     visitModel.setImage_list(visitImageAddAdapter.getmDataset());
 
-                    visitModel.setProgress_status("1");
+                    visitModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     visitModel.setTag(doctorNameString + currentDate);
 
                     VisitManagementCreateSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementCreateSubmitAPI();
@@ -189,7 +192,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     visitManagementCreateSubmitAPI.data.query.doctor = doctorNameString;
                     visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
                     visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
-                    visitManagementCreateSubmitAPI.data.query.disease_id_list = userId;
+                    visitManagementCreateSubmitAPI.data.query.disease_id_list = visitModel.getDiseases_for_api();
 
                     visitManagementCreateSubmitAPI.data.query.is_image_uploaded = visitImageAddAdapter.getImageCount() > 0 ? "true" : "false";
                     visitManagementCreateSubmitAPI.data.query.image_list.addAll(visitImageAddAdapter.getUploadFile());
@@ -275,7 +278,8 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (output.data.status.code.equals("200")) {
                 if (output.data.results.disease_list.size() > 0){
                     listViewsWrapper.setVisibility(View.VISIBLE);
-                    diseasesLVAdapter.addAll(output.data.results.disease_list);
+                    leftDataset.addAll(output.data.results.disease_list);
+                    diseasesLVAdapter.notifyDataSetChanged();
                 } else {
                     listViewsWrapper.setVisibility(View.GONE);
                 }

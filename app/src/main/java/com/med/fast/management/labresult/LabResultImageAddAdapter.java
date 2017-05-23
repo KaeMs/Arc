@@ -21,6 +21,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.UtilsRealPath;
+import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.visit.VisitAddActivity;
 
@@ -99,7 +100,8 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
         List<File> returnFile = new ArrayList<>();
         for (LabResultImageItem item :
                 mDataset) {
-            if (item != null){
+            if (item != null &&
+                    item.getImage_uri() != null){
                 returnFile.add(new File(UriUtils.getPath(context, item.getImage_uri())));
             }
         }
@@ -117,6 +119,19 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
         }
 
         return gson.toJson(labResultUploadImageItemWrapper);
+    }
+
+    public String getAddedImgGson(){
+        Gson gson = new Gson();
+        LabResultImgModelWrapper labResultImgModelWrapper = new LabResultImgModelWrapper();
+        for (LabResultImageItem item :
+                mDataset) {
+            if (item != null &&
+                    item.getImage_uri() != null){
+                labResultImgModelWrapper.img_list.add(new LabResultImgModel(item));
+            }
+        }
+        return gson.toJson(labResultImgModelWrapper);
     }
 
     @Override
@@ -150,13 +165,23 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
             visitImageVH.imageWrapper.getLayoutParams().width = width * 30 / 100;
             visitImageVH.imageWrapper.getLayoutParams().height = width * 30 / 100;
 
-            Glide.with(context)
-                    .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(true)
-                    .placeholder(MediaUtils.image_placeholder_black)
-                    .error(MediaUtils.image_error_black)
-                    .into(visitImageVH.image);
+            if (mDataset.get(position).getImage_uri() != null){
+                Glide.with(context)
+                        .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(true)
+                        .placeholder(MediaUtils.image_placeholder_black)
+                        .error(MediaUtils.image_error_black)
+                        .into(visitImageVH.image);
+            } else {
+                Glide.with(context)
+                        .load(APIConstants.WEB_URL + mDataset.get(position).getImage_path())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .skipMemoryCache(true)
+                        .placeholder(MediaUtils.image_placeholder_black)
+                        .error(MediaUtils.image_error_black)
+                        .into(visitImageVH.image);
+            }
 
         } else {
             ImagePlaceholderVH imagePlaceholderVH = (ImagePlaceholderVH) holder;

@@ -217,8 +217,8 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             DiseaseManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 diseaseName.setText(output.data.results.name);
-                hereditaryYes.setChecked(Utils.processBoolFromAPI(output.data.results.is_hereditary));
-                ongoingY.setChecked(Utils.processBoolFromAPI(output.data.results.is_ongoing));
+                hereditaryYes.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_hereditary));
+                ongoingY.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_ongoing));
                 historicDate.setText(output.data.results.historic_date);
                 int spinnerPos = approximateSpinnerAdapter.getPosition(output.data.results.approximate_date);
                 if (spinnerPos >= 0){

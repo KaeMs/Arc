@@ -58,13 +58,13 @@ public class SurgeryManagementEditSubmitAPIFunc extends AsyncTask<SurgeryManagem
             String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("id", params[0].data.query.surgery_id)
+                    .add("surgery_id", params[0].data.query.surgery_id)
                     .add("user_id", params[0].data.query.user_id)
-                    .add("detail", params[0].data.query.procedure)
-                    .add("injury_nature", params[0].data.query.physician)
-                    .add("injury_location", params[0].data.query.date)
-                    .add("injury_date", params[0].data.query.hospital)
-                    .add("injury_date_tmp", params[0].data.query.notes)
+                    .add("procedure", params[0].data.query.procedure)
+                    .add("physician", params[0].data.query.physician)
+                    .add("date", params[0].data.query.date)
+                    .add("hospital", params[0].data.query.hospital)
+                    .add("notes", params[0].data.query.notes)
                     .build();
 
             Request request = new Request.Builder()

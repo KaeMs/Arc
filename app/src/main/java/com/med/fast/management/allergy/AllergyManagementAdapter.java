@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,13 +28,13 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
-import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.management.DeleteConfirmIntf;
 import com.med.fast.management.allergy.allergyinterface.AllergyManagementCreateDeleteIntf;
 import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPI;
 import com.med.fast.management.allergy.api.AllergyManagementCreateSubmitAPIFunc;
@@ -43,7 +43,6 @@ import com.med.fast.management.allergy.api.AllergyManagementDeleteAPIFunc;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements AllergyManagementCreateDeleteIntf {
+public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements AllergyManagementCreateDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int ALLERGY = 1;
@@ -67,19 +66,14 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     private String userId;
     private boolean initial = false;
 
-    public AllergyManagementAdapter(Context context, boolean initial) {
-        super(true);
-        this.context = context;
-        this.userId = SharedPreferenceUtilities.getUserId(context);
-        this.initial = initial;
-    }
-
     public AllergyManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf, boolean initial) {
-        super(true);
         this.context = context;
         this.userId = SharedPreferenceUtilities.getUserId(context);
-        this.startActivityForResultInAdapterIntf = intf;
+        if (intf != null){
+            this.startActivityForResultInAdapterIntf = intf;
+        }
         this.initial = initial;
+        deleteConfirmIntf = this;
     }
 
     public void addList(List<AllergyManagementModel> dataset) {
@@ -139,24 +133,32 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
     // Update by tag
     public void updateItem(String tag, String newId, boolean success) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (mDataset.get(i).getTag().equals(tag)) {
-                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
-                    if (success) {
-                        mDataset.get(i).setId(newId);
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
-                    } else {
-                        mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
-                    }
-                } else if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
+            if (!TextUtils.isEmpty(mDataset.get(i).getId()) &&
+                    mDataset.get(i).getId().equals(tag)) {
+                if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_DELETE)) {
                     if (success) {
                         mDataset.remove(i);
                         notifyItemRemoved(i);
                     } else {
                         mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        notifyItemChanged(i);
+                    }
+                    break;
+                }
+            } else {
+                if (!TextUtils.isEmpty(mDataset.get(i).getTag()) &&
+                        mDataset.get(i).getTag().equals(tag)) {
+                    if (mDataset.get(i).getProgress_status().equals(APIConstants.PROGRESS_ADD)) {
+                        if (success) {
+                            mDataset.get(i).setId(newId);
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_NORMAL);
+                        } else {
+                            mDataset.get(i).setProgress_status(APIConstants.PROGRESS_ADD_FAIL);
+                        }
+                        notifyItemChanged(i);
+                        break;
                     }
                 }
-                notifyItemChanged(i);
-                break;
             }
         }
     }
@@ -195,7 +197,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
 
                     AllergyManagementModel allergyManagementModel = new AllergyManagementModel();
                     allergyManagementModel.setAgent(causativeString);
-                    allergyManagementModel.setDrug(drugTypeString);
+                    allergyManagementModel.setIs_drug(drugTypeYes.isChecked());
                     allergyManagementModel.setReaction(reactionString);
                     allergyManagementModel.setFirst_experience(firstExpString);
                     allergyManagementModel.setCreated_date(Utils.getCurrentDate());
@@ -227,7 +229,7 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         AllergyManagementCreateSubmitAPI allergyManagementCreateSubmitAPI = new AllergyManagementCreateSubmitAPI();
         allergyManagementCreateSubmitAPI.data.query.user_id = userId;
         allergyManagementCreateSubmitAPI.data.query.agent = mDataset.get(position).getAgent();
-        allergyManagementCreateSubmitAPI.data.query.is_drug = mDataset.get(position).getDrug();
+        allergyManagementCreateSubmitAPI.data.query.is_drug = String.valueOf(mDataset.get(position).getIs_drug());
         allergyManagementCreateSubmitAPI.data.query.reaction = mDataset.get(position).getReaction();
         allergyManagementCreateSubmitAPI.data.query.first_experience = mDataset.get(position).getFirst_experience();
 
@@ -329,11 +331,11 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
         }
     }
 
-    @Subscribe
-    public void onDeleteConfirm(DeleteConfirmEvent deleteConfirmEvent) {
+    @Override
+    public void onDeleteConfirm(String deletionId) {
         for (int i = 0; i < getItemCount(); i++) {
-            if (deleteConfirmEvent.deletionId.equals("allergy" + mDataset.get(i).getId())) {
-                mDataset.get(i).setProgress_status("2");
+            if (deletionId.equals("allergy" + mDataset.get(i).getId())) {
+                mDataset.get(i).setProgress_status(APIConstants.PROGRESS_DELETE);
                 notifyItemChanged(i);
 
                 AllergyManagementDeleteAPI allergyManagementDeleteAPI = new AllergyManagementDeleteAPI();
@@ -393,13 +395,13 @@ public class AllergyManagementAdapter extends FastBaseRecyclerAdapter implements
                 Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
         } else if (responseAPI.status_code == 504) {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             ((FastBaseActivity) context).forceLogout();
         } else {
-            updateItem(tag, APIConstants.NO_ID, false);
+            updateItem(tag, tag, false);
             Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }

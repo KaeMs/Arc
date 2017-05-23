@@ -23,7 +23,8 @@ public class LabResultManagementEditSubmitAPI {
             public String date;
             public String place;
             public String list_img_uploadeds;
-
+            public String img_obj_json;
+            public String added_img_obj_json;
         }
 
         public class Status

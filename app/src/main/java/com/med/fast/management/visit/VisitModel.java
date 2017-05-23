@@ -72,7 +72,7 @@ public class VisitModel {
         else return new ArrayList<>();
     }
 
-    public String getDiseasesInString() {
+    public String getDiseases_display() {
         if (diseases != null && diseases.size() > 0){
             StringBuilder sb = new StringBuilder();
             for (VisitDiseaseModel model :
@@ -84,6 +84,21 @@ public class VisitModel {
             return sb.substring(0, sb.length() - 2);
         } else {
             return "-";
+        }
+    }
+
+    public String getDiseases_for_api() {
+        if (diseases != null && diseases.size() > 0){
+            StringBuilder sb = new StringBuilder();
+            for (VisitDiseaseModel model :
+                    diseases) {
+                sb.append(model.name);
+                sb.append(";");
+            }
+
+            return sb.substring(0, sb.length() - 1);
+        } else {
+            return "default";
         }
     }
 

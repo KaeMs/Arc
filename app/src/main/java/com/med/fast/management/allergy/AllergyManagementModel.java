@@ -9,7 +9,7 @@ import com.med.fast.Utils;
 public class AllergyManagementModel {
     private String id;
     private String agent;
-    private String drug;
+    private boolean is_drug;
     private String reaction;
     private String first_experience;
     private String created_date;
@@ -32,16 +32,16 @@ public class AllergyManagementModel {
         this.agent = agent;
     }
 
-    public String getDrug() {
-        return drug;
+    public boolean getIs_drug() {
+        return is_drug;
     }
 
     public String getDrug_display() {
-        return Utils.processStringFromAPI(drug);
+        return Utils.processBoolFromAPI(is_drug);
     }
 
-    public void setDrug(String drug) {
-        this.drug = drug;
+    public void setIs_drug(boolean is_drug) {
+        this.is_drug = is_drug;
     }
 
     public String getReaction() {

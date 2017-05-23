@@ -82,7 +82,7 @@ public class InitialDataAllergyActivity extends FastBaseActivity implements Alle
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        allergyManagementAdapter = new AllergyManagementAdapter(this, true);
+        allergyManagementAdapter = new AllergyManagementAdapter(this, null, true);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
