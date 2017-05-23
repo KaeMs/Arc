@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.med.fast.FastAppController;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.MediaUtils;
@@ -29,19 +30,19 @@ import java.util.List;
 public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
 
     private Context context;
-    private List<LabResultImageItem> mDataset = new ArrayList<>();
+    private List<LabResultImgModel> mDataset = new ArrayList<>();
 
     public LabResultImageShowAdapter(Context context) {
         super(false);
         this.context = context;
     }
 
-    public void addList(List<LabResultImageItem> dataset) {
+    public void addList(List<LabResultImgModel> dataset) {
         this.mDataset.addAll(dataset);
         notifyDataSetChanged();
     }
 
-    public void addSingle(LabResultImageItem labResultImageItem) {
+    public void addSingle(LabResultImgModel labResultImageItem) {
         this.mDataset.add(labResultImageItem);
         notifyItemInserted(mDataset.size() - 1);
     }
@@ -57,9 +58,11 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
         final GeneralImageVH generalImageVH = (GeneralImageVH) holder;
+        generalImageVH.imageWrapper.getLayoutParams().width = FastAppController.screenWidth * 30 / 100;
+        generalImageVH.imageWrapper.getLayoutParams().height = FastAppController.screenWidth * 30 / 100;
 
         Glide.with(context)
-                .load(APIConstants.WEB_URL + mDataset.get(position).getImage_path())
+                .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
                 .fitCenter()
@@ -71,12 +74,18 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ViewImageActivity.class);
-                intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, mDataset.get(holder.getAdapterPosition()).getImage_path());
+                intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, mDataset.get(holder.getAdapterPosition()).getPath());
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation((FastBaseActivity) context, generalImageVH.image, context.getString(R.string.view_image_transition));
                 context.startActivity(intent, options.toBundle());
             }
         });
+    }
+
+    @Override
+    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.clear(((GeneralImageVH)holder).image);
     }
 
     @Override

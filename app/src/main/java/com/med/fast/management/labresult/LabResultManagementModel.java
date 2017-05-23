@@ -14,7 +14,7 @@ public class LabResultManagementModel {
     private String desc_result;
     private String place;
     private String date;
-    private List<LabResultImageItem> img_list = new ArrayList<>();
+    private List<LabResultImgModel> img_list = new ArrayList<>();
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
 
@@ -66,11 +66,11 @@ public class LabResultManagementModel {
         this.date = date;
     }
 
-    public List<LabResultImageItem> getImg_list() {
+    public List<LabResultImgModel> getImg_list() {
         return img_list;
     }
 
-    public void setImg_list(List<LabResultImageItem> img_list) {
+    public void setImg_list(List<LabResultImgModel> img_list) {
         this.img_list = img_list;
     }
 

@@ -7,12 +7,13 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 /**
- * Created by Kevin on 4/28/2017.
+ * Created by Kevin on 4/28/2017. FM
  */
 
 public class FastAppController extends Application {
     public static Realm realm;
     private static boolean activityVisible;
+    public static int screenWidth;
 
     @Override
     public void onCreate() {
