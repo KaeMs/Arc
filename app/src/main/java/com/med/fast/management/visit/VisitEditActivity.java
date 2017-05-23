@@ -281,6 +281,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 diseasesLVAdapter.addAll(visitModel.getDiseases());
                 selectedLVAdapter.addAll(visitModel.getDiseases());
                 visitImageEditAdapter.addList(visitModel.getImage_list());
+                visitImageEditAdapter.addSingle(null);
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 setResult(RESULT_CANCELED);

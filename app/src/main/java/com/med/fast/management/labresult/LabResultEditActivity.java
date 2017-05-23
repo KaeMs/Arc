@@ -218,6 +218,7 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                 testDescription.setText(output.data.results.desc);
 
                 labResultImageAddAdapter.addList(output.data.results.img_object.img_list);
+                labResultImageAddAdapter.addSingle(null);
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
