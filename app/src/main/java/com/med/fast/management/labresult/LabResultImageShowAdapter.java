@@ -1,6 +1,5 @@
 package com.med.fast.management.labresult;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -8,30 +7,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
-import com.med.fast.FastBaseViewHolder;
-import com.med.fast.HorizontalItemDecoration;
-import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.ViewImageActivity;
-import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.viewholders.GeneralImageVH;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by Kevin Murvie on 5/6/2017. FM
@@ -73,6 +61,7 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
                 .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
+                .fitCenter()
                 .placeholder(MediaUtils.image_placeholder_black)
                 .error(MediaUtils.image_error_black)
                 .into(generalImageVH.image);
@@ -83,7 +72,7 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
                 Intent intent = new Intent(context, ViewImageActivity.class);
                 intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, mDataset.get(holder.getAdapterPosition()).getImage_path());
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((FastBaseActivity)context, generalImageVH.image, context.getString(R.string.view_image_transition));
+                        makeSceneTransitionAnimation((FastBaseActivity) context, generalImageVH.image, context.getString(R.string.view_image_transition));
                 context.startActivity(intent, options.toBundle());
             }
         });

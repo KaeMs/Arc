@@ -69,7 +69,7 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
     // Picture
     @BindView(R.id.setting_profile_photo)
     ImageView profilePhoto;
-    
+
     // Name
     @BindView(R.id.setting_profile_fname)
     CustomFontEditText firstNameET;
@@ -93,6 +93,9 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
     private int year, month, day;
     private boolean photoChanged = false;
     private String userId;
+    private Uri createdPhotoUri;
+    private String currentMediaPath = "";
+    private CreatedImageModel createdImageModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -178,9 +181,9 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     settingSubmitAPI.data.query.first_name = firstNameET.getText().toString();
                     settingSubmitAPI.data.query.last_name = lastNameET.getText().toString();
                     settingSubmitAPI.data.query.date_of_birth = dobTV.getText().toString();
-                    settingSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
+                    settingSubmitAPI.data.query.gender = maleRB.isChecked() ? "0" : "1";
 
-                    if (photoChanged){
+                    if (photoChanged) {
                         String[] imagePaths = currentMediaPath.split("/");
 //                        settingSubmitAPI.data.query.profil_image_path = imagePaths[imagePaths.length - 1];
                         settingSubmitAPI.data.query.profile_image_file = new File(UtilityUriHelper.getPath(SettingProfileActivity.this, createdPhotoUri));
@@ -204,8 +207,8 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
         });
     }
 
-    void setLoading(boolean isLoading, boolean enableSubmit){
-        if (isLoading){
+    void setLoading(boolean isLoading, boolean enableSubmit) {
+        if (isLoading) {
             submitProgressBar.setVisibility(View.VISIBLE);
         } else {
             submitProgressBar.setVisibility(View.INVISIBLE);
@@ -213,7 +216,7 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
         submitBtn.setEnabled(enableSubmit);
     }
 
-    void refreshView(boolean setRefreshing){
+    void refreshView(boolean setRefreshing) {
         SettingShowAPI settingShowAPI = new SettingShowAPI();
         settingShowAPI.data.query.user_id = userId;
 
@@ -222,10 +225,6 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
         setLoading(true, false);
         swipeRefreshLayout.setRefreshing(setRefreshing);
     }
-
-    private Uri createdPhotoUri;
-    private String currentMediaPath = "";
-    private CreatedImageModel createdImageModel;
 
     public void addNewImage() {
         try {
@@ -248,7 +247,7 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     createdPhotoUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                     profilePhoto.setImageURI(createdPhotoUri);
                     photoChanged = true;
-                } catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                     new File(currentMediaPath).delete();
                 }
@@ -259,13 +258,13 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                     createdPhotoUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                     photoChanged = true;
-                    if (createdPhotoUri != null){
+                    if (createdPhotoUri != null) {
                         profilePhoto.setImageURI(data.getData());
                     } else {
                         Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                         new File(currentMediaPath).delete();
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                     new File(currentMediaPath).delete();
                 }
@@ -276,9 +275,9 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
-            for (int i = 0; i < permissions.length; i++){
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+        if (requestCode == RequestCodeList.PHOTO_OPERATIONS) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
             }
@@ -289,10 +288,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
     @Override
     public void onFinishSettingShow(ResponseAPI responseAPI) {
         swipeRefreshLayout.setRefreshing(false);
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             SettingShowAPI output = gson.fromJson(responseAPI.status_response, SettingShowAPI.class);
-            if (output != null){
+            if (output != null) {
                 if (output.data.status.code.equals("200")) {
                     setLoading(false, true);
 
@@ -305,6 +304,7 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     Glide.with(this)
                             .load(APIConstants.WEB_URL + output.data.results.profil_image_path)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .fitCenter()
                             .skipMemoryCache(true)
                             .placeholder(MediaUtils.image_placeholder_black)
                             .error(MediaUtils.image_error_black)
@@ -318,10 +318,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                 setLoading(false, false);
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             setLoading(false, false);
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             setResult(RequestCodeList.forceLogout);
             finish();
@@ -333,10 +333,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
 
     @Override
     public void onFinishSettingSubmit(ResponseAPI responseAPI) {
-        if(responseAPI.status_code == 200) {
+        if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
             SettingSubmitAPI output = gson.fromJson(responseAPI.status_response, SettingSubmitAPI.class);
-            if (output != null){
+            if (output != null) {
                 if (output.data.status.code.equals("200")) {
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra(IntentNames.SETTING_FINISHED, IntentNames.SETTING_FINISHED);
@@ -352,10 +352,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
 
-        } else if(responseAPI.status_code == 504) {
+        } else if (responseAPI.status_code == 504) {
             setLoading(false, true);
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if(responseAPI.status_code == 401 ||
+        } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             setResult(RequestCodeList.forceLogout);
             finish();

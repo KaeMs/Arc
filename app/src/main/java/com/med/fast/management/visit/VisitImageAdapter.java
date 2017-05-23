@@ -13,6 +13,8 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -66,6 +68,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                 .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
+                .fitCenter()
                 .placeholder(MediaUtils.image_placeholder_black)
                 .error(MediaUtils.image_error_black)
                 .into(visitImageVH.image);
@@ -76,7 +79,7 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
                 Intent intent = new Intent(context, ViewImageActivity.class);
                 intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, mDataset.get(holder.getAdapterPosition()).getPath());
                 ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((FastBaseActivity)context, visitImageVH.image, ViewCompat.getTransitionName(visitImageVH.image));
+                        makeSceneTransitionAnimation((FastBaseActivity) context, visitImageVH.image, ViewCompat.getTransitionName(visitImageVH.image));
                 context.startActivity(intent, options.toBundle());
             }
         });

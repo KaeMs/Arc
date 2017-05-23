@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -125,9 +124,9 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                     .load(APIConstants.WEB_URL + summaryWrapperModel.profil_image_path)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .skipMemoryCache(true)
+                    .fitCenter()
                     .placeholder(MediaUtils.image_placeholder_black)
                     .error(MediaUtils.image_error_black)
-                    .bitmapTransform(new FitCenter(context))
                     .into(((ProfileVH) holder).profilePhoto);
 
             ((ProfileVH) holder).profileName.setText(summaryWrapperModel.name);

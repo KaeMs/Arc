@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseFragment;
@@ -58,6 +59,9 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
 
     private String userId;
     private boolean isLoading = true;
+    private Uri createdPhotoUri;
+    private String currentMediaPath = "";
+    private CreatedImageModel createdImageModel;
 
     @Nullable
     @Override
@@ -77,8 +81,8 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLoading){
-                    if (!currentMediaPath.equals("")){
+                if (!isLoading) {
+                    if (!currentMediaPath.equals("")) {
                         IDCardSubmitAPI idCardSubmitAPI = new IDCardSubmitAPI();
                         idCardSubmitAPI.data.query.user_id = userId;
                         idCardSubmitAPI.data.query.image = new File(createdPhotoUri.getPath());
@@ -108,10 +112,6 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
         });
     }
 
-    private Uri createdPhotoUri;
-    private String currentMediaPath = "";
-    private CreatedImageModel createdImageModel;
-
     public void addNewImage() {
         try {
             createdImageModel = createImageFile();
@@ -133,7 +133,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                     createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
                     photo.setImageURI(createdPhotoUri);
                     saveBtn.setEnabled(true);
-                } catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                     new File(currentMediaPath).delete();
                 }
@@ -143,14 +143,14 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                 try {
                     currentMediaPath = UriUtils.getPath(getActivity(), data.getData());
                     createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
-                    if (createdPhotoUri != null){
+                    if (createdPhotoUri != null) {
                         photo.setImageURI(createdPhotoUri);
                         saveBtn.setEnabled(true);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                         new File(currentMediaPath).delete();
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                     new File(currentMediaPath).delete();
                 }
@@ -161,9 +161,9 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
-            for (int i = 0; i < permissions.length; i++){
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+        if (requestCode == RequestCodeList.PHOTO_OPERATIONS) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
             }
@@ -190,12 +190,13 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
             if (responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 IDCardShowAPI output = gson.fromJson(responseAPI.status_response, IDCardShowAPI.class);
-                if (output != null){
+                if (output != null) {
                     if (output.data.status.code.equals("200")) {
 
                         Glide.with(getActivity())
                                 .load(APIConstants.WEB_URL + output.data.results.card_id_image_path)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .fitCenter()
                                 .skipMemoryCache(true)
                                 .placeholder(MediaUtils.image_placeholder_black)
                                 .error(MediaUtils.image_error_black)
@@ -233,6 +234,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                     Glide.with(getActivity())
                             .load(APIConstants.WEB_URL + output.data.results.card_id_new_image_path)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .fitCenter()
                             .skipMemoryCache(true)
                             .placeholder(MediaUtils.image_placeholder_black)
                             .error(MediaUtils.image_error_black)

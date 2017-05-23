@@ -53,6 +53,7 @@
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:progressDrawable">@drawable/progressbar_pink</item>
         <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.PositiveButtonStyle</item>
     </style>

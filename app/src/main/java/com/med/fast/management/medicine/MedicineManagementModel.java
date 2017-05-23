@@ -10,11 +10,11 @@ public class MedicineManagementModel {
     private String id;
     private String name;
     private String form;
-    private String administration_method;
-    private String administration_dose;
+    private String route;
+    private String dose;
     private String frequency;
-    private String medication_reason;
-    private String medication_status;
+    private String reason;
+    private String status;
     private String additional_instruction;
     private String created_date;
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress
@@ -44,28 +44,28 @@ public class MedicineManagementModel {
         this.form = form;
     }
 
-    public String getAdministration_method() {
-        return administration_method;
+    public String getRoute() {
+        return route;
     }
 
     public String getAdministration_method_display() {
-        return Utils.processStringFromAPI(administration_method);
+        return Utils.processStringFromAPI(route);
     }
 
-    public void setAdministration_method(String administration_method) {
-        this.administration_method = administration_method;
+    public void setRoute(String route) {
+        this.route = route;
     }
 
-    public String getAdministration_dose() {
-        return administration_dose;
+    public String getDose() {
+        return dose;
     }
 
     public String getAdministration_dose_display() {
-        return Utils.processStringFromAPI(administration_dose);
+        return Utils.processStringFromAPI(dose);
     }
 
-    public void setAdministration_dose(String administration_dose) {
-        this.administration_dose = administration_dose;
+    public void setDose(String dose) {
+        this.dose = dose;
     }
 
     public String getFrequency() {
@@ -80,20 +80,20 @@ public class MedicineManagementModel {
         this.frequency = frequency;
     }
 
-    public String getMedication_reason() {
-        return medication_reason;
+    public String getReason() {
+        return reason;
     }
 
-    public void setMedication_reason(String medication_reason) {
-        this.medication_reason = medication_reason;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public String getMedication_status() {
-        return medication_status;
+    public String getStatus() {
+        return status;
     }
 
-    public void setMedication_status(String medication_status) {
-        this.medication_status = medication_status;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getAdditional_instruction() {

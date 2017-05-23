@@ -34,7 +34,7 @@ public class ViewImageActivity extends FastBaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_image_activity_layout);
-        if (getIntent() != null){
+        if (getIntent() != null) {
             imagePath = getIntent().getStringExtra(IMAGE_PATH_EXTRA);
             supportPostponeEnterTransition();
 

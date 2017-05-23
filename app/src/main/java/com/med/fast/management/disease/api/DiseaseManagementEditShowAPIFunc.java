@@ -1,6 +1,7 @@
 package com.med.fast.management.disease.api;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.med.fast.SharedPreferenceUtilities;
@@ -23,10 +24,11 @@ import okhttp3.Response;
 
 public class DiseaseManagementEditShowAPIFunc extends AsyncTask<DiseaseManagementEditShowAPI, Integer, ResponseAPI> {
     private DiseaseManagementEditIntf delegate;
-    private Activity activity;
+    private Context context;
+    private ProgressDialog progressDialog;
 
-    public DiseaseManagementEditShowAPIFunc(Activity activity) {
-        this.activity = activity;
+    public DiseaseManagementEditShowAPIFunc(Context context) {
+        this.context = context;
     }
 
     public void setDelegate(DiseaseManagementEditIntf delegate) {
@@ -34,9 +36,14 @@ public class DiseaseManagementEditShowAPIFunc extends AsyncTask<DiseaseManagemen
     }
 
     @Override
-    protected void onPostExecute(ResponseAPI responseAPI) {
-        super.onPostExecute(responseAPI);
-        delegate.onFinishDiseaseManagementEditShow(responseAPI);
+    protected void onPreExecute() {
+        //super.onPreExecute();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Getting information from server...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -52,15 +59,15 @@ public class DiseaseManagementEditShowAPIFunc extends AsyncTask<DiseaseManagemen
                     .build();
 
             // Get token id
-            if (TokenUtils.checkTokenExpiry(activity)) {
-                if (!TokenUtils.refresh(activity)) {
+            if (TokenUtils.checkTokenExpiry(context)) {
+                if (!TokenUtils.refresh(context)) {
                     responseAPI.status_code = 505;
                     responseAPI.status_response = "Error";
 
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("disease_id", params[0].data.query.disease_id)
@@ -90,5 +97,12 @@ public class DiseaseManagementEditShowAPIFunc extends AsyncTask<DiseaseManagemen
         }
 
         return responseAPI;
+    }
+
+    @Override
+    protected void onPostExecute(ResponseAPI responseAPI) {
+        super.onPostExecute(responseAPI);
+        delegate.onFinishDiseaseManagementEditShow(responseAPI);
+        progressDialog.dismiss();
     }
 }

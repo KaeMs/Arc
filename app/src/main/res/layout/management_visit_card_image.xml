@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/visit_card_image_image_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:transitionName="@string/view_image_transition"
-        android:contentDescription="@string/image" />
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/image"
+        android:transitionName="@string/view_image_transition" />
 
 </LinearLayout>

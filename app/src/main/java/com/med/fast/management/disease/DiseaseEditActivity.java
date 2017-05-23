@@ -70,6 +70,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     private int year, month, day;
 
     private DiseaseManagementModel diseaseManagementModel;
+    private DiseaseManagementEditShowAPIFunc diseaseManagementEditShowAPIFunc;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -193,12 +194,18 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
         });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        diseaseManagementEditShowAPIFunc.cancel(true);
+    }
+
     private void refreshView() {
         DiseaseManagementEditShowAPI diseaseManagementEditShowAPI = new DiseaseManagementEditShowAPI();
         diseaseManagementEditShowAPI.data.query.user_id = SharedPreferenceUtilities.getUserId(this);
         diseaseManagementEditShowAPI.data.query.disease_id = diseaseManagementModel.getId();
 
-        DiseaseManagementEditShowAPIFunc diseaseManagementEditShowAPIFunc = new DiseaseManagementEditShowAPIFunc(this);
+        diseaseManagementEditShowAPIFunc = new DiseaseManagementEditShowAPIFunc(this);
         diseaseManagementEditShowAPIFunc.setDelegate(this);
         diseaseManagementEditShowAPIFunc.execute(diseaseManagementEditShowAPI);
     }
@@ -210,7 +217,8 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             DiseaseManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 diseaseName.setText(output.data.results.name);
-                hereditaryYes.setSelected(output.data.results.is_hereditary.equals("true"));
+                hereditaryYes.setChecked(Utils.processBoolFromAPI(output.data.results.is_hereditary));
+                ongoingY.setChecked(Utils.processBoolFromAPI(output.data.results.is_ongoing));
                 historicDate.setText(output.data.results.historic_date);
                 int spinnerPos = approximateSpinnerAdapter.getPosition(output.data.results.approximate_date);
                 if (spinnerPos >= 0){

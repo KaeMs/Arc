@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -189,6 +190,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
                         .load(mDataset.get(position).getPath())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .skipMemoryCache(true)
+                        .fitCenter()
                         .placeholder(MediaUtils.image_placeholder_black)
                         .error(MediaUtils.image_error_black)
                         .into(visitImageVH.image);

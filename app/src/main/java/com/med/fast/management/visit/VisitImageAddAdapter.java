@@ -12,14 +12,13 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
 import com.med.fast.ImagePlaceholderVH;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
-import com.med.fast.UtilityUriHelper;
 import com.med.fast.customviews.CustomFontTextView;
 
 import java.io.File;
@@ -83,29 +82,29 @@ public class VisitImageAddAdapter extends FastBaseRecyclerAdapter {
         }
     }
 
-    public List<VisitImageItem> getmDataset(){
+    public List<VisitImageItem> getmDataset() {
         List<VisitImageItem> returnMDataset = new ArrayList<>();
-        for (VisitImageItem item:
-             mDataset) {
-            if (item != null){
+        for (VisitImageItem item :
+                mDataset) {
+            if (item != null) {
                 returnMDataset.add(item);
             }
         }
         return returnMDataset;
     }
 
-    public List<File> getUploadFile(){
+    public List<File> getUploadFile() {
         List<File> returnFile = new ArrayList<>();
         for (VisitImageItem item :
                 mDataset) {
-            if (item != null){
+            if (item != null) {
                 returnFile.add(new File(UriUtils.getPath(context, item.getUri())));
             }
         }
         return returnFile;
     }
 
-    public int getImageCount(){
+    public int getImageCount() {
         int count = 0;
         for (VisitImageItem item :
                 mDataset) {
@@ -184,7 +183,7 @@ public class VisitImageAddAdapter extends FastBaseRecyclerAdapter {
                         @Override
                         public void onClick(View v) {
                             savedPos = holder.getAdapterPosition();
-                            ((VisitAddActivity)context).addNewImage();
+                            ((VisitAddActivity) context).addNewImage();
                             dialog.dismiss();
                         }
                     });
@@ -200,7 +199,7 @@ public class VisitImageAddAdapter extends FastBaseRecyclerAdapter {
 
                 } else {
                     savedPos = holder.getAdapterPosition();
-                    ((VisitAddActivity)context).addNewImage();
+                    ((VisitAddActivity) context).addNewImage();
                 }
             }
         });

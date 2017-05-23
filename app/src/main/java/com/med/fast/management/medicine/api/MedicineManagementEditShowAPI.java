@@ -34,11 +34,11 @@ public class MedicineManagementEditShowAPI {
             public String id;
             public String name;
             public String form;
-            public String administration_method;
-            public String administration_dose;
+            public String route;
+            public String dose;
             public String frequency;
-            public String medication_reason;
-            public String medication_status;
+            public String reason;
+            public String status;
             public String additional_instruction;
             public String created_date;
         }

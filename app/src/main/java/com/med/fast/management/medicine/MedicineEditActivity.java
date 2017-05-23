@@ -102,13 +102,13 @@ public class MedicineEditActivity extends FastBaseActivity implements MedicineEd
                     String medReasonString = Utils.processStringForAPI(medReason.getText().toString());
 
                     medicineManagementModel.setName(medNameString);
-                    medicineManagementModel.setAdministration_dose(medDoseString);
+                    medicineManagementModel.setDose(medDoseString);
                     medicineManagementModel.setForm(medFormString);
                     medicineManagementModel.setFrequency(medFreqString);
                     medicineManagementModel.setAdditional_instruction(medInstructionString);
-                    medicineManagementModel.setAdministration_method(medMethodString);
-                    medicineManagementModel.setMedication_status(medStatusString);
-                    medicineManagementModel.setMedication_reason(medReasonString);
+                    medicineManagementModel.setRoute(medMethodString);
+                    medicineManagementModel.setStatus(medStatusString);
+                    medicineManagementModel.setReason(medReasonString);
                     medicineManagementModel.setProgress_status("0");
 
                     MedicineManagementEditSubmitAPI medicineManagementEditSubmitAPI = new MedicineManagementEditSubmitAPI();
@@ -147,10 +147,10 @@ public class MedicineEditActivity extends FastBaseActivity implements MedicineEd
             MedicineManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, MedicineManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 medName.setText(output.data.results.name);
-                medReason.setText(output.data.results.medication_reason);
-                medMethod.setText(output.data.results.administration_method);
-                medDose.setText(output.data.results.administration_dose);
-                medStatus.setText(output.data.results.medication_status);
+                medReason.setText(output.data.results.reason);
+                medMethod.setText(output.data.results.route);
+                medDose.setText(output.data.results.dose);
+                medStatus.setText(output.data.results.status);
                 medForm.setText(output.data.results.form);
                 medFreq.setText(output.data.results.frequency);
                 medInstruction.setText(output.data.results.additional_instruction);

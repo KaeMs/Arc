@@ -43,7 +43,7 @@ public class AccidentHistoryEditShowAPIFunc extends AsyncTask<AccidentHistoryEdi
         progressDialog.setMessage("Getting information from server...");
         progressDialog.setIndeterminate(true);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_tosca));
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
