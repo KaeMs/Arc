@@ -65,7 +65,6 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
                 .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .skipMemoryCache(true)
-                .fitCenter()
                 .placeholder(MediaUtils.image_placeholder_black)
                 .error(MediaUtils.image_error_black)
                 .into(generalImageVH.image);

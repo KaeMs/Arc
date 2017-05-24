@@ -18,14 +18,12 @@ public class LabResultManagementEditSubmitAPI {
 
         public class Query
         {
-            public String lab_result_id;
             public String user_id;
+            public String lab_result_id;
             public String test_name;
             public String desc_result;
-            public String img_path;
-            public String date;
             public String place;
-            public String list_img_uploadeds;
+            public String date;
             public String img_obj_json;
             public String added_img_obj_json;
             public List<File> image_files;

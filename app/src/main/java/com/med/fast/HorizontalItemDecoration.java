@@ -22,9 +22,6 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
         this.margin = margin;
     }
 
-    public HorizontalItemDecoration(){
-    }
-
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
@@ -32,10 +29,10 @@ public class HorizontalItemDecoration extends RecyclerView.ItemDecoration {
         int position = parent.getChildAdapterPosition(view);
 
         if (position > 0){
-            outRect.right = margin;
+            outRect.right = margin / 2;
         } else if (position == 0) {
             outRect.left = margin;
-            outRect.right = margin;
+            outRect.right = margin / 2;
         }
     }
 }

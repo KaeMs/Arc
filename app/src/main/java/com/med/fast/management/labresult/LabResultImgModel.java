@@ -64,6 +64,10 @@ public class LabResultImgModel {
     }
 
     public LabResultImgUploadModel getLabResultImgUploadModel() {
+        labResultImgUploadModel.setId(id);
+        labResultImgUploadModel.setPath(path);
+        labResultImgUploadModel.setDate_taken(date_taken);
+        labResultImgUploadModel.setIs_deleted(is_deleted);
         return labResultImgUploadModel;
     }
 

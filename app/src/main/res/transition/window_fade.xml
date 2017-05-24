@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fade xmlns:android="http://schemas.android.com/apk/res/android">
-    <targets>
-        <target android:excludeId="@android:id/statusBarBackground"/>
-        <target android:excludeId="@android:id/navigationBarBackground"/>
-    </targets>
-</fade>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+    <fade>
+        <targets>
+            <target android:excludeId="@android:id/statusBarBackground"/>
+            <target android:excludeId="@android:id/navigationBarBackground"/>
+        </targets>
+    </fade>
+    <changeBounds />
+    <changeTransform />
+    <changeClipBounds />
+    <changeImageTransform />
+</transitionSet>

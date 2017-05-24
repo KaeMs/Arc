@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:background="@color/greyLight"
     android:orientation="vertical">
 
     <ImageView
@@ -11,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:contentDescription="@string/image"
         android:transitionName="@string/view_image_transition" />
 

@@ -24,11 +24,13 @@ import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.UriUtils;
+import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
@@ -60,8 +62,6 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
 
 public class LabResultAddActivity extends FastBaseActivity implements LabResultManagementCreateIntf {
 
-    private String userId;
-
     @BindView(R.id.labresult_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.labresult_popup_test_type)
@@ -72,19 +72,19 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
     CustomFontEditText testDescription;
     @BindView(R.id.labresult_popup_test_finished_date)
     CustomFontTextView testFinishedDate;
-
     @BindView(R.id.labresult_popup_image_recycler)
     RecyclerView imageRecycler;
     LabResultImageAddAdapter labResultImageAddAdapter;
-
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
-
-    private LabResultManagementModel labResultManagementModel;
-
     int day, month, year;
+    private String userId;
+    private LabResultManagementModel labResultManagementModel;
+    private Uri mDestinationUri;
+    private String currentMediaPath;
+    private CreatedImageModel createdImageModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +99,8 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         labResultImageAddAdapter.addSingle(null);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        HorizontalItemDecoration horizontalItemDecoration = new HorizontalItemDecoration(this);
+        imageRecycler.addItemDecoration(horizontalItemDecoration);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(labResultImageAddAdapter);
 
@@ -170,7 +172,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
             @Override
             public void onClick(View v) {
                 mAwesomeValidation.clear();
-                if (!testFinishedDate.getText().toString().equals("")){
+                if (!testFinishedDate.getText().toString().equals("")) {
                     if (mAwesomeValidation.validate()) {
                         String testTypeString = testType.getText().toString();
                         String testLocationString = testLocation.getText().toString();
@@ -208,10 +210,6 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         });
     }
 
-    private Uri mDestinationUri;
-    private String currentMediaPath;
-    private CreatedImageModel createdImageModel;
-
     public void addNewImage() {
         try {
             createdImageModel = createImageFile();
@@ -224,7 +222,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
         }
     }
 
-    private void showImageAddedDialog(final Uri imageUri){
+    private void showImageAddedDialog(final Uri imageUri) {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.management_labresult_imagedate_popup);
         dialog.setCanceledOnTouchOutside(false);
@@ -243,7 +241,7 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                         .withLocale(Locale.getDefault());
 
                 LocalDate localDate = new LocalDate();
-                if (!dateTaken.getText().toString().equals("")){
+                if (!dateTaken.getText().toString().equals("")) {
                     localDate = formatter.parseLocalDate(dateTaken.getText().toString());
                 }
 
@@ -264,8 +262,8 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                                         .withLocale(Locale.getDefault());
                                 LocalDate datePickDialogLocalDate = new LocalDate();
                                 datePickDialogLocalDate = datePickDialogFormatter.parseLocalDate(
-                                        String.valueOf(datePickerDialog.getDatePicker().getMonth() + 1) + " "  +
-                                                String.valueOf(datePickerDialog.getDatePicker().getDayOfMonth()) + " "  +
+                                        String.valueOf(datePickerDialog.getDatePicker().getMonth() + 1) + " " +
+                                                String.valueOf(datePickerDialog.getDatePicker().getDayOfMonth()) + " " +
                                                 String.valueOf(datePickerDialog.getDatePicker().getYear()));
                                 DateTimeFormatter datePickReformatter = DateTimeFormat.forPattern(Constants.dateFormatComma)
                                         .withLocale(Locale.getDefault());
@@ -301,10 +299,12 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                 labResultImageItem.setPath(currentMediaPath);
                 labResultImageItem.setImage_uri(imageUri);
                 labResultImageItem.setIs_deleted(false);
-                labResultImageItem.getLabResultImgUploadModel().setId(String.valueOf(labResultImageAddAdapter.getItemCount()) + userId);
-                labResultImageItem.getLabResultImgUploadModel().setPath(currentMediaPath);
-                labResultImageItem.getLabResultImgUploadModel().setDate_taken(dateTaken.getText().toString());
-                labResultImageItem.getLabResultImgUploadModel().setIs_deleted(false);
+                LabResultImgUploadModel labResultImgUploadModel = new LabResultImgUploadModel();
+                labResultImgUploadModel.setId(String.valueOf(labResultImageAddAdapter.getItemCount()) + userId);
+                labResultImgUploadModel.setPath(currentMediaPath);
+                labResultImgUploadModel.setDate_taken(Utils.processStringForAPI(dateTaken.getText().toString()));
+                labResultImgUploadModel.setIs_deleted(false);
+                labResultImageItem.setLabResultImgUploadModel(labResultImgUploadModel);
                 labResultImageAddAdapter.updatemDataset(labResultImageItem);
                 dialog.dismiss();
             }
@@ -332,9 +332,9 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == RequestCodeList.PHOTO_OPERATIONS){
-            for (int i = 0; i < permissions.length; i++){
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED){
+        if (requestCode == RequestCodeList.PHOTO_OPERATIONS) {
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
             }

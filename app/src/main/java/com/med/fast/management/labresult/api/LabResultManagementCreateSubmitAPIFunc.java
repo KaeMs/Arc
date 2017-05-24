@@ -43,7 +43,6 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Submitting your Lab Result..");
         progressDialog.setIndeterminate(true);
-        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);
         progressDialog.show();

@@ -65,7 +65,7 @@ public class VisitAdapter extends FastBaseRecyclerAdapter implements VisitDelete
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
         this.width = width;
-        horizontalItemDecoration = new HorizontalItemDecoration();
+        horizontalItemDecoration = new HorizontalItemDecoration(context);
         deleteConfirmIntf = this;
     }
 

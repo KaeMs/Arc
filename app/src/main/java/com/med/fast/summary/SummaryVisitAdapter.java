@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.med.fast.FastBaseRecyclerAdapter;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.R;
 import com.med.fast.management.visit.VisitImageAdapter;
 
@@ -28,9 +29,11 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<VisitModel> mDataset = new ArrayList<>();
     private int width;
+    private HorizontalItemDecoration horizontalItemDecoration;
 
     public SummaryVisitAdapter(Context context) {
         this.context = context;
+        horizontalItemDecoration = new HorizontalItemDecoration(context);
     }
 
     public void setWidth(int width) {
@@ -88,6 +91,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
             visitImageAdapter.addList(mDataset.get(position).getImage_list());
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 
+            setItemDecoration(summaryVisitVH.recyclerView, horizontalItemDecoration);
             summaryVisitVH.recyclerView.setLayoutManager(linearLayoutManager);
             summaryVisitVH.recyclerView.setAdapter(visitImageAdapter);
 

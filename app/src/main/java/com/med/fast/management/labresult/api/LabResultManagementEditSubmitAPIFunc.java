@@ -1,5 +1,6 @@
 package com.med.fast.management.labresult.api;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -28,14 +29,23 @@ import okhttp3.Response;
 public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultManagementEditSubmitAPI, Integer, ResponseAPI> {
     private LabResultManagementEditIntf delegate;
     private Context context;
+    private ProgressDialog progressDialog;
 
-    public LabResultManagementEditSubmitAPIFunc(Context context) {
+    public LabResultManagementEditSubmitAPIFunc(Context context, LabResultManagementEditIntf delegate) {
         this.context = context;
-    }
-
-    public void setDelegate(LabResultManagementEditIntf delegate) {
         this.delegate = delegate;
     }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Submitting your Lab Result..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
     @Override
     protected ResponseAPI doInBackground(LabResultManagementEditSubmitAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
@@ -64,10 +74,10 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
                     .addFormDataPart("test_name", params[0].data.query.test_name)
                     .addFormDataPart("lab_result_id", params[0].data.query.lab_result_id)
                     .addFormDataPart("desc_result", params[0].data.query.desc_result)
-                    .addFormDataPart("img_path", params[0].data.query.img_path)
                     .addFormDataPart("date", params[0].data.query.date)
                     .addFormDataPart("place", params[0].data.query.place)
-                    .addFormDataPart("list_img_uploadeds", params[0].data.query.list_img_uploadeds);
+                    .addFormDataPart("img_obj_json", params[0].data.query.img_obj_json)
+                    .addFormDataPart("added_img_obj_json", params[0].data.query.added_img_obj_json);
 
             // Upload multiple files
             for(int i = 0; i < params[0].data.query.image_files.size(); ++i){
@@ -105,5 +115,6 @@ public class LabResultManagementEditSubmitAPIFunc extends AsyncTask<LabResultMan
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishLabResultManagementEditSubmit(responseAPI);
+        progressDialog.dismiss();
     }
 }

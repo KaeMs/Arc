@@ -61,7 +61,7 @@ public class LabResultManagementAdapter extends FastBaseRecyclerAdapter implemen
     public LabResultManagementAdapter(Context context, StartActivityForResultInAdapterIntf intf) {
         this.context = context;
         this.startActivityForResultInAdapterIntf = intf;
-        this.horizontalItemDecoration = new HorizontalItemDecoration();
+        this.horizontalItemDecoration = new HorizontalItemDecoration(context);
         deleteConfirmIntf = this;
     }
 

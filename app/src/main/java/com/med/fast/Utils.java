@@ -33,12 +33,9 @@ public class Utils {
     }
 
     public static String processStringForAPI(String input){
-        if (input.equals("") ||
-                input.equals("-")){
-            return "default";
-        } else {
-            return Html.fromHtml(input).toString();
-        }
+        if (input == null) return "default";
+        if (input.equals("") || input.equals("-")) return "default";
+         else return Html.fromHtml(input).toString();
     }
 
     public static String processStringFromAPI(String apiString){

@@ -1,6 +1,7 @@
 package com.med.fast.management.labresult.api;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -8,6 +9,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
+import com.med.fast.management.labresult.LabResultEditActivity;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -25,14 +27,23 @@ import okhttp3.Response;
 public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManagementEditShowAPI, Integer, ResponseAPI> {
     private LabResultManagementEditIntf delegate;
     private Context context;
-
-    public void setDelegate(LabResultManagementEditIntf delegate) {
-        this.delegate = delegate;
-    }
+    private ProgressDialog progressDialog;
 
     public LabResultManagementEditShowAPIFunc(Context context) {
         this.context = context;
+        this.delegate = ((LabResultEditActivity)context);
     }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Getting information from server..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
     @Override
     protected ResponseAPI doInBackground(LabResultManagementEditShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
@@ -90,5 +101,6 @@ public class LabResultManagementEditShowAPIFunc extends AsyncTask<LabResultManag
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
         delegate.onFinishLabResultManagementEditShow(responseAPI);
+        progressDialog.dismiss();
     }
 }

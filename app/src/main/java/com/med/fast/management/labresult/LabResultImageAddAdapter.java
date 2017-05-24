@@ -41,6 +41,7 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
 
     private Context context;
     private List<LabResultImgModel> mDataset = new ArrayList<>();
+    private List<LabResultImgModel> editMDataset = new ArrayList<>();
 
     public LabResultImageAddAdapter(Context context) {
         super(false);
@@ -49,6 +50,7 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
 
     public void addList(List<LabResultImgModel> dataset) {
         this.mDataset.addAll(dataset);
+        this.editMDataset.addAll(dataset);
         notifyDataSetChanged();
     }
 
@@ -111,7 +113,24 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
             }
         }
 
-        return gson.toJson(labResultImgUploadModelWrapper);
+        if (labResultImgUploadModelWrapper.img_list.size() > 0)
+            return gson.toJson(labResultImgUploadModelWrapper);
+        else return "default";
+    }
+
+    public String getEditGson(){
+        Gson gson = new Gson();
+        LabResultImgUploadModelWrapper labResultImgUploadModelWrapper = new LabResultImgUploadModelWrapper();
+        for (LabResultImgModel item :
+                editMDataset) {
+            if (item != null){
+                labResultImgUploadModelWrapper.img_list.add(item.getLabResultImgUploadModel());
+            }
+        }
+
+        if (labResultImgUploadModelWrapper.img_list.size() > 0)
+            return gson.toJson(labResultImgUploadModelWrapper);
+        else return "default";
     }
 
     public String getAddedImgGson(){
@@ -124,7 +143,10 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                 labResultImgModelWrapper.img_list.add(item);
             }
         }
+
+        if (labResultImgModelWrapper.img_list.size() > 0)
         return gson.toJson(labResultImgModelWrapper);
+        else return "default";
     }
 
     @Override
@@ -162,6 +184,7 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                 Glide.with(context)
                         .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
                         .skipMemoryCache(true)
                         .placeholder(MediaUtils.image_placeholder_black)
                         .error(MediaUtils.image_error_black)
@@ -170,6 +193,7 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                 Glide.with(context)
                         .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
                         .skipMemoryCache(true)
                         .placeholder(MediaUtils.image_placeholder_black)
                         .error(MediaUtils.image_error_black)
@@ -199,7 +223,11 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                         @Override
                         public void onClick(View v) {
                             savedPos = holder.getAdapterPosition();
-                            ((LabResultAddActivity)context).addNewImage();
+                            if (context instanceof  LabResultAddActivity){
+                                ((LabResultAddActivity)context).addNewImage();
+                            } else if (context instanceof LabResultEditActivity){
+                                ((LabResultEditActivity) context).addNewImage();
+                            }
                             dialog.dismiss();
                         }
                     });
@@ -207,6 +235,14 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                     deleteImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            for (LabResultImgModel item :
+                                    editMDataset) {
+                                if (mDataset.get(holder.getAdapterPosition()).getId() != null &&
+                                        mDataset.get(holder.getAdapterPosition()).getId().equals(item.getId())){
+                                    item.setIs_deleted(true);
+                                    break;
+                                }
+                            }
                             mDataset.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
                             dialog.dismiss();
@@ -215,7 +251,11 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
 
                 } else {
                     savedPos = holder.getAdapterPosition();
-                    ((LabResultAddActivity)context).addNewImage();
+                    if (context instanceof  LabResultAddActivity){
+                        ((LabResultAddActivity)context).addNewImage();
+                    } else if (context instanceof LabResultEditActivity){
+                        ((LabResultEditActivity) context).addNewImage();
+                    }
                 }
             }
         });
@@ -229,7 +269,9 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
     @Override
     public void onViewRecycled(RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.clear(((VisitImageVH)holder).image);
+        if (holder instanceof VisitImageVH){
+            Glide.clear(((VisitImageVH)holder).image);
+        }
     }
 
     static class VisitImageVH extends FastBaseViewHolder {

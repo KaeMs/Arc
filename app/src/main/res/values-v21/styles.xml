@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/grey</item>
+        <item name="colorPrimaryDark">@color/greyDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextStyle">@style/AppTheme.EditTextStyle</item>
+        <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
+        <item name="android:radioButtonStyle">@style/AppTheme.RadioButtonStyle</item>
+        <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
+        <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/window_fade</item>
+        <item name="android:windowSharedElementExitTransition">@transition/window_fade</item>
+    </style>
+</resources>

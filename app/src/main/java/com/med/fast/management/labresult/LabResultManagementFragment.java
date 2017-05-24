@@ -2,8 +2,10 @@ package com.med.fast.management.labresult;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseFragment;
@@ -25,6 +28,7 @@ import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
+import com.med.fast.UriUtils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -51,6 +55,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     @BindView(R.id.management_mainfragment_recycler)
     RecyclerView recyclerView;
     private LabResultManagementAdapter labResultManagementAdapter;
+    private LinearLayoutManager linearLayoutManager;
     @BindView(R.id.management_mainfragment_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_progress)
@@ -63,6 +68,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     private String currentKeyword = APIConstants.DEFAULT;
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
+    private boolean returningWithEdit = false;
 
     @Nullable
     @Override
@@ -81,7 +87,7 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         labResultManagementAdapter = new LabResultManagementAdapter(getActivity(), this);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(labResultManagementAdapter);
 
@@ -234,10 +240,15 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
             }
         } else if (requestCode == RequestCodeList.LABRESULT_EDIT){
             if (resultCode == Activity.RESULT_OK){
-                Gson gson = new Gson();
+//                Gson gson = new Gson();
+                /*Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Uri.class, new UriUtils.UriDeserializer())
+                        .create();
                 LabResultManagementModel model =
                         gson.fromJson(data.getStringExtra(ConstantsManagement.LABRESULT_MODEL_EXTRA), LabResultManagementModel.class);
-                labResultManagementAdapter.updateItem(model);
+                labResultManagementAdapter.updateItem(model);*/
+                returningWithEdit = true;
+                refreshView(true);
             }
         }
     }
@@ -261,6 +272,14 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
                     if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
                         labResultManagementAdapter.clearList();
                         counter = 0;
+                    }
+
+                    if (returningWithEdit){
+                        Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+                        if (savedRecyclerLayoutState != null){
+                            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+                        }
+                        returningWithEdit = false;
                     }
                     labResultManagementAdapter.addList(output.data.results.lab_result_list);
                     lastItemCounter = output.data.results.lab_result_list.size();
