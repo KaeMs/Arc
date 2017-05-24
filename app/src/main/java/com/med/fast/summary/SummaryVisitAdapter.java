@@ -42,6 +42,12 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
 
     public void addList(List<VisitModel> dataset) {
         this.mDataset.addAll(dataset);
+        notifyDataSetChanged();
+    }
+
+    public void addSingle(VisitModel visitModel){
+        this.mDataset.add(visitModel);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -57,53 +63,57 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
-        // Append Date
-        String dateString = context.getString(R.string.visit_date);
-        sb.append(dateString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - dateString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getCreated_date());
-        sb.append("\n");
-
-        // Append Hospital
-        String hospitalString = context.getString(R.string.visit_place);
-        sb.append(hospitalString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - hospitalString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getHospital_name());
-        sb.append("\n");
-
-        // Append Doctor
-        String doctorString = context.getString(R.string.visit_doctor);
-        sb.append(doctorString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doctorString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getDoctor_name());
-        sb.append("\n");
-
-        if (mDataset.get(position).getImage_list().size() > 0) {
-            summaryVisitVH.recyclerView.setVisibility(View.VISIBLE);
-            summaryVisitVH.recyclerView.setOnFlingListener(null);
-            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
-            snapHelper.attachToRecyclerView(summaryVisitVH.recyclerView);
-
-            VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context, width);
-            visitImageAdapter.addList(mDataset.get(position).getImage_list());
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-
-            setItemDecoration(summaryVisitVH.recyclerView, horizontalItemDecoration);
-            summaryVisitVH.recyclerView.setLayoutManager(linearLayoutManager);
-            summaryVisitVH.recyclerView.setAdapter(visitImageAdapter);
-
-            // Append Image
-            String imageString = context.getString(R.string.visit_image);
-            sb.append(imageString);
-            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (mDataset.get(position) != null){
+            // Append Date
+            String dateString = context.getString(R.string.visit_date);
+            sb.append(dateString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - dateString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.append(" ");
+            sb.append(mDataset.get(position).getCreated_date());
             sb.append("\n");
-            //sb.append(mDataset.get(position).getMedicine_dose());
+
+            // Append Hospital
+            String hospitalString = context.getString(R.string.visit_place);
+            sb.append(hospitalString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - hospitalString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getHospital_name());
+            sb.append("\n");
+
+            // Append Doctor
+            String doctorString = context.getString(R.string.visit_doctor);
+            sb.append(doctorString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doctorString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getDoctor_name());
+            sb.append("\n");
+
+            if (mDataset.get(position).getImage_list().size() > 0) {
+                summaryVisitVH.recyclerView.setVisibility(View.VISIBLE);
+                summaryVisitVH.recyclerView.setOnFlingListener(null);
+                SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+                snapHelper.attachToRecyclerView(summaryVisitVH.recyclerView);
+
+                VisitImageAdapter visitImageAdapter = new VisitImageAdapter(context, width);
+                visitImageAdapter.addList(mDataset.get(position).getImage_list());
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+
+                setItemDecoration(summaryVisitVH.recyclerView, horizontalItemDecoration);
+                summaryVisitVH.recyclerView.setLayoutManager(linearLayoutManager);
+                summaryVisitVH.recyclerView.setAdapter(visitImageAdapter);
+
+                // Append Image
+                String imageString = context.getString(R.string.visit_image);
+                sb.append(imageString);
+                sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sb.append(" ");
+                sb.append("\n");
+                //sb.append(mDataset.get(position).getMedicine_dose());
+            } else {
+                summaryVisitVH.recyclerView.setVisibility(View.GONE);
+            }
         } else {
-            summaryVisitVH.recyclerView.setVisibility(View.GONE);
+            sb.append(context.getString(R.string.visit_not_found));
         }
 
         summaryVisitVH.summaryText.setText(sb);

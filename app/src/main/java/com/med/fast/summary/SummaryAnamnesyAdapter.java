@@ -19,17 +19,22 @@ import java.util.List;
  * Created by kevindreyar on 07-May-17. FM
  */
 
-public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter{
+public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter {
     private Context context;
     private List<DiseaseModel> mDataset = new ArrayList<>();
 
-    public SummaryAnamnesyAdapter(Context context){
+    public SummaryAnamnesyAdapter(Context context) {
         //super(false);
         this.context = context;
     }
 
-    public void addList(List<DiseaseModel> dataset){
+    public void addList(List<DiseaseModel> dataset) {
         this.mDataset.addAll(dataset);
+    }
+
+    public void addSingle(DiseaseModel diseaseModel) {
+        this.mDataset.add(diseaseModel);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -41,25 +46,29 @@ public class SummaryAnamnesyAdapter extends FastBaseRecyclerAdapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH)holder;
+        SummaryTextOnlyVH summaryTextOnlyVH = (SummaryTextOnlyVH) holder;
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
-        // Append disease Name
-        String anamnesyString = context.getString(R.string.anamnesy_colon);
-        sb.append(anamnesyString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - anamnesyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getName());
-        sb.append("\n");
+        if (mDataset.get(position) != null) {
+            // Append disease Name
+            String anamnesyString = context.getString(R.string.anamnesy_colon);
+            sb.append(anamnesyString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - anamnesyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getName());
+            sb.append("\n");
 
-        // Append Hereditiary Carrier
-        String formString = context.getString(R.string.anamnesy_heriditiary_carrier);
-        sb.append(formString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getHereditary_carriers());
-        sb.append("\n");
+            // Append Hereditiary Carrier
+            String formString = context.getString(R.string.anamnesy_heriditiary_carrier);
+            sb.append(formString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getHereditary_carriers());
+            sb.append("\n");
+        } else {
+            sb.append(context.getString(R.string.anamesy_not_found));
+        }
 
         summaryTextOnlyVH.summaryText.setText(sb);
     }

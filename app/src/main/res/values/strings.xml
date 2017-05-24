@@ -121,10 +121,12 @@
 
     <string name="anamnesy_colon">Disease :</string>
     <string name="anamnesy_heriditiary_carrier">Heriditiary Carrier :</string>
+    <string name="anamesy_not_found">No Family Anamesy record</string>
 
     <string name="disease_colon">Disease :</string>
     <string name="disease_last_visit">Last Visit :</string>
     <string name="disease_date">Date :</string>
+    <string name="ongoing_disease_not_found">No Ongoing Disease record</string>
 
     <!-- ID Card -->
     <string name="idcard_uploaded">ID Card has been uploaded</string>
@@ -147,10 +149,12 @@
     <string name="image_change">Change Image</string>
     <string name="image_delete">Delete Image</string>
     <string name="visit_delete_confirmation">Are you sure you want to delete this visit record?</string>
+    <string name="visit_not_found">No Recent Visit record</string>
 
     <!-- Allergy -->
     <string name="created_date">Created Date</string>
     <string name="allergy_delete_confirmation">Are you sure you want to delete this allergy record?</string>
+    <string name="allergy_not_found">No Allergy record</string>
 
     <!-- Disease -->
     <string name="disease_name">Disease name</string>
@@ -179,6 +183,7 @@
         <item>>5 Years Ago</item>
     </string-array>
     <string name="disease_delete_confirmation">Are you sure you want to delete this disease record?</string>
+    <string name="disease_not_found">No Disease record</string>
 
     <!-- Medicine -->
     <string name="medicine_name">Medicine Name</string>
@@ -211,6 +216,7 @@
     <string name="additional_instruction_hint">Requirements for adherence support or additional information about specific medicines</string>
     <string name="additional_instruction_placeholder">Sometimes nebuliser runs out of battery</string>
     <string name="medicine_delete_confirmation">Are you sure you want to delete this medicine record?</string>
+    <string name="medicine_not_found">No Medicine record</string>
 
     <!-- Surgery -->
     <string name="surgery_procedure">Surgery Procedure</string>

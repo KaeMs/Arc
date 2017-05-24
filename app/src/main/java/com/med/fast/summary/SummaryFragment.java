@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.med.fast.Constants;
+import com.med.fast.FastAppController;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
@@ -24,6 +25,11 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.ResponseAPI;
 
 import butterknife.BindView;
+import io.realm.ObjectChangeSet;
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
+import io.realm.RealmObjectChangeListener;
 
 /**
  * Created by kevindreyar on 23-Apr-17. FM
@@ -36,9 +42,9 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.summary_fragment_recycler)
     RecyclerView summaryRecycler;
-    private LinearLayoutManager linearLayoutManager;
     @BindView(R.id.summary_fragment_progress)
     ProgressBar summaryProgress;
+    private LinearLayoutManager linearLayoutManager;
     private SummaryAdapter summaryAdapter;
 
     private String userId;
@@ -91,8 +97,7 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
     }
 
     @Override
-    public void scrollToTop()
-    {
+    public void scrollToTop() {
         this.summaryRecycler.smoothScrollBy(0, -1000);
 
         Handler handler = new Handler();
@@ -127,10 +132,10 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                 SummaryShowAPI output = gson.fromJson(responseAPI.status_response, SummaryShowAPI.class);
                 if (output.data.status.code.equals("200")) {
                     Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
-                    if(savedRecyclerLayoutState != null){
+                    if (savedRecyclerLayoutState != null) {
                         linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
                     }
-                    SummaryWrapperModel summaryWrapperModel = new SummaryWrapperModel();
+                    final SummaryWrapperModel summaryWrapperModel = new SummaryWrapperModel();
                     summaryWrapperModel.name = output.data.results.name;
                     summaryWrapperModel.date_of_birth = output.data.results.date_of_birth;
                     summaryWrapperModel.gender = output.data.results.gender;
@@ -140,8 +145,29 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                     summaryWrapperModel.family_anamnesy = output.data.results.family_anamnesy;
                     summaryWrapperModel.medicine = output.data.results.medicine;
                     summaryWrapperModel.visit = output.data.results.visit;
+                    summaryWrapperModel.voluptuary_habits = output.data.results.voluptuary_habits;
 
+                    /*FastAppController.realm.beginTransaction();
+                    SummaryWrapperModel realmSummaryWrapper = FastAppController.realm.where(SummaryWrapperModel.class).findFirst();
+                    if (realmSummaryWrapper != null) {
+                        realmSummaryWrapper.deleteFromRealm();
+                        FastAppController.realm.copyToRealm(summaryWrapperModel);
+                    } else {
+                        FastAppController.realm.copyToRealm(summaryWrapperModel);
+                    }
+                    FastAppController.realm.commitTransaction();*/
                     summaryAdapter.setModel(summaryWrapperModel);
+
+                    /*FastAppController.realm.beginTransaction();
+                    SummaryWrapperModel savedSummaryWrapper = FastAppController.realm.where(SummaryWrapperModel.class).findFirst();
+                    savedSummaryWrapper.removeAllChangeListeners();
+                    savedSummaryWrapper.addChangeListener(new RealmChangeListener<RealmModel>() {
+                        @Override
+                        public void onChange(RealmModel realmModel) {
+                            summaryAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    FastAppController.realm.commitTransaction();*/
 
                     /*new Handler().postDelayed(new Runnable() {
                         @Override

@@ -3,6 +3,8 @@ package com.med.fast.summary;
 import java.sql.Date;
 import java.util.List;
 
+import io.realm.RealmList;
+
 /**
  * Created by kevindreyar on 27-Apr-17. FM
  */
@@ -31,11 +33,12 @@ public class SummaryShowAPI {
             public String date_of_birth;
             public String gender;
             public String profil_image_path;
-            public List<AllergyModel> allergies;
-            public List<DiseaseModel> disease;
-            public List<DiseaseModel> family_anamnesy;
-            public List<MedicineModel> medicine;
-            public List<VisitModel> visit;
+            public String voluptuary_habits;
+            public RealmList<AllergyModel> allergies;
+            public RealmList<DiseaseModel> disease;
+            public RealmList<DiseaseModel> family_anamnesy;
+            public RealmList<MedicineModel> medicine;
+            public RealmList<VisitModel> visit;
         }
     }
 }

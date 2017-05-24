@@ -6,11 +6,14 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
 /**
  * Created by kevindreyar on 25-Apr-17. FM
  */
 
-public class VisitModel {
+public class VisitModel extends RealmObject {
     private String visit_id = "";
     private String owner_id = "";
     private String created_date = "";
@@ -18,7 +21,7 @@ public class VisitModel {
     private String doctor_name = "";
     private String diagnose = "";
     private String disease = "";
-    private List<VisitImageItem> image_list;
+    private RealmList<VisitImageItem> image_list;
 
     public String getVisit_id() {
         if (visit_id == null){
@@ -104,7 +107,7 @@ public class VisitModel {
         return image_list;
     }
 
-    public void setImage_list(List<VisitImageItem> image_list) {
+    public void setImage_list(RealmList<VisitImageItem> image_list) {
         this.image_list = image_list;
     }
 }

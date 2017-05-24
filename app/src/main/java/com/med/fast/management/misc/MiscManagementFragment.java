@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.med.fast.FastAppController;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
@@ -27,8 +28,10 @@ import com.med.fast.management.misc.api.MiscCreateAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
 import com.med.fast.management.misc.api.MiscShowAPIFunc;
 import com.med.fast.management.misc.miscinterface.MiscShowCreateIntf;
+import com.med.fast.summary.SummaryWrapperModel;
 
 import butterknife.BindView;
+import io.realm.Realm;
 
 /**
  * Created by Kevin Murvie on 4/29/2017. FM
@@ -99,7 +102,6 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
 
         refreshView(false);
 
-
         pregnantY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -161,7 +163,7 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
         progressBar.setVisibility(View.GONE);
         if (responseAPI.status_code == 200) {
             Gson gson = new Gson();
-            MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
+            final MiscShowAPI output = gson.fromJson(responseAPI.status_response, MiscShowAPI.class);
             if (output.data.status.code.equals("200")) {
                 SharedPreferenceUtilities.setUserInformation(getActivity(), SharedPreferenceUtilities.USER_GENDER, output.data.results.is_female ? "1" : "0");
                 if (output.data.results.is_female) {
@@ -175,6 +177,17 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
                 miscarriageY.setChecked(Utils.processBoolStringFromAPI(output.data.results.had_miscarriage));
                 miscarriageDate.setText(Utils.processStringFromAPI(output.data.results.last_time_miscarriage));
                 cycleAlterations.setText(Utils.processStringFromAPI(output.data.results.cycle_alteration));
+
+                /*FastAppController.realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        SummaryWrapperModel realmSummaryWrapper = realm.where(SummaryWrapperModel.class).findFirst();
+                        if (realmSummaryWrapper != null){
+                            realmSummaryWrapper.voluptuary_habits = output.data.results.voluptuary_habits;
+
+                        }
+                    }
+                });*/
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
@@ -190,24 +203,26 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
 
     @Override
     public void onFinishMiscCreateSubmit(ResponseAPI responseAPI) {
-        isLoading = false;
-        swipeRefreshLayout.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
-        if (responseAPI.status_code == 200) {
-            Gson gson = new Gson();
-            MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
-            if (output.data.status.code.equals("200")) {
-                Toast.makeText(getActivity(), getString(R.string.misc_settings_saved), Toast.LENGTH_SHORT).show();
+        if (this.isVisible()){
+            isLoading = false;
+            swipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+            if (responseAPI.status_code == 200) {
+                Gson gson = new Gson();
+                MiscCreateAPI output = gson.fromJson(responseAPI.status_response, MiscCreateAPI.class);
+                if (output.data.status.code.equals("200")) {
+                    Toast.makeText(getActivity(), getString(R.string.misc_settings_saved), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+                }
+            } else if (responseAPI.status_code == 504) {
+                Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+            } else if (responseAPI.status_code == 401 ||
+                    responseAPI.status_code == 505) {
+                ((FastBaseActivity) getActivity()).forceLogout();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
-        } else if (responseAPI.status_code == 504) {
-            Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if (responseAPI.status_code == 401 ||
-                responseAPI.status_code == 505) {
-            ((FastBaseActivity) getActivity()).forceLogout();
-        } else {
-            Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
 }

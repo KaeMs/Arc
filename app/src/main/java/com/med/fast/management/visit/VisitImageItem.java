@@ -2,15 +2,17 @@ package com.med.fast.management.visit;
 
 import android.net.Uri;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class VisitImageItem {
+public class VisitImageItem extends RealmObject {
     private String id;
     private String path;
     private boolean is_deleted;
-    private Uri uri;
+    private String uri;
 
     public String getId() {
         return id;
@@ -37,10 +39,14 @@ public class VisitImageItem {
     }
 
     public Uri getUri() {
-        return uri;
+        return Uri.parse(uri);
     }
 
     public void setUri(Uri uri) {
-        this.uri = uri;
+        this.uri = uri.toString();
+    }
+
+    public void setUri(String uriString) {
+        this.uri = uriString;
     }
 }

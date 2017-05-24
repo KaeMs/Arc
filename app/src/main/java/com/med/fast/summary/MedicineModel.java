@@ -1,10 +1,12 @@
 package com.med.fast.summary;
 
+import io.realm.RealmObject;
+
 /**
  * Created by kevindreyar on 23-Apr-17. FM
  */
 
-public class MedicineModel {
+public class MedicineModel extends RealmObject {
     public String id;
     public String name;
     public String form;

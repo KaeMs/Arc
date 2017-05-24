@@ -1,10 +1,12 @@
 package com.med.fast.summary;
 
+import io.realm.RealmObject;
+
 /**
  * Created by kevin on 25-Apr-17. FM
  */
 
-public class DiseaseModel {
+public class DiseaseModel extends RealmObject {
     public String id;
     public String name;
     public String is_hereditary;//0=No, 1=Yes

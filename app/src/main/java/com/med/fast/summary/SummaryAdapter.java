@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.med.fast.FastAppController;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseRecyclerAdapter;
 import com.med.fast.FastBaseViewHolder;
@@ -27,6 +29,7 @@ import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.setting.SettingProfileActivity;
 
 import butterknife.BindView;
+import io.realm.Realm;
 
 /**
  * Created by kevindreyar on 23-Apr-17. FM
@@ -48,7 +51,6 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
     public SummaryAdapter(Context context) {
         this.context = context;
-        this.summaryWrapperModel = new SummaryWrapperModel();
     }
 
     public void setWidth(int width) {
@@ -136,7 +138,11 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
         } else if (getItemViewType(position) == VISIT) {
             SummaryVisitAdapter summaryVisitAdapter = new SummaryVisitAdapter(context);
             summaryVisitAdapter.setWidth(width);
-            summaryVisitAdapter.addList(summaryWrapperModel.visit);
+            if (summaryWrapperModel.visit.size() > 0){
+                summaryVisitAdapter.addList(summaryWrapperModel.visit);
+            } else {
+                summaryVisitAdapter.addSingle(null);
+            }
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.recent_visits));
@@ -160,7 +166,11 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             });
         } else if (getItemViewType(position) == MEDICINE) {
             SummaryMedicineAdapter summaryMedicineAdapter = new SummaryMedicineAdapter(context);
-            summaryMedicineAdapter.addList(summaryWrapperModel.medicine);
+            if (summaryWrapperModel.medicine.size() > 0){
+                summaryMedicineAdapter.addList(summaryWrapperModel.medicine);
+            } else {
+                summaryMedicineAdapter.addSingle(null);
+            }
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.medicines));
@@ -184,7 +194,11 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             });
         } else if (getItemViewType(position) == ANAMNESY) {
             SummaryAnamnesyAdapter summaryAnamnesyAdapter = new SummaryAnamnesyAdapter(context);
-            summaryAnamnesyAdapter.addList(summaryWrapperModel.family_anamnesy);
+            if (summaryWrapperModel.family_anamnesy.size() > 0){
+                summaryAnamnesyAdapter.addList(summaryWrapperModel.family_anamnesy);
+            } else {
+                summaryAnamnesyAdapter.addSingle(null);
+            }
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.family_anamesy));
@@ -201,7 +215,11 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             holder.itemView.setOnClickListener(null);
         } else if (getItemViewType(position) == DISEASE) {
             SummaryDiseaseAdapter summaryDiseaseAdapter = new SummaryDiseaseAdapter(context);
-            summaryDiseaseAdapter.addList(summaryWrapperModel.disease);
+            if (summaryWrapperModel.disease.size() > 0){
+                summaryDiseaseAdapter.addList(summaryWrapperModel.disease);
+            } else {
+                summaryDiseaseAdapter.addSingle(null);
+            }
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.ongoing_disease));
@@ -224,7 +242,11 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             });
         } else if (getItemViewType(position) == ALLERGY) {
             SummaryAllergyAdapter summaryAllergyAdapter = new SummaryAllergyAdapter(context);
-            summaryAllergyAdapter.addList(summaryWrapperModel.allergies);
+            if (summaryWrapperModel.allergies.size() > 0){
+                summaryAllergyAdapter.addList(summaryWrapperModel.allergies);
+            } else {
+                summaryAllergyAdapter.addSingle(null);
+            }
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.drug_allergies));
@@ -256,9 +278,8 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 }
             });
 
-            if (summaryWrapperModel.voluptary_habits != null &&
-                    summaryWrapperModel.voluptary_habits.equals(""))
-                ((SummaryHabitVH) holder).habitsTxt.setText(summaryWrapperModel.voluptary_habits);
+            if (TextUtils.isEmpty(summaryWrapperModel.voluptuary_habits))
+                ((SummaryHabitVH) holder).habitsTxt.setText(summaryWrapperModel.voluptuary_habits);
             else
                 ((SummaryHabitVH) holder).habitsTxt.setText(context.getString(R.string.voluptuary_habits_not_found));
 

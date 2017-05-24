@@ -32,6 +32,11 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
         this.mDataset.addAll(dataset);
     }
 
+    public void addSingle(AllergyModel allergyModel) {
+        this.mDataset.add(allergyModel);
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -45,22 +50,25 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
-        // Append ALlergy Name
-        String visitString = context.getString(R.string.allergy_agent_colon);
-        sb.append(visitString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - visitString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getAgent());
-        sb.append("\n");
+        if (mDataset.get(position) != null){
+            // Append ALlergy Name
+            String visitString = context.getString(R.string.allergy_agent_colon);
+            sb.append(visitString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - visitString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getAgent());
+            sb.append("\n");
 
-        // Append Allergy Reaction
-        String formString = context.getString(R.string.allergy_reaction_colon);
-        sb.append(formString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getReaction());
-        sb.append("\n");
-
+            // Append Allergy Reaction
+            String formString = context.getString(R.string.allergy_reaction_colon);
+            sb.append(formString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getReaction());
+            sb.append("\n");
+        } else {
+            sb.append(context.getString(R.string.allergy_not_found));
+        }
         summaryTextOnlyVH.summaryText.setText(sb);
     }
 

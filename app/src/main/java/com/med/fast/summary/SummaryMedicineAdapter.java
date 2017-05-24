@@ -29,6 +29,12 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
 
     public void addList(List<MedicineModel> dataset) {
         this.mDataset.addAll(dataset);
+        notifyDataSetChanged();
+    }
+
+    public void addSingle(MedicineModel medicineModel) {
+        this.mDataset.add(medicineModel);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,45 +50,49 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
-        // Append Medicine
-        String medicineString = context.getString(R.string.medicine_colon);
-        sb.append(medicineString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - medicineString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getName());
-        sb.append("\n");
+        if (mDataset.get(position) != null) {
+            sb.append(context.getString(R.string.medicine_not_found));
+        } else {
+            // Append Medicine
+            String medicineString = context.getString(R.string.medicine_colon);
+            sb.append(medicineString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - medicineString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getName());
+            sb.append("\n");
 
-        // Append Form
-        String formString = context.getString(R.string.medicine_form_colon);
-        sb.append(formString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getForm());
-        sb.append("\n");
+            // Append Form
+            String formString = context.getString(R.string.medicine_form_colon);
+            sb.append(formString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getForm());
+            sb.append("\n");
 
-        // Append Route
-        String routeString = context.getString(R.string.medicine_route_colon);
-        sb.append(routeString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - routeString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getRoute());
-        sb.append("\n");
+            // Append Route
+            String routeString = context.getString(R.string.medicine_route_colon);
+            sb.append(routeString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - routeString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getRoute());
+            sb.append("\n");
 
-        // Append Dose
-        String doseString = context.getString(R.string.medicine_dose_colon);
-        sb.append(doseString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doseString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getDose());
-        sb.append("\n");
+            // Append Dose
+            String doseString = context.getString(R.string.medicine_dose_colon);
+            sb.append(doseString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doseString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getDose());
+            sb.append("\n");
 
-        // Append Frequency
-        String frequencyString = context.getString(R.string.medicine_frequency_colon);
-        sb.append(frequencyString);
-        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - frequencyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sb.append(" ");
-        sb.append(mDataset.get(position).getFrequency());
-        sb.append("\n");
+            // Append Frequency
+            String frequencyString = context.getString(R.string.medicine_frequency_colon);
+            sb.append(frequencyString);
+            sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - frequencyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            sb.append(" ");
+            sb.append(mDataset.get(position).getFrequency());
+            sb.append("\n");
+        }
 
         summaryTextOnlyVH.summaryText.setText(sb);
     }

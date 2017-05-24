@@ -1,10 +1,12 @@
 package com.med.fast.summary;
 
+import io.realm.RealmObject;
+
 /**
  * Created by kevindreyar on 25-Apr-17.
  */
 
-public class AllergyModel {
+public class AllergyModel extends RealmObject {
     public String id;
     public String agent;
     public boolean is_drug;
