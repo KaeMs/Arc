@@ -12,17 +12,17 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -65,6 +65,8 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.visit_popup_imagerecycler)
     RecyclerView imageRecycler;
+    @BindView(R.id.visit_popup_disease_history_recycler_wrapper)
+    LinearLayout listViewsWrapper;
     @BindView(R.id.visit_popup_disease_history_recycler)
     ListView diseaseHistoryListView;
     @BindView(R.id.visit_popup_disease_input_recycler)
@@ -75,9 +77,9 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
     CustomFontButton createBtn;
     private String userId;
     private VisitImageEditAdapter visitImageEditAdapter;
-    private List<VisitDiseaseModel> leftDataset;
+    private List<VisitDiseaseModel> diseasesDataset;
     private DiseaseListAdapter diseasesLVAdapter;
-    private List<VisitDiseaseModel> rightDataset;
+    private List<VisitDiseaseModel> selectedDiseasesDataset;
     private DiseaseListAdapter selectedLVAdapter;
     private VisitModel visitModel;
     private Uri mDestinationUri;
@@ -103,13 +105,19 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
 
         visitImageEditAdapter = new VisitImageEditAdapter(this);
         visitImageEditAdapter.setWidth(displayMetrics.widthPixels);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        HorizontalItemDecoration horizontalItemDecoration = new HorizontalItemDecoration(this);
+        imageRecycler.addItemDecoration(horizontalItemDecoration);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(visitImageEditAdapter);
-        leftDataset = new ArrayList<>();
-        this.diseasesLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, leftDataset);
-        rightDataset = new ArrayList<>();
-        this.selectedLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, rightDataset);
+        // Disease dist
+        diseasesDataset = new ArrayList<>();
+        this.diseasesLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, diseasesDataset);
+        diseaseHistoryListView.setAdapter(diseasesLVAdapter);
+        // Selected diseases list
+        selectedDiseasesDataset = new ArrayList<>();
+        this.selectedLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, selectedDiseasesDataset);
+        diseaseInputListView.setAdapter(selectedLVAdapter);
 
         imageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -130,10 +138,10 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
         diseaseHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VisitDiseaseModel tempHistoryStr = leftDataset.get(position);
-                rightDataset.add(tempHistoryStr);
+                VisitDiseaseModel tempHistoryStr = diseasesDataset.get(position);
+                selectedDiseasesDataset.add(tempHistoryStr);
                 selectedLVAdapter.notifyDataSetChanged();
-                leftDataset.remove(position);
+                diseasesDataset.remove(position);
                 diseasesLVAdapter.notifyDataSetChanged();
             }
         });
@@ -141,10 +149,10 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
         diseaseInputListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VisitDiseaseModel tempDiseaseStr = rightDataset.get(position);
-                leftDataset.add(tempDiseaseStr);
+                VisitDiseaseModel tempDiseaseStr = selectedDiseasesDataset.get(position);
+                diseasesDataset.add(tempDiseaseStr);
                 diseasesLVAdapter.notifyDataSetChanged();
-                rightDataset.remove(position);
+                selectedDiseasesDataset.remove(position);
                 selectedLVAdapter.notifyDataSetChanged();
             }
         });
@@ -183,7 +191,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                     for (int i = 0; i < selectedLVAdapter.getCount(); i++) {
                         diseases.add(selectedLVAdapter.getItem(i));
                     }
-                    visitModel.setDiseases(diseases);
+                    visitModel.setDisease_list(diseases);
                     visitModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     visitModel.setTag(doctorNameString + currentDate);
 
@@ -278,8 +286,19 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 doctorName.setText(visitModel.getDoctor_name());
                 diagnose.setText(visitModel.getDiagnose());
 
-                diseasesLVAdapter.addAll(visitModel.getDiseases());
-                selectedLVAdapter.addAll(visitModel.getDiseases());
+                if (output.data.results.visit.getDisease_list().size() > 0){
+                    for (VisitDiseaseModel item :
+                            output.data.results.visit.getDisease_list()) {
+                        if (item.is_selected()) {
+                            selectedDiseasesDataset.add(item);
+                        } else {
+                            diseasesDataset.add(item);
+                        }
+                    }
+                } else {
+                    listViewsWrapper.setVisibility(View.GONE);
+                }
+
                 visitImageEditAdapter.addList(visitModel.getImage_list());
                 visitImageEditAdapter.addSingle(null);
             } else {

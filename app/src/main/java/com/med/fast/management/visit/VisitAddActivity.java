@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import com.google.gson.Gson;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.CreatedImageModel;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.HorizontalItemDecoration;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -67,12 +67,12 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.visit_popup_imagerecycler)
     RecyclerView imageRecycler;
+    @BindView(R.id.visit_popup_disease_history_recycler_wrapper)
+    LinearLayout listViewsWrapper;
     @BindView(R.id.visit_popup_disease_history_recycler)
     ListView diseaseHistoryListView;
     @BindView(R.id.visit_popup_disease_input_recycler)
     ListView diseaseInputListView;
-    @BindView(R.id.visit_popup_disease_history_recycler_wrapper)
-    LinearLayout listViewsWrapper;
     @BindView(R.id.management_operations_back_btn)
     CustomFontButton backBtn;
     @BindView(R.id.management_operations_create_btn)
@@ -80,9 +80,9 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
 
     private VisitImageAddAdapter visitImageAddAdapter;
     private DiseaseListAdapter diseasesLVAdapter;
-    private List<VisitDiseaseModel> leftDataset;
+    private List<VisitDiseaseModel> diseasesDataset;
     private DiseaseListAdapter selectedLVAdapter;
-    private List<VisitDiseaseModel> rightDataset;
+    private List<VisitDiseaseModel> selectedDiseasesDataset;
     private VisitModel visitModel;
 
     @Override
@@ -97,13 +97,17 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         visitImageAddAdapter = new VisitImageAddAdapter(this,displayMetrics.widthPixels);
         visitImageAddAdapter.addSingle(null);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        HorizontalItemDecoration horizontalItemDecoration = new HorizontalItemDecoration(this);
+        imageRecycler.addItemDecoration(horizontalItemDecoration);
         imageRecycler.setLayoutManager(linearLayoutManager);
         imageRecycler.setAdapter(visitImageAddAdapter);
-        leftDataset = new ArrayList<>();
-        this.diseasesLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, leftDataset);
+        // Disease dist
+        diseasesDataset = new ArrayList<>();
+        this.diseasesLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, diseasesDataset);
         diseaseHistoryListView.setAdapter(diseasesLVAdapter);
-        rightDataset = new ArrayList<>();
-        this.selectedLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, rightDataset);
+        // Selected diseases list
+        selectedDiseasesDataset = new ArrayList<>();
+        this.selectedLVAdapter = new DiseaseListAdapter(this, R.layout.layout_textview, R.id.textview_tv, selectedDiseasesDataset);
         diseaseInputListView.setAdapter(selectedLVAdapter);
 
         imageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -125,10 +129,10 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         diseaseHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VisitDiseaseModel tempHistoryStr = leftDataset.get(position);
-                rightDataset.add(tempHistoryStr);
+                VisitDiseaseModel tempHistoryStr = diseasesDataset.get(position);
+                selectedDiseasesDataset.add(tempHistoryStr);
                 selectedLVAdapter.notifyDataSetChanged();
-                leftDataset.remove(position);
+                diseasesDataset.remove(position);
                 diseasesLVAdapter.notifyDataSetChanged();
             }
         });
@@ -136,10 +140,10 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
         diseaseInputListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                VisitDiseaseModel tempDiseaseStr = rightDataset.get(position);
-                leftDataset.add(tempDiseaseStr);
+                VisitDiseaseModel tempDiseaseStr = selectedDiseasesDataset.get(position);
+                diseasesDataset.add(tempDiseaseStr);
                 diseasesLVAdapter.notifyDataSetChanged();
-                rightDataset.remove(position);
+                selectedDiseasesDataset.remove(position);
                 selectedLVAdapter.notifyDataSetChanged();
             }
         });
@@ -181,7 +185,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
                     for (int i = 0; i < selectedLVAdapter.getCount(); i++) {
                         diseases.add(selectedLVAdapter.getItem(i));
                     }
-                    visitModel.setDiseases(diseases);
+                    visitModel.setDisease_list(diseases);
                     visitModel.setImage_list(visitImageAddAdapter.getmDataset());
 
                     visitModel.setProgress_status(APIConstants.PROGRESS_ADD);
@@ -278,7 +282,7 @@ public class VisitAddActivity extends FastBaseActivity implements VisitCreateInt
             if (output.data.status.code.equals("200")) {
                 if (output.data.results.disease_list.size() > 0){
                     listViewsWrapper.setVisibility(View.VISIBLE);
-                    leftDataset.addAll(output.data.results.disease_list);
+                    diseasesDataset.addAll(output.data.results.disease_list);
                     diseasesLVAdapter.notifyDataSetChanged();
                 } else {
                     listViewsWrapper.setVisibility(View.GONE);

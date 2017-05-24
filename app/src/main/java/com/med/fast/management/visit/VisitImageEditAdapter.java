@@ -116,7 +116,9 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
              uploadVisitImageItem){
             for (VisitImageItem visitImageItem :
                     mDataset) {
-                if (visitImageItemUpload.getPath().equals(visitImageItem.getPath())){
+                if (visitImageItemUpload.getPath() != null &&
+                        visitImageItem != null &&
+                        visitImageItemUpload.getPath().equals(visitImageItem.getPath())){
                     if (visitImageItem.getUri() != null){
                         returnFileList.add(new File(UriUtils.getPath(context, visitImageItem.getUri())));
                     }

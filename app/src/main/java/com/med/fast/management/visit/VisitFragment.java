@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -71,6 +72,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_recycler)
     RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     @BindView(R.id.management_mainfragment_progress)
     ProgressBar progressBar;
     @BindView(R.id.management_mainfragment_nocontent_tv)
@@ -82,6 +84,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
     private String currentKeyword = APIConstants.DEFAULT;
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
+    private boolean returningWithEdit = false;
 
     @Nullable
     @Override
@@ -99,7 +102,7 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         visitAdapter = new VisitAdapter(getActivity(), VisitFragment.this, displayMetrics.widthPixels);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(visitAdapter);
 
@@ -264,10 +267,12 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
             }
         } else if (requestCode == RequestCodeList.VISIT_EDIT){
             if (resultCode == Activity.RESULT_OK){
-                Gson gson = new Gson();
+                /*Gson gson = new Gson();
                 VisitModel model =
                         gson.fromJson(data.getStringExtra(ConstantsManagement.VISIT_MODEL_EXTRA), VisitModel.class);
-                visitAdapter.updateItem(model);
+                visitAdapter.updateItem(model);*/
+                returningWithEdit = true;
+                refreshView(true);
             }
         }
     }
@@ -292,6 +297,15 @@ public class VisitFragment extends FastBaseFragment implements StartActivityForR
                         visitAdapter.clearList();
                         counter = 0;
                     }
+
+                    if (returningWithEdit){
+                        Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+                        if (savedRecyclerLayoutState != null){
+                            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+                        }
+                        returningWithEdit = false;
+                    }
+
                     visitAdapter.addList(output.data.results.visit_list);
                     lastItemCounter = output.data.results.visit_list.size();
                     counter += output.data.results.visit_list.size();

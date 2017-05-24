@@ -42,7 +42,7 @@ public class DiseaseListAdapter extends ArrayAdapter<VisitDiseaseModel> {
 
         if (visitDiseaseModel != null) {
             CustomFontTextView diseaseName = (CustomFontTextView) v.findViewById(R.id.textview_tv);
-            diseaseName.setText(visitDiseaseModel.name);
+            diseaseName.setText(visitDiseaseModel.getName());
         }
         return v;
     }

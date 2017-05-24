@@ -14,7 +14,7 @@ public class VisitModel {
     private String hospital_name;
     private String doctor_name;
     private String diagnose;
-    private List<VisitDiseaseModel> diseases;
+    private List<VisitDiseaseModel> disease_list;
     private List<VisitImageItem> image_list;
     private String progress_status = "0"; // 0 = Normal, 1 = Add progress, 2 = Delete progress, 3 = Failed
     private String tag;
@@ -67,32 +67,35 @@ public class VisitModel {
         this.diagnose = diagnose;
     }
 
-    public List<VisitDiseaseModel> getDiseases() {
-        if (diseases != null) return diseases;
+    public List<VisitDiseaseModel> getDisease_list() {
+        if (disease_list != null) return disease_list;
         else return new ArrayList<>();
     }
 
     public String getDiseases_display() {
-        if (diseases != null && diseases.size() > 0){
+        if (disease_list != null && disease_list.size() > 0){
             StringBuilder sb = new StringBuilder();
             for (VisitDiseaseModel model :
-                    diseases) {
-                sb.append(model.name);
-                sb.append(", ");
+                    disease_list) {
+                if (model.is_selected()){
+                    sb.append(model.getName());
+                    sb.append(", ");
+                }
             }
 
-            return sb.substring(0, sb.length() - 2);
+            if (sb.length() > 0) return sb.substring(0, sb.length() - 2);
+            return "-";
         } else {
             return "-";
         }
     }
 
     public String getDiseases_for_api() {
-        if (diseases != null && diseases.size() > 0){
+        if (disease_list != null && disease_list.size() > 0){
             StringBuilder sb = new StringBuilder();
             for (VisitDiseaseModel model :
-                    diseases) {
-                sb.append(model.name);
+                    disease_list) {
+                sb.append(model.getName());
                 sb.append(";");
             }
 
@@ -102,8 +105,8 @@ public class VisitModel {
         }
     }
 
-    public void setDiseases(List<VisitDiseaseModel> diseases) {
-        this.diseases = diseases;
+    public void setDisease_list(List<VisitDiseaseModel> disease_list) {
+        this.disease_list = disease_list;
     }
 
     public List<VisitImageItem> getImage_list() {
