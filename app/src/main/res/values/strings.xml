@@ -11,6 +11,7 @@
     <string name="setting_dob">Date of Birth</string>
     <string name="setting_gender">Gender</string>
     <string name="setting_forgot_password">Forgot Password?</string>
+    <string name="settings_saved">Settings saved</string>
 
     <!-- Login Screen -->
     <string name="user_name">Username</string>
@@ -371,6 +372,5 @@
     <string name="opensans_semibold">OpenSans-Semibold.ttf</string>
     <string name="opensans_semiboldItalic">OpenSans-SemiboldItalic.ttf</string>
     <string name="fontawesome">fontawesome-webfont.ttf</string>
-
 
 </resources>

@@ -63,7 +63,8 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
                     .addFormDataPart("user_id", params[0].data.query.user_id)
                     .addFormDataPart("last_name", params[0].data.query.last_name)
                     .addFormDataPart("date_of_birth", params[0].data.query.date_of_birth)
-                    .addFormDataPart("gender", params[0].data.query.gender);
+                    .addFormDataPart("gender", params[0].data.query.gender)
+                    .addFormDataPart("is_avatar_changed", params[0].data.query.is_avatar_changed);
 
             // Upload photo file
             if (params[0].data.query.profile_image_file != null){

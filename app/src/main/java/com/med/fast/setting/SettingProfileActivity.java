@@ -187,9 +187,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                         String[] imagePaths = currentMediaPath.split("/");
 //                        settingSubmitAPI.data.query.profil_image_path = imagePaths[imagePaths.length - 1];
                         settingSubmitAPI.data.query.profile_image_file = new File(UtilityUriHelper.getPath(SettingProfileActivity.this, createdPhotoUri));
-                    } /*else {
-                        settingSubmitAPI.data.query.profil_image_path = "";
-                    }*/
+                        settingSubmitAPI.data.query.is_avatar_changed = "true";
+                    } else {
+                        settingSubmitAPI.data.query.is_avatar_changed = "false";
+                    }
 
                     SettingSubmitAPIFunc settingSubmitAPIFunc = new SettingSubmitAPIFunc(SettingProfileActivity.this, SettingProfileActivity.this);
                     settingSubmitAPIFunc.execute(settingSubmitAPI);
@@ -338,11 +339,13 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
             SettingSubmitAPI output = gson.fromJson(responseAPI.status_response, SettingSubmitAPI.class);
             if (output != null) {
                 if (output.data.status.code.equals("200")) {
-                    Intent intent = new Intent(this, MainActivity.class);
+                    /*Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra(IntentNames.SETTING_FINISHED, IntentNames.SETTING_FINISHED);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    finish();
+                    finish();*/
+                    setLoading(false, true);
+                    Toast.makeText(this, getString(R.string.settings_saved), Toast.LENGTH_SHORT).show();
                 } else {
                     setLoading(false, true);
                     Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
