@@ -278,7 +278,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 }
             });
 
-            if (TextUtils.isEmpty(summaryWrapperModel.voluptuary_habits))
+            if (!TextUtils.isEmpty(summaryWrapperModel.voluptuary_habits))
                 ((SummaryHabitVH) holder).habitsTxt.setText(summaryWrapperModel.voluptuary_habits);
             else
                 ((SummaryHabitVH) holder).habitsTxt.setText(context.getString(R.string.voluptuary_habits_not_found));

@@ -63,6 +63,10 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
 
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
+        if (position > 0){
+            sb.append("\n");
+        }
+
         if (mDataset.get(position) != null){
             // Append Date
             String dateString = context.getString(R.string.visit_date);
@@ -86,9 +90,9 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - doctorString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.append(" ");
             sb.append(mDataset.get(position).getDoctor_name());
-            sb.append("\n");
 
             if (mDataset.get(position).getImage_list().size() > 0) {
+                sb.append("\n");
                 summaryVisitVH.recyclerView.setVisibility(View.VISIBLE);
                 summaryVisitVH.recyclerView.setOnFlingListener(null);
                 SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
@@ -107,7 +111,6 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
                 sb.append(imageString);
                 sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 sb.append(" ");
-                sb.append("\n");
                 //sb.append(mDataset.get(position).getMedicine_dose());
             } else {
                 summaryVisitVH.recyclerView.setVisibility(View.GONE);
