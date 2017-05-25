@@ -13,7 +13,17 @@
         <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
         <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="android:datePickerDialogTheme">@style/AppTheme.DatePickerTheme</item>
         <item name="android:windowSharedElementEnterTransition">@transition/window_fade</item>
         <item name="android:windowSharedElementExitTransition">@transition/window_fade</item>
     </style>
+
+    <style name="AppTheme.DatePickerTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <!--<item name="android:datePickerStyle">@style/AppTheme.DatePickerStyle</item>-->
+    </style>
+    <!--<style name="AppTheme.DatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>-->
+
 </resources>

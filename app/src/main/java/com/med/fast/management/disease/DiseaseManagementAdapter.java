@@ -132,19 +132,6 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         mAwesomeValidation.setContext(context);
         mAwesomeValidation.addValidation(diseaseName, RegexTemplate.NOT_EMPTY, context.getString(R.string.full_accident_details_required));
 
-        // Setting Hereditary RB so when it is at "no", inheritance won't be added
-        hereditaryY.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                inheritedFrom.setEnabled(isChecked);
-                if (isChecked) {
-                    mAwesomeValidation.addValidation(inheritedFrom, RegexTemplate.NOT_EMPTY, context.getString(R.string.disease_hereditary_inherited_from_required));
-                } else {
-                    mAwesomeValidation.clear();
-                }
-            }
-        });
-
         final CustomFontRadioButton ongoingY = (CustomFontRadioButton) dialog.findViewById(R.id.disease_popup_currently_having_y_rb);
         final CustomFontTextView historicDate = (CustomFontTextView) dialog.findViewById(R.id.disease_popup_historic_date_tv);
         final Spinner approximateDateSpinner = (Spinner) dialog.findViewById(R.id.disease_popup_date_spinner);
@@ -216,14 +203,18 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAwesomeValidation.clear();
+                /*if (hereditaryY.isChecked() && TextUtils.isEmpty(inheritedFrom.getText().toString())){
+                    Toast.makeText(context, context.getString(R.string.disease_hereditary_inherited_from_required), Toast.LENGTH_SHORT).show();
+                } else {
+
+                }*/
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
                     String diseaseHereditaryString;
                     String diseaseHereditaryCarriersString;
                     if (hereditaryY.isChecked()) {
                         diseaseHereditaryString = "true";
-                        diseaseHereditaryCarriersString = inheritedFrom.getText().toString();
+                        diseaseHereditaryCarriersString = Utils.processStringForAPI(inheritedFrom.getText().toString());
                     } else {
                         diseaseHereditaryString = "false";
                         diseaseHereditaryCarriersString = APIConstants.DEFAULT;
