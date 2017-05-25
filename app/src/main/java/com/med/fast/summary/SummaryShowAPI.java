@@ -34,11 +34,11 @@ public class SummaryShowAPI {
             public String gender;
             public String profil_image_path;
             public String voluptuary_habits;
-            public RealmList<AllergyModel> allergies;
-            public RealmList<DiseaseModel> disease;
-            public RealmList<DiseaseModel> family_anamnesy;
-            public RealmList<MedicineModel> medicine;
-            public RealmList<VisitModel> visit;
+            public List<AllergyModel> allergies;
+            public List<DiseaseModel> disease;
+            public List<DiseaseModel> family_anamnesy;
+            public List<MedicineModel> medicine;
+            public List<VisitModel> visit;
         }
     }
 }

@@ -140,11 +140,11 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                     summaryWrapperModel.date_of_birth = output.data.results.date_of_birth;
                     summaryWrapperModel.gender = output.data.results.gender;
                     summaryWrapperModel.profil_image_path = output.data.results.profil_image_path;
-                    summaryWrapperModel.allergies = output.data.results.allergies;
-                    summaryWrapperModel.disease = output.data.results.disease;
-                    summaryWrapperModel.family_anamnesy = output.data.results.family_anamnesy;
-                    summaryWrapperModel.medicine = output.data.results.medicine;
-                    summaryWrapperModel.visit = output.data.results.visit;
+                    summaryWrapperModel.allergies.addAll(output.data.results.allergies);
+                    summaryWrapperModel.disease.addAll(output.data.results.disease);
+                    summaryWrapperModel.family_anamnesy.addAll(output.data.results.family_anamnesy);
+                    summaryWrapperModel.medicine.addAll(output.data.results.medicine);
+                    summaryWrapperModel.visit.addAll(output.data.results.visit);
                     summaryWrapperModel.voluptuary_habits = output.data.results.voluptuary_habits;
 
                     /*FastAppController.realm.beginTransaction();

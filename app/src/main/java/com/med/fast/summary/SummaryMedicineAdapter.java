@@ -51,8 +51,6 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
         SpannableStringBuilder sb = new SpannableStringBuilder();
 
         if (mDataset.get(position) != null) {
-            sb.append(context.getString(R.string.medicine_not_found));
-        } else {
             // Append Medicine
             String medicineString = context.getString(R.string.medicine_colon);
             sb.append(medicineString);
@@ -92,6 +90,8 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
             sb.append(" ");
             sb.append(mDataset.get(position).getFrequency());
             sb.append("\n");
+        } else {
+            sb.append(context.getString(R.string.medicine_not_found));
         }
 
         summaryTextOnlyVH.summaryText.setText(sb);
