@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.med.fast.FastAppController;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
@@ -28,10 +27,8 @@ import com.med.fast.management.misc.api.MiscCreateAPIFunc;
 import com.med.fast.management.misc.api.MiscShowAPI;
 import com.med.fast.management.misc.api.MiscShowAPIFunc;
 import com.med.fast.management.misc.miscinterface.MiscShowCreateIntf;
-import com.med.fast.summary.SummaryWrapperModel;
 
 import butterknife.BindView;
-import io.realm.Realm;
 
 /**
  * Created by Kevin Murvie on 4/29/2017. FM
@@ -82,7 +79,7 @@ public class MiscManagementFragment extends FastBaseFragment implements MiscShow
         ((MainActivity) getActivity()).changeTitle("MISC MANAGEMENT");
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
-        String gender = SharedPreferenceUtilities.getUserInformation(getActivity(), SharedPreferenceUtilities.USER_GENDER);
+        String gender = SharedPreferenceUtilities.getFromSessionSP(getActivity(), SharedPreferenceUtilities.USER_GENDER);
         if (gender != null) {
             if (gender.equals("0")) {
                 femaleWrapper.setVisibility(View.GONE);

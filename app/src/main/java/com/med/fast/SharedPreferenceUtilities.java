@@ -21,7 +21,12 @@ public class SharedPreferenceUtilities {
     public static final String USER_EMAIL = "USER_EMAIL";
     public static final String USER_EMAIL_IS_VERIFIED = "USER_EMAIL_IS_VERIFIED";
     public static final String USER_PASSWORD = "USER_PASSWORD";
-    
+
+    public static final String GUIDE_SP = "GUIDE_SP";
+    public static final String GUIDE_MAIN_SCREEN = "GUIDE_MAIN_SCREEN";
+    public static final String GUIDE_DRAWER = "GUIDE_DRAWER";
+
+
     private SharedPreferenceUtilities() {
         super();
     }
@@ -72,13 +77,18 @@ public class SharedPreferenceUtilities {
         editor.commit();
     }
 
-    public static String getUserInformation(Context context, String whatToGet) {
+    public static String getFromSessionSP(Context context, String whatToGet) {
         return getValue(context, SESSION_SP,
                 whatToGet);
     }
 
+    public static String getFromGuideSP(Context context, String whatToGet) {
+        return getValue(context, GUIDE_SP,
+                whatToGet);
+    }
+
     public static String getUserId(Context context){
-        return getUserInformation(context, USER_ID);
+        return getFromSessionSP(context, USER_ID);
     }
 
     public static void setUserInformation(Context context, String prefId, String whatToSave) {

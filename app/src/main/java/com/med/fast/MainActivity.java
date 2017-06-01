@@ -17,14 +17,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.login.LoginActivity;
 import com.med.fast.management.idcard.IDCardFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
+import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.summary.SummaryFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -52,6 +59,9 @@ public class MainActivity extends FastBaseActivity {
     @BindView(R.id.fmcontainer_fab)
     FloatingActionButton dashboardFab;
 
+    private ShowcaseView mainSV;
+    private int step = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +84,7 @@ public class MainActivity extends FastBaseActivity {
         dashboardFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentFragment() instanceof FastBaseFragment){
+                if (currentFragment() instanceof FastBaseFragment) {
                     ((FastBaseFragment) currentFragment()).addItem();
                 }
             }
@@ -85,16 +95,88 @@ public class MainActivity extends FastBaseActivity {
             public void onBackStackChanged() {
                 if (currentFragment() instanceof SummaryFragment ||
                         currentFragment() instanceof MiscManagementFragment ||
-                        currentFragment() instanceof IDCardFragment){
+                        currentFragment() instanceof IDCardFragment) {
                     dashboardFab.hide();
                 } else {
-                    if (!dashboardFab.isShown()){
+                    if (!dashboardFab.isShown()) {
                         dashboardFab.show();
                     }
                 }
                 drawerFragment.activateCurrentFragment();
             }
         });
+
+        String mainGuideSP = SharedPreferenceUtilities.getFromGuideSP(this, SharedPreferenceUtilities.GUIDE_MAIN_SCREEN);
+
+        if (mainGuideSP == null || mainGuideSP.equals("0")) {
+//            TextPaint content = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+//            content.setTextSize(getResources().getDimension(R.dimen.font_small));
+//            content.setColor(Color.WHITE);
+//            content.setTypeface(font);
+
+//            TextPaint title = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+//            title.setTextSize(getResources().getDimension(R.dimen.font_size_extra_large));
+//            title.setColor(Color.WHITE);
+//            title.setTypeface(font);
+
+            mainSV = new ShowcaseView.Builder(MainActivity.this)
+                    .withMaterialShowcase()
+//                    .setTarget(viewLoby)
+                    .setContentTitle(getString(R.string.showcase_main_title))
+//                    .setContentTextPaint(content)
+                    .setContentText(R.string.showcase_main_text)
+//                    .setContentTitlePaint(title)
+                    .setStyle(R.style.FMShowcaseTheme)
+                    .blockAllTouches()
+                    .setShowcaseEventListener(new OnShowcaseEventListener() {
+                        @Override
+                        public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                            SharedPreferenceUtilities.setUserInformation(MainActivity.this, SharedPreferenceUtilities.GUIDE_SP, SharedPreferenceUtilities.GUIDE_MAIN_SCREEN, "1");
+                        }
+
+                        @Override
+                        public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+
+                        }
+
+                        @Override
+                        public void onShowcaseViewShow(ShowcaseView showcaseView) {
+
+                        }
+
+                        @Override
+                        public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+
+                        }
+                    })
+                    .setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            switch (step) {
+                                case 0:
+                                    drawerToggle(true);
+                                    mainSV.setContentTitle(getString(R.string.showcase_drawer_title));
+                                    mainSV.setContentText(getString(R.string.showcase_drawer_text));
+                                    step++;
+                                    break;
+                                case 1:
+                                    VisitFragment visitFragment = new VisitFragment();
+                                    replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
+                                    ViewTarget fab = new ViewTarget(R.id.fmcontainer_fab, MainActivity.this);
+                                    mainSV.setShowcase(fab, true);
+                                    mainSV.setContentText(getString(R.string.showcase_create_text));
+                                    step++;
+                                    break;
+                                case 2:
+                                    mainSV.hide();
+                                    drawerToggle(false);
+                                    break;
+                            }
+                        }
+                    })
+                    .build();
+
+        }
 
         SummaryFragment summaryFragment = new SummaryFragment();
         replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
@@ -103,8 +185,8 @@ public class MainActivity extends FastBaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (intent.getStringExtra(IntentNames.SETTING_FINISHED) != null){
-            if (currentFragment() instanceof SummaryFragment){
+        if (intent.getStringExtra(IntentNames.SETTING_FINISHED) != null) {
+            if (currentFragment() instanceof SummaryFragment) {
                 ((SummaryFragment) currentFragment()).refreshView(true);
             }
         }
@@ -112,13 +194,13 @@ public class MainActivity extends FastBaseActivity {
 
     @Override
     public void scrollToTop() {
-        if (currentFragment() instanceof FastBaseFragment){
+        if (currentFragment() instanceof FastBaseFragment) {
             ((FastBaseFragment) currentFragment()).scrollToTop();
             appBarLayout.setExpanded(true, true);
         }
     }
 
-    public void expandAppBarLayout(boolean expand, boolean animation){
+    public void expandAppBarLayout(boolean expand, boolean animation) {
         appBarLayout.setExpanded(expand, animation);
     }
 
@@ -145,7 +227,7 @@ public class MainActivity extends FastBaseActivity {
         backstackPopper();
     }
 
-    public void replaceFragment(final Fragment fragment, final String tag, boolean addToBackstack){
+    public void replaceFragment(final Fragment fragment, final String tag, boolean addToBackstack) {
         Bundle args = new Bundle();
         /*ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);*/
         if (fragment.getArguments() == null) {
@@ -154,20 +236,30 @@ public class MainActivity extends FastBaseActivity {
         FragmentTransaction ft = fragmentManager.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.fmcontainer_frame, fragment, tag)
-                .addToBackStack(tag)
                 .setAllowOptimization(false);
-        if (addToBackstack){
+        if (addToBackstack) {
             ft.addToBackStack(tag);
         }
         ft.commit();
         fragmentManager.executePendingTransactions();
     }
 
-    public Fragment currentFragment(){
+
+    public void reinitializeMain() {
+        try {
+            getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        } catch (Exception ignored) {
+
+        }
+        SummaryFragment summaryFragment = new SummaryFragment();
+        replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
+    }
+
+    public Fragment currentFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.fmcontainer_frame);
     }
 
-    public void drawerToggle(){
+    public void drawerToggle() {
         if (dashboardDrawer.isDrawerOpen(GravityCompat.END)) {
             dashboardDrawer.closeDrawer(GravityCompat.END);
         } else {
@@ -175,7 +267,17 @@ public class MainActivity extends FastBaseActivity {
         }
     }
 
-    public void changeTitle(String title){
+    public void drawerToggle(boolean open) {
+        if (open) {
+            dashboardDrawer.openDrawer(GravityCompat.END);
+        } else {
+            if (dashboardDrawer.isDrawerOpen(GravityCompat.END)) {
+                dashboardDrawer.closeDrawer(GravityCompat.END);
+            }
+        }
+    }
+
+    public void changeTitle(String title) {
         toolbarTitle.setText(title);
     }
 
@@ -189,7 +291,7 @@ public class MainActivity extends FastBaseActivity {
         }
     }
 
-    public void displayLogoutDialog(){
+    public void displayLogoutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.logout_question))
                 .setCancelable(true)

@@ -8,12 +8,9 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.setting.SettingAPIIntf;
-import com.med.fast.setting.SettingSubmitAPIIntf;
-import com.med.fast.signup.RegisterSubmitAPIIntf;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -56,7 +53,7 @@ public class SettingSubmitAPIFunc extends AsyncTask<SettingSubmitAPI, Integer, R
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("first_name", params[0].data.query.first_name)

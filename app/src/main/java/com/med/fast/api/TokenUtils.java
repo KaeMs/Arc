@@ -35,8 +35,8 @@ public class TokenUtils {
 
         //Get Data From Current Time & Expired Time
         String currentDate = format.format(calendar.getTime());
-        String token = SharedPreferenceUtilities.getUserInformation(context, TOKEN);
-        String expiredDate = SharedPreferenceUtilities.getUserInformation(context, TOKEN_EXPIRY);
+        String token = SharedPreferenceUtilities.getFromSessionSP(context, TOKEN);
+        String expiredDate = SharedPreferenceUtilities.getFromSessionSP(context, TOKEN_EXPIRY);
 
         if (token == null || expiredDate == null) {
             return true;
@@ -73,8 +73,8 @@ public class TokenUtils {
                     .build();
 
             // Get data from sharepref
-            String username = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_FIRST_NAME);
-            String password = SharedPreferenceUtilities.getUserInformation(context, SharedPreferenceUtilities.USER_PASSWORD);
+            String username = SharedPreferenceUtilities.getFromSessionSP(context, SharedPreferenceUtilities.USER_FIRST_NAME);
+            String password = SharedPreferenceUtilities.getFromSessionSP(context, SharedPreferenceUtilities.USER_PASSWORD);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("username", username)

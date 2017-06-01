@@ -126,7 +126,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("email", params[0].data.query.email)

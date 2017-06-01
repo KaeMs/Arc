@@ -7,13 +7,10 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.labresult.api.LabResultManagementEditSubmitAPI;
-import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
 import com.med.fast.management.visit.visitinterface.VisitEditIntf;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -55,7 +52,7 @@ public class VisitManagementEditSubmitAPIFunc extends AsyncTask<VisitManagementE
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("user_id", params[0].data.query.user_id)

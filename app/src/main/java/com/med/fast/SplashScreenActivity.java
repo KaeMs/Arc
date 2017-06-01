@@ -80,10 +80,10 @@ public class SplashScreenActivity extends FastBaseActivity {
             }
         }, 2000);
 
-        userId = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_ID);
+        userId = SharedPreferenceUtilities.getFromSessionSP(this, SharedPreferenceUtilities.USER_ID);
 
         if (userId != null) {
-            String initialDataStep = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.INIT_DATA_STEP);
+            String initialDataStep = SharedPreferenceUtilities.getFromSessionSP(this, SharedPreferenceUtilities.INIT_DATA_STEP);
             if (initialDataStep != null) {
                 switch (initialDataStep) {
                     case "1": {

@@ -312,6 +312,13 @@
 
     <string name="view_image_transition">view_image_transition</string>
 
+    <!-- Showcase -->
+    <string name="showcase_main_title">Welcome to Fast Medical Record</string>
+    <string name="showcase_main_text">This is the summary, it contains the summary of your medical record</string>
+    <string name="showcase_drawer_title">Side Drawer</string>
+    <string name="showcase_drawer_text">You can check each medical record in the drawer menu</string>
+    <string name="showcase_create_text">You can create a medical record which corresponds to your current screen by using this button</string>
+
     <!-- API -->
     <!-- Reply -->
     <string name="no_data">No data</string>
@@ -359,6 +366,7 @@
     <string name="finish">Finish</string>
     <string name="upload">Upload</string>
     <string name="retry">Retry</string>
+    <string name="continueStr">Continue</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

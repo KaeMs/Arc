@@ -108,4 +108,24 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="FMShowcaseTheme" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">@color/blackOpa80</item>
+        <item name="sv_detailTextAppearance">@style/FMShowcaseTxtDetail</item>
+        <item name="sv_showcaseColor">@color/pink</item>
+        <item name="sv_buttonText">@string/continueStr</item>
+        <item name="sv_tintButtonColor">false</item>
+        <item name="sv_titleTextAppearance">@style/FMShowcaseTitleDetail</item>
+    </style>
+
+    <style name="FMShowcaseTxtDetail" parent="TextAppearance.ShowcaseView.Detail">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">@dimen/font_medium</item>
+    </style>
+
+    <style name="FMShowcaseTitleDetail" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:textSize">@dimen/font_large</item>
+
+    </style>
+
 </resources>

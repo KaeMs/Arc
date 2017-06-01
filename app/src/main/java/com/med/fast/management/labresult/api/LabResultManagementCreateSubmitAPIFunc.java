@@ -3,9 +3,7 @@ package com.med.fast.management.labresult.api;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 
-import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -14,7 +12,6 @@ import com.med.fast.management.labresult.labresultinterface.LabResultManagementC
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -69,7 +66,7 @@ public class LabResultManagementCreateSubmitAPIFunc extends AsyncTask<LabResultM
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("user_id", params[0].data.query.user_id)

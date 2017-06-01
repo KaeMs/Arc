@@ -7,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
 import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -54,7 +53,7 @@ public class DiseaseManagementListShowAPIFunc extends AsyncTask<DiseaseManagemen
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

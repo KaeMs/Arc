@@ -7,8 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
 import com.med.fast.management.medicine.api.MedicineManagementListShowAPI;
 import com.med.fast.management.medicine.medicineinterface.MedicineShowIntf;
 
@@ -54,7 +52,7 @@ public class MedicineInitListShowAPIFunc extends AsyncTask<MedicineManagementLis
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

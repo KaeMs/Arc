@@ -54,7 +54,7 @@ public class VisitManagementListShowAPIFunc extends AsyncTask<VisitManagementLis
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

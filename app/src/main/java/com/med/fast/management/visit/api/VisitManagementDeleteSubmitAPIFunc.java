@@ -7,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
 import com.med.fast.management.visit.visitinterface.VisitDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -54,7 +53,7 @@ public class VisitManagementDeleteSubmitAPIFunc extends AsyncTask<VisitManagemen
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

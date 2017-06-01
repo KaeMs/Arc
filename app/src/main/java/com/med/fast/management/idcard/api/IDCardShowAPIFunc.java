@@ -7,8 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPI;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateDeleteIntf;
 import com.med.fast.management.idcard.intf.IDCardShowSubmitIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -53,7 +51,7 @@ public class IDCardShowAPIFunc extends AsyncTask<IDCardShowAPI, Integer, Respons
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

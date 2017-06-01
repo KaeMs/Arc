@@ -61,7 +61,7 @@ public class MedicineManagementEditSubmitAPIFunc extends AsyncTask<MedicineManag
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("medicine_id", params[0].data.query.medicine_id)

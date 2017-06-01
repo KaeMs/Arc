@@ -8,7 +8,6 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
 import com.med.fast.setting.SettingAPIIntf;
-import com.med.fast.setting.SettingShowAPIIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +51,7 @@ public class SettingShowAPIFunc extends AsyncTask<SettingShowAPI, Integer, Respo
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

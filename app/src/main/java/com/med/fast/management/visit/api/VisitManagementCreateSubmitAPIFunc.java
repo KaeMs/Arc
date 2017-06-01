@@ -14,7 +14,6 @@ import com.med.fast.management.visit.visitinterface.VisitCreateIntf;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -70,7 +69,7 @@ public class VisitManagementCreateSubmitAPIFunc extends AsyncTask<VisitManagemen
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM)
                     .addFormDataPart("user_id", params[0].data.query.user_id)

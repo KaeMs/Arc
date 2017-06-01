@@ -1,6 +1,5 @@
 package com.med.fast.management.disease.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -57,7 +56,7 @@ public class DiseaseManagementDeleteSubmitAPIFunc extends AsyncTask<DiseaseManag
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("disease_id", params[0].data.query.disease_id)

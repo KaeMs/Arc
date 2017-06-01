@@ -76,4 +76,6 @@ dependencies {
     compile 'com.github.rubensousa:gravitysnaphelper:1.1'
     // Touch ImageView
     compile 'com.github.oxoooo:touch-image-view:1.0.1'
+    // Showcase View
+    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
 }

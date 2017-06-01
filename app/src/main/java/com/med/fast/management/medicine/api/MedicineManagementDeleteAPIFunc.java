@@ -1,6 +1,5 @@
 package com.med.fast.management.medicine.api;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -8,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.medicine.MedicineManagementShowIntf;
 import com.med.fast.management.medicine.medicineinterface.MedicineCreateDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -58,7 +56,7 @@ public class MedicineManagementDeleteAPIFunc extends AsyncTask<MedicineManagemen
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)

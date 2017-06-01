@@ -53,7 +53,7 @@ public class DiseaseManagementEditSubmitAPIFunc extends AsyncTask<DiseaseManagem
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(activity, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(activity, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("name", params[0].data.query.name)

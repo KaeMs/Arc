@@ -97,7 +97,7 @@ public class InitialDataMiscActivity extends FastBaseActivity implements MiscSho
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        String gender = SharedPreferenceUtilities.getUserInformation(this, SharedPreferenceUtilities.USER_GENDER);
+        String gender = SharedPreferenceUtilities.getFromSessionSP(this, SharedPreferenceUtilities.USER_GENDER);
         if (gender != null) {
             if (gender.equals("0")) {
                 femaleWrapper.setVisibility(View.GONE);

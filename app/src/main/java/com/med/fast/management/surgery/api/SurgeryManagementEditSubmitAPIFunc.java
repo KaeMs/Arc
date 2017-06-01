@@ -7,7 +7,6 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.api.DiseaseManagementEditSubmitAPI;
 import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementEditIntf;
 
 import java.util.concurrent.TimeUnit;
@@ -55,7 +54,7 @@ public class SurgeryManagementEditSubmitAPIFunc extends AsyncTask<SurgeryManagem
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("surgery_id", params[0].data.query.surgery_id)

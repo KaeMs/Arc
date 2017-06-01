@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
-import android.widget.ProgressBar;
 
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
@@ -72,7 +71,7 @@ public class AllergyManagementEditShowAPIFunc extends AsyncTask<AllergyManagemen
                     return responseAPI;
                 }
             }
-            String token = SharedPreferenceUtilities.getUserInformation(context, TokenUtils.TOKEN);
+            String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
                     .add("user_id", params[0].data.query.user_id)
