@@ -122,8 +122,4 @@ public class SharedPreferenceUtilities {
             removeValue(context, sharedPref, whatToRemove);
         }
     }
-
-    public static void removeSharedPreference(Context context, String whichSPToRemove) {
-        clearSharedPreference(context, whichSPToRemove);
-    }
 }

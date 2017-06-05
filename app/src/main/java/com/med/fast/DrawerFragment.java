@@ -65,7 +65,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof SummaryFragment)){
                     SummaryFragment summaryFragment = new SummaryFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(summaryFragment, Tag.SUMMARY_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -78,7 +78,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof IDCardFragment)){
                     IDCardFragment idCardFragment = new IDCardFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(idCardFragment, Tag.IDCARD_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(idCardFragment, Tag.IDCARD_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -91,7 +91,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof VisitFragment)){
                     VisitFragment visitFragment = new VisitFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(visitFragment, Tag.VISIT_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -104,7 +104,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof SurgeryManagementFragment)){
                     SurgeryManagementFragment surgeryManagementFragment = new SurgeryManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(surgeryManagementFragment, Tag.SURGERY_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(surgeryManagementFragment, Tag.SURGERY_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -117,7 +117,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof AllergyManagementFragment)){
                     AllergyManagementFragment allergyManagementFragment = new AllergyManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -130,7 +130,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof DiseaseManagementFragment)){
                     DiseaseManagementFragment diseaseManagementFragment = new DiseaseManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -143,7 +143,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof MedicineManagementFragment)){
                     MedicineManagementFragment medicineManagementFragment = new MedicineManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -156,7 +156,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof AccidentHistoryManagementFragment)){
                     AccidentHistoryManagementFragment accidentHistoryManagementFragment = new AccidentHistoryManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.ACCIDENT_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(accidentHistoryManagementFragment, Tag.ACCIDENT_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -169,7 +169,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof LabResultManagementFragment)){
                     LabResultManagementFragment labResultManagementFragment = new LabResultManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(labResultManagementFragment, Tag.LABRESULT_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(labResultManagementFragment, Tag.LABRESULT_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
@@ -182,7 +182,7 @@ public class DrawerFragment extends FastBaseFragment {
                 ((MainActivity)getActivity()).drawerToggle();
                 if (!(((MainActivity) getActivity()).currentFragment() instanceof MiscManagementFragment)){
                     MiscManagementFragment miscManagementFragment = new MiscManagementFragment();
-                    ((FastBaseActivity)getActivity()).replaceFragment(miscManagementFragment, Tag.MISC_FRAG, false);
+                    ((FastBaseActivity)getActivity()).replaceFragment(miscManagementFragment, Tag.MISC_FRAG, true);
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }

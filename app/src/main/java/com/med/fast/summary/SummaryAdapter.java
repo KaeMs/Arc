@@ -161,7 +161,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 @Override
                 public void onClick(View v) {
                     VisitFragment visitFragment = new VisitFragment();
-                    ((FastBaseActivity) context).replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
+                    ((FastBaseActivity) context).replaceFragment(visitFragment, Tag.VISIT_FRAG, true);
                 }
             });
         } else if (getItemViewType(position) == MEDICINE) {
@@ -189,7 +189,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 @Override
                 public void onClick(View v) {
                     MedicineManagementFragment medicineManagementFragment = new MedicineManagementFragment();
-                    ((FastBaseActivity) context).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, false);
+                    ((FastBaseActivity) context).replaceFragment(medicineManagementFragment, Tag.MEDICINE_FRAG, true);
                 }
             });
         } else if (getItemViewType(position) == ANAMNESY) {
@@ -237,7 +237,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 @Override
                 public void onClick(View v) {
                     DiseaseManagementFragment diseaseManagementFragment = new DiseaseManagementFragment();
-                    ((FastBaseActivity) context).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, false);
+                    ((FastBaseActivity) context).replaceFragment(diseaseManagementFragment, Tag.DISEASE_FRAG, true);
                 }
             });
         } else if (getItemViewType(position) == ALLERGY) {
@@ -247,7 +247,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
             } else {
                 summaryAllergyAdapter.addSingle(null);
             }
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true);
 
             ((SummaryRecyclerVH) holder).summaryTitle.setText(context.getString(R.string.drug_allergies));
             ((SummaryRecyclerVH) holder).summarySetting.setVisibility(View.GONE);
@@ -265,7 +265,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 @Override
                 public void onClick(View v) {
                     AllergyManagementFragment allergyManagementFragment = new AllergyManagementFragment();
-                    ((FastBaseActivity) context).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, false);
+                    ((FastBaseActivity) context).replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, true);
                 }
             });
         } else {
@@ -287,7 +287,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                 @Override
                 public void onClick(View v) {
                     MiscManagementFragment miscManagementFragment = new MiscManagementFragment();
-                    ((FastBaseActivity) context).replaceFragment(miscManagementFragment, Tag.MISC_FRAG, false);
+                    ((FastBaseActivity) context).replaceFragment(miscManagementFragment, Tag.MISC_FRAG, true);
                 }
             });
         }

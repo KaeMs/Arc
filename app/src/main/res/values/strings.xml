@@ -318,6 +318,9 @@
     <string name="showcase_drawer_title">Side Drawer</string>
     <string name="showcase_drawer_text">You can check each medical record in the drawer menu</string>
     <string name="showcase_create_text">You can create a medical record which corresponds to your current screen by using this button</string>
+    <string name="showcase_allergy_title">Allergy</string>
+    <string name="showcase_allergy_text">This is the Allergy record, it contains your allergy record</string>
+    <string name="showcase_allergy_create_text">You can create an allergy record using this button</string>
 
     <!-- API -->
     <!-- Reply -->

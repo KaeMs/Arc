@@ -4,16 +4,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,12 +26,13 @@ import android.widget.FrameLayout;
 
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.login.LoginActivity;
+import com.med.fast.management.allergy.AllergyManagementFragment;
 import com.med.fast.management.idcard.IDCardFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
-import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.summary.SummaryFragment;
 
 import java.util.List;
@@ -93,22 +97,14 @@ public class MainActivity extends FastBaseActivity {
         fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                if (currentFragment() instanceof SummaryFragment ||
-                        currentFragment() instanceof MiscManagementFragment ||
-                        currentFragment() instanceof IDCardFragment) {
-                    dashboardFab.hide();
-                } else {
-                    if (!dashboardFab.isShown()) {
-                        dashboardFab.show();
-                    }
-                }
-                drawerFragment.activateCurrentFragment();
+                checkCurrentFragment();
             }
         });
 
         String mainGuideSP = SharedPreferenceUtilities.getFromGuideSP(this, SharedPreferenceUtilities.GUIDE_MAIN_SCREEN);
 
         if (mainGuideSP == null || mainGuideSP.equals("0")) {
+            Target drawerTarget = new ViewTarget(R.id.dashboard_coordinator_layout, this);
 //            TextPaint content = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 //            content.setTextSize(getResources().getDimension(R.dimen.font_small));
 //            content.setColor(Color.WHITE);
@@ -121,7 +117,7 @@ public class MainActivity extends FastBaseActivity {
 
             mainSV = new ShowcaseView.Builder(MainActivity.this)
                     .withMaterialShowcase()
-//                    .setTarget(viewLoby)
+//                    .setTarget(drawerTarget)
                     .setContentTitle(getString(R.string.showcase_main_title))
 //                    .setContentTextPaint(content)
                     .setContentText(R.string.showcase_main_text)
@@ -157,19 +153,48 @@ public class MainActivity extends FastBaseActivity {
                                     drawerToggle(true);
                                     mainSV.setContentTitle(getString(R.string.showcase_drawer_title));
                                     mainSV.setContentText(getString(R.string.showcase_drawer_text));
-                                    step++;
+                                    mainSV.setShouldCentreText(true);
+
+                                    final List<Target> showcaseTargets = DrawerFragList.getFragTargetList(MainActivity.this);
+                                    for (int i = 0; i < showcaseTargets.size() ;i++) {
+                                        final int finalI = i;
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                mainSV.setShowcase(showcaseTargets.get(finalI), true);
+                                                if (finalI == showcaseTargets.size() - 1){
+                                                    mainSV.showButton();
+                                                } else {
+                                                    mainSV.hideButton();
+                                                }
+                                            }
+                                        }, 300 + (300 * i));
+                                    }
+
+                                    step = 1;
                                     break;
                                 case 1:
-                                    VisitFragment visitFragment = new VisitFragment();
-                                    replaceFragment(visitFragment, Tag.VISIT_FRAG, false);
-                                    ViewTarget fab = new ViewTarget(R.id.fmcontainer_fab, MainActivity.this);
-                                    mainSV.setShowcase(fab, true);
-                                    mainSV.setContentText(getString(R.string.showcase_create_text));
-                                    step++;
+                                    drawerToggle(false);
+                                    AllergyManagementFragment allergyManagementFragment = new AllergyManagementFragment();
+                                    replaceFragment(allergyManagementFragment, Tag.ALLERGY_FRAG, true);
+                                    Target target = new ViewTarget(R.id.toolbar_main_top_title, MainActivity.this);
+                                    mainSV.setShowcase(target, true);
+                                    mainSV.setContentTitle(getString(R.string.showcase_allergy_title));
+                                    mainSV.setContentText(getString(R.string.showcase_allergy_text));
+                                    step = 2;
                                     break;
                                 case 2:
+                                    ViewTarget fab = new ViewTarget(R.id.fmcontainer_fab, MainActivity.this);
+                                    mainSV.setShowcase(fab, true);
+                                    mainSV.setContentTitle(getString(R.string.showcase_allergy_title));
+                                    mainSV.setContentText(getString(R.string.showcase_allergy_create_text));
+                                    step = 3;
+                                    break;
+                                case 3:
                                     mainSV.hide();
                                     drawerToggle(false);
+//                                    reinitializeMain();
+                                    step = 4;
                                     break;
                             }
                         }
@@ -242,8 +267,24 @@ public class MainActivity extends FastBaseActivity {
         }
         ft.commit();
         fragmentManager.executePendingTransactions();
+
+        if (!addToBackstack){
+            checkCurrentFragment();
+        }
     }
 
+    private void checkCurrentFragment(){
+        if (currentFragment() instanceof SummaryFragment ||
+                currentFragment() instanceof MiscManagementFragment ||
+                currentFragment() instanceof IDCardFragment) {
+            dashboardFab.hide();
+        } else {
+            if (!dashboardFab.isShown()) {
+                dashboardFab.show();
+            }
+        }
+        drawerFragment.activateCurrentFragment();
+    }
 
     public void reinitializeMain() {
         try {
@@ -260,6 +301,7 @@ public class MainActivity extends FastBaseActivity {
     }
 
     public void drawerToggle() {
+        SharedPreferenceUtilities.clearSharedPreference(this, SharedPreferenceUtilities.GUIDE_SP);
         if (dashboardDrawer.isDrawerOpen(GravityCompat.END)) {
             dashboardDrawer.closeDrawer(GravityCompat.END);
         } else {

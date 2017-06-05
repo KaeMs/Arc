@@ -54,15 +54,23 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:progressDrawable">@drawable/progressbar_pink</item>
-        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">
+            @style/AppTheme.AlertDialogTheme.NegativeButtonStyle
+        </item>
+        <item name="buttonBarPositiveButtonStyle">
+            @style/AppTheme.AlertDialogTheme.PositiveButtonStyle
+        </item>
     </style>
 
     <style name="AppTheme.AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogTheme.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogTheme.PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">
+            @style/AppTheme.AlertDialogTheme.NegativeButtonStyle
+        </item>
+        <item name="buttonBarPositiveButtonStyle">
+            @style/AppTheme.AlertDialogTheme.PositiveButtonStyle
+        </item>
     </style>
 
     <style name="AppTheme.AlertDialogTheme.NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
@@ -79,7 +87,8 @@
 
     <!-- Initial Data Theme -->
     <style name="AppTheme.InitialData" parent="AppTheme">
-        <item name="android:windowAnimationStyle">@style/AppTheme.InitialData.ActivityTransition</item>
+        <item name="android:windowAnimationStyle">@style/AppTheme.InitialData.ActivityTransition
+        </item>
         <item name="android:editTextStyle">@style/AppTheme.InitialData.EditTextStyle</item>
     </style>
 
@@ -110,21 +119,21 @@
 
     <style name="FMShowcaseTheme" parent="ShowcaseView.Light">
         <item name="sv_backgroundColor">@color/blackOpa80</item>
-        <item name="sv_detailTextAppearance">@style/FMShowcaseTxtDetail</item>
         <item name="sv_showcaseColor">@color/pink</item>
         <item name="sv_buttonText">@string/continueStr</item>
         <item name="sv_tintButtonColor">false</item>
         <item name="sv_titleTextAppearance">@style/FMShowcaseTitleDetail</item>
+        <item name="sv_detailTextAppearance">@style/FMShowcaseTxtDetail</item>
     </style>
 
     <style name="FMShowcaseTxtDetail" parent="TextAppearance.ShowcaseView.Detail">
-        <item name="android:textColor">@color/blue</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_medium</item>
     </style>
 
     <style name="FMShowcaseTitleDetail" parent="TextAppearance.ShowcaseView.Title">
-        <item name="android:textColor">@color/blue</item>
-        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_xlarge</item>
 
     </style>
 
