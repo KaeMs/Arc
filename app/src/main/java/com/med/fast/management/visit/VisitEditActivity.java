@@ -246,7 +246,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
-                visitImageEditAdapter.updateImage(visitImageItem);
+                visitImageEditAdapter.updatemDataset(visitImageItem);
             }
         } else if (requestCode == RequestCodeList.GALLERY) {
             if (resultCode == RESULT_OK) {
@@ -256,7 +256,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 visitImageItem.setPath(currentMediaPath);
                 visitImageItem.setUri(mDestinationUri);
                 visitImageItem.setIs_deleted(false);
-                visitImageEditAdapter.updateImage(visitImageItem);
+                visitImageEditAdapter.updatemDataset(visitImageItem);
             }
         }
     }
