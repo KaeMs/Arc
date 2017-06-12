@@ -46,6 +46,7 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
     ProgressBar summaryProgress;
     private LinearLayoutManager linearLayoutManager;
     private SummaryAdapter summaryAdapter;
+    private boolean scrollRestored = false;
 
     private String userId;
 
@@ -131,9 +132,12 @@ public class SummaryFragment extends FastBaseFragment implements SummaryShowIntf
                 Gson gson = new Gson();
                 SummaryShowAPI output = gson.fromJson(responseAPI.status_response, SummaryShowAPI.class);
                 if (output.data.status.code.equals("200")) {
-                    Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
-                    if (savedRecyclerLayoutState != null) {
-                        linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+                    if (!scrollRestored){
+                        Parcelable savedRecyclerLayoutState = getArguments().getParcelable(Constants.MANAGER_STATE);
+                        if (savedRecyclerLayoutState != null) {
+                            linearLayoutManager.onRestoreInstanceState(savedRecyclerLayoutState);
+                            scrollRestored = true;
+                        }
                     }
                     final SummaryWrapperModel summaryWrapperModel = new SummaryWrapperModel();
                     summaryWrapperModel.name = output.data.results.name;
