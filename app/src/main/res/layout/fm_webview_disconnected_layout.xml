@@ -2,46 +2,45 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:layout_centerInParent="true">
 
     <ImageView
-        android:id="@+id/activity_disconnected_image"
+        android:id="@+id/webview_disconnected_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/wifi_icon" />
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_portable_wifi_off_black_48dp" />
 
-    <id.mallinternet.www.classes.OpenSansFont
-        android:id="@+id/activity_disconnected_title"
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/webview_disconnected_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_disconnected_image"
+        android:layout_below="@+id/webview_disconnected_icon"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/font_size_large"
-        android:text="@string/connectionProblem"
-        app:fontFace="Bold"/>
+        android:textSize="@dimen/font_large"
+        android:text="@string/error_webview_connection"
+        android:textStyle="bold"/>
 
-    <id.mallinternet.www.classes.OpenSansFont
-        android:id="@+id/activity_disconnected_caption"
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/webview_disconnected_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/font_size"
-        android:text="@string/checkDisconnectedMessage"
-        android:layout_below="@+id/activity_disconnected_title"
-        app:fontFace="Regular"/>
+        android:textSize="@dimen/font_medium"
+        android:text="@string/error_webview_try_again"
+        android:layout_below="@+id/webview_disconnected_title"/>
 
     <ImageButton
-        android:id="@+id/activity_disconnected_btnCobaLagi"
+        android:id="@+id/webview_disconnected_retry_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_disconnected_caption"
+        android:layout_below="@+id/webview_disconnected_message"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:textAllCaps="false"
-        android:background="@drawable/button_refresh"/>
+        android:contentDescription="@string/retry"
+        android:background="@drawable/ic_replay_black_48dp"/>
 
 </RelativeLayout>

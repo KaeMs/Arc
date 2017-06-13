@@ -316,6 +316,8 @@
     <!-- WebView -->
     <string name="chrome_browser">Chrome/30.0.0.0</string>
     <string name="error_webview_404">Page Not Found</string>
+    <string name="error_webview_connection">Connection error</string>
+    <string name="error_webview_try_again">Please try again</string>
 
     <!-- Showcase -->
     <string name="showcase_main_title">Welcome to Fast Medical Record</string>

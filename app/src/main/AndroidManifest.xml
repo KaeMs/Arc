@@ -172,6 +172,12 @@
         <activity android:name=".ViewImageActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FastWebViewActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

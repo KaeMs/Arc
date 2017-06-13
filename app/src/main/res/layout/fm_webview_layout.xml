@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--M Kailani Ridwan -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/activity_mobile_view_toolbar"
+        android:id="@+id/webview_toolbar"
         android:layout_height="@dimen/toolbarHeight"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
@@ -29,12 +28,12 @@
 
 
         </LinearLayout>-->
-        <id.mallinternet.www.classes.OpenSansFont
-            android:id="@+id/activity_mobile_view_toolbarTitle"
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/webview_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="@dimen/font_size_large"
+            android:textSize="@dimen/font_large"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/white"
@@ -45,15 +44,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/activity_mobile_view_toolbar">
+        android:layout_below="@id/webview_toolbar">
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/activity_mobile_view_refreshPage"
+            android:id="@+id/webview_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <WebView
-                android:id="@+id/activity_mobile_view_web"
+                android:id="@+id/webview_web"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
@@ -65,12 +64,12 @@
 
     <include
         layout="@layout/fm_webview_disconnected_layout"
-        android:id="@+id/activity_mobile_view_disconnected"
+        android:id="@+id/webview_disconnected_layout"
         android:visibility="gone"/>
 
     <!--Percent Progress Bar-->
     <RelativeLayout
-        android:id="@+id/activity_mobile_view_progressBarWrapper"
+        android:id="@+id/webview_progress_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -78,20 +77,19 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/activity_mobile_view_progressBar"
+            android:id="@+id/webview_progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminateDrawable="@drawable/progressbar_white"/>
 
-        <id.mallinternet.www.classes.OpenSansFont
-            android:id="@+id/activity_mobile_view_percentText"
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/webview_percentage_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/font_size_small"
-            app:fontFace="Regular"/>
+            android:textSize="@dimen/font_small"/>
 
     </RelativeLayout>
 

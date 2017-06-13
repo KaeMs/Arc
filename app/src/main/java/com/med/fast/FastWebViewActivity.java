@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,9 +30,6 @@ import com.med.fast.customviews.CustomFontTextView;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 
@@ -49,22 +45,22 @@ public class FastWebViewActivity extends FastBaseActivity {
     // Utilities
     String userId;
     //Deklarasi
-    @BindView(R.id.activity_mobile_view_web)
+    @BindView(R.id.webview_web)
     WebView webView;
-    @BindView(R.id.activity_mobile_view_toolbarTitle)
+    @BindView(R.id.webview_toolbar_title)
     CustomFontTextView titleToolbar;
-    @BindView(R.id.activity_mobile_view_percentText)
+    @BindView(R.id.webview_percentage_text)
     CustomFontTextView percentText;
-    @BindView(R.id.activity_mobile_view_progressBar)
+    @BindView(R.id.webview_progressbar)
     ProgressBar progressBar;
-    @BindView(R.id.activity_mobile_view_progressBarWrapper)
+    @BindView(R.id.webview_progress_wrapper)
     RelativeLayout progressBarWrapper;
-    @BindView(R.id.activity_mobile_view_refreshPage)
+    @BindView(R.id.webview_swipe_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
     //Deklarasi Disconnected Layout
-    @BindView(R.id.activity_mobile_view_disconnected)
+    @BindView(R.id.webview_disconnected_layout)
     RelativeLayout layoutDisconnected;
-    @BindView(R.id.activity_disconnected_btnCobaLagi)
+    @BindView(R.id.webview_disconnected_retry_btn)
     ImageButton btnCobaKembali;
     String url;
     Toast toast;
@@ -78,8 +74,7 @@ public class FastWebViewActivity extends FastBaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         //Declare Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_mobile_view_toolbar);
-        titleToolbar = (CustomFontTextView) findViewById(R.id.activity_mobile_view_toolbarTitle);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.webview_toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {

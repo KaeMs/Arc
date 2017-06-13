@@ -37,7 +37,9 @@ public class CustomFontTextView extends android.support.v7.widget.AppCompatTextV
 
         if (fontFace != null) {
             customFont = FontCache.getTypeface(fontFace, context);
-            setTypeface(customFont);
+            if (customFont != null){
+                setTypeface(customFont);
+            }
         }
     }
 }
