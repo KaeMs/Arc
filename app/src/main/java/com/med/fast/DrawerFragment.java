@@ -1,5 +1,6 @@
 package com.med.fast;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.med.fast.api.APIConstants;
 import com.med.fast.management.accidenthistory.AccidentHistoryManagementFragment;
 import com.med.fast.management.allergy.AllergyManagementFragment;
 import com.med.fast.management.disease.DiseaseManagementFragment;
@@ -46,6 +48,8 @@ public class DrawerFragment extends FastBaseFragment {
     LinearLayout labresultWrapper;
     @BindView(R.id.drawer_misc_wrapper)
     LinearLayout miscWrapper;
+    @BindView(R.id.drawer_help_wrapper)
+    LinearLayout helpWrapper;
     @BindView(R.id.drawer_logout_wrapper)
     LinearLayout logoutWrapper;
 
@@ -186,6 +190,15 @@ public class DrawerFragment extends FastBaseFragment {
                 } else {
                     ((MainActivity) getActivity()).scrollToTop();
                 }
+            }
+        });
+
+        helpWrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FastWebViewActivity.class);
+                intent.putExtra(IntentNames.WEBVIEW_URL, APIConstants.HELP_URL);
+                startActivity(intent);
             }
         });
 

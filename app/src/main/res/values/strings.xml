@@ -92,6 +92,7 @@
     <string name="accident_history_management">Accident History Management</string>
     <string name="lab_result_management">Lab Result Management</string>
     <string name="misc_management">Misc. Management</string>
+    <string name="help">Help</string>
     <string name="logout">Logout</string>
 
     <!-- Summary -->
@@ -311,6 +312,10 @@
     <string name="misc_settings_saved">Misc settings saved</string>
 
     <string name="view_image_transition">view_image_transition</string>
+
+    <!-- WebView -->
+    <string name="chrome_browser">Chrome/30.0.0.0</string>
+    <string name="error_webview_404">Page Not Found</string>
 
     <!-- Showcase -->
     <string name="showcase_main_title">Welcome to Fast Medical Record</string>

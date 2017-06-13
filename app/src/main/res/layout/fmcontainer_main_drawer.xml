@@ -286,12 +286,38 @@
 
             </LinearLayout>
 
+            <!-- Help -->
+            <LinearLayout
+                android:id="@+id/drawer_help_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_transparent_pink"
+                android:gravity="center"
+                android:paddingLeft="@dimen/drawer_horizontal_padding"
+                android:paddingRight="@dimen/drawer_horizontal_padding">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:contentDescription="@string/help"
+                    android:src="@drawable/ic_help_selector" />
+
+                <com.med.fast.customviews.CustomFontTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:text="@string/help"
+                    android:textColor="@color/textcolor_black_to_white" />
+
+            </LinearLayout>
+
             <!-- Logout -->
             <LinearLayout
                 android:id="@+id/drawer_logout_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btnLargeHeight"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -316,6 +342,5 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 </LinearLayout>

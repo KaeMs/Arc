@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/activity_disconnected_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wifi_icon" />
+
+    <id.mallinternet.www.classes.OpenSansFont
+        android:id="@+id/activity_disconnected_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_disconnected_image"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size_large"
+        android:text="@string/connectionProblem"
+        app:fontFace="Bold"/>
+
+    <id.mallinternet.www.classes.OpenSansFont
+        android:id="@+id/activity_disconnected_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/font_size"
+        android:text="@string/checkDisconnectedMessage"
+        android:layout_below="@+id/activity_disconnected_title"
+        app:fontFace="Regular"/>
+
+    <ImageButton
+        android:id="@+id/activity_disconnected_btnCobaLagi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_disconnected_caption"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:background="@drawable/button_refresh"/>
+
+</RelativeLayout>

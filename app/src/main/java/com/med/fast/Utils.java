@@ -1,5 +1,8 @@
 package com.med.fast;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.Html;
 
 import com.med.fast.api.APIConstants;
@@ -8,6 +11,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
@@ -57,5 +62,27 @@ public class Utils {
     public static String processBoolFromAPI(boolean apiString){
         // If not, return - or string if string is empty or not respectively
         return apiString ? "Yes" : "No";
+    }
+
+    public static String processWebViewURL(String url) {
+        String regex = "^(https?|ftp)://.*$";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher httpMatch = p.matcher(url);
+        if (!httpMatch.matches()) {
+            url = "https://" + url;
+        }
+        return url;
+    }
+
+    public static boolean checkConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (null != cm) {
+            NetworkInfo info = cm.getActiveNetworkInfo();
+
+            return (info != null && info.isConnected());
+        }
+        return false;
     }
 }

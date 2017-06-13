@@ -6,4 +6,5 @@ package com.med.fast;
 
 public class IntentNames {
     public static final String SETTING_FINISHED = "settingFinished";
+    public static final String WEBVIEW_URL = "webviewURL";
 }

@@ -18,4 +18,6 @@ public class Constants {
 
     public static final int scrollTopTime = 75;
     public static final String MANAGER_STATE = "manager_state";
+
+    public static final String WEB_ADDRESS_BLANK = "about:blank";
 }
