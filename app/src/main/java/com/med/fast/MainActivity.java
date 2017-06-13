@@ -301,7 +301,7 @@ public class MainActivity extends FastBaseActivity {
     }
 
     public void drawerToggle() {
-        SharedPreferenceUtilities.clearSharedPreference(this, SharedPreferenceUtilities.GUIDE_SP);
+//        SharedPreferenceUtilities.clearSharedPreference(this, SharedPreferenceUtilities.GUIDE_SP);
         if (dashboardDrawer.isDrawerOpen(GravityCompat.END)) {
             dashboardDrawer.closeDrawer(GravityCompat.END);
         } else {
