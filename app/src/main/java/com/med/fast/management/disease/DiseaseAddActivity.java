@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
@@ -23,6 +24,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customclasses.CustomFilterAutoCompleteTV;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
@@ -47,13 +49,13 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by GMG-Developer on 7/19/2017.
  */
 
-public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManagementCreateIntf, DiseaseSearchAdapter.Listener {
+public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManagementCreateIntf {
 
     private String userId;
 
     private DiseaseSearchAdapter diseaseSearchAdapter;
     @BindView(R.id.disease_popup_name)
-    AutoCompleteTextView diseaseName;
+    CustomFilterAutoCompleteTV diseaseName;
     @BindView(R.id.disease_popup_other)
     CustomFontEditText diseaseOtherName;
     @BindView(R.id.disease_popup_hereditary_y_rb)
@@ -82,9 +84,24 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item, this);
+        diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item);
         diseaseName.setThreshold(1);
         diseaseName.setAdapter(diseaseSearchAdapter);
+        diseaseName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    if (diseaseSearchAdapter.getItem(position).getName().toLowerCase().startsWith("other")){
+                        // TODO show and hide other
+                        diseaseOtherName.setVisibility(View.VISIBLE);
+                    } else {
+                        diseaseOtherName.setVisibility(View.GONE);
+                    }
+                } catch (Exception ignored){
+
+                }
+            }
+        });
         DiseaseCreateShowAPI diseaseCreateShowAPI = new DiseaseCreateShowAPI();
         diseaseCreateShowAPI.data.query.user_id = userId;
 
@@ -188,7 +205,7 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
                             approximateSpinnerAdapter.getItem(approximateDateSpinner.getSelectedItemPosition()) :
                             APIConstants.DEFAULT;
 
-                    DiseaseManagementModel diseaseManagementModel = new DiseaseManagementModel();
+                    diseaseManagementModel = new DiseaseManagementModel();
                     diseaseManagementModel.setName(diseaseNameString);
                     diseaseManagementModel.setIs_hereditary(diseaseHereditaryString);
                     diseaseManagementModel.setHereditary_carriers(diseaseHereditaryCarriersString);
@@ -264,16 +281,6 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onExampleModelClicked(DiseaseNameModel model) {
-        if (model.getName().toLowerCase().startsWith("other")){
-            // TODO show and hide other
-            diseaseOtherName.setVisibility(View.VISIBLE);
-        } else {
-            diseaseOtherName.setVisibility(View.GONE);
         }
     }
 }

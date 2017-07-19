@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
@@ -23,6 +24,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customclasses.CustomFilterAutoCompleteTV;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
@@ -47,10 +49,10 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by kevindreyar on 02-May-17. FM
  */
 
-public class DiseaseEditActivity extends FastBaseActivity implements DiseaseManagementEditIntf, DiseaseSearchAdapter.Listener {
+public class DiseaseEditActivity extends FastBaseActivity implements DiseaseManagementEditIntf {
     private DiseaseSearchAdapter diseaseSearchAdapter;
     @BindView(R.id.disease_popup_name)
-    AutoCompleteTextView diseaseName;
+    CustomFilterAutoCompleteTV diseaseName;
     @BindView(R.id.disease_popup_other)
     CustomFontEditText diseaseOtherName;
     @BindView(R.id.disease_popup_hereditary_y_rb)
@@ -85,9 +87,24 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
 
-        diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item, this);
+        diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item);
         diseaseName.setThreshold(1);
         diseaseName.setAdapter(diseaseSearchAdapter);
+        diseaseName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    if (diseaseSearchAdapter.getItem(position).getName().toLowerCase().startsWith("other")){
+                        // TODO show and hide other
+                        diseaseOtherName.setVisibility(View.VISIBLE);
+                    } else {
+                        diseaseOtherName.setVisibility(View.GONE);
+                    }
+                } catch (Exception ignored){
+
+                }
+            }
+        });
 
         try {
             Gson gson = new Gson();
@@ -236,13 +253,12 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 }
                 if (output.data.results.is_disease_custom){
                     diseaseOtherName.setVisibility(View.VISIBLE);
-                    diseaseName.setText(getText(R.string.other));
+                    diseaseName.setText(getText(R.string.other), false);
                     diseaseOtherName.setText(output.data.results.name);
                 } else {
                     diseaseName.setText(output.data.results.name);
                     diseaseOtherName.setVisibility(View.GONE);
                 }
-                diseaseName.setText(output.data.results.name);
                 hereditaryYes.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_hereditary));
                 ongoingY.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_ongoing));
                 historicDate.setText(output.data.results.historic_date);
@@ -288,16 +304,6 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onExampleModelClicked(DiseaseNameModel model) {
-        if (model.getName().toLowerCase().startsWith("other")){
-            // TODO show and hide other
-            diseaseOtherName.setVisibility(View.VISIBLE);
-        } else {
-            diseaseOtherName.setVisibility(View.GONE);
         }
     }
 }

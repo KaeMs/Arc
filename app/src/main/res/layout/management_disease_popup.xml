@@ -22,7 +22,7 @@
                 android:text="@string/disease_name"
                 android:textColor="@color/blackDark" />
 
-            <AutoCompleteTextView
+            <com.med.fast.customclasses.CustomFilterAutoCompleteTV
                 android:id="@+id/disease_popup_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -21,26 +21,20 @@ import java.util.List;
 
 public class DiseaseSearchAdapter extends ArrayAdapter<DiseaseNameModel> implements Filterable {
 
-    public interface Listener {
-        void onExampleModelClicked(DiseaseNameModel model);
-    }
-
-    private final Listener mListener;
     private Context context;
     private int resource;
     private List<DiseaseNameModel> mDataset;
     private List<DiseaseNameModel> filteredMDataset;
 
-    public DiseaseSearchAdapter(Context context, int resource, Listener listener) {
+    public DiseaseSearchAdapter(Context context, int resource) {
         super(context, resource);
         this.context = context;
         this.resource = resource;
         this.mDataset = new ArrayList<>();
         this.filteredMDataset = new ArrayList<>();
-        this.mListener = listener;
     }
 
-    public void changeItem(List<DiseaseNameModel> diseaseNameModels){
+    public void changeItem(List<DiseaseNameModel> diseaseNameModels) {
         this.mDataset.clear();
         notifyDataSetChanged();
         this.mDataset.addAll(diseaseNameModels);
@@ -65,17 +59,17 @@ public class DiseaseSearchAdapter extends ArrayAdapter<DiseaseNameModel> impleme
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 ArrayList<DiseaseNameModel> tempDiseaseNameModel = new ArrayList<DiseaseNameModel>();
-                if(constraint != null) {
+                if (constraint != null) {
                     int length = mDataset.size();
                     int i = 0;
-                    while(i<length){
+                    while (i < length) {
 
                         //do whatever you wanna do here
                         //adding result set output array
 
                         DiseaseNameModel item = mDataset.get(i);
 //                        tempDiseaseNameModel.add(item);
-                        if (item.getName().toLowerCase().contains(constraint.toString().toLowerCase()))  {
+                        if (item.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                             tempDiseaseNameModel.add(item);
                         }
                         i++;
@@ -90,11 +84,10 @@ public class DiseaseSearchAdapter extends ArrayAdapter<DiseaseNameModel> impleme
 
             @Override
             protected void publishResults(CharSequence contraint, FilterResults results) {
-                if(results != null && results.count > 0) {
+                if (results != null && results.count > 0) {
                     filteredMDataset = (List<DiseaseNameModel>) results.values;
                     notifyDataSetChanged();
-                }
-                else {
+                } else {
                     notifyDataSetInvalidated();
                 }
             }
@@ -106,21 +99,21 @@ public class DiseaseSearchAdapter extends ArrayAdapter<DiseaseNameModel> impleme
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         try {
-            if(convertView==null){
+            if (convertView == null) {
                 // inflate the layout
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(resource, parent, false);
             }
             final DiseaseNameModel objectItem = filteredMDataset.get(position);
             CustomFontTextView diseaseName = (CustomFontTextView) convertView.findViewById(R.id.disease_search_item_name);
             diseaseName.setText(objectItem.getName());
 
-            parent.setOnClickListener(new View.OnClickListener() {
+            /*parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mListener.onExampleModelClicked(objectItem);
                 }
-            });
+            });*/
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
