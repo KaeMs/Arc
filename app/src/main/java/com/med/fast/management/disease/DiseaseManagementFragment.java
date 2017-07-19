@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
+import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
@@ -214,7 +215,12 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_EDIT){
+        if (requestCode == RequestCodeList.DISEASE_CREATE){
+            if (resultCode == Activity.RESULT_OK){
+                refreshView(true);
+                scrollToTop();
+            }
+        } else if (requestCode == RequestCodeList.DISEASE_EDIT){
             if (resultCode == Activity.RESULT_OK){
                 Gson gson = new Gson();
                 DiseaseManagementModel model =
@@ -267,7 +273,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             } else if(responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity)getActivity()).forceLogout();
+                ((FastBaseActivity)getActivity()).forceLogout();
             } else {
                 diseaseManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

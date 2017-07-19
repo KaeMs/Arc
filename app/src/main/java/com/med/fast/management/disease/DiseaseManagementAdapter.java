@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -35,7 +33,6 @@ import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
-import com.med.fast.customevents.DeleteConfirmEvent;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
 import com.med.fast.customviews.CustomFontButton;
@@ -43,16 +40,14 @@ import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.DeleteConfirmIntf;
-import com.med.fast.management.allergy.AllergyEditActivity;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPI;
 import com.med.fast.management.disease.api.DiseaseManagementCreateSubmitAPIFunc;
 import com.med.fast.management.disease.api.DiseaseManagementDeleteSubmitAPI;
 import com.med.fast.management.disease.api.DiseaseManagementDeleteSubmitAPIFunc;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateDeleteIntf;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementDeleteIntf;
 import com.med.fast.viewholders.InfiScrollProgressVH;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,7 +65,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements DiseaseManagementCreateDeleteIntf, DeleteConfirmIntf {
+public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements DiseaseManagementDeleteIntf, DeleteConfirmIntf {
 
     private final int PROGRESS = 0;
     private final int DISEASE = 1;
@@ -120,7 +115,9 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     }
 
     public void submitItem() {
-        final Dialog dialog = new Dialog(context);
+        Intent intent = new Intent(context, DiseaseAddActivity.class);
+        startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.DISEASE_CREATE);
+        /*final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_disease_popup);
         dialog.setCanceledOnTouchOutside(false);
 
@@ -203,11 +200,11 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (hereditaryY.isChecked() && TextUtils.isEmpty(inheritedFrom.getText().toString())){
+                *//*if (hereditaryY.isChecked() && TextUtils.isEmpty(inheritedFrom.getText().toString())){
                     Toast.makeText(context, context.getString(R.string.disease_hereditary_inherited_from_required), Toast.LENGTH_SHORT).show();
                 } else {
 
-                }*/
+                }*//*
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
                     String diseaseHereditaryString;
@@ -262,11 +259,11 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
                 }
             }
         });
-        dialog.show();
+        dialog.show();*/
     }
 
     private void reSubmitItem(int position) {
-        DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
+        /*DiseaseManagementCreateSubmitAPI diseaseManagementCreateSubmitAPI = new DiseaseManagementCreateSubmitAPI();
         diseaseManagementCreateSubmitAPI.data.query.name = mDataset.get(position).getName();
         diseaseManagementCreateSubmitAPI.data.query.user_id = userId;
         diseaseManagementCreateSubmitAPI.data.query.is_hereditary = mDataset.get(position).getIs_hereditary();
@@ -277,7 +274,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
         DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(context, mDataset.get(position).getTag(), initial);
         diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseManagementAdapter.this);
-        diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
+        diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);*/
     }
 
     public void clearList() {
@@ -458,29 +455,6 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
     @Override
     public int getItemCount() {
         return mDataset.size();
-    }
-
-    @Override
-    public void onFinishDiseaseManagementCreate(ResponseAPI responseAPI, String tag) {
-        if (responseAPI.status_code == 200) {
-            Gson gson = new Gson();
-            DiseaseManagementCreateSubmitAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementCreateSubmitAPI.class);
-            if (output.data.status.code.equals("200")) {
-                updateItem(tag, output.data.results.new_disease_id, true);
-            } else {
-                updateItem(tag, APIConstants.NO_ID, false);
-                Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            }
-        } else if (responseAPI.status_code == 504) {
-            updateItem(tag, APIConstants.NO_ID, false);
-            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        } else if (responseAPI.status_code == 401 ||
-                responseAPI.status_code == 505) {
-            ((FastBaseActivity) context).forceLogout();
-        } else {
-            updateItem(tag, APIConstants.NO_ID, false);
-            Toast.makeText(context, context.getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

@@ -7,7 +7,8 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateDeleteIntf;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateIntf;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementDeleteIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +23,7 @@ import okhttp3.Response;
  */
 
 public class DiseaseManagementCreateSubmitAPIFunc extends AsyncTask<DiseaseManagementCreateSubmitAPI, Integer, ResponseAPI> {
-    private DiseaseManagementCreateDeleteIntf delegate;
+    private DiseaseManagementCreateIntf delegate;
     private Context context;
     private String tag;
     private boolean initial = false;
@@ -33,7 +34,7 @@ public class DiseaseManagementCreateSubmitAPIFunc extends AsyncTask<DiseaseManag
         this.initial = initial;
     }
 
-    public void setDelegate(DiseaseManagementCreateDeleteIntf delegate) {
+    public void setDelegate(DiseaseManagementCreateIntf delegate) {
         this.delegate = delegate;
     }
 

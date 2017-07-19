@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,9 +47,12 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by kevindreyar on 02-May-17. FM
  */
 
-public class DiseaseEditActivity extends FastBaseActivity implements DiseaseManagementEditIntf {
+public class DiseaseEditActivity extends FastBaseActivity implements DiseaseManagementEditIntf, DiseaseSearchAdapter.Listener {
+    private DiseaseSearchAdapter diseaseSearchAdapter;
     @BindView(R.id.disease_popup_name)
-    CustomFontEditText diseaseName;
+    AutoCompleteTextView diseaseName;
+    @BindView(R.id.disease_popup_other)
+    CustomFontEditText diseaseOtherName;
     @BindView(R.id.disease_popup_hereditary_y_rb)
     CustomFontRadioButton hereditaryYes;
     @BindView(R.id.disease_popup_hereditary_n_rb)
@@ -79,6 +84,10 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
 
         backBtn.setText(getString(R.string.cancel));
         createBtn.setText(getString(R.string.confirm));
+
+        diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item, this);
+        diseaseName.setThreshold(1);
+        diseaseName.setAdapter(diseaseSearchAdapter);
 
         try {
             Gson gson = new Gson();
@@ -159,6 +168,12 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (diseaseName.getText().toString().toLowerCase().equals("other")){
+                    if (TextUtils.isEmpty(diseaseOtherName.getText().toString())){
+                        Toast.makeText(DiseaseEditActivity.this, "Other disease name needs to be filled", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString = diseaseName.getText().toString();
@@ -216,6 +231,17 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             Gson gson = new Gson();
             DiseaseManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
+                if (output.data.results.disease_name_list.size() > 0){
+                    diseaseSearchAdapter.changeItem(output.data.results.disease_name_list);
+                }
+                if (output.data.results.is_disease_custom){
+                    diseaseOtherName.setVisibility(View.VISIBLE);
+                    diseaseName.setText(getText(R.string.other));
+                    diseaseOtherName.setText(output.data.results.name);
+                } else {
+                    diseaseName.setText(output.data.results.name);
+                    diseaseOtherName.setVisibility(View.GONE);
+                }
                 diseaseName.setText(output.data.results.name);
                 hereditaryYes.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_hereditary));
                 ongoingY.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_ongoing));
@@ -262,6 +288,16 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             forceLogout();
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onExampleModelClicked(DiseaseNameModel model) {
+        if (model.getName().toLowerCase().startsWith("other")){
+            // TODO show and hide other
+            diseaseOtherName.setVisibility(View.VISIBLE);
+        } else {
+            diseaseOtherName.setVisibility(View.GONE);
         }
     }
 }

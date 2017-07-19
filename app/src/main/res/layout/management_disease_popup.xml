@@ -22,7 +22,7 @@
                 android:text="@string/disease_name"
                 android:textColor="@color/blackDark" />
 
-            <com.med.fast.customviews.CustomFontEditText
+            <AutoCompleteTextView
                 android:id="@+id/disease_popup_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +30,16 @@
                 android:background="@drawable/border_edittext_grey_pink_selector"
                 android:hint="@string/disease_name_hint"
                 android:textSize="@dimen/font_small" />
+
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/disease_popup_other"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/font_small"
+                android:hint="@string/disease_name_other_hint"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:visibility="gone"/>
 
             <!-- Hereditary y/n -->
             <com.med.fast.customviews.CustomFontTextView

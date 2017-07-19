@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
 import com.med.fast.CreatedImageModel;
+import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.MediaUtils;
@@ -212,7 +213,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             } else if (responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity) getActivity()).forceLogout();
+                ((FastBaseActivity) getActivity()).forceLogout();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
@@ -248,7 +249,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             } else if (responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity) getActivity()).forceLogout();
+                ((FastBaseActivity) getActivity()).forceLogout();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }

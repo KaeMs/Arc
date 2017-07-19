@@ -190,4 +190,12 @@ public abstract class FastBaseFragment extends Fragment {
             return false;
         }
     }
+
+    public void forceLogout(){
+        if (getActivity() instanceof FastBaseActivity){
+            ((FastBaseActivity) getActivity()).forceLogout();
+        } else {
+
+        }
+    }
 }

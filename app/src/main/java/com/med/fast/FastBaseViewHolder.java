@@ -10,8 +10,8 @@ import butterknife.ButterKnife;
  */
 
 public abstract class FastBaseViewHolder extends RecyclerView.ViewHolder {
-    public FastBaseViewHolder(View itemView) {
-        super(itemView);
-        ButterKnife.bind(this, itemView);
+    public FastBaseViewHolder(View v) {
+        super(v);
+        ButterKnife.bind(this, v);
     }
 }

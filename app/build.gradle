@@ -35,6 +35,9 @@ android {
     repositories {
         maven { url "https://jitpack.io" }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -78,4 +81,6 @@ dependencies {
     compile 'com.github.oxoooo:touch-image-view:1.0.1'
     // Showcase View
     compile 'com.github.amlcurran.showcaseview:library:5.4.3'
+    // Sorted List adapter
+    compile 'com.github.wrdlbrnft:sorted-list-adapter:0.2.0.19'
 }

@@ -6,7 +6,7 @@ import com.med.fast.api.ResponseAPI;
  * Created by kevindreyar on 28-Apr-17. FM
  */
 
-public interface DiseaseManagementCreateDeleteIntf {
+public interface DiseaseManagementCreateIntf {
+    void onFinishDiseaseManagementCreateShow(ResponseAPI responseAPI);
     void onFinishDiseaseManagementCreate(ResponseAPI responseAPI, String tag);
-    void onFinishDiseaseManagementDelete(ResponseAPI responseAPI, String tag);
 }

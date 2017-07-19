@@ -56,6 +56,7 @@ public class APIConstants {
     public static final String DISEASE_INIT_SHOW = "/diseaseinit/initdiseaselistshow";
     public static final String DISEASE_INIT_CREATE_SUBMIT = "/diseaseinit/initdiseasecreatesubmit";
     public static final String DISEASE_SHOW = "/disease/diseaselistshow";
+    public static final String DISEASE_CREATE_SHOW = "/disease/diseasecreateshow";
     public static final String DISEASE_CREATE_SUBMIT = "/disease/diseasecreatesubmit";
     public static final String DISEASE_EDIT_SHOW = "/disease/diseaseeditshow";
     public static final String DISEASE_EDIT_SUBMIT = "/disease/diseaseeditsubmit";

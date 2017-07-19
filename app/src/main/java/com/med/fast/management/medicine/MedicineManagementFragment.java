@@ -25,6 +25,7 @@ import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
+import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
@@ -281,7 +282,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             } else if(responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((MainActivity)getActivity()).forceLogout();
+                ((FastBaseActivity)getActivity()).forceLogout();
             } else {
                 medicineManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

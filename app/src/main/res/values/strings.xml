@@ -161,6 +161,7 @@
     <!-- Disease -->
     <string name="disease_name">Disease name</string>
     <string name="disease_name_hint">Exact name of diseases</string>
+    <string name="disease_name_other_hint">Other disease name</string>
     <string name="disease_name_placeholder">Awesomeness</string>
     <string name="disease_hereditary">Hereditary</string>
     <string name="disease_hereditary_carriers">Hereditary Carriers</string>
@@ -377,6 +378,8 @@
     <string name="upload">Upload</string>
     <string name="retry">Retry</string>
     <string name="continueStr">Continue</string>
+    <string name="custom">Custom</string>
+    <string name="other">Other</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

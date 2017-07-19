@@ -5,10 +5,10 @@ import com.med.fast.management.disease.DiseaseNameModel;
 import java.util.List;
 
 /**
- * Created by website-development on 27-Apr-17. FM
+ * Created by Kevin Murvie on 7/19/2017. FMR
  */
 
-public class DiseaseManagementEditShowAPI {
+public class DiseaseCreateShowAPI {
     public Data data = new Data();
 
     public class Data
@@ -19,10 +19,7 @@ public class DiseaseManagementEditShowAPI {
 
         public class Query
         {
-            public String disease_id;
             public String user_id;
-            public String counter;
-            public String flag;
         }
 
         public class Status
@@ -35,17 +32,6 @@ public class DiseaseManagementEditShowAPI {
         {
             public String result_status;
             public String description;
-            public String user_id;
-            public String id;
-            public String name;
-            public String is_hereditary;
-            public String hereditary_carriers;
-            public String last_visit;
-            public String is_ongoing;
-            public String created_date;
-            public String historic_date;
-            public String approximate_date;
-            public boolean is_disease_custom;
             public List<DiseaseNameModel> disease_name_list;
         }
     }

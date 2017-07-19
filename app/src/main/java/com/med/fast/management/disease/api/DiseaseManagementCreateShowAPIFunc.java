@@ -1,13 +1,16 @@
 package com.med.fast.management.disease.api;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.api.TokenUtils;
-import com.med.fast.management.disease.diseaseinterface.DiseaseManagementDeleteIntf;
+import com.med.fast.management.disease.diseaseinterface.DiseaseManagementCreateIntf;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,25 +24,32 @@ import okhttp3.Response;
  * Created by kevindreyar on 28-Apr-17. FM
  */
 
-public class DiseaseManagementDeleteSubmitAPIFunc extends AsyncTask<DiseaseManagementDeleteSubmitAPI, Integer, ResponseAPI> {
-    private DiseaseManagementDeleteIntf delegate;
+public class DiseaseManagementCreateShowAPIFunc extends AsyncTask<DiseaseCreateShowAPI, Integer, ResponseAPI> {
+    private DiseaseManagementCreateIntf delegate;
     private Context context;
-    private String tag;
+    private ProgressDialog progressDialog;
 
-    public DiseaseManagementDeleteSubmitAPIFunc(Context context, String tag) {
+    public DiseaseManagementCreateShowAPIFunc(Context context, DiseaseManagementCreateIntf delegate) {
         this.context = context;
-        this.tag = tag;
-    }
-
-    public void setDelegate(DiseaseManagementDeleteIntf delegate) {
         this.delegate = delegate;
     }
 
     @Override
-    protected ResponseAPI doInBackground(DiseaseManagementDeleteSubmitAPI... params) {
+    protected void onPreExecute() {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Loading..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    @Override
+    protected ResponseAPI doInBackground(DiseaseCreateShowAPI... params) {
         ResponseAPI responseAPI = new ResponseAPI();
         try {
-            String url = APIConstants.API_URL + APIConstants.DISEASE_DELETE_SUBMIT;
+            String url = APIConstants.API_URL + APIConstants.DISEASE_CREATE_SHOW;
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(APIConstants.connectTimeout, TimeUnit.SECONDS)
@@ -59,7 +69,6 @@ public class DiseaseManagementDeleteSubmitAPIFunc extends AsyncTask<DiseaseManag
             String token = SharedPreferenceUtilities.getFromSessionSP(context, TokenUtils.TOKEN);
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("disease_id", params[0].data.query.disease_id)
                     .add("user_id", params[0].data.query.user_id)
                     .build();
 
@@ -91,6 +100,7 @@ public class DiseaseManagementDeleteSubmitAPIFunc extends AsyncTask<DiseaseManag
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
-        delegate.onFinishDiseaseManagementDelete(responseAPI, tag);
+        delegate.onFinishDiseaseManagementCreateShow(responseAPI);
+        progressDialog.dismiss();
     }
 }
