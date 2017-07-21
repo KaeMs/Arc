@@ -185,9 +185,13 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
             public void onClick(View v) {
                 if (diseaseOtherCheckbox.isChecked()){
                     if (TextUtils.isEmpty(diseaseOtherName.getText().toString())){
-                        Toast.makeText(DiseaseEditActivity.this, "Other disease name needs to be filled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DiseaseEditActivity.this, getString(R.string.disease_name_other_needed), Toast.LENGTH_SHORT).show();
                         return;
                     }
+                }
+                if (!diseaseName.isSelectionFromPopUp()){
+                    Toast.makeText(DiseaseEditActivity.this, getString(R.string.disease_name_not_from_popup), Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {

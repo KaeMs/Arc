@@ -164,6 +164,8 @@
     <string name="disease_name_hint">Exact name of diseases</string>
     <string name="disease_name_not_listed">My disease is not listed</string>
     <string name="disease_name_other_hint">Other disease name</string>
+    <string name="disease_name_other_needed">Other disease name needs to be filled</string>
+    <string name="disease_name_not_from_popup">Please pick a disease from the popup</string>
     <string name="disease_name_placeholder">Awesomeness</string>
     <string name="disease_hereditary">Hereditary</string>
     <string name="disease_hereditary_carriers">Hereditary Carriers</string>
