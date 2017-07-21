@@ -51,7 +51,7 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAwesomeValidation = new AwesomeValidation(COLORATION);
-        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
+        mAwesomeValidation.addValidation(email, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_incorrect_format));
         mAwesomeValidation.addValidation(password, Constants.REGEX_PASSWORD, getString(R.string.password_wrong_format));
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

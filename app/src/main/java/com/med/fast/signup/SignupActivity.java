@@ -136,8 +136,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         firstNameET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         lastNameET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         mAwesomeValidation.addValidation(firstNameET, Constants.REGEX_NAME, getString(R.string.first_name_wrong_format));
-        mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, getString(R.string.last_name_wrong_format));
-        mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_wrong_format));
+        mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, getString(R.string.last_name_incorrect_format));
+        mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_incorrect_format));
         mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, Constants.REGEX_PASSWORD, R.string.password_wrong_format);
         mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.password_wrong_confirmation);
 

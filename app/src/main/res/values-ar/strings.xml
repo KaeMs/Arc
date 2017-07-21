@@ -1,51 +1,51 @@
 <resources>
     <string name="app_name">FMR</string>
-    <string name="title">Title</string>
+    <string name="title">عنوان</string>
     <!-- Splash Screen -->
     <string name="splash_image">Splash Image</string>
 
     <!--Setting-->
-    <string name="setting_edit_account">EDIT YOUR ACCOUNT</string>
-    <string name="setting_profile_picture">Profile Picture</string>
-    <string name="setting_name">Name</string>
-    <string name="setting_dob">Date of Birth</string>
-    <string name="setting_gender">Gender</string>
-    <string name="setting_forgot_password">Forgot Password?</string>
-    <string name="settings_saved">Settings saved</string>
+    <string name="setting_edit_account">إديت يور أكونت</string>
+    <string name="setting_profile_picture">الصوره الشخصيه</string>
+    <string name="setting_name">اسم</string>
+    <string name="setting_dob">تاريخ الولادة</string>
+    <string name="setting_gender">جنس</string>
+    <string name="setting_forgot_password">هل نسيت كلمة المرور؟</string>
+    <string name="settings_saved">تم حفظ الإعدادات</string>
 
     <!-- Login Screen -->
-    <string name="user_name">Username</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
-    <string name="sign_in">Sign In</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="forgot_password_question">Forgot Password?</string>
-    <string name="wrong_email_or_password">Email or Password is not found or mismatched</string>
-    <string name="registration_success_message">Registration Succeeded. To continue, please click on the link sent to </string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمه السر</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="sign_up">سجل</string>
+    <string name="forgot_password_question">هل نسيت كلمة المرور؟</string>
+    <string name="wrong_email_or_password">البريد الإلكتروني أو كلمة المرور غير موجودة أو غير متطابقة</string>
+    <string name="registration_success_message">نجح التسجيل. للمتابعة، يرجى النقر على الرابط المرسلة إلى </string>
 
     <!-- Forgot Password -->
-    <string name="find_your_email">Find Your Email</string>
-    <string name="search">Search</string>
+    <string name="find_your_email">العثور على البريد الإلكتروني الخاص بك</string>
+    <string name="search">بحث</string>
 
     <!-- Signup -->
-    <string name="signup_title">CREATE YOUR ACCOUNT</string>
-    <string name="name">Name</string>
-    <string name="first_name">First Name</string>
-    <string name="first_name_wrong_format">Wrong first name format</string>
-    <string name="last_name">Last Name</string>
-    <string name="last_name_incorrect_format">Incorrect last name format</string>
-    <string name="email_address">Email Address</string>
-    <string name="email_address_incorrect_format">Incorrect email format</string>
-    <string name="date_of_birth">Date of Birth</string>
-    <string name="date_of_birth_required">Date of Birth is required</string>
-    <string name="gender">Gender</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="register_your_account">Register your account</string>
-    <string name="password_wrong_format">Wrong password format, min 6 letters, max 50 letters</string>
-    <string name="password_wrong_confirmation">Password does not match</string>
+    <string name="signup_title">أنشئ حسابك</string>
+    <string name="name">اسم</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="first_name_wrong_format">تنسيق الاسم الأول غير صحيح</string>
+    <string name="last_name">اسم العائلة</string>
+    <string name="last_name_incorrect_format">تنسيق اسم آخر خاطئ</string>
+    <string name="email_address">عنوان البريد الإلكتروني</string>
+    <string name="email_address_incorrect_format">تنسيق بريد إلكتروني غير صحيح</string>
+    <string name="date_of_birth">تاريخ الولادة</string>
+    <string name="date_of_birth_required">تاريخ الميلاد مطلوب</string>
+    <string name="gender">جنس</string>
+    <string name="male">الذكر</string>
+    <string name="female">إناثا</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="register_your_account">تسجيل حسابك</string>
+    <string name="password_wrong_format">تنسيق كلمة مرور خاطئة، بحد أدنى 6 أحرف، بحد أقصى 50 حرفا</string>
+    <string name="password_wrong_confirmation">كلمة السر غير متطابقة</string>
 
     <!-- Initial Data -->
     <string name="step_1_allergy">STEP 1 - ALLERGY</string>
