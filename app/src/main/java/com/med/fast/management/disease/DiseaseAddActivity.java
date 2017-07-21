@@ -176,7 +176,7 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (diseaseName.getText().toString().toLowerCase().equals("other")){
+                if (diseaseOtherCheckbox.isChecked()){
                     if (TextUtils.isEmpty(diseaseOtherName.getText().toString())){
                         Toast.makeText(DiseaseAddActivity.this, "Other disease name needs to be filled", Toast.LENGTH_SHORT).show();
                         return;
@@ -184,7 +184,7 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
                 }
                 if (mAwesomeValidation.validate()) {
                     String diseaseNameString;
-                    if (diseaseName.getText().toString().toLowerCase().equals("other")){
+                    if (diseaseOtherCheckbox.isChecked()){
                         diseaseNameString = diseaseOtherName.getText().toString();
                     } else {
                         diseaseNameString = diseaseName.getText().toString();
