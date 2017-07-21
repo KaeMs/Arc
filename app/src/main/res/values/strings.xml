@@ -21,6 +21,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
+    <string name="wrong_email_or_password">Email or Password is not found or mismatched</string>
     <string name="registration_success_message">Registration Succeeded. To continue, please click on the link sent to </string>
 
     <!-- Forgot Password -->
@@ -161,6 +162,7 @@
     <!-- Disease -->
     <string name="disease_name">Disease name</string>
     <string name="disease_name_hint">Exact name of diseases</string>
+    <string name="disease_name_not_listed">My disease is not listed</string>
     <string name="disease_name_other_hint">Other disease name</string>
     <string name="disease_name_placeholder">Awesomeness</string>
     <string name="disease_hereditary">Hereditary</string>

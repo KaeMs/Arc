@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customclasses.CustomFilterAutoCompleteTV;
 import com.med.fast.customviews.CustomFontButton;
+import com.med.fast.customviews.CustomFontCheckBox;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
@@ -53,6 +55,8 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
     private DiseaseSearchAdapter diseaseSearchAdapter;
     @BindView(R.id.disease_popup_name)
     CustomFilterAutoCompleteTV diseaseName;
+    @BindView(R.id.disease_other_checkbox)
+    CustomFontCheckBox diseaseOtherCheckbox;
     @BindView(R.id.disease_popup_other)
     CustomFontEditText diseaseOtherName;
     @BindView(R.id.disease_popup_hereditary_y_rb)
@@ -90,22 +94,16 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
         diseaseSearchAdapter = new DiseaseSearchAdapter(this, R.layout.management_disease_search_item);
         diseaseName.setThreshold(1);
         diseaseName.setAdapter(diseaseSearchAdapter);
-        diseaseName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        diseaseOtherCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    if (diseaseSearchAdapter.getItem(position).getName().toLowerCase().startsWith("other")){
-                        // TODO show and hide other
-                        diseaseOtherName.setVisibility(View.VISIBLE);
-                    } else {
-                        diseaseOtherName.setVisibility(View.GONE);
-                    }
-                } catch (Exception ignored){
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    diseaseOtherName.setVisibility(View.VISIBLE);
+                } else {
+                    diseaseOtherName.setVisibility(View.GONE);
                 }
             }
         });
-
         try {
             Gson gson = new Gson();
             diseaseManagementModel = gson.fromJson(getIntent().getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA),
@@ -193,7 +191,12 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 }
                 mAwesomeValidation.clear();
                 if (mAwesomeValidation.validate()) {
-                    String diseaseNameString = diseaseName.getText().toString();
+                    String diseaseNameString;
+                    if (diseaseName.getText().toString().toLowerCase().equals("other")){
+                        diseaseNameString = diseaseOtherName.getText().toString();
+                    } else {
+                        diseaseNameString = diseaseName.getText().toString();
+                    }
                     String hereditaryType = String.valueOf(hereditaryYes.isChecked());
                     String isOngoingStr = String.valueOf(ongoingY.isChecked());
                     String inheritedFromString = Utils.processStringForAPI(inheritedFrom.getText().toString());
@@ -254,9 +257,12 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 if (output.data.results.is_disease_custom){
                     diseaseOtherName.setVisibility(View.VISIBLE);
                     diseaseName.setText(getText(R.string.other), false);
+                    diseaseOtherCheckbox.setChecked(true);
                     diseaseOtherName.setText(output.data.results.name);
                 } else {
                     diseaseName.setText(output.data.results.name);
+                    diseaseOtherCheckbox.setChecked(false);
+                    diseaseOtherName.setText("");
                     diseaseOtherName.setVisibility(View.GONE);
                 }
                 hereditaryYes.setChecked(Utils.processBoolStringFromAPI(output.data.results.is_hereditary));

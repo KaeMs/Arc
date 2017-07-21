@@ -112,7 +112,6 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
     }
 
     void normalLogin(){
-        mAwesomeValidation.clear();
         if (mAwesomeValidation.validate()){
             LoginAPI loginAPI = new LoginAPI();
             loginAPI.data.query.email = email.getText().toString();
@@ -177,6 +176,8 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
             } else {
                 Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
             }
+        } else if(responseAPI.status_code == 400) {
+            Toast.makeText(this, getString(R.string.wrong_email_or_password), Toast.LENGTH_SHORT).show();
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if(responseAPI.status_code == 401 ||

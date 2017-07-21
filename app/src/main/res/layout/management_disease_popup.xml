@@ -31,6 +31,13 @@
                 android:hint="@string/disease_name_hint"
                 android:textSize="@dimen/font_small" />
 
+            <com.med.fast.customviews.CustomFontCheckBox
+                android:id="@+id/disease_other_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blackDark"
+                android:text="@string/disease_name_not_listed"/>
+
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/disease_popup_other"
                 android:layout_width="match_parent"

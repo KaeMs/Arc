@@ -10,6 +10,7 @@
         <item name="android:tabWidgetStyle">@android:style/Widget.TabWidget</item>
         <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
         <item name="android:radioButtonStyle">@style/AppTheme.RadioButtonStyle</item>
+        <item name="android:checkboxStyle">@style/AppTheme.CheckBoxStyle</item>
         <item name="android:buttonStyle">@style/AppTheme.ButtonStyle</item>
         <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
         <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
@@ -38,6 +39,16 @@
     </style>
 
     <style name="AppTheme.RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">@color/pink</item>
+        <item name="colorControlHighlight">@color/pink</item>
+        <item name="android:colorPressedHighlight">@color/pink</item>
+        <item name="colorPrimaryDark">@color/pink</item>
+        <item name="colorPrimary">@color/pink</item>
+        <item name="colorControlActivated">@color/pink</item>
+        <item name="buttonTint">@color/pink</item>
+    </style>
+
+    <style name="AppTheme.CheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="colorAccent">@color/pink</item>
         <item name="colorControlHighlight">@color/pink</item>
         <item name="android:colorPressedHighlight">@color/pink</item>
