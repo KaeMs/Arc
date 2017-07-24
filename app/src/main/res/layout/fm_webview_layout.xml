@@ -1,96 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.med.fast.customclasses.EfficientCoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/webview_toolbar"
-        android:layout_height="@dimen/toolbarHeight"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:contentInsetStart="5dp"
-        app:contentInsetEnd="5dp">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.med.fast.customclasses.AppbarFlingBehavior">
 
-        <!--<LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/activity_mobile_view_toolbarClose"
-                android:layout_width="@dimen/toolbar_height"
-                android:layout_height="@dimen/toolbar_height"
-                android:scaleType="centerInside"
-                android:src="@drawable/back"
-                android:contentDescription="@string/back"/>
-
-
-        </LinearLayout>-->
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/webview_toolbar_title"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="@dimen/font_large"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="@color/white"
-            app:fontFace="Regular"/>
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
-    </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/webview_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbarHeight"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                app:contentInsetEnd="5dp"
+                app:contentInsetStart="5dp">
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/activity_mobile_view_toolbarClose"
+                        android:layout_width="@dimen/toolbar_height"
+                        android:layout_height="@dimen/toolbar_height"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/back"
+                        android:contentDescription="@string/back"/>
+
+
+                </LinearLayout>-->
+                <com.med.fast.customviews.CustomFontTextView
+                    android:id="@+id/webview_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_large" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/webview_toolbar">
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/webview_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <WebView
-                android:id="@+id/webview_web"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-            </WebView>
+                android:layout_height="match_parent">
+
+                <WebView
+                    android:id="@+id/webview_web"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+            </android.support.v4.widget.NestedScrollView>
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </RelativeLayout>
+        <include
+            android:id="@+id/webview_disconnected_layout"
+            layout="@layout/fm_webview_disconnected_layout"
+            android:visibility="gone" />
 
-    <include
-        layout="@layout/fm_webview_disconnected_layout"
-        android:id="@+id/webview_disconnected_layout"
-        android:visibility="gone"/>
-
-    <!--Percent Progress Bar-->
-    <RelativeLayout
-        android:id="@+id/webview_progress_wrapper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@drawable/background_black_opa80_radius4"
-        android:visibility="gone">
-
-        <ProgressBar
-            android:id="@+id/webview_progressbar"
+        <!--Percent Progress Bar-->
+        <RelativeLayout
+            android:id="@+id/webview_progress_wrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateDrawable="@drawable/progressbar_white"/>
+            android:layout_centerInParent="true"
+            android:background="@drawable/background_black_opa80_radius4"
+            android:visibility="gone">
 
-        <com.med.fast.customviews.CustomFontTextView
-            android:id="@+id/webview_percentage_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/font_small"/>
+            <ProgressBar
+                android:id="@+id/webview_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/progressbar_white" />
+
+            <com.med.fast.customviews.CustomFontTextView
+                android:id="@+id/webview_percentage_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_small" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-</RelativeLayout>
+</com.med.fast.customclasses.EfficientCoordinatorLayout>

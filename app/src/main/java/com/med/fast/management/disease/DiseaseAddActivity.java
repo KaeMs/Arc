@@ -96,9 +96,11 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     diseaseOtherName.setVisibility(View.VISIBLE);
+                    diseaseName.clearFocus();
                 } else {
                     diseaseOtherName.setVisibility(View.GONE);
                 }
+                diseaseName.setEnabled(!isChecked);
             }
         });
         DiseaseCreateShowAPI diseaseCreateShowAPI = new DiseaseCreateShowAPI();

@@ -35,18 +35,18 @@
                 android:id="@+id/disease_other_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/blackDark"
-                android:text="@string/disease_name_not_listed"/>
+                android:text="@string/disease_name_not_listed"
+                android:textColor="@color/blackDark" />
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/disease_popup_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textSize="@dimen/font_small"
-                android:hint="@string/disease_name_other_hint"
                 android:background="@drawable/border_edittext_grey_pink_selector"
-                android:visibility="gone"/>
+                android:hint="@string/disease_name_other_hint"
+                android:textSize="@dimen/font_small"
+                android:visibility="gone" />
 
             <!-- Hereditary y/n -->
             <com.med.fast.customviews.CustomFontTextView

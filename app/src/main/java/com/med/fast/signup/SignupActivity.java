@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -103,6 +104,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         };
         legalSb.setSpan(termsCSpan, legalSb.length() - termsTxt.length(), legalSb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         legalTerms.setText(legalSb);
+        legalTerms.setMovementMethod(LinkMovementMethod.getInstance());
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -10);

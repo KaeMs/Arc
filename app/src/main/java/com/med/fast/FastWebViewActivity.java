@@ -93,6 +93,7 @@ public class FastWebViewActivity extends FastBaseActivity {
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
 
         webView.getSettings().setUserAgentString(getString(R.string.chrome_browser));
 
@@ -177,6 +178,8 @@ public class FastWebViewActivity extends FastBaseActivity {
                     super.onReceivedHttpError(view, request, errorResponse);
                 }
             });
+
+//            boolean showToolbar = getIntent().getBooleanExtra(IntentNames.)
         }
 
         //Set Progress Bar Load URL

@@ -102,6 +102,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 } else {
                     diseaseOtherName.setVisibility(View.GONE);
                 }
+                diseaseName.setEnabled(!isChecked);
             }
         });
         try {

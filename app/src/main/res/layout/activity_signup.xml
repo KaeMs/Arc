@@ -130,7 +130,7 @@
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword" />
 
-            <com.med.fast.customviews.CustomFontCheckBox
+            <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/signup_legal_terms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
