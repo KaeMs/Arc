@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -14,10 +16,15 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.FastWebViewActivity;
+import com.med.fast.FontUtils;
+import com.med.fast.IntentNames;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
+import com.med.fast.customclasses.NoUnderlineClickableSpan;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
@@ -69,6 +76,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
     @BindView(R.id.signup_confirmPassET)
     CustomFontEditText confirmPassET;
     // Confirm
+    @BindView(R.id.signup_legal_terms)
+    CustomFontTextView legalTerms;
     @BindView(R.id.signup_confirmBtn)
     CustomFontButton confirmBtn;
     private int year, month, day;
@@ -79,6 +88,21 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         setContentView(R.layout.activity_signup);
 
         toolbarTitle.setText(getString(R.string.signup_title));
+
+        SpannableStringBuilder legalSb = new SpannableStringBuilder(getString(R.string.legal_agreement_txt));
+        legalSb.append(" ");
+        String termsTxt = getString(R.string.terms);
+        legalSb.append(FontUtils.colorify(SignupActivity.this, R.color.pink, termsTxt));
+        NoUnderlineClickableSpan termsCSpan = new NoUnderlineClickableSpan() {
+            @Override
+            public void onClick(View tv) {
+                Intent intent = new Intent(SignupActivity.this, FastWebViewActivity.class);
+                intent.putExtra(IntentNames.WEBVIEW_URL, APIConstants.LEGAL_TERMS_URL);
+                startActivity(intent);
+            }
+        };
+        legalSb.setSpan(termsCSpan, legalSb.length() - termsTxt.length(), legalSb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        legalTerms.setText(legalSb);
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -10);
@@ -147,7 +171,6 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                 if (dobTV.getText().toString().equals("")){
                     Toast.makeText(SignupActivity.this, getString(R.string.date_of_birth_required), Toast.LENGTH_SHORT).show();
                 } else {
-                    mAwesomeValidation.clear();
                     if (mAwesomeValidation.validate()) {
                         RegisterSubmitAPI registerSubmitAPI = new RegisterSubmitAPI();
                         registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();

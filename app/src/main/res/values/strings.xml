@@ -43,7 +43,9 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="register_your_account">Register your account</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="legal_agreement_txt">By clicking Create an Account, you agree to our</string>
+    <string name="terms">Terms</string>
     <string name="password_wrong_format">Wrong password format, min 6 letters, max 50 letters</string>
     <string name="password_wrong_confirmation">Password does not match</string>
 

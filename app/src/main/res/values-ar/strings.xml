@@ -43,7 +43,9 @@
     <string name="male">الذكر</string>
     <string name="female">إناثا</string>
     <string name="confirm_password">تأكيد كلمة المرور</string>
-    <string name="register_your_account">تسجيل حسابك</string>
+    <string name="create_an_account">انشئ حساب</string>
+    <string name="legal_agreement_txt">بالنقر على إنشاء حساب، فإنك توافق على</string>
+    <string name="terms">الأحكام والشروط</string>
     <string name="password_wrong_format">تنسيق كلمة مرور خاطئة، بحد أدنى 6 أحرف، بحد أقصى 50 حرفا</string>
     <string name="password_wrong_confirmation">كلمة السر غير متطابقة</string>
 

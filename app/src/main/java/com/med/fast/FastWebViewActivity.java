@@ -296,6 +296,8 @@ public class FastWebViewActivity extends FastBaseActivity {
     public void onBackPressed() {
         if (webView.canGoBack()) {
             webView.goBack();
+        } else {
+            finish();
         }
     }
 

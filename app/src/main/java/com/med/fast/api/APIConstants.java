@@ -7,7 +7,7 @@ package com.med.fast.api;
 public class APIConstants {
     public static final String API_URL = "http://api.fastmedrecord.com";
     public static final String WEB_URL = "http://www.fastmedrecord.com";
-    public static final String HELP_URL = "http://www.fastmedrecord.com/Help";
+    public static final String LEGAL_TERMS_URL = "http://www.fastmedrecord.com/Legal/Terms";
 
     // REGISTER
     public static final String REGISTER = "/register/registersubmit";

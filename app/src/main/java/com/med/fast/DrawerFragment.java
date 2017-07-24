@@ -197,7 +197,7 @@ public class DrawerFragment extends FastBaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FastWebViewActivity.class);
-                intent.putExtra(IntentNames.WEBVIEW_URL, APIConstants.HELP_URL);
+                intent.putExtra(IntentNames.WEBVIEW_URL, APIConstants.LEGAL_TERMS_URL);
                 startActivity(intent);
             }
         });
