@@ -116,6 +116,7 @@ public class DiseaseManagementAdapter extends FastBaseRecyclerAdapter implements
 
     public void submitItem() {
         Intent intent = new Intent(context, DiseaseAddActivity.class);
+        intent.putExtra(DiseaseAddActivity.IS_INITIAL_EXTRA, initial);
         startActivityForResultInAdapterIntf.onStartActivityForResult(intent, RequestCodeList.DISEASE_CREATE);
         /*final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.management_disease_popup);

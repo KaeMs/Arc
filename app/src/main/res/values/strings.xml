@@ -18,6 +18,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="logging_in">Logging in</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="forgot_password_question">Forgot Password?</string>
@@ -48,6 +49,7 @@
     <string name="terms">Terms</string>
     <string name="password_wrong_format">Wrong password format, min 6 letters, max 50 letters</string>
     <string name="password_wrong_confirmation">Password does not match</string>
+    <string name="email_registered">Email has already been registered</string>
 
     <!-- Initial Data -->
     <string name="step_1_allergy">STEP 1 - ALLERGY</string>

@@ -209,6 +209,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
+        } else if(responseAPI.status_code == 400) {
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if(responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
             setResult(RequestCodeList.forceLogout);

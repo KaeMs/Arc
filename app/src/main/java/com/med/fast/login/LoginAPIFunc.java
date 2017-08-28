@@ -44,7 +44,7 @@ public class LoginAPIFunc extends AsyncTask<LoginAPI, Integer, ResponseAPI> {
     @Override
     protected void onPreExecute() {
         progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage("Signing you in");
+        progressDialog.setMessage(context.getString(R.string.logging_in));
         progressDialog.setIndeterminate(true);
         progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(context, R.drawable.progressbar_pink));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

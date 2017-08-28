@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
+import com.med.fast.IntentNames;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
@@ -80,6 +81,8 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
     @BindView(R.id.management_operations_create_btn)
     CustomFontButton createBtn;
     DiseaseManagementModel diseaseManagementModel;
+    private boolean isInitial;
+    public static final String IS_INITIAL_EXTRA = "IsInitial";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,6 +111,8 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
 
         DiseaseManagementCreateShowAPIFunc diseaseManagementCreateShowAPIFunc = new DiseaseManagementCreateShowAPIFunc(this, this);
         diseaseManagementCreateShowAPIFunc.execute(diseaseCreateShowAPI);
+
+        isInitial = getIntent().getBooleanExtra(IS_INITIAL_EXTRA, false);
 
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(this);
@@ -235,7 +240,7 @@ public class DiseaseAddActivity extends FastBaseActivity implements DiseaseManag
                     diseaseManagementCreateSubmitAPI.data.query.historic_date = historicDateString;
                     diseaseManagementCreateSubmitAPI.data.query.approximate_date = approximateDateString;
 
-                    DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(DiseaseAddActivity.this, diseaseManagementModel.getTag(), false);
+                    DiseaseManagementCreateSubmitAPIFunc diseaseManagementCreateSubmitAPIFunc = new DiseaseManagementCreateSubmitAPIFunc(DiseaseAddActivity.this, diseaseManagementModel.getTag(), isInitial);
                     diseaseManagementCreateSubmitAPIFunc.setDelegate(DiseaseAddActivity.this);
                     diseaseManagementCreateSubmitAPIFunc.execute(diseaseManagementCreateSubmitAPI);
                 }

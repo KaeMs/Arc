@@ -18,6 +18,7 @@
     <string name="email">البريد الإلكتروني</string>
     <string name="password">كلمه السر</string>
     <string name="login">تسجيل الدخول</string>
+    <string name="logging_in">Logging in</string>
     <string name="sign_in">تسجيل الدخول</string>
     <string name="sign_up">سجل</string>
     <string name="forgot_password_question">هل نسيت كلمة المرور؟</string>
@@ -48,6 +49,7 @@
     <string name="terms">الأحكام والشروط</string>
     <string name="password_wrong_format">تنسيق كلمة مرور خاطئة، بحد أدنى 6 أحرف، بحد أقصى 50 حرفا</string>
     <string name="password_wrong_confirmation">كلمة السر غير متطابقة</string>
+    <string name="email_registered">Email has already been registered</string>
 
     <!-- Initial Data -->
     <string name="step_1_allergy">STEP 1 - ALLERGY</string>
