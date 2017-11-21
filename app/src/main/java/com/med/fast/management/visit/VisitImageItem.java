@@ -39,6 +39,9 @@ public class VisitImageItem extends RealmObject {
     }
 
     public Uri getUri() {
+        if (uri == null){
+            return null;
+        }
         return Uri.parse(uri);
     }
 

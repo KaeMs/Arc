@@ -3,7 +3,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.med.fast"
         minSdkVersion 17
@@ -19,12 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig getSigningConfig()
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def date = new Date();
+                variant.outputs.all { output ->
+                    /*def date = new Date();
                     def formattedDate = date.format('yyyy MM dd')
                     output.outputFile = new File(output.outputFile.parent,
-                            output.outputFile.name.replace("app-release", "FM - " + formattedDate)
-                    )
+                            output.outputFile.name.replace("app-release", "KSM - " + formattedDate)
+                    )*/
+                    def date = new Date();
+                    def formattedDate = date.format('yyyy MM dd')
+                    outputFileName = "FMR ${variant.name}-${variant.versionName}-${formattedDate}.apk"
                 }
             }
         }
@@ -56,10 +59,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     // Butterknife
-    compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     // Awesome Validation
     compile 'com.basgeekball:awesome-validation:2.0'
     // OKHTTP3
