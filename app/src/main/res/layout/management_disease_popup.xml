@@ -24,6 +24,7 @@
 
             <com.med.fast.customclasses.CustomFilterAutoCompleteTV
                 android:id="@+id/disease_popup_name"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -86,6 +87,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/disease_popup_inherited_from"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -132,6 +134,7 @@
 
             <com.med.fast.customviews.CustomFontTextView
                 android:id="@+id/disease_popup_historic_date_tv"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

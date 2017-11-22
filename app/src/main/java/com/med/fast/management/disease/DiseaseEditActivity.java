@@ -266,6 +266,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                     diseaseOtherName.setText(output.data.results.name);
                 } else {
                     diseaseName.setText(output.data.results.name);
+                    diseaseName.setmSelectionFromPopUp(true);
                     diseaseOtherCheckbox.setChecked(false);
                     diseaseOtherName.setText("");
                     diseaseOtherName.setVisibility(View.GONE);

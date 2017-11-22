@@ -24,6 +24,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_medicine_name"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -42,6 +43,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_medicine_form"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -60,6 +62,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_administration_method"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -78,6 +81,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_administration_dose"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -97,6 +101,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_frequency"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -116,6 +121,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_reason"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -135,6 +141,7 @@
 
             <com.med.fast.customviews.CustomFontEditText
                 android:id="@+id/medicine_popup_status"
+                style="@style/OneLineEllipsizeEndTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

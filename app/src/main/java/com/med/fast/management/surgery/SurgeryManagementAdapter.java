@@ -30,6 +30,7 @@ import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.APIConstants;
+import com.med.fast.api.APIUtils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
@@ -239,6 +240,8 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
 
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(context);
+        mAwesomeValidation.addValidation(physicianName, RegexTemplate.NOT_EMPTY, context.getString(R.string.physician_name_required));
+        mAwesomeValidation.addValidation(hospitalName, RegexTemplate.NOT_EMPTY, context.getString(R.string.hospital_name_required));
         mAwesomeValidation.addValidation(surgeryProcedure, RegexTemplate.NOT_EMPTY, context.getString(R.string.surgery_procedure_required));
 
         createBtn.setOnClickListener(new View.OnClickListener() {
@@ -259,6 +262,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
                         surgeryManagementModel.setDate(surgeryDateString);
                         surgeryManagementModel.setNote(surgeryNoteString);
                         surgeryManagementModel.setTag(surgeryProcedureString + String.valueOf(getItemCount()));
+                        surgeryManagementModel.setProgress_status(APIConstants.PROGRESS_ADD);
 
                         mDataset.add(0, surgeryManagementModel);
                         notifyItemInserted(0);

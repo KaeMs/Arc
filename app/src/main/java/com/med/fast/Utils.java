@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.Html;
+import android.text.TextUtils;
 
 import com.med.fast.api.APIConstants;
 
@@ -38,8 +39,9 @@ public class Utils {
     }
 
     public static String processStringForAPI(String input){
-        if (input == null) return "default";
-        if (input.equals("") || input.equals("-")) return "default";
+        if (TextUtils.isEmpty(input)) return "";
+//        if (input == null) return "default";
+//        if (input.equals("-")) return "default";
          else return Html.fromHtml(input).toString();
     }
 

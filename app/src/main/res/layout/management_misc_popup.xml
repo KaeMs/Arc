@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/misc_popup_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/misc_popup_swipe_refresh"
     tools:ignore="RtlHardcoded">
 
     <ScrollView
@@ -21,7 +21,7 @@
                 android:layout_alignParentRight="true"
                 android:indeterminate="true"
                 android:indeterminateDrawable="@drawable/progressbar_tosca"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,6 +39,7 @@
 
                 <com.med.fast.customviews.CustomFontEditText
                     android:id="@+id/misc_popup_voluptuary_habit"
+                    style="@style/OneLineEllipsizeEndTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"

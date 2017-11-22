@@ -17,6 +17,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.Utils;
+import com.med.fast.api.APIUtils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
@@ -130,7 +131,9 @@ public class SurgeryEditActivity extends FastBaseActivity implements SurgeryMana
 
         final AwesomeValidation mAwesomeValidation = new AwesomeValidation(UNDERLABEL);
         mAwesomeValidation.setContext(this);
-        mAwesomeValidation.addValidation(surgProcedure, RegexTemplate.NOT_EMPTY, getString(R.string.causative_agent_empty));
+        mAwesomeValidation.addValidation(surgPhyName, RegexTemplate.NOT_EMPTY, getString(R.string.physician_name_required));
+        mAwesomeValidation.addValidation(surgHospitalName, RegexTemplate.NOT_EMPTY, getString(R.string.hospital_name_required));
+        mAwesomeValidation.addValidation(surgProcedure, RegexTemplate.NOT_EMPTY, getString(R.string.surgery_procedure_required));
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,11 +199,11 @@ public class SurgeryEditActivity extends FastBaseActivity implements SurgeryMana
             Gson gson = new Gson();
             SurgeryManagementEditShowAPI output = gson.fromJson(responseAPI.status_response, SurgeryManagementEditShowAPI.class);
             if (output.data.status.code.equals("200")) {
-                surgeryDate.setText(output.data.results.date);
-                surgHospitalName.setText(output.data.results.hospital);
-                surgNote.setText(output.data.results.notes);
-                surgProcedure.setText(output.data.results.procedure);
-                surgPhyName.setText(output.data.results.physician);
+                surgeryDate.setText(APIUtils.getStringFromAPI(output.data.results.date));
+                surgHospitalName.setText(APIUtils.getStringFromAPI(output.data.results.hospital));
+                surgNote.setText(APIUtils.getStringFromAPI(output.data.results.notes));
+                surgProcedure.setText(APIUtils.getStringFromAPI(output.data.results.procedure));
+                surgPhyName.setText(APIUtils.getStringFromAPI(output.data.results.physician));
             }
         } else if(responseAPI.status_code == 504) {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

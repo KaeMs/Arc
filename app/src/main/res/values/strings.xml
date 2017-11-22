@@ -301,6 +301,7 @@
     <string name="date_taken_optional">Image taken date (Optional)</string>
     <string name="date_taken_optional_hint">(Optional) Pick date taken</string>
     <string name="selected_image">Selected image</string>
+    <string name="lab_test_image_required">At least one Image is required</string>
     <string name="place">Place</string>
     <string name="description">Description</string>
     <string name="lab_test_delete_confirmation">Are you sure you want to delete this lab result?</string>

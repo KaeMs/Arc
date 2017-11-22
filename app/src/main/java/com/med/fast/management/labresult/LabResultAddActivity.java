@@ -174,6 +174,10 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                 mAwesomeValidation.clear();
                 if (!testFinishedDate.getText().toString().equals("")) {
                     if (mAwesomeValidation.validate()) {
+                        if (labResultImageAddAdapter.getUploadFile().size() == 0) {
+                            Toast.makeText(LabResultAddActivity.this, getString(R.string.lab_test_image_required), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         String testTypeString = testType.getText().toString();
                         String testLocationString = testLocation.getText().toString();
                         String testDescriptionString = testDescription.getText().toString();
@@ -201,7 +205,6 @@ public class LabResultAddActivity extends FastBaseActivity implements LabResultM
                         LabResultManagementCreateSubmitAPIFunc labResultManagementCreateSubmitAPIFunc = new
                                 LabResultManagementCreateSubmitAPIFunc(LabResultAddActivity.this, LabResultAddActivity.this, testTypeString + testFinishedDateString);
                         labResultManagementCreateSubmitAPIFunc.execute(labResultManagementCreateSubmitAPI);
-
                     }
                 } else {
                     Toast.makeText(LabResultAddActivity.this, getString(R.string.lab_test_date_question_required), Toast.LENGTH_SHORT).show();

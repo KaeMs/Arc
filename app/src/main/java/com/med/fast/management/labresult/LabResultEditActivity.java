@@ -40,6 +40,7 @@ import com.med.fast.management.labresult.api.LabResultManagementEditShowAPIFunc;
 import com.med.fast.management.labresult.api.LabResultManagementEditSubmitAPI;
 import com.med.fast.management.labresult.api.LabResultManagementEditSubmitAPIFunc;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementEditIntf;
+import com.med.fast.utils.DateUtils;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -47,6 +48,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -108,6 +111,100 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
         mAwesomeValidation.addValidation(testLocation, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_location_question_required));
         mAwesomeValidation.addValidation(testDescription, RegexTemplate.NOT_EMPTY, getString(R.string.lab_test_description_question_required));
 
+        testFinishedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DateTimeFormatter formatter = DateTimeFormat.forPattern(DateUtils.DATE_FORMAT_COMMA)
+                        .withLocale(Locale.getDefault());
+
+                LocalDate localDate = new LocalDate();
+                if (!testFinishedDate.getText().toString().equals("")) {
+                    localDate = formatter.parseLocalDate(testFinishedDate.getText().toString());
+                }
+
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(LabResultEditActivity.this, null,
+                        localDate.getYear(),
+                        localDate.getMonthOfYear() - 1,
+                        localDate.getDayOfMonth());
+                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
+//                datePickerDialog.getDatePicker().updateDate(year, month, day);
+                datePickerDialog.show();
+                datePickerDialog.setCanceledOnTouchOutside(true);
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                DateTimeFormatter datePickDialogFormatter = DateTimeFormat.forPattern(DateUtils.DATE_FORMAT_CALENDAR)
+                                        .withLocale(Locale.getDefault());
+                                LocalDate datePickDialogLocalDate = datePickDialogFormatter.parseLocalDate(
+                                        String.valueOf(datePickerDialog.getDatePicker().getDayOfMonth()) + " " +
+                                                String.valueOf(datePickerDialog.getDatePicker().getMonth() + 1) + " " +
+                                                String.valueOf(datePickerDialog.getDatePicker().getYear()));
+                                DateTimeFormatter datePickReformatter = DateTimeFormat.forPattern(DateUtils.DATE_FORMAT_COMMA)
+                                        .withLocale(Locale.getDefault());
+                                testFinishedDate.setText(datePickReformatter.print(datePickDialogLocalDate));
+                            }
+                        });
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                                    // Do Stuff
+                                    datePickerDialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+        /*
+        testFinishedDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final DatePickerDialog datePickerDialog = new DatePickerDialog(LabResultEditActivity.this, null, year, month, day);
+                datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
+                datePickerDialog.getDatePicker().updateDate(year, month, day);
+                datePickerDialog.show();
+                datePickerDialog.setCanceledOnTouchOutside(true);
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                year = datePickerDialog.getDatePicker().getYear();
+                                month = datePickerDialog.getDatePicker().getMonth();
+                                day = datePickerDialog.getDatePicker().getDayOfMonth();
+                                // Formatting date from MM to MMM
+                                SimpleDateFormat format = new SimpleDateFormat("MM dd yyyy", Locale.getDefault());
+                                Date newDate = null;
+                                try {
+                                    newDate = format.parse(String.valueOf(month + 1) + " " + String.valueOf(day) + " " + String.valueOf(year));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
+                                String date = format.format(newDate);
+                                testFinishedDate.setText(date);
+                            }
+                        });
+
+                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == DialogInterface.BUTTON_NEGATIVE) {
+                                    // Do Stuff
+                                    datePickerDialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });*/
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +219,10 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                 mAwesomeValidation.clear();
                 if (!testFinishedDate.getText().toString().equals("")){
                     if (mAwesomeValidation.validate()) {
+                        if (labResultImageAddAdapter.getUploadFile().size() == 0) {
+                            Toast.makeText(LabResultEditActivity.this, getString(R.string.lab_test_image_required), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         String testTypeString = testType.getText().toString();
                         String testLocationString = testLocation.getText().toString();
                         String descriptionString = testDescription.getText().toString();

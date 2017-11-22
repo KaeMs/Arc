@@ -132,7 +132,7 @@ public class AllergyEditActivity extends FastBaseActivity implements AllergyMana
                 allergyManagementModel.setReaction(output.data.results.reaction);
                 allergyManagementModel.setFirst_experience(output.data.results.first_experience);
                 causative.setText(output.data.results.agent);
-                drugTypeYes.setSelected(output.data.results.is_drug);
+                drugTypeYes.setChecked(output.data.results.is_drug);
                 reaction.setText(output.data.results.reaction);
                 firstTimeExp.setText(output.data.results.first_experience);
             }

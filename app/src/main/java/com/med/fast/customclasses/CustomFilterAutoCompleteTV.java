@@ -87,6 +87,10 @@ public class CustomFilterAutoCompleteTV extends android.support.v7.widget.AppCom
         return mSelectionFromPopUp;
     }
 
+    public void setmSelectionFromPopUp(boolean selection){
+        mSelectionFromPopUp = selection;
+    }
+
     @Override
     public void setText(CharSequence text, boolean filter) {
         if (Build.VERSION.SDK_INT >= 17) {
