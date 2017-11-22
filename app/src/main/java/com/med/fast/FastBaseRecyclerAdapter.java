@@ -72,7 +72,7 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
                 .show();
     }
 
-    public void setItemDecoration(RecyclerView recyclerView, RecyclerView.ItemDecoration itemDecoration){
+    protected void setItemDecoration(RecyclerView recyclerView, RecyclerView.ItemDecoration itemDecoration){
         recyclerView.removeItemDecoration(itemDecoration);
         recyclerView.addItemDecoration(itemDecoration);
     }
