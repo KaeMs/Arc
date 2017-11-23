@@ -219,15 +219,16 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
                     CustomFontTextView changeImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_imageDescText);
                     CustomFontTextView deleteImage = (CustomFontTextView) dialog.findViewById(R.id.visit_card_imagepopup_deleteImageText);
 
+                    changeImage.setVisibility(View.GONE);
                     changeImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             savedPos = holder.getAdapterPosition();
-                            if (context instanceof  LabResultAddActivity){
+                            /*if (context instanceof  LabResultAddActivity){
                                 ((LabResultAddActivity)context).addNewImage();
                             } else if (context instanceof LabResultEditActivity){
-                                ((LabResultEditActivity) context).addNewImage();
-                            }
+                                ((LabResultEditActivity)context).addNewImage();
+                            }*/
                             dialog.dismiss();
                         }
                     });

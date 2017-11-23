@@ -24,6 +24,7 @@ import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
+import com.med.fast.FastBaseManagementFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -48,21 +49,9 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class LabResultManagementFragment extends FastBaseFragment implements LabResultManagementShowIntf, StartActivityForResultInAdapterIntf {
-    @BindView(R.id.management_mainfragment_search_edittxt)
-    CustomFontEditText searchET;
-    @BindView(R.id.management_mainfragment_search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_recycler)
-    RecyclerView recyclerView;
+public class LabResultManagementFragment extends FastBaseManagementFragment implements LabResultManagementShowIntf, StartActivityForResultInAdapterIntf {
     private LabResultManagementAdapter labResultManagementAdapter;
     private LinearLayoutManager linearLayoutManager;
-    @BindView(R.id.management_mainfragment_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.management_mainfragment_progress)
-    ProgressBar progressBar;
-    @BindView(R.id.management_mainfragment_nocontent_tv)
-    CustomFontTextView noContentTV;
     private boolean isLoading = false;
     private int counter = 0;
     private int lastItemCounter = 0;
@@ -71,16 +60,11 @@ public class LabResultManagementFragment extends FastBaseFragment implements Lab
     private String userId;
     private boolean returningWithEdit = false;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.management_mainfragment, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).changeTitle("LAB RESULT MANAGEMENT");
+        setTitle(getString(R.string.lab_result_management_caps));
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         setHasOptionsMenu(true);

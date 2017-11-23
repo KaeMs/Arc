@@ -89,8 +89,8 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
         }
     }
 
-    public void addSingle(SurgeryManagementModel accident) {
-        this.mDataset.add(accident);
+    public void addSingle(SurgeryManagementModel surgeryManagementModel) {
+        this.mDataset.add(surgeryManagementModel);
         notifyItemInserted(getItemCount() - 1);
     }
 
@@ -266,6 +266,7 @@ public class SurgeryManagementAdapter extends FastBaseRecyclerAdapter implements
 
                         mDataset.add(0, surgeryManagementModel);
                         notifyItemInserted(0);
+
                         EventBus.getDefault().post(new ItemAddedEvent());
 
                         SurgeryManagementCreateSubmitAPI surgeryManagementCreateSubmitAPI = new SurgeryManagementCreateSubmitAPI();

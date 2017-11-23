@@ -27,6 +27,7 @@ import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
+import com.med.fast.FastBaseManagementFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -53,19 +54,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class MedicineManagementFragment extends FastBaseFragment implements MedicineManagementShowIntf, StartActivityForResultInAdapterIntf {
-    @BindView(R.id.management_mainfragment_search_edittxt)
-    CustomFontEditText searchET;
-    @BindView(R.id.management_mainfragment_search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.management_mainfragment_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.management_mainfragment_progress)
-    ProgressBar progressBar;
-    @BindView(R.id.management_mainfragment_nocontent_tv)
-    CustomFontTextView noContentTV;
+public class MedicineManagementFragment extends FastBaseManagementFragment implements MedicineManagementShowIntf, StartActivityForResultInAdapterIntf {
     private MedicineManagementAdapter medicineManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
@@ -74,16 +63,10 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.management_mainfragment, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).changeTitle("MEDICINE MANAGEMENT");
+        setTitle(getString(R.string.medicine_management_caps));
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
         medicineManagementAdapter = new MedicineManagementAdapter(getActivity(), this, false);
@@ -221,7 +204,7 @@ public class MedicineManagementFragment extends FastBaseFragment implements Medi
     }
 
     @Subscribe
-    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+    public void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
         scrollToTop();
     }

@@ -8,19 +8,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
-import com.med.fast.FastBaseFragment;
-import com.med.fast.MainActivity;
+import com.med.fast.FastBaseManagementFragment;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -29,8 +24,6 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.surgery.api.SurgeryManagementListShowAPI;
 import com.med.fast.management.surgery.api.SurgeryManagementListShowAPIFunc;
 import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementShowIntf;
@@ -38,25 +31,11 @@ import com.med.fast.management.surgery.surgeryinterface.SurgeryManagementShowInt
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.BindView;
-
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class SurgeryManagementFragment extends FastBaseFragment implements SurgeryManagementShowIntf, StartActivityForResultInAdapterIntf {
-    @BindView(R.id.management_mainfragment_search_edittxt)
-    CustomFontEditText searchET;
-    @BindView(R.id.management_mainfragment_search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.management_mainfragment_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.management_mainfragment_progress)
-    ProgressBar progressBar;
-    @BindView(R.id.management_mainfragment_nocontent_tv)
-    CustomFontTextView noContentTV;
+public class SurgeryManagementFragment extends FastBaseManagementFragment implements SurgeryManagementShowIntf, StartActivityForResultInAdapterIntf {
     private SurgeryManagementAdapter surgeryManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
@@ -65,16 +44,10 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.management_mainfragment, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).changeTitle("SURGERY MANAGEMENT");
+        setTitle(getString(R.string.surgery_management_caps));
 
         surgeryManagementAdapter = new SurgeryManagementAdapter(getActivity(), this);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
@@ -148,8 +121,7 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     }
 
     @Override
-    public void scrollToTop()
-    {
+    public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -215,9 +187,13 @@ public class SurgeryManagementFragment extends FastBaseFragment implements Surge
     }
 
     @Subscribe
-    void onItemAdded(ItemAddedEvent itemAddedEvent) {
-        noContentTV.setVisibility(View.GONE);
-        scrollToTop();
+    public void onItemAdded(ItemAddedEvent itemAddedEvent) {
+        if (surgeryManagementAdapter.getItemCount() > 0) {
+            noContentTV.setVisibility(View.GONE);
+            scrollToTop();
+        } else {
+            noContentTV.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

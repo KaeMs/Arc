@@ -219,7 +219,8 @@ public class LabResultEditActivity extends FastBaseActivity implements LabResult
                 mAwesomeValidation.clear();
                 if (!testFinishedDate.getText().toString().equals("")){
                     if (mAwesomeValidation.validate()) {
-                        if (labResultImageAddAdapter.getUploadFile().size() == 0) {
+                        if (labResultImageAddAdapter.getmDataset().size() == 0 &&
+                                labResultImageAddAdapter.getUploadFile().size() == 0) {
                             Toast.makeText(LabResultEditActivity.this, getString(R.string.lab_test_image_required), Toast.LENGTH_SHORT).show();
                             return;
                         }

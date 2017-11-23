@@ -1,8 +1,11 @@
 package com.med.fast.management.visit.api;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 
+import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
 import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
@@ -25,10 +28,22 @@ import okhttp3.Response;
 public class VisitManagementEditSubmitAPIFunc extends AsyncTask<VisitManagementEditSubmitAPI, Integer, ResponseAPI> {
     private VisitEditIntf delegate;
     private Activity activity;
+    private ProgressDialog progressDialog;
 
     public VisitManagementEditSubmitAPIFunc(Activity activity, VisitEditIntf delegate) {
         this.activity = activity;
         this.delegate = delegate;
+        progressDialog = new ProgressDialog(activity);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog.setMessage("Submitting your visit..");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setIndeterminateDrawable(ContextCompat.getDrawable(activity, R.drawable.progressbar_pink));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
     }
 
     @Override
@@ -99,6 +114,7 @@ public class VisitManagementEditSubmitAPIFunc extends AsyncTask<VisitManagementE
     @Override
     protected void onPostExecute(ResponseAPI responseAPI) {
         super.onPostExecute(responseAPI);
+        progressDialog.dismiss();
         delegate.onFinishVisitEditSubmit(responseAPI);
     }
 }

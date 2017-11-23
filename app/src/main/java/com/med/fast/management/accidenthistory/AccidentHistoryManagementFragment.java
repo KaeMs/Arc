@@ -219,7 +219,7 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     }
 
     @Subscribe
-    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+    public void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
         scrollToTop();
     }

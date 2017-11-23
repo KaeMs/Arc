@@ -53,6 +53,8 @@ public abstract class FastBaseActivity extends AppCompatActivity {
         }
     }
 
+    public void onItemAdded(){};
+
     private Unbinder unbinder;
 
     public void replaceFragment(Fragment fragment, String tag, boolean addToBackstack) {

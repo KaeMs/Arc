@@ -15,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.FastBaseFragment;
+import com.med.fast.FastBaseManagementFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -44,19 +46,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class DiseaseManagementFragment extends FastBaseFragment implements DiseaseManagementShowIntf, StartActivityForResultInAdapterIntf {
-    @BindView(R.id.management_mainfragment_search_edittxt)
-    CustomFontEditText searchET;
-    @BindView(R.id.management_mainfragment_search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.management_mainfragment_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.management_mainfragment_progress)
-    ProgressBar progressBar;
-    @BindView(R.id.management_mainfragment_nocontent_tv)
-    CustomFontTextView noContentTV;
+public class DiseaseManagementFragment extends FastBaseManagementFragment implements DiseaseManagementShowIntf, StartActivityForResultInAdapterIntf {
     private DiseaseManagementAdapter diseaseManagementAdapter;
     private boolean isLoading = false;
     private int counter = 0;
@@ -65,17 +55,10 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
     private String currentSort = APIConstants.DEFAULT;
     private String userId;
 
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.management_mainfragment, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity)getActivity()).changeTitle("DISEASE MANAGEMENT");
+        setTitle(getString(R.string.disease_management_caps));
 
         diseaseManagementAdapter = new DiseaseManagementAdapter(getActivity(), this, false);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
@@ -207,7 +190,7 @@ public class DiseaseManagementFragment extends FastBaseFragment implements Disea
     }
 
     @Subscribe
-    void onItemAdded(ItemAddedEvent itemAddedEvent) {
+    public void onItemAdded(ItemAddedEvent itemAddedEvent) {
         noContentTV.setVisibility(View.GONE);
         scrollToTop();
     }

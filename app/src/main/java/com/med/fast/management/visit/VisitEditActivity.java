@@ -196,20 +196,20 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                     visitModel.setProgress_status(APIConstants.PROGRESS_ADD);
                     visitModel.setTag(doctorNameString + currentDate);
 
-                    VisitManagementEditSubmitAPI visitManagementCreateSubmitAPI = new VisitManagementEditSubmitAPI();
-                    visitManagementCreateSubmitAPI.data.query.user_id = userId;
-                    visitManagementCreateSubmitAPI.data.query.visit_id = visitModel.getId();
-                    visitManagementCreateSubmitAPI.data.query.doctor = doctorNameString;
-                    visitManagementCreateSubmitAPI.data.query.hospital = hospitalNameString;
-                    visitManagementCreateSubmitAPI.data.query.diagnose = diagnoseString;
-                    visitManagementCreateSubmitAPI.data.query.disease_id_list = visitModel.getDiseases_for_api();
-                    visitManagementCreateSubmitAPI.data.query.image_json_str = visitImageEditAdapter.getGson();
-                    visitManagementCreateSubmitAPI.data.query.is_image_uploaded = String.valueOf(visitImageEditAdapter.checkNewImage());
-                    visitManagementCreateSubmitAPI.data.query.image_files = visitImageEditAdapter.getSortedFileUpload();
+                    VisitManagementEditSubmitAPI visitManagementEditSubmitAPI = new VisitManagementEditSubmitAPI();
+                    visitManagementEditSubmitAPI.data.query.user_id = userId;
+                    visitManagementEditSubmitAPI.data.query.visit_id = visitModel.getId();
+                    visitManagementEditSubmitAPI.data.query.doctor = doctorNameString;
+                    visitManagementEditSubmitAPI.data.query.hospital = hospitalNameString;
+                    visitManagementEditSubmitAPI.data.query.diagnose = diagnoseString;
+                    visitManagementEditSubmitAPI.data.query.disease_id_list = visitModel.getDiseases_for_api();
+                    visitManagementEditSubmitAPI.data.query.image_json_str = visitImageEditAdapter.getGson();
+                    visitManagementEditSubmitAPI.data.query.is_image_uploaded = String.valueOf(visitImageEditAdapter.checkNewImage());
+                    visitManagementEditSubmitAPI.data.query.image_files = visitImageEditAdapter.getSortedFileUpload();
 
                     VisitManagementEditSubmitAPIFunc visitManagementCreateSubmitAPIFunc =
                             new VisitManagementEditSubmitAPIFunc(VisitEditActivity.this, VisitEditActivity.this);
-                    visitManagementCreateSubmitAPIFunc.execute(visitManagementCreateSubmitAPI);
+                    visitManagementCreateSubmitAPIFunc.execute(visitManagementEditSubmitAPI);
                 }
             }
         });
