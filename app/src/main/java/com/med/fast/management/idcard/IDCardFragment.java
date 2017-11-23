@@ -132,6 +132,7 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
+                    photo.setImageURI(null);
                     photo.setImageURI(createdPhotoUri);
                     saveBtn.setEnabled(true);
                 } catch (Exception e) {
@@ -145,7 +146,9 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
                     currentMediaPath = UriUtils.getPath(getActivity(), data.getData());
                     createdPhotoUri = MediaUtils.compressImage(getActivity(), Uri.parse(currentMediaPath));
                     if (createdPhotoUri != null) {
-                        photo.setImageURI(createdPhotoUri);
+                        Glide.with(getActivity())
+                                .load(createdPhotoUri)
+                                .into(photo);
                         saveBtn.setEnabled(true);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
