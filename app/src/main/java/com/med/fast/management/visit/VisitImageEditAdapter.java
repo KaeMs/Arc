@@ -75,7 +75,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
     public void updatemDataset(VisitImageItem visitImageItem) {
         if (mDataset.get(savedPos) == null ||
                 !visitImageItem.getUri().equals(mDataset.get(savedPos).getUri())) {
-            this.mDataset.set(savedPos, new VisitImageItem());
+            this.mDataset.set(savedPos, visitImageItem);
         }
         notifyItemChanged(savedPos);
 //        ((PostProductActivity)context).smoothScrollToEnd();
@@ -93,7 +93,7 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
         }
 
         // Updating dataset to be uploaded
-        if (savedPos > uploadVisitImageItem.size()){
+        if (savedPos >= uploadVisitImageItem.size()){
             uploadVisitImageItem.add(new VisitImageItemUpload(visitImageItem));
         }
     }
@@ -231,10 +231,11 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
                     deleteImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            int removedPosition = holder.getAdapterPosition();
                             mDataset.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
 
-                            uploadVisitImageItem.get(holder.getAdapterPosition()).setIs_deleted(true);
+                            uploadVisitImageItem.get(removedPosition).setIs_deleted(true);
                             dialog.dismiss();
                         }
                     });

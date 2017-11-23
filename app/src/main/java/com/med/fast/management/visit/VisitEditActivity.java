@@ -171,6 +171,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
         mAwesomeValidation.addValidation(hospitalName, RegexTemplate.NOT_EMPTY, getString(R.string.hospital_name_required));
         mAwesomeValidation.addValidation(diagnose, RegexTemplate.NOT_EMPTY, getString(R.string.diagnose_required));
 
+        createBtn.setText(getString(R.string.save));
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,7 +255,7 @@ public class VisitEditActivity extends FastBaseActivity implements VisitEditIntf
                 VisitImageItem visitImageItem = new VisitImageItem();
                 visitImageItem.setId(String.valueOf(visitImageEditAdapter.getItemCount()));
                 visitImageItem.setPath(currentMediaPath);
-                visitImageItem.setUri(mDestinationUri);
+                visitImageItem.setUri(data.getData());
                 visitImageItem.setIs_deleted(false);
                 visitImageEditAdapter.updatemDataset(visitImageItem);
             }

@@ -100,6 +100,7 @@ public class DiseaseEditActivity extends FastBaseActivity implements DiseaseMana
                 if (isChecked){
                     diseaseOtherName.setVisibility(View.VISIBLE);
                 } else {
+                    diseaseName.setText("");
                     diseaseOtherName.setVisibility(View.GONE);
                 }
                 diseaseName.setEnabled(!isChecked);
