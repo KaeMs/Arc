@@ -52,8 +52,6 @@ public class SurgeryManagementFragment extends FastBaseManagementFragment implem
         surgeryManagementAdapter = new SurgeryManagementAdapter(getActivity(), this);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(surgeryManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_surgery_record));

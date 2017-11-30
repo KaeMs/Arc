@@ -72,8 +72,6 @@ public class LabResultManagementFragment extends FastBaseManagementFragment impl
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         labResultManagementAdapter = new LabResultManagementAdapter(getActivity(), this);
 
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(labResultManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_labresult_record));

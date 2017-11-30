@@ -71,8 +71,6 @@ public class MedicineManagementFragment extends FastBaseManagementFragment imple
 
         medicineManagementAdapter = new MedicineManagementAdapter(getActivity(), this, false);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(medicineManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_medication_record));

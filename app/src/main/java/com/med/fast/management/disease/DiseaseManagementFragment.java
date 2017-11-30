@@ -63,8 +63,6 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
         diseaseManagementAdapter = new DiseaseManagementAdapter(getActivity(), this, false);
         userId = SharedPreferenceUtilities.getUserId(getActivity());
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_disease_record));

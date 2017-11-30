@@ -17,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ public abstract class FastBaseManagementFragment extends FastBaseFragment {
     public SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_recycler)
     public RecyclerView recyclerView;
+    protected LinearLayoutManager linearLayoutManager;
     @BindView(R.id.management_mainfragment_progress)
     public ProgressBar progressBar;
     @BindView(R.id.management_mainfragment_nocontent_tv)
@@ -64,8 +66,14 @@ public abstract class FastBaseManagementFragment extends FastBaseFragment {
         return inflater.inflate(R.layout.management_mainfragment, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
     public void setTitle(String title){
         ((MainActivity) getActivity()).changeTitle(title);
     }
-//    protected abstract void onItemAdded();
 }

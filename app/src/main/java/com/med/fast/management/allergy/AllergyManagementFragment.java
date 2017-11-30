@@ -63,8 +63,6 @@ public class AllergyManagementFragment extends FastBaseManagementFragment implem
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         allergyManagementAdapter = new AllergyManagementAdapter(getActivity(), this, false);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(allergyManagementAdapter);
 
         noContentTV.setText(getString(R.string.no_allergy_record));

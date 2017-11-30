@@ -87,8 +87,6 @@ public class VisitFragment extends FastBaseManagementFragment implements StartAc
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         visitAdapter = new VisitAdapter(getActivity(), VisitFragment.this, displayMetrics.widthPixels);
 
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(visitAdapter);
 
         noContentTV.setText(getString(R.string.no_visit_record));
