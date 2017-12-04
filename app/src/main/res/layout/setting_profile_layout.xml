@@ -143,8 +143,8 @@
                             android:enabled="false"
                             android:layout_centerInParent="true"
                             android:text="@string/submit_changes"
-                            android:background="@drawable/button_ltgrey_grey"
-                            android:textColor="@color/black"/>
+                            android:background="@drawable/button_pink_pinkdark"
+                            android:textColor="@color/white"/>
 
                         <ProgressBar
                             android:id="@+id/setting_profile_submit_progress"
