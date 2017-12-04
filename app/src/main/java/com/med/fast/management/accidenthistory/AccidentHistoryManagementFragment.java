@@ -6,20 +6,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
-import com.med.fast.FastBaseActivity;
-import com.med.fast.FastBaseFragment;
+import com.med.fast.FastBaseManagementFragment;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
@@ -29,8 +25,6 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistoryShowIntf;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFunc;
@@ -38,25 +32,11 @@ import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFun
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import butterknife.BindView;
-
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class AccidentHistoryManagementFragment extends FastBaseFragment implements AccidentHistoryShowIntf, StartActivityForResultInAdapterIntf {
-    @BindView(R.id.management_mainfragment_search_edittxt)
-    CustomFontEditText searchET;
-    @BindView(R.id.management_mainfragment_search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_swipe_refresh)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.management_mainfragment_recycler)
-    RecyclerView recyclerView;
-    @BindView(R.id.management_mainfragment_progress)
-    ProgressBar progressBar;
-    @BindView(R.id.management_mainfragment_nocontent_tv)
-    CustomFontTextView noContentTV;
+public class AccidentHistoryManagementFragment extends FastBaseManagementFragment implements AccidentHistoryShowIntf, StartActivityForResultInAdapterIntf {
 
     private AccidentHistoryManagementAdapter accidentHistoryManagementAdapter;
     private boolean isLoading = false;
@@ -84,7 +64,6 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
         userId = SharedPreferenceUtilities.getUserId(getActivity());
         accidentHistoryManagementAdapter = new AccidentHistoryManagementAdapter(getActivity(), this);
 
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(accidentHistoryManagementAdapter);
 
@@ -157,9 +136,9 @@ public class AccidentHistoryManagementFragment extends FastBaseFragment implemen
     @Override
     public void onStop() {
         super.onStop();
-            if (EventBus.getDefault().isRegistered(this)) {
-                EventBus.getDefault().unregister(this);
-            }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override

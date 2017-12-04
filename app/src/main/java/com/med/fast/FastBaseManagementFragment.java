@@ -1,22 +1,8 @@
 package com.med.fast;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,18 +14,7 @@ import android.widget.ProgressBar;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontTextView;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by Kevin Murvie on 4/6/2017. FM
@@ -73,7 +48,7 @@ public abstract class FastBaseManagementFragment extends FastBaseFragment {
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    public void setTitle(String title){
+    public void setTitle(String title) {
         ((MainActivity) getActivity()).changeTitle(title);
     }
 }

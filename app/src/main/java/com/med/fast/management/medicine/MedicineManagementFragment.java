@@ -95,6 +95,7 @@ public class MedicineManagementFragment extends FastBaseManagementFragment imple
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+//                if(swipeRefreshLayout != null)
                 swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
 
                 int totalItemCount = linearLayoutManager.getItemCount();
@@ -134,6 +135,7 @@ public class MedicineManagementFragment extends FastBaseManagementFragment imple
     public void onPause() {
         super.onPause();
         getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+        recyclerView.clearOnScrollListeners();
     }
 
     @Override

@@ -6,23 +6,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseActivity;
-import com.med.fast.FastBaseFragment;
 import com.med.fast.FastBaseManagementFragment;
-import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -31,16 +23,12 @@ import com.med.fast.api.APIConstants;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.ItemAddedEvent;
 import com.med.fast.customevents.LoadMoreEvent;
-import com.med.fast.customviews.CustomFontEditText;
-import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
 import com.med.fast.management.disease.api.DiseaseManagementListShowAPIFunc;
 import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import butterknife.BindView;
 
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
@@ -87,6 +75,7 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+//                if(swipeRefreshLayout != null)
                 swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
 
                 int totalItemCount = linearLayoutManager.getItemCount();
@@ -118,11 +107,11 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
     public void onPause() {
         super.onPause();
         getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+        recyclerView.clearOnScrollListeners();
     }
 
     @Override
-    public void scrollToTop()
-    {
+    public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -134,7 +123,7 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
     }
 
     @Override
-    public void refreshView(boolean setRefreshing){
+    public void refreshView(boolean setRefreshing) {
         DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
         diseaseManagementListShowAPI.data.query.user_id = userId;
         diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -146,7 +135,7 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
         diseaseManagementListShowAPIFunc.setDelegate(DiseaseManagementFragment.this);
         diseaseManagementListShowAPIFunc.execute(diseaseManagementListShowAPI);
         swipeRefreshLayout.setRefreshing(setRefreshing);
-        if (setRefreshing){
+        if (setRefreshing) {
             progressBar.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.VISIBLE);
@@ -171,8 +160,8 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
     }
 
     @Subscribe
-    public void handleLoadMoreEvent (LoadMoreEvent loadMoreEvent){
-        if (this.isVisible()){
+    public void handleLoadMoreEvent(LoadMoreEvent loadMoreEvent) {
+        if (this.isVisible()) {
             DiseaseManagementListShowAPI diseaseManagementListShowAPI = new DiseaseManagementListShowAPI();
             diseaseManagementListShowAPI.data.query.user_id = userId;
             diseaseManagementListShowAPI.data.query.keyword = currentKeyword;
@@ -196,13 +185,13 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RequestCodeList.DISEASE_CREATE){
-            if (resultCode == Activity.RESULT_OK){
+        if (requestCode == RequestCodeList.DISEASE_CREATE) {
+            if (resultCode == Activity.RESULT_OK) {
                 refreshView(true);
                 scrollToTop();
             }
-        } else if (requestCode == RequestCodeList.DISEASE_EDIT){
-            if (resultCode == Activity.RESULT_OK){
+        } else if (requestCode == RequestCodeList.DISEASE_EDIT) {
+            if (resultCode == Activity.RESULT_OK) {
                 Gson gson = new Gson();
                 DiseaseManagementModel model =
                         gson.fromJson(data.getStringExtra(ConstantsManagement.DISEASE_MODEL_EXTRA), DiseaseManagementModel.class);
@@ -218,16 +207,16 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
 
     @Override
     public void onFinishDiseaseManagementShow(ResponseAPI responseAPI) {
-        if (this.isVisible()){
+        if (this.isVisible()) {
             progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
-            if(responseAPI.status_code == 200) {
+            if (responseAPI.status_code == 200) {
                 Gson gson = new Gson();
                 DiseaseManagementListShowAPI output = gson.fromJson(responseAPI.status_response, DiseaseManagementListShowAPI.class);
                 if (output.data.status.code.equals("200")) {
                     // If refresh, clear adapter and reset the counter
                     diseaseManagementAdapter.setFailLoad(false);
-                    if (output.data.query.flag.equals(Constants.FLAG_REFRESH)){
+                    if (output.data.query.flag.equals(Constants.FLAG_REFRESH)) {
                         diseaseManagementAdapter.clearList();
                         counter = 0;
                     }
@@ -236,11 +225,11 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
                     counter += output.data.results.disease_list.size();
 
                     if (lastItemCounter > 0 &&
-                            lastItemCounter >= APIConstants.DISEASE_INF_SCROLL){
+                            lastItemCounter >= APIConstants.DISEASE_INF_SCROLL) {
                         diseaseManagementAdapter.addSingle(null);
                     }
                     if (lastItemCounter == 0 &&
-                            diseaseManagementAdapter.getItemCount() == 0){
+                            diseaseManagementAdapter.getItemCount() == 0) {
                         noContentTV.setVisibility(View.VISIBLE);
                     } else {
                         noContentTV.setVisibility(View.GONE);
@@ -249,12 +238,12 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
                     diseaseManagementAdapter.setFailLoad(true);
                     Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
                 }
-            } else if(responseAPI.status_code == 504) {
+            } else if (responseAPI.status_code == 504) {
                 diseaseManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
-            } else if(responseAPI.status_code == 401 ||
+            } else if (responseAPI.status_code == 401 ||
                     responseAPI.status_code == 505) {
-                ((FastBaseActivity)getActivity()).forceLogout();
+                ((FastBaseActivity) getActivity()).forceLogout();
             } else {
                 diseaseManagementAdapter.setFailLoad(true);
                 Toast.makeText(getActivity(), getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

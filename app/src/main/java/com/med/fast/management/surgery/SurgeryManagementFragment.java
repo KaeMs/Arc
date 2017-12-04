@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -76,6 +75,7 @@ public class SurgeryManagementFragment extends FastBaseManagementFragment implem
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+//                if(swipeRefreshLayout != null)
                 swipeRefreshLayout.setEnabled(linearLayoutManager.findFirstCompletelyVisibleItemPosition() == 0);
 
                 int totalItemCount = linearLayoutManager.getItemCount();
@@ -116,6 +116,7 @@ public class SurgeryManagementFragment extends FastBaseManagementFragment implem
     public void onPause() {
         super.onPause();
         getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+        recyclerView.clearOnScrollListeners();
     }
 
     @Override

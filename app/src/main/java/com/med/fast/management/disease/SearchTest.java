@@ -1,13 +1,11 @@
 package com.med.fast.management.disease;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
-import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter;
 import com.med.fast.FastBaseActivity;
 import com.med.fast.R;
 
@@ -32,7 +30,7 @@ public class SearchTest extends FastBaseActivity {
             return a.getName().compareTo(b.getName());
         }
     };
-    
+
     @BindView(R.id.search_test_sv)
     SearchView searchView;
     @BindView(R.id.search_test_rv)
@@ -84,5 +82,5 @@ public class SearchTest extends FastBaseActivity {
         }
         return filteredModelList;
     }
-    
+
 }
