@@ -369,7 +369,7 @@
         <item>Camera</item>
         <item>Gallery</item>
     </string-array>
-    <string name="image_retrieval_failed">Can not retrieve selected image</string>
+    <string name="image_retrieval_failed">Cannot retrieve selected image</string>
 
     <!-- Logout -->
     <string name="logout_question">Are you sure you want to logout?</string>

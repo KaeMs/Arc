@@ -20,7 +20,8 @@
             android:id="@+id/summary_profile_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:contentDescription="@string/photo" />
+            android:contentDescription="@string/photo"
+            android:transitionName="@string/view_image_transition" />
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/summary_profile_name"

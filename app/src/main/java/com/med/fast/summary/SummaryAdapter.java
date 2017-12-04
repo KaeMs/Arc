@@ -2,6 +2,8 @@ package com.med.fast.summary;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,6 +21,7 @@ import com.med.fast.FastBaseViewHolder;
 import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.Tag;
+import com.med.fast.ViewImageActivity;
 import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
 import com.med.fast.management.allergy.AllergyManagementFragment;
@@ -110,7 +113,7 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == PROFILE) {
             ((ProfileVH) holder).summaryTitle.setText(context.getString(R.string.your_profile));
             ((ProfileVH) holder).summarySetting.setVisibility(View.VISIBLE);
@@ -130,6 +133,17 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
                     .placeholder(MediaUtils.image_placeholder_black)
                     .error(MediaUtils.image_error_black)
                     .into(((ProfileVH) holder).profilePhoto);
+
+            ((ProfileVH)holder).profilePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ViewImageActivity.class);
+                    intent.putExtra(ViewImageActivity.IMAGE_PATH_EXTRA, summaryWrapperModel.profil_image_path);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((FastBaseActivity) context, ((ProfileVH)holder).profilePhoto, ViewCompat.getTransitionName(((ProfileVH)holder).profilePhoto));
+                    context.startActivity(intent, options.toBundle());
+                }
+            });
 
             ((ProfileVH) holder).profileName.setText(summaryWrapperModel.name);
             ((ProfileVH) holder).profileDob.setText(summaryWrapperModel.date_of_birth);

@@ -249,8 +249,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
 //                    profilePhoto.setImageURI(createdPhotoUri);
                     Glide.with(this)
                             .load(createdPhotoUri)
+                            .fitCenter()
                             .into(profilePhoto);
                     photoChanged = true;
+                    submitBtn.setEnabled(true);
                 } catch (Exception e) {
                     Toast.makeText(this, getString(R.string.image_retrieval_failed), Toast.LENGTH_SHORT).show();
                     new File(currentMediaPath).delete();
@@ -262,9 +264,11 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     currentMediaPath = UtilityUriHelper.getPath(this, data.getData());
                     createdPhotoUri = MediaUtils.compressImage(this, Uri.parse(currentMediaPath));
                     photoChanged = true;
+                    submitBtn.setEnabled(true);
                     if (createdPhotoUri != null) {
                         Glide.with(this)
                                 .load(createdPhotoUri)
+                                .fitCenter()
                                 .into(profilePhoto);
 //                        profilePhoto.setImageURI(data.getData());
                     } else {
