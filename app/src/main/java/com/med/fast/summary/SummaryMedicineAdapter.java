@@ -89,7 +89,10 @@ public class SummaryMedicineAdapter extends FastBaseRecyclerAdapter {
             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - frequencyString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.append(" ");
             sb.append(mDataset.get(position).getFrequency());
-            sb.append("\n");
+
+            if(position != getItemCount() - 1){
+                sb.append("\n");
+            }
         } else {
             sb.append(context.getString(R.string.medicine_not_found));
         }

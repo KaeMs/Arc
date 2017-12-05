@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbarHeight"
+    android:layout_height="@dimen/summary_title_height"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -17,7 +17,7 @@
     <ImageView
         android:id="@+id/summary_header_setting"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/toolbarHeight"
+        android:layout_height="@dimen/summary_title_height"
         android:src="@drawable/ic_settings_black_24dp"
         android:visibility="gone"/>
 

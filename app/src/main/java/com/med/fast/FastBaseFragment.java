@@ -60,6 +60,7 @@ public abstract class FastBaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (unbinder != null)
         unbinder.unbind();
     }
 

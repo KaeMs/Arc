@@ -110,7 +110,7 @@ public class SummaryVisitAdapter extends FastBaseRecyclerAdapter {
                 String imageString = context.getString(R.string.visit_image);
                 sb.append(imageString);
                 sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - imageString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                sb.append(" ");
+                sb.append("\n");
                 //sb.append(mDataset.get(position).getMedicine_dose());
             } else {
                 summaryVisitVH.recyclerView.setVisibility(View.GONE);

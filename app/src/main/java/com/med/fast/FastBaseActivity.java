@@ -167,6 +167,7 @@ public abstract class FastBaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (unbinder != null)
         unbinder.unbind();
     }
 

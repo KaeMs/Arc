@@ -65,7 +65,10 @@ public class SummaryAllergyAdapter extends FastBaseRecyclerAdapter {
             sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), sb.length() - formString.length(), sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             sb.append(" ");
             sb.append(mDataset.get(position).getReaction());
-            sb.append("\n");
+
+            if(position != getItemCount() - 1){
+                sb.append("\n");
+            }
         } else {
             sb.append(context.getString(R.string.allergy_not_found));
         }

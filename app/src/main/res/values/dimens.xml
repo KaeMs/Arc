@@ -36,6 +36,7 @@
     <dimen name="btnHorizontalMarginLarge">30dp</dimen>
     <dimen name="btnVerticalMarginLarge">15dp</dimen>
 
+    <dimen name="summary_title_height">32dp</dimen>
     <dimen name="toolbarHeight">56dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
