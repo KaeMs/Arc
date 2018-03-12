@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.med.fast"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -57,6 +57,7 @@ dependencies {
     compile "com.android.support:support-v4:${android_support_lib_version}"
     compile "com.android.support:percent:${android_support_lib_version}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.google.android.gms:play-services-vision:${google_play_services_client_lib_version}"
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
@@ -75,7 +76,7 @@ dependencies {
     // Realm Field Name Helper
     annotationProcessor 'dk.ilios:realmfieldnameshelper:1.1.1'
     // Compressor
-    compile 'id.zelory:compressor:1.0.4'
+    compile 'id.zelory:compressor:2.0.0'
     // Joda Time
     compile 'joda-time:joda-time:2.9.9'
     // Gravity Snap Helper
