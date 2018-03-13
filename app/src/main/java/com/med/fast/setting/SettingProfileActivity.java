@@ -334,8 +334,7 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         } else if (responseAPI.status_code == 401 ||
                 responseAPI.status_code == 505) {
-            setResult(RequestCodeList.forceLogout);
-            finish();
+            forceLogout();
         } else {
             setLoading(false, false);
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();

@@ -2,6 +2,7 @@ package com.med.fast.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -119,6 +120,17 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
 
             LoginAPIFunc loginAPIFunc = new LoginAPIFunc(LoginActivity.this, LoginActivity.this);
             loginAPIFunc.execute(loginAPI);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String message = intent.getStringExtra(Constants.MESSAGE);
+        if (!TextUtils.isEmpty(message)){
+            if (!TextUtils.isEmpty(intent.getStringExtra(Constants.FORCE_LOGOUT))){
+                Toast.makeText(this, getString(R.string.error_force_logout), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

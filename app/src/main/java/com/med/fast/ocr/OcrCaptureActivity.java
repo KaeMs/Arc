@@ -41,10 +41,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 import com.med.fast.R;
+import com.med.fast.ocr.ui.camera.CameraSource;
 import com.med.fast.ocr.ui.camera.CameraSourcePreview;
 import com.med.fast.ocr.ui.camera.GraphicOverlay;
 
@@ -74,9 +74,9 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
     private CameraSource mCameraSource;
     @BindView(R.id.preview)
-    private CameraSourcePreview mPreview;
+    CameraSourcePreview mPreview;
     @BindView(R.id.graphicOverlay)
-    private GraphicOverlay<OcrGraphic> mGraphicOverlay;
+    GraphicOverlay<OcrGraphic> mGraphicOverlay;
 
     // Helper objects for detecting taps and pinches.
     private ScaleGestureDetector scaleGestureDetector;

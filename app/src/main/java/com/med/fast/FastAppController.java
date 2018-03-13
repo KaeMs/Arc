@@ -2,6 +2,7 @@ package com.med.fast;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -36,7 +37,7 @@ public class FastAppController extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(this);
+        MultiDex.install(this);
     }
 
     public Realm buildDatabase(){

@@ -5,6 +5,9 @@ package com.med.fast;
  */
 
 public class Constants {
+    public static final String MESSAGE = "MESSAGE";
+    public static final String FORCE_LOGOUT = "FORCE_LOGOUT";
+
     public static final String dateFormatSlash = "MMM/dd/yyyy";
     public static final String dateFormatSpace = "MMM dd yyyy";
     public static final String dateFormatComma = "MMM dd, yyyy";

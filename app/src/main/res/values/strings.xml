@@ -374,6 +374,7 @@
     <string name="error_connection">Connection error, please try again later</string>
     <string name="error_server">Server error, please try again later</string>
     <string name="error_infscroll">Failed to retrieve more data. Tap here to try again.</string>
+    <string name="error_force_logout">Credentials error</string>
 
     <!-- Media -->
     <string name="select_image">Select image</string>

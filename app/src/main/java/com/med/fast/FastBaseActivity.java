@@ -2,6 +2,7 @@ package com.med.fast;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Fade;
 import android.transition.Transition;
+
+import com.med.fast.login.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -212,6 +215,16 @@ public abstract class FastBaseActivity extends AppCompatActivity {
     }
 
     public void forceLogout() {
-
+        SharedPreferenceUtilities.clearSharedPreference(this, SharedPreferenceUtilities.SESSION_SP);
+        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancelAll();
+        FastAppController.realm.beginTransaction();
+        FastAppController.realm.deleteAll();
+        FastAppController.realm.commitTransaction();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.MESSAGE, Constants.FORCE_LOGOUT);
+        startActivity(intent);
+        finish();
     }
 }

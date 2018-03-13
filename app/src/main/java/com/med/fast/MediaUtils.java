@@ -31,12 +31,11 @@ public class MediaUtils {
 
             File realFile = new File(realPath);
 
-            File compressedImg = new Compressor.Builder(context)
+            File compressedImg = new Compressor(context)
                     .setMaxHeight(1920)
                     .setMaxWidth(1920)
                     .setQuality(70)
                     .setCompressFormat(Bitmap.CompressFormat.JPEG)
-                    .build()
                     .compressToFile(realFile);
 
             return Uri.fromFile(compressedImg);
