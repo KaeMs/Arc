@@ -28,7 +28,6 @@ import com.med.fast.management.labresult.api.LabResultManagementListShowAPI;
 import com.med.fast.management.labresult.api.LabResultManagementListShowAPIFunc;
 import com.med.fast.management.labresult.labresultinterface.LabResultManagementShowIntf;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
@@ -119,13 +118,6 @@ public class LabResultManagementFragment extends FastBaseManagementFragment impl
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
-        recyclerView.clearOnScrollListeners();
-    }
-
-    @Override
     public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
@@ -156,22 +148,6 @@ public class LabResultManagementFragment extends FastBaseManagementFragment impl
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Subscribe

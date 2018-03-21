@@ -7,16 +7,13 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.med.fast.Constants;
 import com.med.fast.ConstantsManagement;
 import com.med.fast.FastBaseManagementFragment;
-import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.RequestCodeList;
 import com.med.fast.SharedPreferenceUtilities;
@@ -29,7 +26,6 @@ import com.med.fast.management.accidenthistory.accidentinterface.AccidentHistory
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPI;
 import com.med.fast.management.accidenthistory.api.AccidentHistoryListShowAPIFunc;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
@@ -49,16 +45,10 @@ public class AccidentHistoryManagementFragment extends FastBaseManagementFragmen
     public AccidentHistoryManagementFragment() {
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.management_mainfragment, container, false);
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).changeTitle("ACCIDENT MANAGEMENT");
+        setTitle(getString(R.string.accident_history_management));
 //        setHasOptionsMenu(true);
 
         userId = SharedPreferenceUtilities.getUserId(getActivity());
@@ -123,28 +113,6 @@ public class AccidentHistoryManagementFragment extends FastBaseManagementFragmen
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override

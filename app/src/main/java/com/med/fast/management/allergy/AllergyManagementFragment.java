@@ -115,13 +115,6 @@ public class AllergyManagementFragment extends FastBaseManagementFragment implem
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
-        recyclerView.clearOnScrollListeners();
-    }
-
-    @Override
     public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
@@ -153,22 +146,6 @@ public class AllergyManagementFragment extends FastBaseManagementFragment implem
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Subscribe

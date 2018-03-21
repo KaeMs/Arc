@@ -2,11 +2,13 @@ package com.med.fast.management.accidenthistory;
 
 import com.med.fast.Utils;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Kevin Murvie on 4/24/2017. FM
  */
 
-public class AccidentHistoryManagementModel {
+public class AccidentHistoryManagementModel extends RealmObject {
     private String detail;
     private String id;
     private String injury_nature;

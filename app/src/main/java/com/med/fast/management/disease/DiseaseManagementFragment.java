@@ -27,7 +27,6 @@ import com.med.fast.management.disease.api.DiseaseManagementListShowAPI;
 import com.med.fast.management.disease.api.DiseaseManagementListShowAPIFunc;
 import com.med.fast.management.disease.diseaseinterface.DiseaseManagementShowIntf;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 /**
@@ -104,13 +103,6 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        getArguments().putParcelable(Constants.MANAGER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
-        recyclerView.clearOnScrollListeners();
-    }
-
-    @Override
     public void scrollToTop() {
         this.recyclerView.smoothScrollBy(0, -1000);
         Handler handler = new Handler();
@@ -141,22 +133,6 @@ public class DiseaseManagementFragment extends FastBaseManagementFragment implem
             progressBar.setVisibility(View.VISIBLE);
         }
         isLoading = true;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().unregister(this);
-        }
     }
 
     @Subscribe
