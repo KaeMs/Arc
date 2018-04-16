@@ -29,8 +29,8 @@ public abstract class FastBaseManagementFragment extends FastBaseFragment {
     public CustomFontEditText searchET;
     @BindView(R.id.management_mainfragment_search_btn)
     public ImageView searchBtn;
-    @BindView(R.id.management_mainfragment_add_btn)
-    public ImageButton addbtn;
+    /*@BindView(R.id.management_mainfragment_add_btn)
+    public ImageButton addbtn;*/
     @BindView(R.id.management_mainfragment_swipe_refresh)
     public SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.management_mainfragment_recycler)

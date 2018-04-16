@@ -69,11 +69,17 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/date_of_birth" />
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:id="@+id/signup_dobTV"
+            <com.med.fast.customviews.CustomFontEditText
+                android:id="@+id/signup_dobET"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_height="match_parent"
+                android:hint="@string/date_of_birth"
+                android:background="@drawable/border_edittext_grey_pink_selector"
+                android:padding="10dp" />
 
             <com.med.fast.customviews.CustomFontTextView
                 android:layout_width="match_parent"

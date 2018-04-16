@@ -64,8 +64,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
     CustomFontEditText emailAddressET;
 
     // Date of Birth
-    @BindView(R.id.signup_dobTV)
-    CustomFontTextView dobTV;
+    @BindView(R.id.signup_dobET)
+    CustomFontEditText dobET;
     // Gender
     @BindView(R.id.signup_maleRB)
     CustomFontRadioButton maleRB;
@@ -112,7 +112,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        dobTV.setOnClickListener(new View.OnClickListener() {
+        dobET.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(SignupActivity.this, null, year, month, day);
@@ -139,7 +139,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
 
                                 format = new SimpleDateFormat(Constants.dateFormatComma, Locale.getDefault());
                                 String date = format.format(newDate);
-                                dobTV.setText(date);
+                                dobET.setText(date);
                             }
                         });
 
@@ -170,7 +170,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dobTV.getText().toString().equals("")){
+                if (dobET.getText().toString().equals("")){
                     Toast.makeText(SignupActivity.this, getString(R.string.date_of_birth_required), Toast.LENGTH_SHORT).show();
                 } else {
                     if (mAwesomeValidation.validate()) {
@@ -178,7 +178,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
                         registerSubmitAPI.data.query.first_name = firstNameET.getText().toString();
                         registerSubmitAPI.data.query.last_name = lastNameET.getText().toString();
                         registerSubmitAPI.data.query.email = emailAddressET.getText().toString();
-                        registerSubmitAPI.data.query.dob = dobTV.getText().toString();
+                        registerSubmitAPI.data.query.dob = dobET.getText().toString();
                         registerSubmitAPI.data.query.password = passwordET.getText().toString();
                         registerSubmitAPI.data.query.gender = maleRB.isChecked()? "0" : "1" ;
 
