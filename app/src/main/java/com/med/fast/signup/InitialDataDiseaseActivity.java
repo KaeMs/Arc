@@ -27,6 +27,7 @@ import com.med.fast.FastBaseActivity;
 import com.med.fast.MainActivity;
 import com.med.fast.R;
 import com.med.fast.SharedPreferenceUtilities;
+import com.med.fast.StartActivityForResultInAdapterIntf;
 import com.med.fast.Utils;
 import com.med.fast.api.ResponseAPI;
 import com.med.fast.customevents.ItemAddedEvent;
@@ -60,7 +61,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.UNDERLABEL;
  * Created by Kevin Murvie on 4/11/2017. Fast
  */
 
-public class InitialDataDiseaseActivity extends FastBaseActivity implements DiseaseManagementShowIntf, SkipInitialIntf {
+public class InitialDataDiseaseActivity extends FastBaseActivity implements DiseaseManagementShowIntf, SkipInitialIntf, StartActivityForResultInAdapterIntf {
 
     // Toolbar
     @BindView(R.id.toolbartitledivider_back)
@@ -110,7 +111,7 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
 
         userId = SharedPreferenceUtilities.getUserId(this);
 
-        diseaseManagementAdapter = new DiseaseManagementAdapter(this, null, true);
+        diseaseManagementAdapter = new DiseaseManagementAdapter(this, this, true);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(diseaseManagementAdapter);
@@ -313,5 +314,10 @@ public class InitialDataDiseaseActivity extends FastBaseActivity implements Dise
         } else {
             Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onStartActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
     }
 }
