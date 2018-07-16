@@ -38,6 +38,7 @@ import com.med.fast.management.idcard.api.IDCardShowAPIFunc;
 import com.med.fast.management.idcard.api.IDCardSubmitAPI;
 import com.med.fast.management.idcard.api.IDCardSubmitAPIFunc;
 import com.med.fast.management.idcard.intf.IDCardShowSubmitIntf;
+import com.med.fast.utils.GlideUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -199,11 +200,10 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
 
                         Glide.with(getActivity())
                                 .load(APIConstants.WEB_URL + output.data.results.card_id_image_path)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .fitCenter()
-                                .skipMemoryCache(true)
-                                .placeholder(MediaUtils.image_placeholder_black)
-                                .error(MediaUtils.image_error_black)
+                                .apply(
+                                        GlideUtils.getDefaultRequestOptions()
+                                                .fitCenter()
+                                )
                                 .into(photo);
 
                     } else {
@@ -237,11 +237,11 @@ public class IDCardFragment extends FastBaseFragment implements IDCardShowSubmit
 
                     Glide.with(getActivity())
                             .load(APIConstants.WEB_URL + output.data.results.card_id_new_image_path)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .fitCenter()
-                            .skipMemoryCache(true)
-                            .placeholder(MediaUtils.image_placeholder_black)
-                            .error(MediaUtils.image_error_black)
+                            .apply(
+                                    GlideUtils.getDefaultRequestOptions()
+                                            .fitCenter()
+                                            .dontAnimate()
+                            )
                             .into(photo);
 
                     Toast.makeText(getActivity(), getString(R.string.idcard_uploaded), Toast.LENGTH_SHORT).show();

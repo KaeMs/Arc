@@ -30,6 +30,7 @@ import com.med.fast.management.medicine.MedicineManagementFragment;
 import com.med.fast.management.misc.MiscManagementFragment;
 import com.med.fast.management.visit.VisitFragment;
 import com.med.fast.setting.SettingProfileActivity;
+import com.med.fast.utils.GlideUtils;
 
 import butterknife.BindView;
 import io.realm.Realm;
@@ -127,11 +128,10 @@ public class SummaryAdapter extends FastBaseRecyclerAdapter {
 
             Glide.with(context)
                     .load(APIConstants.WEB_URL + summaryWrapperModel.profil_image_path)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(true)
-                    .fitCenter()
-                    .placeholder(MediaUtils.image_placeholder_black)
-                    .error(MediaUtils.image_error_black)
+                    .apply(
+                            GlideUtils.getDefaultRequestOptions()
+                                    .fitCenter()
+                    )
                     .into(((ProfileVH) holder).profilePhoto);
 
             ((ProfileVH)holder).profilePhoto.setOnClickListener(new View.OnClickListener() {

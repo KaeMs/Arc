@@ -191,6 +191,11 @@
         <activity android:name=".ocr.OcrCaptureActivity"
             android:label="Read Text">
         </activity>
+        <activity android:name=".CollapsingTest"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:exported="true" />
     </application>
 
 </manifest>

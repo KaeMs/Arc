@@ -2,6 +2,7 @@ package com.med.fast.management.labresult;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.ViewImageActivity;
 import com.med.fast.api.APIConstants;
+import com.med.fast.utils.GlideUtils;
 import com.med.fast.viewholders.GeneralImageVH;
 
 import java.util.ArrayList;
@@ -63,10 +65,11 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
 
         Glide.with(context)
                 .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .skipMemoryCache(true)
-                .placeholder(MediaUtils.image_placeholder_black)
-                .error(MediaUtils.image_error_black)
+                .apply(
+                        GlideUtils.getDefaultRequestOptions()
+                                .centerCrop()
+                                .dontAnimate()
+                )
                 .into(generalImageVH.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,9 +85,9 @@ public class LabResultImageShowAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.clear(((GeneralImageVH)holder).image);
+        Glide.with(((GeneralImageVH)holder).image.getContext()).clear(((GeneralImageVH)holder).image);
     }
 
     @Override

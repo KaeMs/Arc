@@ -28,6 +28,7 @@
     <dimen name="btnSmallMidHeight">31dp</dimen>
     <dimen name="btnMediumHeight">34dp</dimen>
     <dimen name="btnLargeHeight">40dp</dimen>
+    <dimen name="btnxLargeHeight">48dp</dimen>
 
     <dimen name="btnHorizontalMarginSmall">10dp</dimen>
     <dimen name="btnVerticalMarginSmall">5dp</dimen>
@@ -43,5 +44,10 @@
     <dimen name="txtViewSmallPadding">5dp</dimen>
 
     <dimen name="image_margin">5dp</dimen>
+
+    <!-- dimensions -->
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
 
 </resources>

@@ -23,6 +23,7 @@ import com.med.fast.UriUtils;
 import com.med.fast.UtilityUriHelper;
 import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.utils.GlideUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -183,19 +184,17 @@ public class VisitImageEditAdapter extends FastBaseRecyclerAdapter {
             if (mDataset.get(position).getUri() != null){
                 Glide.with(context)
                         .load(mDataset.get(position).getUri())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .skipMemoryCache(true)
-                        .placeholder(MediaUtils.image_placeholder_black)
-                        .error(MediaUtils.image_error_black)
+                        .apply(
+                                GlideUtils.getDefaultRequestOptions()
+                        )
                         .into(visitImageVH.image);
             } else {
                 Glide.with(context)
                         .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .skipMemoryCache(true)
-                        .fitCenter()
-                        .placeholder(MediaUtils.image_placeholder_black)
-                        .error(MediaUtils.image_error_black)
+                        .apply(
+                                GlideUtils.getDefaultRequestOptions()
+                                .fitCenter()
+                        )
                         .into(visitImageVH.image);
             }
 

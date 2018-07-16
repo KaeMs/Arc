@@ -22,6 +22,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.ViewImageActivity;
 import com.med.fast.api.APIConstants;
+import com.med.fast.utils.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,10 +67,9 @@ public class VisitImageAdapter extends FastBaseRecyclerAdapter {
 
         Glide.with(context)
                 .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .skipMemoryCache(true)
-                .placeholder(MediaUtils.image_placeholder_black)
-                .error(MediaUtils.image_error_black)
+                .apply(
+                        GlideUtils.getDefaultRequestOptions()
+                )
                 .into(visitImageVH.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

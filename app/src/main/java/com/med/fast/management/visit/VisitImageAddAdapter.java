@@ -20,6 +20,7 @@ import com.med.fast.MediaUtils;
 import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.utils.GlideUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -154,10 +155,9 @@ public class VisitImageAddAdapter extends FastBaseRecyclerAdapter {
 
             Glide.with(context)
                     .load(mDataset.get(position).getUri())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .skipMemoryCache(true)
-                    .placeholder(MediaUtils.image_placeholder_black)
-                    .error(MediaUtils.image_error_black)
+                    .apply(
+                            GlideUtils.getDefaultRequestOptions()
+                    )
                     .into(visitImageVH.image);
 
         } else {

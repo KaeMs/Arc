@@ -2,6 +2,7 @@ package com.med.fast;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
@@ -20,14 +21,14 @@ public abstract class FastBaseRecyclerAdapter extends RecyclerView.Adapter {
     public DeleteConfirmIntf deleteConfirmIntf;
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         if (enableEventbus) if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         if (enableEventbus)
             if (EventBus.getDefault().isRegistered(this))

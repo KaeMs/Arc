@@ -39,6 +39,7 @@ import com.med.fast.setting.api.SettingShowAPI;
 import com.med.fast.setting.api.SettingShowAPIFunc;
 import com.med.fast.setting.api.SettingSubmitAPI;
 import com.med.fast.setting.api.SettingSubmitAPIFunc;
+import com.med.fast.utils.GlideUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -249,7 +250,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
 //                    profilePhoto.setImageURI(createdPhotoUri);
                     Glide.with(this)
                             .load(createdPhotoUri)
-                            .fitCenter()
+                            .apply(
+                                    GlideUtils.getDefaultRequestOptions()
+                                            .fitCenter()
+                            )
                             .into(profilePhoto);
                     photoChanged = true;
                     submitBtn.setEnabled(true);
@@ -268,7 +272,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
                     if (createdPhotoUri != null) {
                         Glide.with(this)
                                 .load(createdPhotoUri)
-                                .fitCenter()
+                                .apply(
+                                        GlideUtils.getDefaultRequestOptions()
+                                                .fitCenter()
+                                )
                                 .into(profilePhoto);
 //                        profilePhoto.setImageURI(data.getData());
                     } else {
@@ -314,11 +321,10 @@ public class SettingProfileActivity extends FastBaseActivity implements SettingA
 
                     Glide.with(this)
                             .load(APIConstants.WEB_URL + output.data.results.profil_image_path)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .fitCenter()
-                            .skipMemoryCache(true)
-                            .placeholder(MediaUtils.image_placeholder_black)
-                            .error(MediaUtils.image_error_black)
+                            .apply(
+                                    GlideUtils.getDefaultRequestOptions()
+                                            .fitCenter()
+                            )
                             .into(profilePhoto);
 
                 } else {

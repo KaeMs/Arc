@@ -2,6 +2,7 @@ package com.med.fast.management.labresult;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.med.fast.R;
 import com.med.fast.UriUtils;
 import com.med.fast.api.APIConstants;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.utils.GlideUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -157,8 +159,9 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
         return IMAGE;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
         if (viewType == PLACEHOLDER) {
             View view = LayoutInflater.from(parent.getContext())
@@ -173,7 +176,7 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
         if (getItemViewType(position) == IMAGE) {
             VisitImageVH visitImageVH = (VisitImageVH) holder;
@@ -183,20 +186,18 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
             if (mDataset.get(position).getImage_uri() != null){
                 Glide.with(context)
                         .load(UriUtils.getPath(context, mDataset.get(position).getImage_uri()))
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .centerCrop()
-                        .skipMemoryCache(true)
-                        .placeholder(MediaUtils.image_placeholder_black)
-                        .error(MediaUtils.image_error_black)
+                        .apply(
+                                GlideUtils.getDefaultRequestOptions()
+                                        .centerCrop()
+                        )
                         .into(visitImageVH.image);
             } else {
                 Glide.with(context)
                         .load(APIConstants.WEB_URL + mDataset.get(position).getPath())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .centerCrop()
-                        .skipMemoryCache(true)
-                        .placeholder(MediaUtils.image_placeholder_black)
-                        .error(MediaUtils.image_error_black)
+                        .apply(
+                                GlideUtils.getDefaultRequestOptions()
+                                        .centerCrop()
+                        )
                         .into(visitImageVH.image);
             }
 
@@ -268,10 +269,10 @@ public class LabResultImageAddAdapter extends FastBaseRecyclerAdapter {
     }
 
     @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
         if (holder instanceof VisitImageVH){
-            Glide.clear(((VisitImageVH)holder).image);
+            Glide.with(((VisitImageVH)holder).image.getContext()).clear(((VisitImageVH)holder).image);
         }
     }
 
