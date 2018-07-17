@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import com.med.fast.login.LoginActivity;
+import com.med.fast.login.WelcomeActivity;
 import com.med.fast.signup.InitialDataAllergyActivity;
 import com.med.fast.signup.InitialDataDiseaseActivity;
 import com.med.fast.signup.InitialDataMedicationActivity;
@@ -120,14 +121,14 @@ public class SplashScreenActivity extends FastBaseActivity {
                     }
                 }
             } else {
-                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, WelcomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         } else {
-            Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, WelcomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

@@ -6,15 +6,15 @@
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="#000000" />
-            <corners android:radius="18dp" />
+            <corners android:radius="28dp" />
         </shape>
     </item>
 
     <item>
         <selector>
-            <item android:drawable="@drawable/border_blue_radius18" android:state_pressed="true" />
-            <item android:drawable="@drawable/background_blue_radius18" android:state_activated="true" />
-            <item android:drawable="@drawable/background_blue_radius18" />
+            <item android:drawable="@drawable/background_pink_radius28" android:state_pressed="true" />
+            <item android:drawable="@drawable/border_pink_radius28" android:state_activated="true" />
+            <item android:drawable="@drawable/border_pink_radius28" />
         </selector>
     </item>
 

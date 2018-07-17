@@ -3,12 +3,14 @@ package com.med.fast.signup;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.StyleSpan;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ import com.med.fast.customviews.CustomFontButton;
 import com.med.fast.customviews.CustomFontEditText;
 import com.med.fast.customviews.CustomFontRadioButton;
 import com.med.fast.customviews.CustomFontTextView;
+import com.med.fast.login.LoginActivity;
 import com.med.fast.signup.api.RegisterSubmitAPI;
 import com.med.fast.signup.api.RegisterSubmitAPIFunc;
 
@@ -50,21 +53,21 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
 public class SignupActivity extends FastBaseActivity implements RegisterSubmitAPIIntf {
 
     // Toolbar
-    @BindView(R.id.toolbartitledivider_title)
-    CustomFontTextView toolbarTitle;
+    /*@BindView(R.id.toolbartitledivider_title)
+    CustomFontTextView toolbarTitle;*/
 
     // Name
-    @BindView(R.id.signup_firstNameET)
+    @BindView(R.id.signup_first_name_et)
     CustomFontEditText firstNameET;
-    @BindView(R.id.signup_lastNameET)
+    @BindView(R.id.signup_last_name_et)
     CustomFontEditText lastNameET;
 
     // Email
-    @BindView(R.id.signup_emailAddressET)
+    @BindView(R.id.signup_email_et)
     CustomFontEditText emailAddressET;
 
     // Date of Birth
-    @BindView(R.id.signup_dobET)
+    @BindView(R.id.signup_dob_et)
     CustomFontEditText dobET;
     // Gender
     @BindView(R.id.signup_maleRB)
@@ -72,15 +75,18 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
     @BindView(R.id.signup_femaleRB)
     CustomFontRadioButton femaleRB;
     // Password
-    @BindView(R.id.signup_passwordET)
+    @BindView(R.id.signup_password_et)
     CustomFontEditText passwordET;
     @BindView(R.id.signup_confirmPassET)
     CustomFontEditText confirmPassET;
     // Confirm
     @BindView(R.id.signup_legal_terms)
     CustomFontTextView legalTerms;
-    @BindView(R.id.signup_confirmBtn)
+    @BindView(R.id.signup_confirm_btn)
     CustomFontButton confirmBtn;
+    @BindView(R.id.signup_login_tv)
+    CustomFontTextView signInTV;
+
     private int year, month, day;
 
     @Override
@@ -88,7 +94,7 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        toolbarTitle.setText(getString(R.string.signup_title));
+//        toolbarTitle.setText(getString(R.string.signup_title));
 
         SpannableStringBuilder legalSb = new SpannableStringBuilder(getString(R.string.legal_agreement_txt));
         legalSb.append(" ");
@@ -105,6 +111,21 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         legalSb.setSpan(termsCSpan, legalSb.length() - termsTxt.length(), legalSb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         legalTerms.setText(legalSb);
         legalTerms.setMovementMethod(LinkMovementMethod.getInstance());
+
+        SpannableStringBuilder signInSb = new SpannableStringBuilder(getString(R.string.sign_in_question));
+        signInSb.append(" ");
+        String signInStr = getString(R.string.sign_in);
+        signInSb.append(signInStr);
+        signInSb.setSpan(new StyleSpan(Typeface.BOLD), signInSb.length() - signInStr.length(), signInSb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        signInTV.setText(signInSb);
+        signInTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.YEAR, -10);
@@ -164,8 +185,8 @@ public class SignupActivity extends FastBaseActivity implements RegisterSubmitAP
         mAwesomeValidation.addValidation(firstNameET, Constants.REGEX_NAME, getString(R.string.first_name_wrong_format));
         mAwesomeValidation.addValidation(lastNameET, Constants.REGEX_NAME, getString(R.string.last_name_incorrect_format));
         mAwesomeValidation.addValidation(emailAddressET, Patterns.EMAIL_ADDRESS, getString(R.string.email_address_incorrect_format));
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_passwordET, Constants.REGEX_PASSWORD, R.string.password_wrong_format);
-        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_passwordET, R.string.password_wrong_confirmation);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_password_et, Constants.REGEX_PASSWORD, R.string.password_wrong_format);
+        mAwesomeValidation.addValidation(SignupActivity.this, R.id.signup_confirmPassET, R.id.signup_password_et, R.string.password_wrong_confirmation);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override

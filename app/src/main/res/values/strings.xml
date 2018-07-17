@@ -13,6 +13,9 @@
     <string name="setting_forgot_password">Forgot Password?</string>
     <string name="settings_saved">Settings saved</string>
 
+    <!-- Welcome Screen -->
+    <string name="tagline">Your Medical Organizer</string>
+
     <!-- Login Screen -->
     <string name="user_name">Username</string>
     <string name="email">Email</string>
@@ -20,8 +23,10 @@
     <string name="login">Login</string>
     <string name="logging_in">Logging in</string>
     <string name="sign_in">Sign In</string>
+    <string name="sign_in_question">Already have an account?</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_up_question">Don\'t have an account? <b>Create Now</b></string>
+    <string name="sign_up_question">Don\'t have an account?</string>
+    <string name="create_now">Create Now</string>
     <string name="forgot_password_question">Forgot Password?</string>
     <string name="wrong_email_or_password">Email or Password is not found or mismatched</string>
     <string name="registration_success_message">Registration Succeeded. To continue, please click on the link sent to </string>

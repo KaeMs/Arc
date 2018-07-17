@@ -1,157 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_title_divider" />
+    <!--<include layout="@layout/toolbar_title_divider" />-->
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        app:layout_constraintDimensionRatio="H,1:0.85"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <android.support.v7.widget.CardView
+        android:id="@+id/signup_logo_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:cardCornerRadius="14dp"
+        app:contentPadding="12dp"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/loginactivity_logo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="25dp">
+            android:contentDescription="@string/logo"
+            android:src="@drawable/logo_plain"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.med.fast.customviews.CustomFontTextView
+    </android.support.v7.widget.CardView>
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/signup_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_large"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_logo_card" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/signup_functional_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="20dp"
+        android:maxWidth="250dp"
+        android:minWidth="150dp"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
+        app:contentPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_label">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name" />
+                android:layout_height="wrap_content">
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_firstNameET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/first_name"
-                android:inputType="textCapWords"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:singleLine="true"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_first_name_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_lastNameET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/last_name"
-                android:inputType="textCapWords"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:singleLine="true" />
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_first_name_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:hint="@string/first_name"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/email_address" />
+                </android.support.design.widget.TextInputLayout>
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_emailAddressET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/email_address"
-                android:maxLines="1"
-                android:singleLine="true" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_last_name_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_first_name_til">
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/date_of_birth" />
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_last_name_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:hint="@string/last_name"
+                        android:inputType="textCapWords"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_dobET"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="none"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="@string/date_of_birth"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:padding="10dp" />
+                </android.support.design.widget.TextInputLayout>
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/gender" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_email_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_last_name_til">
 
-            <RadioGroup
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_email_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:hint="@string/email_address"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true" />
 
-                <com.med.fast.customviews.CustomFontRadioButton
-                    android:id="@+id/signup_maleRB"
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_dob_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_email_til">
+
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_dob_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/date_of_birth"
+                        android:inputType="none"
+                        android:padding="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<com.med.fast.customviews.CustomFontTextView
+                    android:id="@+id/signup_gender_lbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/gender"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_dob_til" />-->
+
+                <RadioGroup
+                    android:id="@+id/signup_gender_rg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="@string/male" />
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_dob_til">
 
-                <com.med.fast.customviews.CustomFontRadioButton
-                    android:id="@+id/signup_femaleRB"
-                    android:layout_width="wrap_content"
+                    <com.med.fast.customviews.CustomFontRadioButton
+                        android:id="@+id/signup_maleRB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/male" />
+
+                    <com.med.fast.customviews.CustomFontRadioButton
+                        android:id="@+id/signup_femaleRB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female" />
+
+                </RadioGroup>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_password_til"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/female" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_gender_rg">
 
-            </RadioGroup>
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_password_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:hint="@string/password"
+                        android:inputType="textPassword" />
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/password" />
+                </android.support.design.widget.TextInputLayout>
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_passwordET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/password"
-                android:inputType="textPassword" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/signup_confirm_password_til"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_password_til">
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/confirm_password" />
+                    <com.med.fast.customviews.CustomFontEditText
+                        android:id="@+id/signup_confirmPassET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edittext_grey_blue_selector"
+                        android:hint="@string/confirm_password"
+                        android:inputType="textPassword" />
 
-            <com.med.fast.customviews.CustomFontEditText
-                android:id="@+id/signup_confirmPassET"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_edittext_grey_pink_selector"
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
+                </android.support.design.widget.TextInputLayout>
 
-            <com.med.fast.customviews.CustomFontTextView
-                android:id="@+id/signup_legal_terms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                <com.med.fast.customviews.CustomFontTextView
+                    android:id="@+id/signup_legal_terms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_confirm_password_til"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <com.med.fast.customviews.CustomFontButton
-                android:id="@+id/signup_confirmBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btnLargeHeight"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_pink_pinkdark"
-                android:text="@string/create_an_account" />
+            </android.support.constraint.ConstraintLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+    </android.support.v7.widget.CardView>
 
-</LinearLayout>
+    <Space
+        android:id="@+id/signup_confirm_btn_spacer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/btn_xlarge_height"
+        app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/signup_confirm_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_xlarge_height"
+        android:background="@drawable/button_blue_radius28"
+        android:text="@string/create_an_account"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signup_confirm_btn_spacer" />
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/signup_login_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="@string/sign_in_question"
+        android:textColor="@color/textcolor_pink_to_black"
+        android:textSize="@dimen/font_medium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

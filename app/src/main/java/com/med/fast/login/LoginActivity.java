@@ -1,8 +1,12 @@
 package com.med.fast.login;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -103,10 +107,19 @@ public class LoginActivity extends FastBaseActivity implements LoginIntf {
         signupSpb.setSpan(signupSpan, 0, signupSpb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         signup.setText(signupSpb);
         signup.setMovementMethod(new LinkMovementMethod());*/
+
+        SpannableStringBuilder signupSB = new SpannableStringBuilder(getString(R.string.sign_up_question));
+        signupSB.append(" ");
+        String signupTxt = getString(R.string.create_now);
+        signupSB.append(signupTxt);
+        signupSB.setSpan(new StyleSpan(Typeface.BOLD), signupSB.length() - signupTxt.length(), signupSB.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        signup.setText(signupSB);
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });

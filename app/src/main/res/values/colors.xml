@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#001d4b</color>
     <!-- FF4081 -->
     <color name="colorAccent">#e8158d</color>
+    <!-- pink accent e8158d -->
 
     <item name="transparent" type="color">#00ffffff</item>
     <color name="white">#ffffffff</color>

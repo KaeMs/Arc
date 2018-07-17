@@ -128,7 +128,9 @@
                     android:id="@+id/loginactivity_forgotpassword_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/btn_xlarge_height"
                     android:text="@string/forgot_password_question"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:textColor="@color/textcolor_grey_to_pink"
                     android:textSize="@dimen/font_small"
                     app:layout_constraintTop_toBottomOf="@+id/loginactivity_password_til" />
@@ -137,21 +139,36 @@
 
         </android.support.v7.widget.CardView>
 
-        <com.med.fast.customviews.CustomFontButton
-            android:id="@+id/loginactivity_login_btn"
+        <Space
+            android:id="@+id/loginactivity_login_btn_spacer"
             android:layout_width="0dp"
-            android:layout_height="@dimen/btnxLargeHeight"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button_blue_radius18"
-            android:paddingLeft="@dimen/btnHorizontalMarginMedium"
-            android:paddingRight="@dimen/btnHorizontalMarginMedium"
-            android:text="@string/sign_in"
-            android:textSize="@dimen/font_large"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/loginactivity_functional_card"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/loginactivity_login_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardElevation="11dp"
             app:layout_constraintLeft_toLeftOf="@+id/loginactivity_functional_card"
             app:layout_constraintRight_toRightOf="@+id/loginactivity_functional_card"
-            app:layout_constraintTop_toBottomOf="@+id/loginactivity_functional_card" />
+            app:layout_constraintTop_toBottomOf="@+id/loginactivity_login_btn_spacer"
+            android:layout_marginLeft="40dp"
+            app:cardCornerRadius="28dp"
+            android:layout_marginRight="40dp">
+
+            <com.med.fast.customviews.CustomFontButton
+                android:id="@+id/loginactivity_login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_xlarge_height"
+                android:background="@drawable/button_blue_radius28"
+                android:paddingLeft="@dimen/btnHorizontalMarginMedium"
+                android:paddingRight="@dimen/btnHorizontalMarginMedium"
+                android:text="@string/sign_in"
+                android:textSize="@dimen/font_large" />
+
+        </android.support.v7.widget.CardView>
 
         <com.med.fast.customviews.CustomFontTextView
             android:id="@+id/loginactivity_signup_tv"
@@ -164,7 +181,7 @@
             android:textSize="@dimen/font_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loginactivity_login_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/loginactivity_login_card" />
 
     </android.support.constraint.ConstraintLayout>
 

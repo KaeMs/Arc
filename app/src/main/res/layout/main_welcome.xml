@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/welcome_logo_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        app:cardCornerRadius="14dp"
+        app:cardElevation="10dp"
+        app:contentPadding="12dp"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/welcome_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/logo_plain"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/welcome_app_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_logo_card" />
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/welcome_app_tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/tagline"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_app_label" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/welcome_buttons_guideline_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/welcome_buttons_guideline_vertical_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/welcome_buttons_guideline_vertical_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/welcome_signin_btn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/btn_xlarge_height"
+        android:background="@drawable/button_blue_radius28"
+        android:paddingLeft="@dimen/btnHorizontalMarginMedium"
+        android:paddingRight="@dimen/btnHorizontalMarginMedium"
+        android:text="@string/sign_in"
+        android:textSize="@dimen/font_large"
+        android:textColor="@color/textcolor_white_to_blue"
+        app:layout_constraintLeft_toLeftOf="@+id/welcome_buttons_guideline_vertical_left"
+        app:layout_constraintRight_toRightOf="@+id/welcome_buttons_guideline_vertical_right"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_buttons_guideline_horizontal" />
+
+    <com.med.fast.customviews.CustomFontButton
+        android:id="@+id/welcome_signup_btn"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/btn_xlarge_height"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/button_pink_border_radius28"
+        android:paddingLeft="@dimen/btnHorizontalMarginMedium"
+        android:paddingRight="@dimen/btnHorizontalMarginMedium"
+        android:text="@string/sign_up"
+        android:textSize="@dimen/font_large"
+        android:textColor="@color/textcolor_black_to_pink"
+        app:layout_constraintLeft_toLeftOf="@+id/welcome_buttons_guideline_vertical_left"
+        app:layout_constraintRight_toRightOf="@+id/welcome_buttons_guideline_vertical_right"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_signin_btn" />
+
+</android.support.constraint.ConstraintLayout>
