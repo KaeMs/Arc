@@ -35,6 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
+        android:src="@drawable/logo_text"
         android:contentDescription="@string/app_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -95,7 +96,7 @@
         android:paddingRight="@dimen/btnHorizontalMarginMedium"
         android:text="@string/sign_up"
         android:textSize="@dimen/font_large"
-        android:textColor="@color/textcolor_black_to_pink"
+        android:textColor="@color/textcolor_black_to_white"
         app:layout_constraintLeft_toLeftOf="@+id/welcome_buttons_guideline_vertical_left"
         app:layout_constraintRight_toRightOf="@+id/welcome_buttons_guideline_vertical_right"
         app:layout_constraintTop_toBottomOf="@+id/welcome_signin_btn" />

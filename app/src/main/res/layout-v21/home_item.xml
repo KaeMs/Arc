@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.med.fast.customviews.SquareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/button_transparent_grey_light"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:weightSum="1">
+    
+    <ImageView
+        android:id="@+id/home_item_icon"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/icon"
+        android:transitionName="@string/icon_transition" />
+
+    <com.med.fast.customviews.CustomFontTextView
+        android:id="@+id/home_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:gravity="center_horizontal"
+        app:autoSizeMaxTextSize="@dimen/font_medium"
+        app:autoSizeMinTextSize="@dimen/font_xxsmall"
+        app:autoSizeTextType="uniform" />
+
+</com.med.fast.customviews.SquareLinearLayout>

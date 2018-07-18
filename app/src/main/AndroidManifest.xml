@@ -67,6 +67,7 @@
             android:name=".signup.SignupActivity"
             android:configChanges="orientation"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".signup.InitialDataAllergyActivity"

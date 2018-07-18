@@ -43,7 +43,7 @@ import butterknife.BindView;
  * Created by Kevin Murvie on 4/21/2017. FM
  */
 
-public class MainActivity extends FastBaseActivity {
+public class MainActivity extends FastBaseActivity implements MenuOnClick {
 
     private FragmentManager fragmentManager;
     private DrawerFragment drawerFragment;
@@ -353,5 +353,10 @@ public class MainActivity extends FastBaseActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onMenuClick(int position, View clickedView, MenuModel menuModel) {
+
     }
 }

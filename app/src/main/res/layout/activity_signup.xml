@@ -1,82 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!--<include layout="@layout/toolbar_title_divider" />-->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/blue"
-        app:layout_constraintDimensionRatio="H,1:0.85"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!--<include layout="@layout/toolbar_title_divider" />-->
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/signup_logo_card"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        app:cardCornerRadius="14dp"
-        app:contentPadding="12dp"
-        app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/loginactivity_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/logo"
-            android:src="@drawable/logo_plain"
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/blue"
+            app:layout_constraintDimensionRatio="H,1:0.85"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/signup_logo_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            app:cardCornerRadius="14dp"
+            app:contentPadding="12dp"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/signup_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/sign_up"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_large"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_logo_card" />
+            <ImageView
+                android:id="@+id/loginactivity_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/logo"
+                android:src="@drawable/logo_plain"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/signup_functional_card"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="20dp"
-        android:maxWidth="250dp"
-        android:minWidth="150dp"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="0dp"
-        android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
-        app:contentPadding="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_label">
+        </android.support.v7.widget.CardView>
 
-        <ScrollView
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/signup_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/sign_up"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_large"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_logo_card" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/signup_functional_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="20dp"
+            android:maxWidth="250dp"
+            android:minWidth="150dp"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="10dp"
+            app:contentPadding="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/signup_label">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/signup_first_name_til"
@@ -90,7 +89,6 @@
                         android:id="@+id/signup_first_name_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:hint="@string/first_name"
                         android:inputType="textCapWords"
                         android:maxLength="50"
@@ -112,7 +110,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:hint="@string/last_name"
                         android:inputType="textCapWords"
                         android:maxLength="50"
@@ -133,7 +130,6 @@
                         android:id="@+id/signup_email_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:hint="@string/email_address"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
@@ -153,7 +149,6 @@
                         android:id="@+id/signup_dob_et"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
@@ -206,7 +201,6 @@
                         android:id="@+id/signup_password_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:hint="@string/password"
                         android:inputType="textPassword" />
 
@@ -224,7 +218,6 @@
                         android:id="@+id/signup_confirmPassET"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edittext_grey_blue_selector"
                         android:hint="@string/confirm_password"
                         android:inputType="textPassword" />
 
@@ -234,48 +227,62 @@
                     android:id="@+id/signup_legal_terms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/btnMediumHeight"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="@dimen/btn_xlarge_half_margin"
-                    app:layout_constraintTop_toBottomOf="@+id/signup_confirm_password_til"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/signup_confirm_password_til" />
 
             </android.support.constraint.ConstraintLayout>
 
-        </ScrollView>
+        </android.support.v7.widget.CardView>
 
-    </android.support.v7.widget.CardView>
+        <Space
+            android:id="@+id/signup_confirm_btn_spacer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/btn_xlarge_height"
+            app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
-    <Space
-        android:id="@+id/signup_confirm_btn_spacer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/btn_xlarge_height"
-        app:layout_constraintBottom_toTopOf="@+id/signup_login_tv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/signup_confirm_btn_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardElevation="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/signup_functional_card"
+            app:layout_constraintRight_toRightOf="@+id/signup_functional_card"
+            app:layout_constraintTop_toBottomOf="@+id/signup_confirm_btn_spacer"
+            android:layout_marginLeft="40dp"
+            app:cardCornerRadius="28dp"
+            android:layout_marginRight="40dp">
 
-    <com.med.fast.customviews.CustomFontButton
-        android:id="@+id/signup_confirm_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/btn_xlarge_height"
-        android:background="@drawable/button_blue_radius28"
-        android:text="@string/create_an_account"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signup_confirm_btn_spacer" />
+            <com.med.fast.customviews.CustomFontButton
+                android:id="@+id/signup_confirm_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_xlarge_height"
+                android:background="@drawable/button_blue_radius28"
+                android:text="@string/create_an_account"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/signup_confirm_btn_spacer" />
 
-    <com.med.fast.customviews.CustomFontTextView
-        android:id="@+id/signup_login_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:text="@string/sign_in_question"
-        android:textColor="@color/textcolor_pink_to_black"
-        android:textSize="@dimen/font_medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        </android.support.v7.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+        <com.med.fast.customviews.CustomFontTextView
+            android:id="@+id/signup_login_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/sign_in_question"
+            android:textColor="@color/textcolor_pink_to_black"
+            android:textSize="@dimen/font_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

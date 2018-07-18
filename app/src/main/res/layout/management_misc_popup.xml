@@ -112,7 +112,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/border_edittext_grey_pink_selector"
                                 android:gravity="start"
-                                android:minWidth="@dimen/btnLargeHeight"
+                                android:minWidth="@dimen/btn_large_height"
                                 android:textSize="@dimen/font_small" />
 
                             <com.med.fast.customviews.CustomFontTextView

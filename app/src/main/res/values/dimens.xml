@@ -5,6 +5,7 @@
     <dimen name="login_edittext_width">250dp</dimen>
     <dimen name="login_logo_size">100dp</dimen>
 
+    <dimen name="font_xxsmall">8sp</dimen>
     <dimen name="font_xsmall">10sp</dimen>
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_small_medium">13sp</dimen>
@@ -27,11 +28,19 @@
     <dimen name="btnSmallHeight">28dp</dimen>
     <dimen name="btnSmallMidHeight">31dp</dimen>
     <dimen name="btnMediumHeight">34dp</dimen>
-    <dimen name="btnLargeHeight">40dp</dimen>
+    <dimen name="btn_large_height">40dp</dimen>
     <dimen name="btn_large_negative_margin">-20dp</dimen>
     <dimen name="btn_xlarge_height">54dp</dimen>
     <dimen name="btn_xlarge_negative_margin">-24dp</dimen>
     <dimen name="btn_xlarge_half_margin">24dp</dimen>
+
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_12">12dp</dimen>
+    <dimen name="dp_16">16dp</dimen>
+    <dimen name="dp_18">18dp</dimen>
+    <dimen name="dp_24">24dp</dimen>
+    <dimen name="dp_48">48dp</dimen>
 
     <dimen name="btnHorizontalMarginSmall">10dp</dimen>
     <dimen name="btnVerticalMarginSmall">5dp</dimen>

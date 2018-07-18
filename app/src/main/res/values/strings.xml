@@ -3,6 +3,7 @@
     <string name="title">Title</string>
     <!-- Splash Screen -->
     <string name="splash_image">Splash Image</string>
+    <string name="icon">Icon</string>
 
     <!--Setting-->
     <string name="setting_edit_account">EDIT YOUR ACCOUNT</string>
@@ -417,6 +418,7 @@
     <string name="continueStr">Continue</string>
     <string name="custom">Custom</string>
     <string name="other">Other</string>
+    <string name="icon_transition">icon_transition</string>
 
     <!-- Custom Font paths to be used in XML for fontFace -->
     <string name="opensans_bold">OpenSans-Bold.ttf</string>

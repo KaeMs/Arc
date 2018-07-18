@@ -30,7 +30,7 @@
             <LinearLayout
                 android:id="@+id/drawer_summary_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -56,7 +56,7 @@
             <LinearLayout
                 android:id="@+id/drawer_idcard_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -82,7 +82,7 @@
             <LinearLayout
                 android:id="@+id/drawer_visit_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -108,7 +108,7 @@
             <LinearLayout
                 android:id="@+id/drawer_surgery_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -134,7 +134,7 @@
             <LinearLayout
                 android:id="@+id/drawer_allergy_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -160,7 +160,7 @@
             <LinearLayout
                 android:id="@+id/drawer_disease_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -186,7 +186,7 @@
             <LinearLayout
                 android:id="@+id/drawer_medicine_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -212,7 +212,7 @@
             <LinearLayout
                 android:id="@+id/drawer_accident_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -238,7 +238,7 @@
             <LinearLayout
                 android:id="@+id/drawer_labresult_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -264,7 +264,7 @@
             <LinearLayout
                 android:id="@+id/drawer_misc_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
@@ -290,7 +290,7 @@
             <LinearLayout
                 android:id="@+id/drawer_help_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
@@ -317,7 +317,7 @@
             <LinearLayout
                 android:id="@+id/drawer_logout_wrapper"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/btnLargeHeight"
+                android:layout_height="@dimen/btn_large_height"
                 android:background="@drawable/button_transparent_pink"
                 android:gravity="center"
                 android:paddingLeft="@dimen/drawer_horizontal_padding"
